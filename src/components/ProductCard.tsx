@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { ProductImage } from "@/components/ProductImage";
 import {
   calcularAhorro,
   formatearFecha,
@@ -36,10 +36,9 @@ export function ProductCard({
           esLista ? "aspect-[4/3] sm:aspect-auto" : "aspect-square sm:aspect-[1.08/1]"
         }`}
       >
-        <Image
+        <ProductImage
           src={producto.imageUrl}
           alt={producto.name}
-          fill
           priority={prioridadImagen}
           sizes={
             esLista

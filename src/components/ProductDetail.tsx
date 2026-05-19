@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { ProductImage } from "@/components/ProductImage";
 import {
   calcularAhorro,
   formatearFecha,
@@ -17,10 +16,9 @@ export function ProductDetail({ producto }: ProductDetailProps) {
     <article className="detalle-producto grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
       <section className="grid gap-3">
         <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] border border-[var(--color-linea)] bg-[#edf0e9] shadow-[var(--sombra-suave)]">
-          <Image
+          <ProductImage
             src={producto.imageUrl}
             alt={producto.name}
-            fill
             priority
             sizes="(max-width: 1024px) 100vw, 58vw"
             className="object-cover"
@@ -37,10 +35,9 @@ export function ProductDetail({ producto }: ProductDetailProps) {
                 key={`${imagen}-${indice}`}
                 className="relative aspect-[4/3] overflow-hidden rounded-[14px] border border-[var(--color-linea)] bg-[#edf0e9]"
               >
-                <Image
+                <ProductImage
                   src={imagen}
                   alt={`${producto.name} vista ${indice + 1}`}
-                  fill
                   sizes="(max-width: 1024px) 30vw, 180px"
                   className={`object-cover ${indice > 0 ? "opacity-75" : ""}`}
                 />

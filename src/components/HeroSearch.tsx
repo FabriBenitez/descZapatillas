@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
+import { ProductImage } from "@/components/ProductImage";
 import {
   calcularAhorro,
   formatearPorcentaje,
@@ -111,10 +111,9 @@ export function HeroSearch({
             className="hero__oferta group overflow-hidden rounded-[22px] border border-white/12 bg-white text-[#101411] shadow-[0_24px_70px_rgba(0,0,0,0.28)] transition duration-200 hover:-translate-y-1"
           >
             <div className="relative aspect-[4/3] overflow-hidden bg-[#edf0e9]">
-              <Image
+              <ProductImage
                 src={ofertaDestacada.imageUrl}
                 alt={ofertaDestacada.name}
-                fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 390px"
                 className="object-cover transition duration-500 group-hover:scale-105"
