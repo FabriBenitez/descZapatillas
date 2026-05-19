@@ -25,7 +25,7 @@ export function Header({
 }: HeaderProps) {
   const router = useRouter();
   const [menuAbierto, setMenuAbierto] = useState(false);
-  const [terminoLocal, setTerminoLocal] = useState("");
+  const [terminoLocal, setTerminoLocal] = useState(terminoBusqueda);
   const valorBusqueda = alCambiarBusqueda ? terminoBusqueda : terminoLocal;
 
   function navegarAlComparador(valor: string) {

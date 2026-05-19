@@ -18,6 +18,12 @@ function ordenarTexto(valores: string[]) {
   );
 }
 
+function normalizarBusquedaConAlias(valor: string) {
+  return normalizarTexto(valor)
+    .replace(/\bdesxter\b/g, "dexter")
+    .replace(/\bdexterr\b/g, "dexter");
+}
+
 export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
   return {
     marcas: ordenarTexto(
@@ -90,7 +96,7 @@ export function filtrarProductos(
   terminoBusqueda: string,
   filtros: FiltrosProductos,
 ) {
-  const terminoNormalizado = normalizarTexto(terminoBusqueda);
+  const terminoNormalizado = normalizarBusquedaConAlias(terminoBusqueda);
   const precioMinimo = Number(filtros.precioMinimo || 0);
   const precioMaximo = Number(filtros.precioMaximo || 0);
   const descuentoMinimo = Number(filtros.descuentoMinimo || 0);

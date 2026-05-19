@@ -7,22 +7,24 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ProductList } from "@/components/ProductList";
-import {
-  obtenerOpcionesFiltros,
-  obtenerProductosDestacados,
-} from "@/lib/comparador";
 import type { Producto } from "@/types/producto";
 
 interface ComparadorHomeProps {
-  productos: Producto[];
+  productosDestacados: Producto[];
+  cantidadProductos: number;
+  cantidadMarcas: number;
+  cantidadTiendas: number;
 }
 
-export function ComparadorHome({ productos }: ComparadorHomeProps) {
+export function ComparadorHome({
+  productosDestacados,
+  cantidadProductos,
+  cantidadMarcas,
+  cantidadTiendas,
+}: ComparadorHomeProps) {
   const router = useRouter();
   const [terminoBusqueda, setTerminoBusqueda] = useState("");
 
-  const opciones = obtenerOpcionesFiltros(productos);
-  const productosDestacados = obtenerProductosDestacados(productos);
   const ofertaDestacada = productosDestacados[0] ?? null;
 
   function irAPaginaComparador() {
@@ -48,9 +50,9 @@ export function ComparadorHome({ productos }: ComparadorHomeProps) {
           terminoBusqueda={terminoBusqueda}
           alCambiarBusqueda={setTerminoBusqueda}
           alEnviarBusqueda={irAPaginaComparador}
-          cantidadProductos={productos.length}
-          cantidadMarcas={opciones.marcas.length}
-          cantidadTiendas={opciones.tiendas.length}
+          cantidadProductos={cantidadProductos}
+          cantidadMarcas={cantidadMarcas}
+          cantidadTiendas={cantidadTiendas}
           ofertaDestacada={ofertaDestacada}
         />
 

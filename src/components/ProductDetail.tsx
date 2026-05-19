@@ -112,12 +112,21 @@ export function ProductDetail({ producto }: ProductDetailProps) {
             Talles disponibles
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {(producto.sizes ?? [producto.size ?? "Consultar"]).map((talle) => (
+            {(producto.sizes?.length
+              ? producto.sizes
+              : [producto.size ?? "Consultar en tienda"]
+            ).map((talle) => (
               <span key={talle} className="chip">
                 {talle}
               </span>
             ))}
           </div>
+          {!producto.sizes?.length ? (
+            <p className="mt-3 text-sm font-semibold leading-6 text-[var(--color-muted)]">
+              Esta tienda no informa talles disponibles en la grilla. Confirmalo
+              al abrir el producto original.
+            </p>
+          ) : null}
         </div>
 
         <div className="mt-6 grid gap-3">

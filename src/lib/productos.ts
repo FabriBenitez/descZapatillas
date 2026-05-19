@@ -1,11 +1,21 @@
 import { collection, getDocs } from "firebase/firestore/lite";
+import { unstable_cache } from "next/cache";
 
 import { productosMock } from "@/data/productos-mock";
+import { obtenerTodasLasOfertasDexter } from "@/lib/connectors/dexter";
+import { obtenerTodasLasOfertasGrid } from "@/lib/connectors/grid";
+import { obtenerTodasLasOfertasMoov } from "@/lib/connectors/moov";
+import {
+  enriquecerProductoConTalles,
+  type PlataformaDetalleTalles,
+} from "@/lib/connectors/talles-detalle";
+import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
 import { normalizarTexto } from "@/lib/formato";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
 const COLECCION_PRODUCTOS = "products";
+const REVALIDACION_PRODUCTOS_SEGUNDOS = 60 * 60;
 
 function ordenarPorActualizacion(productos: Producto[]) {
   return [...productos].sort(
@@ -14,6 +24,46 @@ function ordenarPorActualizacion(productos: Producto[]) {
       new Date(productoA.updatedAt).getTime(),
   );
 }
+
+function combinarProductos(...fuentes: Producto[][]) {
+  const productos = new Map<string, Producto>();
+
+  fuentes.flat().forEach((producto) => {
+    productos.set(producto.id, producto);
+  });
+
+  return ordenarPorActualizacion(Array.from(productos.values()));
+}
+
+async function obtenerProductosConectoresSinCache() {
+  const respuestas = await Promise.allSettled([
+    obtenerTodasLasOfertasMoov({
+      paginas: 2,
+    }),
+    obtenerTodasLasOfertasGrid({
+      paginas: 2,
+    }),
+    obtenerTodasLasOfertasDexter({
+      paginas: 2,
+    }),
+    obtenerTodasLasOfertasTiendasExternas({
+      paginas: 1,
+    }),
+  ]);
+
+  return respuestas.flatMap((respuesta) =>
+    respuesta.status === "fulfilled" ? respuesta.value : [],
+  );
+}
+
+const obtenerProductosConectores = unstable_cache(
+  obtenerProductosConectoresSinCache,
+  ["productos-conectores"],
+  {
+    revalidate: REVALIDACION_PRODUCTOS_SEGUNDOS,
+    tags: ["productos"],
+  },
+);
 
 function leerTexto(
   valor: unknown,
@@ -129,11 +179,33 @@ function normalizarProductoFirestore(
   };
 }
 
+function obtenerPlataformaTalles(producto: Producto): PlataformaDetalleTalles | null {
+  const tiendasDemandware = new Set(["moov", "dexter", "stockcenter"]);
+  const tiendasMagento = new Set(["opensports", "solodeportes", "solourbano"]);
+  const tiendasDigitalSport = new Set(["digitalsport", "dionysos", "blast"]);
+
+  if (tiendasDemandware.has(producto.storeSlug)) {
+    return "demandware";
+  }
+
+  if (tiendasMagento.has(producto.storeSlug)) {
+    return "magento";
+  }
+
+  if (tiendasDigitalSport.has(producto.storeSlug)) {
+    return "digitalsport";
+  }
+
+  return null;
+}
+
 export async function obtenerProductos(): Promise<Producto[]> {
   const firestore = obtenerFirestoreCliente();
 
   if (!firestore) {
-    return ordenarPorActualizacion(productosMock);
+    const productosConectores = await obtenerProductosConectores();
+
+    return combinarProductos(productosConectores, productosMock);
   }
 
   try {
@@ -141,7 +213,9 @@ export async function obtenerProductos(): Promise<Producto[]> {
     const respuesta = await getDocs(referenciaColeccion);
 
     if (respuesta.empty) {
-      return ordenarPorActualizacion(productosMock);
+      const productosConectores = await obtenerProductosConectores();
+
+      return combinarProductos(productosConectores, productosMock);
     }
 
     const productos = respuesta.docs
@@ -150,16 +224,33 @@ export async function obtenerProductos(): Promise<Producto[]> {
       )
       .filter((producto): producto is Producto => Boolean(producto));
 
-    return productos.length > 0
-      ? ordenarPorActualizacion(productos)
-      : ordenarPorActualizacion(productosMock);
+    if (productos.length > 0) {
+      return ordenarPorActualizacion(productos);
+    }
+
+    const productosConectores = await obtenerProductosConectores();
+
+    return combinarProductos(productosConectores, productosMock);
   } catch {
-    return ordenarPorActualizacion(productosMock);
+    const productosConectores = await obtenerProductosConectores();
+
+    return combinarProductos(productosConectores, productosMock);
   }
 }
 
 export async function obtenerProductoPorId(id: string) {
   const productos = await obtenerProductos();
+  const producto = productos.find((item) => item.id === id) ?? null;
 
-  return productos.find((producto) => producto.id === id) ?? null;
+  if (!producto || producto.sizes?.length) {
+    return producto;
+  }
+
+  const plataforma = obtenerPlataformaTalles(producto);
+
+  if (!plataforma) {
+    return producto;
+  }
+
+  return enriquecerProductoConTalles(producto, plataforma);
 }

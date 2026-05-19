@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
+import { ComparadorHeader } from "@/components/ComparadorHeader";
 import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { obtenerProductos } from "@/lib/productos";
 
 interface ComparadorPageProps {
@@ -27,10 +27,11 @@ export default async function ComparadorPage({
     searchParams,
     obtenerProductos(),
   ]);
+  const busquedaInicial = q ?? "";
 
   return (
     <>
-      <Header />
+      <ComparadorHeader busquedaInicial={busquedaInicial} />
       <main className="pagina flex-1">
         <section className="bg-[#111713] py-8 text-white">
           <div className="contenedor">
@@ -46,7 +47,11 @@ export default async function ComparadorPage({
             </p>
           </div>
         </section>
-        <ComparadorResultados productos={productos} busquedaInicial={q ?? ""} />
+        <ComparadorResultados
+          key={busquedaInicial}
+          productos={productos}
+          busquedaInicial={busquedaInicial}
+        />
       </main>
       <Footer />
     </>

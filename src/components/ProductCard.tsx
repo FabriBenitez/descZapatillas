@@ -105,7 +105,7 @@ export function ProductCard({
           <div className="rounded-[12px] bg-[#f5f6f1] px-3 py-2">
             <p className="text-xs font-bold text-[var(--color-muted)]">Talle</p>
             <p className="mt-0.5 font-black text-[var(--color-tinta)]">
-              {producto.size ?? "Ver"}
+              {producto.size ?? "Consultar"}
             </p>
           </div>
         </div>
