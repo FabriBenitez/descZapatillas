@@ -20,11 +20,11 @@ const opcionesOrdenamiento: Array<{
 export function SortSelect({ valor, alCambiar }: SortSelectProps) {
   return (
     <label className="ordenador flex flex-col gap-2 text-sm text-[var(--color-muted)]">
-      <span className="font-bold">Ordenar por</span>
+      <span className="hidden font-bold sm:block">Ordenar por</span>
       <select
         value={valor}
         onChange={(evento) => alCambiar(evento.target.value as OrdenProductos)}
-        className="select-base h-11 text-sm font-bold"
+        className="select-base h-10 text-sm font-bold sm:h-11"
       >
         {opcionesOrdenamiento.map((opcion) => (
           <option key={opcion.valor} value={opcion.valor}>

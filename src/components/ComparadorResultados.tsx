@@ -87,47 +87,55 @@ export function ComparadorResultados({
   }
 
   return (
-    <section id="comparador" className="comparador py-8 sm:py-10">
-      <div className="contenedor grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <FiltersSidebar
-          filtros={filtros}
-          opciones={opciones}
-          totalResultados={productosFiltrados.length}
-          totalProductos={productos.length}
-          estaActualizando={estaActualizando}
-          alCambiarFiltro={actualizarFiltro}
-          alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
-        />
+    <section id="comparador" className="comparador py-4 sm:py-10">
+      <div className="contenedor grid gap-4 sm:gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <div className="hidden lg:block">
+          <FiltersSidebar
+            filtros={filtros}
+            opciones={opciones}
+            totalResultados={productosFiltrados.length}
+            totalProductos={productos.length}
+            estaActualizando={estaActualizando}
+            alCambiarFiltro={actualizarFiltro}
+            alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
+          />
+        </div>
 
-        <div className="comparador__contenido space-y-5">
-          <div className="sticky top-[105px] z-30 rounded-[18px] border border-[var(--color-linea)] bg-white/92 p-4 shadow-sm backdrop-blur lg:top-[116px]">
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-              <div className="space-y-2">
-                <p className="text-xs font-black uppercase text-[var(--color-muted)]">
+        <div className="comparador__contenido space-y-4 sm:space-y-5">
+          <div className="z-30 rounded-[16px] border border-[var(--color-linea)] bg-white/92 p-3 shadow-sm backdrop-blur sm:sticky sm:top-[105px] sm:rounded-[18px] sm:p-4 lg:top-[116px]">
+            <div className="flex flex-col gap-3 sm:gap-4 xl:flex-row xl:items-end xl:justify-between">
+              <div className="space-y-1 sm:space-y-2">
+                <p className="hidden text-xs font-black uppercase text-[var(--color-muted)] sm:block">
                   Resultados
                 </p>
-                <h1 className="text-3xl font-black leading-tight text-[var(--color-tinta)]">
-                  Comparador de ofertas
+                <h1 className="text-[1.8rem] font-black leading-[0.95] tracking-[-0.04em] text-[var(--color-tinta)] sm:text-3xl sm:leading-tight">
+                  Resultado de la busqueda
                 </h1>
-                <p className="text-sm text-[var(--color-muted)]">
+                <p className="text-xs font-semibold text-[var(--color-muted)] sm:hidden">
+                  {productosFiltrados.length} resultados
+                  {terminoDiferido ? ` para "${terminoDiferido}"` : ""}
+                </p>
+                <p className="hidden text-sm text-[var(--color-muted)] sm:block">
                   Filtra por marca, tienda, talle o rango de precio y compara
                   rapido.
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_220px_auto]">
+              <div className="grid gap-2 sm:gap-3 sm:grid-cols-[minmax(0,1fr)_220px_auto]">
                 <label className="flex flex-col gap-2 text-sm text-[var(--color-muted)]">
-                  <span className="font-bold">Buscar en resultados</span>
+                  <span className="hidden font-bold sm:block">
+                    Buscar en resultados
+                  </span>
                   <input
                     type="search"
                     value={terminoBusqueda}
                     onChange={(evento) => setTerminoBusqueda(evento.target.value)}
                     placeholder="Nike, Campus, Dexter..."
-                    className="input-base h-11 text-sm font-semibold"
+                    className="input-base h-10 text-sm font-semibold sm:h-11"
                   />
                 </label>
                 <SortSelect valor={ordenSeleccionado} alCambiar={cambiarOrden} />
-                <div className="flex flex-col gap-2 text-sm text-[var(--color-muted)]">
+                <div className="hidden flex-col gap-2 text-sm text-[var(--color-muted)] sm:flex">
                   <span className="font-bold">Vista</span>
                   <div className="grid h-11 grid-cols-2 rounded-[12px] border border-[var(--color-linea)] bg-[#f5f6f1] p-1">
                     <button
@@ -157,7 +165,7 @@ export function ComparadorResultados({
               </div>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+            <div className="mt-3 hidden flex-wrap items-center gap-2 text-sm sm:flex">
               <span className="rounded-full bg-[var(--color-tinta)] px-3 py-1.5 font-black text-white">
                 {productosFiltrados.length} resultados
               </span>
@@ -173,6 +181,18 @@ export function ComparadorResultados({
                 </span>
               )}
             </div>
+          </div>
+
+          <div className="lg:hidden">
+            <FiltersSidebar
+              filtros={filtros}
+              opciones={opciones}
+              totalResultados={productosFiltrados.length}
+              totalProductos={productos.length}
+              estaActualizando={estaActualizando}
+              alCambiarFiltro={actualizarFiltro}
+              alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
+            />
           </div>
 
           <ProductList
