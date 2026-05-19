@@ -1,0 +1,251 @@
+import { filtrosIniciales, type FiltrosProductos, type OrdenProductos, type Producto } from "@/types/producto";
+import { calcularMejorPrecioHistorico, normalizarTexto } from "@/lib/formato";
+
+export interface OpcionesFiltros {
+  marcas: string[];
+  tiendas: string[];
+  provincias: string[];
+  talles: string[];
+  generos: string[];
+  categorias: string[];
+  colores: string[];
+  tiposOferta: string[];
+}
+
+function ordenarTexto(valores: string[]) {
+  return [...valores].sort((valorA, valorB) =>
+    valorA.localeCompare(valorB, "es"),
+  );
+}
+
+export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
+  return {
+    marcas: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.brand))),
+    ),
+    tiendas: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.storeName))),
+    ),
+    provincias: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.province))),
+    ),
+    talles: ordenarTexto(
+      Array.from(
+        new Set(
+          productos.flatMap((producto) => producto.sizes ?? [producto.size ?? ""]),
+        ),
+      ).filter(Boolean),
+    ),
+    generos: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.gender))),
+    ),
+    categorias: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.category))),
+    ),
+    colores: ordenarTexto(
+      Array.from(new Set(productos.map((producto) => producto.color))),
+    ),
+    tiposOferta: ordenarTexto(
+      Array.from(
+        new Set(
+          productos.flatMap((producto) =>
+            producto.offerType ? [producto.offerType] : [],
+          ),
+        ),
+      ),
+    ),
+  };
+}
+
+export function hayFiltrosActivos(filtros: FiltrosProductos) {
+  return JSON.stringify(filtros) !== JSON.stringify(filtrosIniciales);
+}
+
+function coincideUltimaActualizacion(
+  producto: Producto,
+  ultimaActualizacion: string,
+) {
+  if (!ultimaActualizacion) {
+    return true;
+  }
+
+  const horasLimite = {
+    "24h": 24,
+    "72h": 72,
+    "168h": 168,
+  }[ultimaActualizacion];
+
+  if (!horasLimite) {
+    return true;
+  }
+
+  const diferenciaHoras =
+    (Date.now() - new Date(producto.updatedAt).getTime()) / (1000 * 60 * 60);
+
+  return diferenciaHoras <= horasLimite;
+}
+
+export function filtrarProductos(
+  productos: Producto[],
+  terminoBusqueda: string,
+  filtros: FiltrosProductos,
+) {
+  const terminoNormalizado = normalizarTexto(terminoBusqueda);
+  const precioMinimo = Number(filtros.precioMinimo || 0);
+  const precioMaximo = Number(filtros.precioMaximo || 0);
+  const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
+
+  return productos.filter((producto) => {
+    const textoBusqueda = [
+      producto.normalizedName,
+      normalizarTexto(producto.brand),
+      normalizarTexto(producto.storeName),
+      normalizarTexto(producto.storeSlug),
+    ].join(" ");
+
+    if (terminoNormalizado && !textoBusqueda.includes(terminoNormalizado)) {
+      return false;
+    }
+
+    if (filtros.marca && producto.brand !== filtros.marca) {
+      return false;
+    }
+
+    if (filtros.tienda && producto.storeName !== filtros.tienda) {
+      return false;
+    }
+
+    if (filtros.provincia && producto.province !== filtros.provincia) {
+      return false;
+    }
+
+    if (precioMinimo && producto.price < precioMinimo) {
+      return false;
+    }
+
+    if (precioMaximo && producto.price > precioMaximo) {
+      return false;
+    }
+
+    if (filtros.talle) {
+      const tallesDisponibles = producto.sizes ?? [producto.size ?? ""];
+
+      if (!tallesDisponibles.includes(filtros.talle)) {
+        return false;
+      }
+    }
+
+    if (filtros.genero && producto.gender !== filtros.genero) {
+      return false;
+    }
+
+    if (filtros.categoria && producto.category !== filtros.categoria) {
+      return false;
+    }
+
+    if (filtros.color && producto.color !== filtros.color) {
+      return false;
+    }
+
+    if (descuentoMinimo && producto.discount < descuentoMinimo) {
+      return false;
+    }
+
+    if (filtros.soloStock && !producto.available) {
+      return false;
+    }
+
+    if (filtros.tipoOferta && producto.offerType !== filtros.tipoOferta) {
+      return false;
+    }
+
+    if (filtros.envioGratis && !producto.freeShipping) {
+      return false;
+    }
+
+    return coincideUltimaActualizacion(producto, filtros.ultimaActualizacion);
+  });
+}
+
+export function ordenarProductos(
+  productos: Producto[],
+  ordenSeleccionado: OrdenProductos,
+) {
+  const productosOrdenados = [...productos];
+
+  productosOrdenados.sort((productoA, productoB) => {
+    switch (ordenSeleccionado) {
+      case "precio-asc":
+        return productoA.price - productoB.price;
+      case "precio-desc":
+        return productoB.price - productoA.price;
+      case "descuento-desc":
+        return productoB.discount - productoA.discount;
+      case "descuento-asc":
+        return productoA.discount - productoB.discount;
+      case "historico":
+        return (
+          calcularMejorPrecioHistorico(productoA) -
+          calcularMejorPrecioHistorico(productoB)
+        );
+      case "recientes":
+      default:
+        return (
+          new Date(productoB.updatedAt).getTime() -
+          new Date(productoA.updatedAt).getTime()
+        );
+    }
+  });
+
+  return productosOrdenados;
+}
+
+export function obtenerProductosDestacados(productos: Producto[], cantidad = 4) {
+  return ordenarProductos(productos, "descuento-desc").slice(0, cantidad);
+}
+
+function contarCoincidenciasModelo(productoBase: Producto, candidato: Producto) {
+  const palabrasBase = new Set(productoBase.normalizedName.split(" "));
+  const palabrasCandidatas = candidato.normalizedName.split(" ");
+
+  return palabrasCandidatas.filter((palabra) => palabrasBase.has(palabra)).length;
+}
+
+export function calcularProductosSimilares(
+  productoBase: Producto,
+  productos: Producto[],
+  cantidad = 4,
+) {
+  return productos
+    .filter((producto) => producto.id !== productoBase.id)
+    .map((producto) => {
+      let puntaje = 0;
+
+      if (producto.brand === productoBase.brand) {
+        puntaje += 4;
+      }
+
+      if (producto.category === productoBase.category) {
+        puntaje += 3;
+      }
+
+      if (producto.storeName === productoBase.storeName) {
+        puntaje += 1;
+      }
+
+      if (Math.abs(producto.price - productoBase.price) <= 35000) {
+        puntaje += 2;
+      }
+
+      if (producto.gender === productoBase.gender) {
+        puntaje += 1;
+      }
+
+      puntaje += Math.min(contarCoincidenciasModelo(productoBase, producto), 3);
+
+      return { producto, puntaje };
+    })
+    .sort((productoA, productoB) => productoB.puntaje - productoA.puntaje)
+    .slice(0, cantidad)
+    .map((resultado) => resultado.producto);
+}
