@@ -271,12 +271,12 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
   const inicio = Date.now();
   console.log(`[Búsqueda Tiempo Real] Iniciando búsqueda dirigida para: "${query}"`);
 
-  // Raspado dirigido en tiempo real (2 páginas por conector para asegurar cobertura de la búsqueda)
+  // Raspado dirigido en tiempo real (5 páginas por conector para asegurar máxima cobertura de la búsqueda)
   const respuestas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 2, query }),
-    obtenerTodasLasOfertasGrid({ paginas: 2, query }),
-    obtenerTodasLasOfertasDexter({ paginas: 2, query, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 2, query }),
+    obtenerTodasLasOfertasMoov({ paginas: 5, query }),
+    obtenerTodasLasOfertasGrid({ paginas: 5, query }),
+    obtenerTodasLasOfertasDexter({ paginas: 5, query, categoryId: "sale" }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 5, query }),
   ]);
 
   const todosLosNuevos = respuestas.flatMap((respuesta) =>
