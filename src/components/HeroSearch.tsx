@@ -36,23 +36,39 @@ export function HeroSearch({
     alEnviarBusqueda();
   }
 
+  const esSuperAhorro = ofertaDestacada && ofertaDestacada.discount >= 50;
+
   return (
-    <section className="hero border-b border-[var(--color-linea)] bg-[#f5f6f1] pt-7 pb-8 text-[var(--color-tinta)] sm:pt-10 sm:pb-12">
-      <div className="contenedor grid gap-6 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-end">
-        <div className="hero__contenido max-w-4xl">
-          <p className="mb-4 text-sm font-black uppercase text-[var(--color-acento-profundo)]">
+    <section className="hero relative overflow-hidden border-b border-white/10 bg-[#070b08] pt-12 pb-14 text-white sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24">
+      {/* Brillos ambientales de fondo premium */}
+      <div className="absolute top-0 right-0 -z-10 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-[#10b981]/15 to-transparent blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -z-10 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-[#059669]/8 to-transparent blur-[110px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/3 -z-10 h-[300px] w-[300px] rounded-full bg-[#34d399]/5 blur-[90px] pointer-events-none" />
+
+      <div className="contenedor grid gap-10 lg:grid-cols-[1fr_400px] lg:items-center">
+        <div className="hero__contenido max-w-4xl space-y-6 sm:space-y-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#10b981]/30 bg-[#10b981]/10 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-[#34d399]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34d399] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10b981]"></span>
+            </span>
             Comparador de ofertas en tiempo real
-          </p>
-          <h1 className="max-w-3xl text-[2.65rem] font-black leading-[0.98] sm:text-6xl lg:text-7xl">
-            Encontrar la mejor oferta tiene que ser rapido.
+          </div>
+
+          <h1 className="max-w-3xl text-[2.85rem] font-black leading-[0.92] sm:text-6xl lg:text-7xl font-titulos tracking-tight bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">
+            Encontrar la mejor oferta tiene que ser{" "}
+            <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-[#34d399] to-[#059669] filter drop-shadow-[0_2px_10px_rgba(16,185,129,0.15)]">
+              rápido.
+              <span className="absolute bottom-1 left-0 -z-10 h-[8px] w-full -skew-x-12 rounded-full bg-[#10b981]/25"></span>
+            </span>
           </h1>
-          <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-[var(--color-muted)] sm:text-lg">
-            Busca modelo, marca o tienda y compara precio actual, descuento,
-            stock e historial sin abrir veinte pestañas.
+
+          <p className="max-w-2xl text-base font-medium leading-relaxed text-white/70 sm:text-lg font-cuerpo">
+            Busca tu modelo preferido, filtra por marca o talle y compara precios al instante sin abrir decenas de pestañas. Encuentra zapatillas en oferta al mejor precio del mercado.
           </p>
 
           <form
-            className="mt-7 rounded-[22px] border border-white/10 bg-white p-2 shadow-[0_22px_55px_rgba(0,0,0,0.24)]"
+            className="rounded-[24px] border border-white/10 bg-white/[0.02] p-2 backdrop-blur-xl shadow-[0_24px_50px_rgba(0,0,0,0.6)] focus-within:border-[#10b981]/50 focus-within:shadow-[0_0_30px_rgba(16,185,129,0.15)] transition-all duration-300"
             onSubmit={(evento) => {
               evento.preventDefault();
               alEnviarBusqueda();
@@ -62,26 +78,46 @@ export function HeroSearch({
               Buscar zapatillas
             </label>
             <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
-              <input
-                id="busqueda-hero"
-                type="search"
-                value={terminoBusqueda}
-                onChange={(evento) => alCambiarBusqueda(evento.target.value)}
-                placeholder="Buscar Nike Air Force, Adidas Campus, Puma Suede..."
-                className="min-h-14 rounded-[16px] border-0 bg-[#f4f6f1] px-4 text-base font-semibold text-[#101411] outline-none placeholder:text-[#818a82] focus:bg-white"
-              />
-              <button type="submit" className="boton boton--acento min-h-14 px-6">
+              <div className="relative flex items-center w-full">
+                <svg
+                  className="absolute left-4.5 h-5 w-5 text-white/30"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                <input
+                  id="busqueda-hero"
+                  type="search"
+                  value={terminoBusqueda}
+                  onChange={(evento) => alCambiarBusqueda(evento.target.value)}
+                  placeholder="Nike Air Force, Adidas Campus, Puma Suede..."
+                  className="min-h-14 rounded-[18px] border-0 bg-white/[0.03] pl-12 pr-5 text-base font-semibold text-white outline-none placeholder:text-white/40 focus:bg-white/[0.06] transition-all duration-250 w-full"
+                />
+              </div>
+              <button
+                type="submit"
+                className="boton boton--acento min-h-14 px-8 rounded-[18px] font-black uppercase tracking-wider shadow-lg shadow-[#10b981]/15 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
+              >
                 Buscar ofertas
               </button>
             </div>
           </form>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 items-center text-sm">
+            <span className="font-bold text-white/40 mr-1">Sugerencias:</span>
             {busquedasSugeridas.map((sugerencia) => (
               <button
                 key={sugerencia}
                 type="button"
-                className="chip min-h-9 bg-white px-3 py-1.5 text-xs"
+                className="shrink-0 rounded-full border border-white/5 bg-white/[0.03] px-4 py-1.5 text-xs font-bold text-white/70 transition-all duration-200 hover:bg-[#10b981]/10 hover:border-[#10b981]/30 hover:text-[#34d399] active:scale-95 cursor-pointer"
                 onClick={() => buscarSugerencia(sugerencia)}
               >
                 {sugerencia}
@@ -89,18 +125,24 @@ export function HeroSearch({
             ))}
           </div>
 
-          <div className="mt-7 grid max-w-2xl grid-cols-3 divide-x divide-[var(--color-linea)] rounded-[18px] border border-[var(--color-linea)] bg-white shadow-sm">
-            <div className="p-4">
-              <p className="text-2xl font-black">{cantidadProductos}</p>
-              <p className="mt-1 text-xs font-bold text-[var(--color-muted)]">Productos</p>
+          <div className="grid max-w-2xl grid-cols-3 divide-x divide-white/5 rounded-[24px] border border-white/10 bg-white/[0.01] backdrop-blur-md py-2 shadow-inner">
+            <div className="p-4 text-center sm:text-left sm:pl-6 group">
+              <p className="text-3xl font-black font-titulos text-white group-hover:text-[#34d399] transition-colors duration-300">
+                {cantidadProductos}
+              </p>
+              <p className="mt-1 text-[10px] font-extrabold uppercase tracking-widest text-white/40">Zapatillas</p>
             </div>
-            <div className="p-4">
-              <p className="text-2xl font-black">{cantidadMarcas}</p>
-              <p className="mt-1 text-xs font-bold text-[var(--color-muted)]">Marcas</p>
+            <div className="p-4 text-center sm:text-left sm:pl-6 group">
+              <p className="text-3xl font-black font-titulos text-white group-hover:text-[#34d399] transition-colors duration-300">
+                {cantidadMarcas}
+              </p>
+              <p className="mt-1 text-[10px] font-extrabold uppercase tracking-widest text-white/40">Marcas</p>
             </div>
-            <div className="p-4">
-              <p className="text-2xl font-black">{cantidadTiendas}</p>
-              <p className="mt-1 text-xs font-bold text-[var(--color-muted)]">Tiendas</p>
+            <div className="p-4 text-center sm:text-left sm:pl-6 group">
+              <p className="text-3xl font-black font-titulos text-white group-hover:text-[#34d399] transition-colors duration-300">
+                {cantidadTiendas}
+              </p>
+              <p className="mt-1 text-[10px] font-extrabold uppercase tracking-widest text-white/40">Tiendas</p>
             </div>
           </div>
         </div>
@@ -108,42 +150,64 @@ export function HeroSearch({
         {ofertaDestacada ? (
           <Link
             href={`/producto/${ofertaDestacada.id}`}
-            className="hero__oferta group overflow-hidden rounded-[22px] border border-white/12 bg-white text-[#101411] shadow-[0_24px_70px_rgba(0,0,0,0.28)] transition duration-200 hover:-translate-y-1"
+            className={`hero__oferta group relative block overflow-hidden rounded-[30px] border bg-[#0d120f]/80 text-white transition-all duration-300 hover:-translate-y-2.5 ${
+              esSuperAhorro
+                ? "border-[#d4af37]/25 hover:border-[#d4af37]/65 hover:shadow-[0_30px_60px_-15px_rgba(212,175,55,0.22)]"
+                : "border-white/10 hover:border-[#10b981]/50 hover:shadow-[0_30px_60px_-15px_rgba(16,185,129,0.25)]"
+            }`}
           >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#edf0e9]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-[#121915]">
               <ProductImage
                 src={ofertaDestacada.imageUrl}
                 alt={ofertaDestacada.name}
                 priority
-                sizes="(max-width: 1024px) 100vw, 390px"
-                className="object-cover transition duration-500 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 400px"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
               />
-              <span className="absolute left-4 top-4 rounded-[12px] bg-[var(--color-alerta)] px-3 py-2 text-xl font-black text-white shadow-lg">
+              <span
+                className={`absolute left-4 top-4 rounded-[16px] px-3.5 py-2 text-xl font-black shadow-lg animate-pulse ${
+                  esSuperAhorro
+                    ? "bg-gradient-to-br from-[#d4af37] to-[#b45309] text-white"
+                    : "bg-gradient-to-br from-[#f43f5e] to-[#be123c] text-white"
+                }`}
+              >
                 -{formatearPorcentaje(ofertaDestacada.discount)}
               </span>
             </div>
-            <div className="p-5">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <span className="text-sm font-black uppercase text-[var(--color-acento-profundo)]">
-                  Oferta destacada
+            <div className="p-6 space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <span
+                  className={`text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                    esSuperAhorro
+                      ? "bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/20"
+                      : "bg-[#10b981]/10 text-[#34d399] border border-[#10b981]/20"
+                  }`}
+                >
+                  {esSuperAhorro ? "Súper ahorro destacado" : "Oferta destacada"}
                 </span>
-                <span className="text-xs font-bold text-[var(--color-muted)]">
+                <span className="text-xs font-bold text-white/50 bg-white/5 px-2.5 py-1 rounded-md">
                   {ofertaDestacada.storeName}
                 </span>
               </div>
-              <h2 className="line-clamp-2 text-xl font-black leading-tight">
+              <h2 className="line-clamp-2 text-lg font-bold font-titulos leading-tight group-hover:text-[#34d399] transition-colors duration-200">
                 {ofertaDestacada.name}
               </h2>
-              <div className="mt-4 flex items-end justify-between gap-3">
+              <div className="pt-2 flex items-end justify-between gap-3 border-t border-white/5">
                 <div>
-                  <p className="text-3xl font-black">
+                  <p className="text-3xl font-black font-titulos text-white">
                     {formatearPrecio(ofertaDestacada.price)}
                   </p>
-                  <p className="text-sm font-semibold text-[var(--color-muted)] line-through">
+                  <p className="text-sm font-semibold text-white/40 line-through">
                     {formatearPrecio(ofertaDestacada.listPrice)}
                   </p>
                 </div>
-                <span className="rounded-full bg-[#eef8f2] px-3 py-2 text-xs font-black text-[var(--color-acento-profundo)]">
+                <span
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-extrabold shadow ${
+                    esSuperAhorro
+                      ? "bg-[#d4af37]/10 text-[#d4af37]"
+                      : "bg-[#10b981]/10 text-[#34d399]"
+                  }`}
+                >
                   Ahorra {formatearPrecio(calcularAhorro(ofertaDestacada))}
                 </span>
               </div>

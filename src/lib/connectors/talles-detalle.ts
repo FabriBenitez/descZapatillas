@@ -138,7 +138,7 @@ export async function obtenerTallesDesdeDetalle(
 export async function enriquecerProductosConTalles(
   productos: Producto[],
   plataforma: PlataformaDetalleTalles,
-  limite = 24,
+  limite = 6,
 ) {
   const productosPriorizados = productos.slice(0, limite);
   const productosSinDetalle = productos.slice(limite);

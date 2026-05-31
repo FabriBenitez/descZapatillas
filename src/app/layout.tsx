@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 
 import "./globals.css";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
 
 const urlSitio =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://pisando-ofertas.vercel.app";
@@ -50,9 +64,31 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID;
+
   return (
-    <html lang="es">
-      <body>{children}</body>
+    <html lang="es" className={`${plusJakartaSans.variable} ${spaceGrotesk.variable}`}>
+      <body className="antialiased">
+        {children}
+        <Script
+          src="https://t.contentsquare.net/uxa/c7c00dff4b4b4.js"
+          strategy="afterInteractive"
+        />
+        {hotjarId && (
+          <Script id="hotjar-tracking" strategy="afterInteractive">
+            {`
+              (function(h,o,t,j,a,r){
+                  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                  h._hjSettings={hjid:${hotjarId},hjsv:6};
+                  a=o.getElementsByTagName('head')[0];
+                  r=o.createElement('script');r.async=1;
+                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                  a.appendChild(r);
+              })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            `}
+          </Script>
+        )}
+      </body>
     </html>
   );
 }

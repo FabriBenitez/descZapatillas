@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 import { enriquecerProductosConTalles } from "@/lib/connectors/talles-detalle";
-import { normalizarTexto } from "@/lib/formato";
+import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
 type PlataformaTienda = "vtex" | "demandware" | "magento" | "digitalsport";
@@ -61,6 +61,7 @@ interface OpcionesBusqueda {
   query?: string;
   size?: number;
   pagina?: number;
+  evitarTalles?: boolean;
 }
 
 const VTEX_PAGE_SIZE = 50;
@@ -205,11 +206,6 @@ function leerDescuento(valor: string | undefined) {
   return Number.isFinite(descuento) ? descuento : 0;
 }
 
-function esZapatilla(nombre: string) {
-  const texto = normalizarTexto(nombre);
-
-  return texto.includes("zapatilla") || texto.includes("sneaker");
-}
 
 function calcularDescuento(precio: number, precioLista: number) {
   if (!precioLista || precioLista <= precio) {
@@ -369,8 +365,9 @@ function normalizarVtex(tienda: ConfiguracionTienda, productos: VtexProduct[]) {
     const descuento = calcularDescuento(precio, precioLista);
     const imagen = sku.images?.find((image) => image.imageUrl)?.imageUrl;
     const talles = obtenerTallesDisponiblesVtex(producto.items);
+    const category = obtenerCategoriaVtex(producto);
 
-    if (!precio || !imagen || !producto.link) {
+    if (!precio || !imagen || !producto.link || !esZapatilla(nombre, category)) {
       return [];
     }
 
@@ -380,7 +377,7 @@ function normalizarVtex(tienda: ConfiguracionTienda, productos: VtexProduct[]) {
         name: nombre,
         normalizedName: normalizarTexto(nombre),
         brand: limpiarTexto(producto.brand),
-        category: obtenerCategoriaVtex(producto),
+        category: category,
         gender: producto["Género"]?.[0] || producto.Genero?.[0] || inferirGenero(nombre),
         color: limpiarTexto(producto.Color?.[0]),
         size: talles[0],
@@ -448,7 +445,9 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
       leerDescuento(producto.find("fieldset legend").first().text()) ||
       calcularDescuento(precio, precioLista);
 
-    if (!precio || !imagen || !enlace) {
+    const categoria = limpiarTexto(gtm?.item_list_name) || "Zapatillas";
+
+    if (!precio || !imagen || !enlace || !esZapatilla(nombre, categoria)) {
       return;
     }
 
@@ -459,7 +458,7 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
         name: nombre,
         normalizedName: normalizarTexto(nombre),
         brand: limpiarTexto(gtm?.item_brand) || nombre.split(" ")[1] || "",
-        category: limpiarTexto(gtm?.item_list_name) || "Zapatillas",
+        category: categoria,
         gender: inferirGenero(`${gtm?.item_list_id ?? ""} ${nombre}`),
         color: "",
         price: precio,
@@ -608,31 +607,64 @@ function construirUrlTienda(
   tienda: ConfiguracionTienda,
   { query = "zapatillas", size, pagina = 0 }: OpcionesBusqueda = {},
 ) {
-  if (tienda.urlProductos) {
-    return tienda.urlProductos;
-  }
+  const esBusquedaEspecifica = query !== "zapatillas";
 
   if (tienda.plataforma === "vtex") {
     const pageSize = size ?? VTEX_PAGE_SIZE;
     const from = pagina * pageSize;
     const parametros = new URLSearchParams({
-      ft: query,
       _from: String(from),
       _to: String(from + pageSize - 1),
       O: "OrderByBestDiscountDESC",
     });
 
-    return `${tienda.baseUrl}/api/catalog_system/pub/products/search?${parametros}`;
+    return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
   }
 
+  if (tienda.plataforma === "magento") {
+    if (!esBusquedaEspecifica && tienda.urlProductos) {
+      return tienda.urlProductos;
+    }
+    const params = new URLSearchParams({
+      q: query,
+    });
+    if (pagina > 0) {
+      params.set("p", String(pagina + 1));
+    }
+    return `${tienda.baseUrl}/catalogsearch/result/?${params}`;
+  }
+
+  if (tienda.plataforma === "digitalsport") {
+    if (!esBusquedaEspecifica && tienda.urlProductos) {
+      return tienda.urlProductos;
+    }
+    const params = new URLSearchParams({
+      q: query,
+    });
+    if (pagina > 0) {
+      params.set("p", String(pagina + 1));
+    }
+    let path = "/search/";
+    if (tienda.slug === "dionysos") {
+      path = "/dionysos/search/";
+    } else if (tienda.slug === "blast") {
+      path = "/blast/search/";
+    }
+    return `${tienda.baseUrl}${path}?${params}`;
+  }
+
+  // Demandware
   const pageSize = size ?? DEMANDWARE_PAGE_SIZE;
   const parametros = new URLSearchParams({
-    cgid: tienda.categoryId ?? "sale",
     q: query,
     srule: "product-discount",
     start: String(pagina * pageSize),
     sz: String(pageSize),
   });
+
+  if (query === "zapatillas") {
+    parametros.set("cgid", tienda.categoryId ?? "sale");
+  }
 
   return `${tienda.baseUrl}/on/demandware.store/${tienda.siteId}/default/Search-UpdateGrid?${parametros}`;
 }
@@ -679,6 +711,7 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarMagento(tienda, html),
       "magento",
+      opciones.evitarTalles ? 0 : 6
     );
   }
 
@@ -686,21 +719,25 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarDigitalSport(tienda, html),
       "digitalsport",
+      opciones.evitarTalles ? 0 : 6
     );
   }
 
   return enriquecerProductosConTalles(
     normalizarDemandware(tienda, html),
     "demandware",
+    opciones.evitarTalles ? 0 : 6
   );
 }
 
 export async function obtenerTodasLasOfertasTiendasExternas({
   paginas = 1,
   query = "zapatillas",
+  evitarTalles = false,
 }: {
   paginas?: number;
   query?: string;
+  evitarTalles?: boolean;
 } = {}) {
   const respuestas = await Promise.allSettled(
     tiendasExternas.flatMap((tienda) =>
@@ -708,6 +745,7 @@ export async function obtenerTodasLasOfertasTiendasExternas({
         obtenerOfertasTiendaExterna(tienda, {
           pagina,
           query,
+          evitarTalles,
         }),
       ),
     ),

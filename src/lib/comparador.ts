@@ -96,21 +96,33 @@ export function filtrarProductos(
   terminoBusqueda: string,
   filtros: FiltrosProductos,
 ) {
-  const terminoNormalizado = normalizarBusquedaConAlias(terminoBusqueda);
+  const terminoConAlias = normalizarBusquedaConAlias(terminoBusqueda);
+  const palabrasBusqueda = terminoConAlias
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((p) => p.replace(/[^a-z0-9]/g, ""))
+    .filter(Boolean);
+
   const precioMinimo = Number(filtros.precioMinimo || 0);
   const precioMaximo = Number(filtros.precioMaximo || 0);
   const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
 
   return productos.filter((producto) => {
-    const textoBusqueda = [
-      producto.normalizedName,
-      normalizarTexto(producto.brand),
-      normalizarTexto(producto.storeName),
-      normalizarTexto(producto.storeSlug),
-    ].join(" ");
+    if (palabrasBusqueda.length > 0) {
+      const textoProductoNormalizado = normalizarTexto([
+        producto.name,
+        producto.brand,
+        producto.storeName,
+        producto.storeSlug,
+      ].join(" ")).replace(/[^a-z0-9]/g, "");
 
-    if (terminoNormalizado && !textoBusqueda.includes(terminoNormalizado)) {
-      return false;
+      const coincideTodo = palabrasBusqueda.every((palabra) =>
+        textoProductoNormalizado.includes(palabra)
+      );
+
+      if (!coincideTodo) {
+        return false;
+      }
     }
 
     if (filtros.marca && producto.brand !== filtros.marca) {

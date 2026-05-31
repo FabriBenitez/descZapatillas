@@ -1,5 +1,7 @@
-import { collection, getDocs } from "firebase/firestore/lite";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore/lite";
 import { unstable_cache } from "next/cache";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 import { productosMock } from "@/data/productos-mock";
 import { obtenerTodasLasOfertasDexter } from "@/lib/connectors/dexter";
@@ -35,19 +37,19 @@ function combinarProductos(...fuentes: Producto[][]) {
   return ordenarPorActualizacion(Array.from(productos.values()));
 }
 
-async function obtenerProductosConectoresSinCache() {
+export async function obtenerProductosConectoresSinCache() {
   const respuestas = await Promise.allSettled([
     obtenerTodasLasOfertasMoov({
-      paginas: 2,
+      paginas: 5,
     }),
     obtenerTodasLasOfertasGrid({
-      paginas: 2,
+      paginas: 4,
     }),
     obtenerTodasLasOfertasDexter({
-      paginas: 2,
+      paginas: 5,
     }),
     obtenerTodasLasOfertasTiendasExternas({
-      paginas: 1,
+      paginas: 2,
     }),
   ]);
 
@@ -68,7 +70,7 @@ const obtenerProductosConectores = unstable_cache(
 function leerTexto(
   valor: unknown,
   valorPorDefecto = "",
-): string {
+ ): string {
   return typeof valor === "string" ? valor : valorPorDefecto;
 }
 
@@ -199,13 +201,25 @@ function obtenerPlataformaTalles(producto: Producto): PlataformaDetalleTalles | 
   return null;
 }
 
+async function obtenerProductosLocales(): Promise<Producto[]> {
+  try {
+    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+    const dbContent = await fs.readFile(dbPath, "utf-8");
+    const productosDb = JSON.parse(dbContent);
+    if (Array.isArray(productosDb) && productosDb.length > 0) {
+      return ordenarPorActualizacion(productosDb);
+    }
+  } catch {
+    // Ignorar el error y usar el mock
+  }
+  return productosMock;
+}
+
 export async function obtenerProductos(): Promise<Producto[]> {
   const firestore = obtenerFirestoreCliente();
 
   if (!firestore) {
-    const productosConectores = await obtenerProductosConectores();
-
-    return combinarProductos(productosConectores, productosMock);
+    return obtenerProductosLocales();
   }
 
   try {
@@ -213,9 +227,7 @@ export async function obtenerProductos(): Promise<Producto[]> {
     const respuesta = await getDocs(referenciaColeccion);
 
     if (respuesta.empty) {
-      const productosConectores = await obtenerProductosConectores();
-
-      return combinarProductos(productosConectores, productosMock);
+      return obtenerProductosLocales();
     }
 
     const productos = respuesta.docs
@@ -228,13 +240,9 @@ export async function obtenerProductos(): Promise<Producto[]> {
       return ordenarPorActualizacion(productos);
     }
 
-    const productosConectores = await obtenerProductosConectores();
-
-    return combinarProductos(productosConectores, productosMock);
+    return obtenerProductosLocales();
   } catch {
-    const productosConectores = await obtenerProductosConectores();
-
-    return combinarProductos(productosConectores, productosMock);
+    return obtenerProductosLocales();
   }
 }
 
@@ -253,4 +261,94 @@ export async function obtenerProductoPorId(id: string) {
   }
 
   return enriquecerProductoConTalles(producto, plataforma);
+}
+
+export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promise<Producto[]> {
+  if (!query || query.trim().length < 3) {
+    return [];
+  }
+
+  const inicio = Date.now();
+  console.log(`[Búsqueda Tiempo Real] Iniciando búsqueda dirigida para: "${query}"`);
+
+  // Raspado dirigido en tiempo real de una sola página por conector para máxima velocidad
+  const respuestas = await Promise.allSettled([
+    obtenerTodasLasOfertasMoov({ paginas: 1, query, evitarTalles: true }),
+    obtenerTodasLasOfertasGrid({ paginas: 1, query, evitarTalles: true }),
+    obtenerTodasLasOfertasDexter({ paginas: 1, query, categoryId: "sale", evitarTalles: true }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 1, query, evitarTalles: true }),
+  ]);
+
+  const todosLosNuevos = respuestas.flatMap((respuesta) =>
+    respuesta.status === "fulfilled" ? respuesta.value : [],
+  );
+
+  const nuevosProductos = todosLosNuevos.filter((p) => p.discount >= 1 && p.discount <= 100);
+
+  console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);
+
+  if (nuevosProductos.length === 0) {
+    return [];
+  }
+
+  // Guardar/Actualizar en la base de datos (Firestore o archivo local)
+  const firestore = obtenerFirestoreCliente();
+  const fecha = new Date().toISOString();
+
+  if (firestore) {
+    try {
+      const promesas = nuevosProductos.map((prod) => {
+        prod.updatedAt = fecha;
+        return setDoc(doc(firestore, "products", prod.id), prod, { merge: true });
+      });
+      // Guardar en lotes paralelos
+      await Promise.all(promesas);
+    } catch (err) {
+      console.error("Error guardando en Firestore durante búsqueda en tiempo real:", err);
+    }
+  } else {
+    try {
+      const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+      let productosExistentes: Producto[] = [];
+      try {
+        const dbContent = await fs.readFile(dbPath, "utf-8");
+        productosExistentes = JSON.parse(dbContent) as Producto[];
+      } catch (err) {
+        // Si no existe, empezamos vacío
+      }
+
+      const mapaProductos = new Map<string, Producto>();
+      productosExistentes.forEach((p) => mapaProductos.set(p.id, p));
+
+      nuevosProductos.forEach((p) => {
+        const existing = mapaProductos.get(p.id);
+        if (existing) {
+          existing.price = p.price;
+          existing.listPrice = p.listPrice;
+          existing.discount = p.discount;
+          existing.updatedAt = fecha;
+          existing.available = p.available;
+          // Actualizar talles si vinieron
+          if (p.sizes && p.sizes.length > 0) {
+            existing.sizes = p.sizes;
+            existing.size = p.size;
+          }
+          mapaProductos.set(p.id, existing);
+        } else {
+          p.updatedAt = fecha;
+          mapaProductos.set(p.id, p);
+        }
+      });
+
+      await fs.writeFile(
+        dbPath,
+        JSON.stringify(Array.from(mapaProductos.values()), null, 2),
+        "utf-8"
+      );
+    } catch (err) {
+      console.error("Error guardando en base de datos local durante búsqueda en tiempo real:", err);
+    }
+  }
+
+  return nuevosProductos;
 }

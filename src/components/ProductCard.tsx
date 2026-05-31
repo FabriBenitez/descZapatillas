@@ -21,19 +21,33 @@ export function ProductCard({
   vista = "grid",
 }: ProductCardProps) {
   const esLista = vista === "lista";
+  const esSuperAhorro = producto.discount >= 0.5;
+  const descuentoVal = producto.discount;
+
+  // Determinar color de badge de descuento según el nivel
+  let badgeClase = "bg-gradient-to-br from-[#10b981] to-[#047857] text-white shadow-lg shadow-[#10b981]/20";
+  if (descuentoVal >= 0.5) {
+    badgeClase = "bg-gradient-to-br from-[#d4af37] to-[#b45309] text-white shadow-lg shadow-[#d4af37]/30 border border-[#d4af37]/20";
+  } else if (descuentoVal >= 0.3) {
+    badgeClase = "bg-gradient-to-br from-[#f43f5e] to-[#be123c] text-white shadow-lg shadow-[#f43f5e]/20";
+  }
 
   return (
     <article
-      className={`tarjeta-producto group overflow-hidden border border-transparent bg-transparent shadow-none transition duration-200 hover:-translate-y-0.5 sm:border-[var(--color-linea)] sm:bg-white sm:shadow-sm sm:hover:border-[var(--color-linea-fuerte)] sm:hover:shadow-[var(--sombra-media)] ${
+      className={`tarjeta-producto group relative overflow-hidden border border-[#e2e7e4] bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(15,19,17,0.06)] hover:border-[#c2cbc5] ${
+        esSuperAhorro ? "tarjeta-producto--gold border-[#d4af37]/20" : ""
+      } ${
         esLista
-          ? "grid rounded-[16px] sm:grid-cols-[220px_minmax(0,1fr)] sm:rounded-[18px]"
-          : "flex h-full flex-col rounded-[16px] sm:rounded-[18px]"
+          ? "grid rounded-[20px] sm:grid-cols-[240px_minmax(0,1fr)] sm:rounded-[24px]"
+          : "flex h-full flex-col rounded-[20px] sm:rounded-[24px]"
       }`}
     >
       <Link
         href={`/producto/${producto.id}`}
-        className={`relative block overflow-hidden rounded-[16px] bg-[#edf0e9] sm:rounded-none ${
-          esLista ? "aspect-[4/3] sm:aspect-auto" : "aspect-square sm:aspect-[1.08/1]"
+        className={`relative block overflow-hidden bg-[#f0f3f1] ${
+          esLista
+            ? "aspect-[4/3] sm:aspect-auto rounded-t-[20px] sm:rounded-l-[24px] sm:rounded-tr-none"
+            : "aspect-square rounded-t-[20px] sm:rounded-t-[24px]"
         }`}
       >
         <ProductImage
@@ -42,81 +56,84 @@ export function ProductCard({
           priority={prioridadImagen}
           sizes={
             esLista
-              ? "(max-width: 640px) 100vw, 220px"
+              ? "(max-width: 640px) 100vw, 240px"
               : "(max-width: 640px) 50vw, (max-width: 1280px) 50vw, 33vw"
           }
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-106 efecteo-imagen-hover"
         />
-        <span className="absolute left-2 top-2 rounded-[9px] bg-[var(--color-alerta)] px-2 py-1 text-xs font-black text-white shadow-lg sm:left-3 sm:top-3 sm:rounded-[12px] sm:px-3 sm:py-2 sm:text-lg">
+        <span className={`absolute left-3 top-3 rounded-[12px] px-3 py-1.5 text-xs font-black sm:left-4 sm:top-4 sm:rounded-[14px] sm:px-3.5 sm:py-2 sm:text-base ${badgeClase}`}>
           -{formatearPorcentaje(producto.discount)}
         </span>
         {producto.freeShipping ? (
-          <span className="absolute bottom-3 left-3 hidden rounded-full bg-white/92 px-3 py-1.5 text-xs font-black text-[var(--color-tinta)] shadow-sm sm:inline-flex">
-            Envio gratis
+          <span className="absolute bottom-3 left-3 rounded-full bg-white/90 border border-white/20 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#0f1311] shadow-sm sm:inline-flex">
+            Envío gratis
           </span>
         ) : null}
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2 pt-2 sm:gap-4 sm:p-5">
-        <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2.5 sm:p-4">
+        <div className="flex items-start justify-between gap-2.5">
           <div className="min-w-0">
-            <p className="text-xs font-black uppercase text-[var(--color-muted)]">
-              <span className="sm:hidden">{producto.storeName}</span>
-              <span className="hidden sm:inline">{producto.brand}</span>
+            <p className="text-[9px] font-extrabold uppercase tracking-wider text-white/10 bg-gradient-to-r from-[#10b981] to-[#047857] bg-clip-text text-transparent sm:block">
+              {producto.brand}
             </p>
             <Link href={`/producto/${producto.id}`}>
-              <h3 className="mt-1 line-clamp-2 text-[0.72rem] font-black uppercase leading-[1.15] tracking-[-0.01em] text-[var(--color-tinta)] transition group-hover:text-[var(--color-acento-profundo)] sm:text-lg sm:normal-case sm:leading-tight">
+              <h3 className="mt-0.5 line-clamp-2 text-xs font-bold font-titulos leading-snug text-[#0f1311] transition duration-200 group-hover:text-[#10b981] sm:text-sm">
                 {producto.name}
               </h3>
             </Link>
           </div>
           <span
-            className={`hidden shrink-0 rounded-full px-2.5 py-1 text-[0.68rem] font-black sm:inline-flex ${
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider ${
               producto.available
-                ? "bg-[#eef8f2] text-[var(--color-acento-profundo)]"
-                : "bg-[#fff0ee] text-[#b42318]"
+                ? "bg-[#10b981]/8 text-[#047857]"
+                : "bg-[#f43f5e]/8 text-[#be123c]"
             }`}
           >
-            {producto.available ? "Stock" : "Sin stock"}
+            {producto.available ? "En stock" : "Sin stock"}
           </span>
         </div>
 
         <div className="mt-auto">
-          <div className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-end sm:gap-2">
-            <p className="text-xl font-black leading-none tracking-[-0.03em] text-[var(--color-tinta)] sm:text-[1.85rem]">
+          <div className="flex items-baseline gap-1.5">
+            <p className="text-lg font-black font-titulos leading-none tracking-tight text-[#0f1311] sm:text-xl">
               {formatearPrecio(producto.price)}
             </p>
-            <p className="hidden text-sm font-bold text-[var(--color-muted)] line-through sm:block">
+            <p className="text-[10px] font-bold text-black/40 line-through">
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
-          <p className="mt-2 hidden text-sm font-bold text-[var(--color-acento-profundo)] sm:block">
+          <span className={`inline-flex rounded-[8px] px-2 py-0.5 text-[10px] font-extrabold mt-1 ${
+            esSuperAhorro
+              ? "bg-[#d4af37]/10 text-[#b45309]"
+              : "bg-[#10b981]/10 text-[#047857]"
+          }`}>
             Ahorras {formatearPrecio(calcularAhorro(producto))}
-          </p>
+          </span>
         </div>
 
-        <div className="hidden grid-cols-2 gap-2 text-sm sm:grid">
-          <div className="rounded-[12px] bg-[#f5f6f1] px-3 py-2">
-            <p className="text-xs font-bold text-[var(--color-muted)]">Tienda</p>
-            <p className="mt-0.5 truncate font-black text-[var(--color-tinta)]">
+        <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+          <div className="rounded-[10px] bg-[#f0f3f1] border border-[#e2e7e4]/40 px-2.5 py-1.5">
+            <p className="text-[9px] font-bold text-black/40 uppercase">Tienda</p>
+            <p className="mt-0.5 truncate font-extrabold text-[#0f1311]">
               {producto.storeName}
             </p>
           </div>
-          <div className="rounded-[12px] bg-[#f5f6f1] px-3 py-2">
-            <p className="text-xs font-bold text-[var(--color-muted)]">Talle</p>
-            <p className="mt-0.5 font-black text-[var(--color-tinta)]">
+          <div className="rounded-[10px] bg-[#f0f3f1] border border-[#e2e7e4]/40 px-2.5 py-1.5">
+            <p className="text-[9px] font-bold text-black/40 uppercase">Talle</p>
+            <p className="mt-0.5 font-extrabold text-[#0f1311]">
               {producto.size ?? "Consultar"}
             </p>
           </div>
         </div>
 
-        <div className="hidden items-center justify-between gap-3 border-t border-[var(--color-linea)] pt-4 sm:flex">
-          <p className="text-xs font-semibold text-[var(--color-muted)]">
+        <div className="flex items-center justify-between gap-2.5 border-t border-[#e2e7e4] pt-2.5 mt-0.5">
+          <p className="text-[9px] font-semibold text-black/40" suppressHydrationWarning>
             {producto.province} · {formatearFecha(producto.updatedAt)}
           </p>
           <Link
             href={`/producto/${producto.id}`}
-            className="rounded-[12px] bg-[var(--color-tinta)] px-4 py-2 text-sm font-black text-white transition hover:bg-[#222821]"
+            className={`boton ${esSuperAhorro ? "boton--gold" : "boton--acento"} min-h-8 px-4 py-1.5 rounded-[10px] text-[11px] font-extrabold uppercase tracking-wider`}
           >
             Ver
           </Link>

@@ -56,3 +56,53 @@ export function obtenerHorasDesdeActualizacion(valor: string) {
 export function capitalizarTexto(texto: string) {
   return texto.replace(/\b\w/g, (letra) => letra.toUpperCase());
 }
+
+export function esZapatilla(nombre: string, categoria?: string): boolean {
+  const nombreNormalizado = normalizarTexto(nombre);
+
+  const tienePalabraClave = 
+    nombreNormalizado.includes("zapatilla") || 
+    nombreNormalizado.includes("sneaker") || 
+    nombreNormalizado.includes("zapa") ||
+    nombreNormalizado.includes("zapato") ||
+    nombreNormalizado.includes("botin");
+    
+  if (!tienePalabraClave) {
+    return false;
+  }
+
+  const terminosExcluidos = [
+    "buzo", "remera", "camiseta", "pantalon", "short", "media", "mochila", "gorra", "gorro",
+    "calza", "top", "pelota", "campera", "chaleco", "vestido", "pollera", "conjunto", "bolso",
+    "rinonera", "anteojos", "medias", "hoop", "ball", "cap", "socks", "hoodie", "jacket",
+    "t-shirt", "bra", "sosten", "corpino", "calzoncillo", "boxer", "tanga", "slip", "perfume",
+    "fragancia", "botella", "termo", "llavero", "munequera", "pantaloneta", "pantalon",
+    "camperas", "buzos", "remeras", "camisetas", "calzas", "shorts", "bolsos", "gorras",
+    "chalecos", "conjuntos", "sandalia", "ojota", "ojotas", "crocs", "pantufla", "pantuflas",
+    "bota", "botas", "accesorios", "indumentaria", "tiza", "inflador",
+    "antidoping", "gorra", "visera", "medias", "cordones", "plantillas", "bermuda", "bermudas",
+    "chews", "gummy", "caramelo"
+  ];
+
+  for (const termino of terminosExcluidos) {
+    const regex = new RegExp(`\\b${termino}\\b`, "i");
+    if (regex.test(nombreNormalizado)) {
+      return false;
+    }
+  }
+
+  if (categoria) {
+    const catNormalizada = normalizarTexto(categoria);
+    if (
+      catNormalizada.includes("indumentaria") ||
+      catNormalizada.includes("accesorios") ||
+      catNormalizada.includes("ropa") ||
+      catNormalizada.includes("remeras") ||
+      catNormalizada.includes("buzos")
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}

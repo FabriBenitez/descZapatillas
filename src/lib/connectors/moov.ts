@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 import { enriquecerProductosConTalles } from "@/lib/connectors/talles-detalle";
-import { normalizarTexto } from "@/lib/formato";
+import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
 const MOOV_BASE_URL = "https://www.moov.com.ar";
@@ -25,6 +25,7 @@ interface ObtenerOfertasMoovOpciones {
   size?: number;
   query?: string;
   sortRule?: string;
+  evitarTalles?: boolean;
 }
 
 function limpiarTexto(valor: string | undefined) {
@@ -131,12 +132,15 @@ export function construirUrlMoovSale({
   sortRule = "product-discount",
 }: ObtenerOfertasMoovOpciones = {}) {
   const parametros = new URLSearchParams({
-    cgid: "sale",
     q: query,
     srule: sortRule,
     start: String(start),
     sz: String(size),
   });
+
+  if (query === "zapatillas") {
+    parametros.set("cgid", "sale");
+  }
 
   return `${MOOV_BASE_URL}${MOOV_SEARCH_PATH}?${parametros}`;
 }
@@ -177,7 +181,7 @@ export function parsearProductosMoov(html: string): Producto[] {
     const categoria = limpiarTexto(gtm?.item_list_name) || "Zapatillas";
     const disponible = producto.find(".stock-info").length > 0;
 
-    if (!precio || !imagen || !enlace) {
+    if (!precio || !imagen || !enlace || !esZapatilla(nombre, categoria)) {
       return;
     }
 
@@ -238,7 +242,11 @@ export async function obtenerOfertasMoov(
 
   const html = await respuesta.text();
 
-  return enriquecerProductosConTalles(parsearProductosMoov(html), "demandware");
+  return enriquecerProductosConTalles(
+    parsearProductosMoov(html),
+    "demandware",
+    opciones.evitarTalles ? 0 : 6
+  );
 }
 
 export async function obtenerTodasLasOfertasMoov({
@@ -246,6 +254,7 @@ export async function obtenerTodasLasOfertasMoov({
   size = MOOV_PAGE_SIZE,
   query = "zapatillas",
   sortRule = "product-discount",
+  evitarTalles = false,
 }: ObtenerOfertasMoovOpciones & { paginas?: number } = {}) {
   const resultados = await Promise.all(
     Array.from({ length: paginas }, (_, indice) =>
@@ -254,6 +263,7 @@ export async function obtenerTodasLasOfertasMoov({
         size,
         query,
         sortRule,
+        evitarTalles,
       }),
     ),
   );

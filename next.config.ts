@@ -71,6 +71,50 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "sportotalar.vteximg.com.br",
       },
+      {
+        protocol: "https",
+        hostname: "www.grid.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "images.nike.com",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.adidas.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.puma.com",
+      },
+      {
+        protocol: "https",
+        hostname: "nb.scene7.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.converse.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.asics.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.vans.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.reebok.com",
+      },
+      {
+        protocol: "https",
+        hostname: "underarmour.scene7.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.fila.com",
+      },
     ],
   },
 };

@@ -1,4 +1,4 @@
-import { normalizarTexto } from "@/lib/formato";
+import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
 const GRID_BASE_URL = "https://www.grid.com.ar";
@@ -47,6 +47,7 @@ interface ObtenerOfertasGridOpciones {
   size?: number;
   query?: string;
   order?: string;
+  evitarTalles?: boolean;
 }
 
 interface SkuConOferta {
@@ -198,13 +199,12 @@ export function construirUrlGridSale({
 }: ObtenerOfertasGridOpciones = {}) {
   const to = Math.max(from, from + size - 1);
   const parametros = new URLSearchParams({
-    ft: query,
     _from: String(from),
     _to: String(to),
     O: order,
   });
 
-  return `${GRID_BASE_URL}${GRID_SEARCH_PATH}?${parametros}`;
+  return `${GRID_BASE_URL}${GRID_SEARCH_PATH}?ft=${encodeURIComponent(query)}&${parametros}`;
 }
 
 export function normalizarProductosGrid(productosVtex: VtexProduct[]) {
@@ -227,8 +227,9 @@ export function normalizarProductosGrid(productosVtex: VtexProduct[]) {
     const imagen = sku.images?.find((image) => image.imageUrl)?.imageUrl;
     const talles = obtenerTallesDisponibles(producto.items);
     const disponible = talles.length > 0 || tieneStock(offer);
+    const categoria = obtenerCategoria(producto);
 
-    if (!precio || !imagen || !producto.link) {
+    if (!precio || !imagen || !producto.link || !esZapatilla(nombre, categoria)) {
       return;
     }
 
@@ -239,7 +240,7 @@ export function normalizarProductosGrid(productosVtex: VtexProduct[]) {
       name: nombre,
       normalizedName: normalizarTexto(nombre),
       brand: limpiarTexto(producto.brand),
-      category: obtenerCategoria(producto),
+      category: categoria,
       gender: inferirGenero(producto, nombre),
       color: limpiarTexto(producto.Color?.[0]),
       size: talles[0],
@@ -299,6 +300,7 @@ export async function obtenerTodasLasOfertasGrid({
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
   order = "OrderByBestDiscountDESC",
+  evitarTalles = false,
 }: ObtenerOfertasGridOpciones & { paginas?: number } = {}) {
   const resultados = await Promise.all(
     Array.from({ length: paginas }, (_, indice) =>

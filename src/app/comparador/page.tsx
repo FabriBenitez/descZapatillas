@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ComparadorHeader } from "@/components/ComparadorHeader";
 import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
-import { obtenerProductos } from "@/lib/productos";
+import { buscarProductosEnTiendasEnTiempoReal, obtenerProductos } from "@/lib/productos";
 
 interface ComparadorPageProps {
   searchParams: Promise<{
@@ -23,30 +23,24 @@ export const metadata: Metadata = {
 export default async function ComparadorPage({
   searchParams,
 }: ComparadorPageProps) {
-  const [{ q }, productos] = await Promise.all([
-    searchParams,
-    obtenerProductos(),
-  ]);
+  const { q } = await searchParams;
   const busquedaInicial = q ?? "";
+
+  // Si hay término de búsqueda (min 3 caracteres), raspamos en tiempo real para encontrar todo
+  if (busquedaInicial.trim().length >= 3) {
+    try {
+      await buscarProductosEnTiendasEnTiempoReal(busquedaInicial);
+    } catch (err) {
+      console.error("Error en búsqueda en tiempo real:", err);
+    }
+  }
+
+  const productos = await obtenerProductos();
 
   return (
     <>
       <ComparadorHeader busquedaInicial={busquedaInicial} />
       <main className="pagina flex-1">
-        <section className="bg-[#111713] py-8 text-white">
-          <div className="contenedor">
-            <p className="text-sm font-black uppercase text-white/55">
-              Busqueda dedicada
-            </p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-black leading-none sm:text-6xl">
-              Resultados enfocados para comparar mejor.
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/62 sm:text-base">
-              Una vista limpia para buscar, filtrar, ordenar y decidir rapido
-              que oferta conviene abrir.
-            </p>
-          </div>
-        </section>
         <ComparadorResultados
           key={busquedaInicial}
           productos={productos}

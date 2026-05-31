@@ -100,7 +100,7 @@ export const productosMock: Producto[] = [
     price: 169999,
     listPrice: 219999,
     imageUrl:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80",
+      "https://images.nike.com/is/image/DotCom/CW2288_111_A_PREM",
     productUrl: "https://www.dexter.com.ar/nike-air-force-1-07-blanco/p",
     province: "Buenos Aires",
     available: true,
@@ -144,7 +144,7 @@ export const productosMock: Producto[] = [
     price: 189999,
     listPrice: 249999,
     imageUrl:
-      "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=900&q=80",
+      "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/hq8708_a1_01.jpg",
     productUrl: "https://www.grid.com.ar/adidas-campus-00s-core-black/p",
     province: "CABA",
     available: true,
@@ -188,7 +188,7 @@ export const productosMock: Producto[] = [
     price: 124999,
     listPrice: 174999,
     imageUrl:
-      "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=crop&w=900&q=80",
+      "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_1000,c_fill/global/395201/03/sv01/fnd/ARG/fmt/png",
     productUrl: "https://www.moov.com.ar/puma-suede-xl-classic-green/p",
     province: "Cordoba",
     available: true,
@@ -232,7 +232,7 @@ export const productosMock: Producto[] = [
     price: 209999,
     listPrice: 269999,
     imageUrl:
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=900&q=80",
+      "https://nb.scene7.com/is/image/NB/mr530sg_nb_02_i?$dw_detail_main_lg$&bgc=f1f1f1&layer=1&bgcolor=f1f1f1&blendMode=mult&scale=10&wid=1600&hei=1600",
     productUrl:
       "https://www.stockcenter.com.ar/new-balance-530-silver-navy/p",
     province: "Santa Fe",
@@ -277,7 +277,7 @@ export const productosMock: Producto[] = [
     price: 119999,
     listPrice: 149999,
     imageUrl:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=900&q=80",
+      "https://images.converse.com/is/image/Converse/A00916C_A_107X1",
     productUrl:
       "https://www.opensports.com.ar/converse-chuck-70-plus-canvas/p",
     province: "Mendoza",
@@ -322,7 +322,7 @@ export const productosMock: Producto[] = [
     price: 229999,
     listPrice: 289999,
     imageUrl:
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=900&q=80",
+      "https://images.asics.com/is/image/asics/1201A256_100_SR_RT_GLB",
     productUrl:
       "https://www.digitalsport.com.ar/asics-gel-1130-white-pure-silver/p",
     province: "Buenos Aires",
@@ -367,7 +367,7 @@ export const productosMock: Producto[] = [
     price: 194999,
     listPrice: 239999,
     imageUrl:
-      "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=900&q=80",
+      "https://images.nike.com/is/image/DotCom/DD1391_100_A_PREM",
     productUrl:
       "https://www.nike.com/ar/t/dunk-low-retro-panda-zapatillas/p",
     province: "Buenos Aires",
@@ -412,7 +412,7 @@ export const productosMock: Producto[] = [
     price: 159999,
     listPrice: 189999,
     imageUrl:
-      "https://images.unsplash.com/photo-1605348532760-6753d2c43329?auto=format&fit=crop&w=900&q=80",
+      "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/id4594_a1_01.jpg",
     productUrl: "https://www.adidas.com.ar/response-cl-sand-strata/p",
     province: "Cordoba",
     available: true,
@@ -456,7 +456,7 @@ export const productosMock: Producto[] = [
     price: 139999,
     listPrice: 179999,
     imageUrl:
-      "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=900&q=80",
+      "https://images.vans.com/is/image/Vans/VN0009QCNWD-HERO?$583x583$",
     productUrl: "https://www.dionysos.com.ar/vans-knu-skool-black-white/p",
     province: "CABA",
     available: true,
@@ -500,7 +500,7 @@ export const productosMock: Producto[] = [
     price: 129999,
     listPrice: 169999,
     imageUrl:
-      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=900&q=80",
+      "https://images.reebok.com/is/image/Reebok/DV6434_01_standard",
     productUrl: "https://www.sportline.com.ar/reebok-club-c-85-vintage/p",
     province: "Santa Fe",
     available: true,
@@ -544,7 +544,7 @@ export const productosMock: Producto[] = [
     price: 154999,
     listPrice: 204999,
     imageUrl:
-      "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=900&q=80",
+      "https://underarmour.scene7.com/is/image/Underarmour/3027593-100_DEFAULT",
     productUrl:
       "https://www.solodeportes.com.ar/under-armour-phantom-4-knit/p",
     province: "Mendoza",
@@ -589,7 +589,7 @@ export const productosMock: Producto[] = [
     price: 114999,
     listPrice: 159999,
     imageUrl:
-      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=900&q=80",
+      "https://images.fila.com/is/image/fila/5XM00817_125_01_e",
     productUrl:
       "https://www.feriasneakers.com.ar/fila-disruptor-ii-premium/p",
     province: "Buenos Aires",

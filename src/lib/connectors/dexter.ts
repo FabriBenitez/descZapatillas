@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 import { enriquecerProductosConTalles } from "@/lib/connectors/talles-detalle";
-import { normalizarTexto } from "@/lib/formato";
+import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
 const DEXTER_BASE_URL = "https://www.dexter.com.ar";
@@ -26,6 +26,7 @@ interface ObtenerOfertasDexterOpciones {
   query?: string;
   sortRule?: string;
   categoryId?: string;
+  evitarTalles?: boolean;
 }
 
 function limpiarTexto(valor: string | undefined) {
@@ -132,12 +133,15 @@ export function construirUrlDexterSale({
   categoryId = "hot-sale",
 }: ObtenerOfertasDexterOpciones = {}) {
   const parametros = new URLSearchParams({
-    cgid: categoryId,
     q: query,
     srule: sortRule,
     start: String(start),
     sz: String(size),
   });
+
+  if (query === "zapatillas") {
+    parametros.set("cgid", categoryId);
+  }
 
   return `${DEXTER_BASE_URL}${DEXTER_SEARCH_PATH}?${parametros}`;
 }
@@ -178,7 +182,7 @@ export function parsearProductosDexter(html: string): Producto[] {
     const categoria = limpiarTexto(gtm?.item_list_name) || "Zapatillas";
     const disponible = producto.find(".stock-info").length > 0;
 
-    if (!precio || !imagen || !enlace) {
+    if (!precio || !imagen || !enlace || !esZapatilla(nombre, categoria)) {
       return;
     }
 
@@ -242,6 +246,7 @@ export async function obtenerOfertasDexter(
   return enriquecerProductosConTalles(
     parsearProductosDexter(html),
     "demandware",
+    opciones.evitarTalles ? 0 : 6
   );
 }
 
@@ -251,6 +256,7 @@ export async function obtenerTodasLasOfertasDexter({
   query = "zapatillas",
   sortRule = "product-discount",
   categoryId = "hot-sale",
+  evitarTalles = false,
 }: ObtenerOfertasDexterOpciones & { paginas?: number } = {}) {
   const resultados = await Promise.all(
     Array.from({ length: paginas }, (_, indice) =>
@@ -260,6 +266,7 @@ export async function obtenerTodasLasOfertasDexter({
         query,
         sortRule,
         categoryId,
+        evitarTalles,
       }),
     ),
   );
