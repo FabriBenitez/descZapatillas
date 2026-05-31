@@ -516,7 +516,7 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
       nombre.split(" ")[1] ||
       "";
 
-    if (!idBase || !nombre || !esZapatilla(nombre) || !precio || !imagen || !enlace) {
+    if (!idBase || !nombre || !esZapatilla(nombre, "Zapatillas") || !precio || !imagen || !enlace) {
       return;
     }
 
@@ -573,7 +573,7 @@ function normalizarDigitalSport(tienda: ConfiguracionTienda, html: string) {
       leerDescuento(textoCard.match(/-\s*(\d+)%/)?.[1]) ||
       calcularDescuento(precio, precioLista);
 
-    if (!idBase || !nombre || !esZapatilla(nombre) || !precio || !imagen || !enlace) {
+    if (!idBase || !nombre || !esZapatilla(nombre, "Zapatillas") || !precio || !imagen || !enlace) {
       return;
     }
 

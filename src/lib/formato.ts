@@ -60,17 +60,7 @@ export function capitalizarTexto(texto: string) {
 export function esZapatilla(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 
-  const tienePalabraClave = 
-    nombreNormalizado.includes("zapatilla") || 
-    nombreNormalizado.includes("sneaker") || 
-    nombreNormalizado.includes("zapa") ||
-    nombreNormalizado.includes("zapato") ||
-    nombreNormalizado.includes("botin");
-    
-  if (!tienePalabraClave) {
-    return false;
-  }
-
+  // 1. Excluir si contiene términos prohibidos en el nombre
   const terminosExcluidos = [
     "buzo", "remera", "camiseta", "pantalon", "short", "media", "mochila", "gorra", "gorro",
     "calza", "top", "pelota", "campera", "chaleco", "vestido", "pollera", "conjunto", "bolso",
@@ -91,17 +81,49 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
     }
   }
 
+  // 2. Excluir si la categoría es de ropa o accesorios
   if (categoria) {
     const catNormalizada = normalizarTexto(categoria);
-    if (
-      catNormalizada.includes("indumentaria") ||
-      catNormalizada.includes("accesorios") ||
-      catNormalizada.includes("ropa") ||
-      catNormalizada.includes("remeras") ||
-      catNormalizada.includes("buzos")
-    ) {
-      return false;
+    const categoriasExcluidas = [
+      "indumentaria", "accesorios", "ropa", "remeras", "buzos", "pantalones",
+      "shorts", "medias", "gorras", "pelotas", "equipamiento"
+    ];
+    for (const catExcl of categoriasExcluidas) {
+      if (catNormalizada.includes(catExcl)) {
+        return false;
+      }
     }
+  }
+
+  // 3. Determinar si tiene indicación positiva de calzado en el nombre
+  const tienePalabraClaveNombre = 
+    nombreNormalizado.includes("zapatilla") || 
+    nombreNormalizado.includes("sneaker") || 
+    nombreNormalizado.includes("zapa") ||
+    nombreNormalizado.includes("zapato") ||
+    nombreNormalizado.includes("botin");
+
+  // 4. Determinar si la categoría indica que es calzado
+  let tieneCategoriaCalzado = false;
+  if (categoria) {
+    const catNormalizada = normalizarTexto(categoria);
+    tieneCategoriaCalzado =
+      catNormalizada.includes("zapatilla") ||
+      catNormalizada.includes("calzado") ||
+      catNormalizada.includes("botin") ||
+      catNormalizada.includes("sneaker") ||
+      catNormalizada.includes("zapas") ||
+      catNormalizada.includes("footwear") ||
+      catNormalizada.includes("running") ||
+      catNormalizada.includes("training") ||
+      catNormalizada.includes("tenis") ||
+      catNormalizada.includes("futbol") ||
+      catNormalizada.includes("basquet");
+  }
+
+  // Si no tiene indicación de calzado en el nombre ni en la categoría, se descarta
+  if (!tienePalabraClaveNombre && !tieneCategoriaCalzado) {
+    return false;
   }
 
   return true;
