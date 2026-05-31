@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const maxDuration = 60; // Permitir hasta 60 segundos en Vercel para búsquedas profundas
+
 import { ComparadorHeader } from "@/components/ComparadorHeader";
 import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
