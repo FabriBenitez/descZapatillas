@@ -32,6 +32,11 @@ export function ProductCard({
     badgeClase = "bg-gradient-to-br from-[#f43f5e] to-[#be123c] text-white shadow-lg shadow-[#f43f5e]/20";
   }
 
+  // Si es un producto "fresco" (recien scrapeado y no guardado), pasamos su data por URL
+  const hrefProducto = producto.isFresh 
+    ? `/producto/${producto.id}?f=${encodeURIComponent(JSON.stringify(producto))}`
+    : `/producto/${producto.id}`;
+
   return (
     <article
       className={`tarjeta-producto group relative overflow-hidden border border-[#e2e7e4] bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(15,19,17,0.06)] hover:border-[#c2cbc5] ${
@@ -43,7 +48,7 @@ export function ProductCard({
       }`}
     >
       <Link
-        href={`/producto/${producto.id}`}
+        href={hrefProducto}
         className={`relative block overflow-hidden bg-[#f0f3f1] ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto rounded-t-[20px] sm:rounded-l-[24px] sm:rounded-tr-none"
@@ -77,7 +82,7 @@ export function ProductCard({
             <p className="text-[9px] font-extrabold uppercase tracking-wider text-white/10 bg-gradient-to-r from-[#10b981] to-[#047857] bg-clip-text text-transparent sm:block">
               {producto.brand}
             </p>
-            <Link href={`/producto/${producto.id}`}>
+            <Link href={hrefProducto}>
               <h3 className="mt-0.5 line-clamp-2 text-xs font-bold font-titulos leading-snug text-[#0f1311] transition duration-200 group-hover:text-[#10b981] sm:text-sm">
                 {producto.name}
               </h3>
@@ -132,7 +137,7 @@ export function ProductCard({
             {producto.province} · {formatearFecha(producto.updatedAt)}
           </p>
           <Link
-            href={`/producto/${producto.id}`}
+            href={hrefProducto}
             className={`boton ${esSuperAhorro ? "boton--gold" : "boton--acento"} min-h-8 px-4 py-1.5 rounded-[10px] text-[11px] font-extrabold uppercase tracking-wider`}
           >
             Ver

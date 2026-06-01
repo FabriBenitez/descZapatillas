@@ -39,6 +39,7 @@ export interface Producto {
   offerType?: TipoOferta;
   historicalBestPrice?: number;
   priceHistory?: RegistroPrecio[];
+  isFresh?: boolean;
 }
 
 export interface FiltrosProductos {

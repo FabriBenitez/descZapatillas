@@ -12,15 +12,26 @@ import { obtenerProductoPorId, obtenerProductos } from "@/lib/productos";
 
 interface ProductoPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ f?: string }>;
 }
 
 export const revalidate = 60; // Revalidar cada 60 segundos para evitar cachés de 404 y precios viejos
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: ProductoPageProps): Promise<Metadata> {
   const { id } = await params;
-  const producto = await obtenerProductoPorId(id);
+  const { f } = await searchParams;
+  let producto = await obtenerProductoPorId(id);
+
+  if (!producto && f) {
+    try {
+      producto = JSON.parse(decodeURIComponent(f));
+    } catch (err) {
+      // ignore
+    }
+  }
 
   if (!producto) {
     return {
@@ -48,12 +59,24 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductoPage({ params }: ProductoPageProps) {
+export default async function ProductoPage({ params, searchParams }: ProductoPageProps) {
   const { id } = await params;
-  const [producto, productos] = await Promise.all([
+  const { f } = await searchParams;
+  
+  const [productoOriginal, productos] = await Promise.all([
     obtenerProductoPorId(id),
     obtenerProductos(),
   ]);
+
+  let producto = productoOriginal;
+
+  if (!producto && f) {
+    try {
+      producto = JSON.parse(decodeURIComponent(f));
+    } catch (err) {
+      // ignore
+    }
+  }
 
   if (!producto) {
     notFound();

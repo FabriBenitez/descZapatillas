@@ -38,7 +38,10 @@ export default async function ComparadorPage({
       if (productosFrescos.length > 0) {
         // Unimos los productos frescos con la base (sobrescribiendo duplicados)
         const mapa = new Map(productosBase.map((p) => [p.id, p]));
-        productosFrescos.forEach((p) => mapa.set(p.id, p));
+        productosFrescos.forEach((p) => {
+          p.isFresh = true;
+          mapa.set(p.id, p);
+        });
         productosFinales = Array.from(mapa.values());
       }
     } catch (err) {
