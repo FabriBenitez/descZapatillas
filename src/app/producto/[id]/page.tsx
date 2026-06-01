@@ -14,6 +14,8 @@ interface ProductoPageProps {
   params: Promise<{ id: string }>;
 }
 
+export const revalidate = 60; // Revalidar cada 60 segundos para evitar cachés de 404 y precios viejos
+
 export async function generateMetadata({
   params,
 }: ProductoPageProps): Promise<Metadata> {
