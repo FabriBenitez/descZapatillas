@@ -57,6 +57,35 @@ export function capitalizarTexto(texto: string) {
   return texto.replace(/\b\w/g, (letra) => letra.toUpperCase());
 }
 
+export function normalizarMarca(marca: string) {
+  if (!marca) return "Sin Marca";
+  
+  const m = marca.trim().toLowerCase();
+
+  // Agrupar sub-marcas de Adidas
+  if (m.startsWith("adidas")) return "Adidas";
+  
+  // Agrupar sub-marcas de Puma
+  if (m.startsWith("puma")) return "Puma";
+
+  // Excepciones específicas de capitalización
+  if (m === "and1") return "AND1";
+  if (m === "asics") return "Asics";
+  if (m === "addnice" || m === "add nice") return "Addnice";
+  if (m === "47 street") return "47 Street";
+  if (m === "fila") return "Fila";
+  if (m === "nike") return "Nike";
+  if (m === "under armour") return "Under Armour";
+  if (m === "new balance") return "New Balance";
+  if (m === "converse") return "Converse";
+  if (m === "vans") return "Vans";
+  if (m === "reebok") return "Reebok";
+  if (m === "topper") return "Topper";
+  if (m === "salomon") return "Salomon";
+
+  return capitalizarTexto(m);
+}
+
 export function esZapatilla(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 

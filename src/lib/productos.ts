@@ -207,7 +207,11 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
     const dbContent = await fs.readFile(dbPath, "utf-8");
     const productosDb = JSON.parse(dbContent);
     if (Array.isArray(productosDb) && productosDb.length > 0) {
-      return ordenarPorActualizacion(productosDb);
+      const productosNormalizados = productosDb.map((p: Producto) => ({
+        ...p,
+        brand: normalizarMarca(p.brand)
+      }));
+      return ordenarPorActualizacion(productosNormalizados);
     }
   } catch {
     // Ignorar el error y usar el mock
@@ -234,7 +238,11 @@ export async function obtenerProductos(): Promise<Producto[]> {
       .map((documento) =>
         normalizarProductoFirestore(documento.id, documento.data()),
       )
-      .filter((producto): producto is Producto => Boolean(producto));
+      .filter((producto): producto is Producto => Boolean(producto))
+      .map(p => ({
+        ...p,
+        brand: normalizarMarca(p.brand)
+      }));
 
     if (productos.length > 0) {
       return ordenarPorActualizacion(productos);
@@ -283,7 +291,12 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
     respuesta.status === "fulfilled" ? respuesta.value : [],
   );
 
-  const nuevosProductos = todosLosNuevos.filter((p) => p.discount >= 1 && p.discount <= 100);
+  const nuevosProductos = todosLosNuevos
+    .filter((p) => p.discount >= 1 && p.discount <= 100)
+    .map(p => ({
+      ...p,
+      brand: normalizarMarca(p.brand)
+    }));
 
   console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);
 
