@@ -86,6 +86,20 @@ export function normalizarMarca(marca: string) {
   return capitalizarTexto(m);
 }
 
+export function normalizarTalle(talle: string) {
+  if (!talle) return "";
+  
+  // Reemplazar comas por puntos y quitar espacios
+  let t = talle.trim().replace(",", ".").toUpperCase();
+
+  // Si tiene un '.0' al final, se lo sacamos (ej. '35.0' -> '35')
+  if (t.endsWith(".0")) {
+    t = t.substring(0, t.length - 2);
+  }
+
+  return t;
+}
+
 export function esZapatilla(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 

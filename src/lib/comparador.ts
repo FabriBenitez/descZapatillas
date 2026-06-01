@@ -24,6 +24,17 @@ function normalizarBusquedaConAlias(valor: string) {
     .replace(/\bdexterr\b/g, "dexter");
 }
 
+function ordenarTalles(valores: string[]) {
+  return [...valores].sort((a, b) => {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+    if (!isNaN(numA) && !isNaN(numB)) {
+      return numA - numB;
+    }
+    return a.localeCompare(b, "es");
+  });
+}
+
 export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
   return {
     marcas: ordenarTexto(
@@ -35,7 +46,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
     provincias: ordenarTexto(
       Array.from(new Set(productos.map((producto) => producto.province))),
     ),
-    talles: ordenarTexto(
+    talles: ordenarTalles(
       Array.from(
         new Set(
           productos.flatMap((producto) => producto.sizes ?? [producto.size ?? ""]),

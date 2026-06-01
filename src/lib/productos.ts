@@ -13,7 +13,7 @@ import {
 } from "@/lib/connectors/talles-detalle";
 import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
-import { normalizarTexto, normalizarMarca } from "@/lib/formato";
+import { normalizarTexto, normalizarMarca, normalizarTalle } from "@/lib/formato";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
 const COLECCION_PRODUCTOS = "products";
@@ -209,7 +209,9 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
     if (Array.isArray(productosDb) && productosDb.length > 0) {
       const productosNormalizados = productosDb.map((p: Producto) => ({
         ...p,
-        brand: normalizarMarca(p.brand)
+        brand: normalizarMarca(p.brand),
+        sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
+        size: p.size ? normalizarTalle(p.size) : undefined
       }));
       return ordenarPorActualizacion(productosNormalizados);
     }
@@ -241,7 +243,9 @@ export async function obtenerProductos(): Promise<Producto[]> {
       .filter((producto): producto is Producto => Boolean(producto))
       .map(p => ({
         ...p,
-        brand: normalizarMarca(p.brand)
+        brand: normalizarMarca(p.brand),
+        sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
+        size: p.size ? normalizarTalle(p.size) : undefined
       }));
 
     if (productos.length > 0) {
@@ -295,7 +299,9 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
     .filter((p) => p.discount >= 1 && p.discount <= 100)
     .map(p => ({
       ...p,
-      brand: normalizarMarca(p.brand)
+      brand: normalizarMarca(p.brand),
+      sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
+      size: p.size ? normalizarTalle(p.size) : undefined
     }));
 
   console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);
