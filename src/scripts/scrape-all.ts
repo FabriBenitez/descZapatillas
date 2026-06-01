@@ -13,10 +13,10 @@ async function runScrape() {
 
   // 1. Obtener productos frescos con un límite muy alto
   const promesas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 50 }),
-    obtenerTodasLasOfertasGrid({ paginas: 50 }),
-    obtenerTodasLasOfertasDexter({ paginas: 50, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 50 }),
+    obtenerTodasLasOfertasMoov({ paginas: 100 }),
+    obtenerTodasLasOfertasGrid({ paginas: 100 }),
+    obtenerTodasLasOfertasDexter({ paginas: 100, categoryId: "sale" }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 100 }),
   ]);
 
   const todosLosFrescos = promesas.flatMap((respuesta) =>
