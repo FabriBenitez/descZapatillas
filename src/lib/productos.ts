@@ -20,6 +20,10 @@ import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 const COLECCION_PRODUCTOS = "products";
 const REVALIDACION_PRODUCTOS_SEGUNDOS = 60 * 60;
 
+// Caché RAM (Plan C) para Vercel Serverless
+// Esto guarda las búsquedas en memoria volátil por si Firebase falla y el FileSystem es Read-Only
+let cacheVolatilVercel = new Map<string, Producto>();
+
 function ordenarPorActualizacion(productos: Producto[]) {
   return [...productos].sort(
     (productoA, productoB) =>
@@ -224,7 +228,11 @@ export async function obtenerProductos(): Promise<Producto[]> {
   const firestore = obtenerFirestoreCliente();
 
   if (!firestore) {
-    return obtenerProductosLocales();
+    const locales = await obtenerProductosLocales();
+    const mapaProductos = new Map<string, Producto>();
+    locales.forEach(p => mapaProductos.set(p.id, p));
+    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
+    return ordenarPorActualizacion(Array.from(mapaProductos.values()));
   }
 
   try {
@@ -249,10 +257,11 @@ export async function obtenerProductos(): Promise<Producto[]> {
         size: p.size ? normalizarTalle(p.size) : undefined
       }));
 
-    // Mezclar locales con Firestore (dando prioridad a Firestore por estar más actualizados)
+    // Mezclar locales con Firestore y la RAM (dando prioridad a RAM y Firestore por estar más actualizados)
     const mapaProductos = new Map<string, Producto>();
     locales.forEach(p => mapaProductos.set(p.id, p));
     productosFirestore.forEach(p => mapaProductos.set(p.id, p));
+    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
 
     const productosMezclados = Array.from(mapaProductos.values());
     
@@ -260,9 +269,13 @@ export async function obtenerProductos(): Promise<Producto[]> {
       return ordenarPorActualizacion(productosMezclados);
     }
 
-    return obtenerProductosLocales();
-  } catch {
-    return obtenerProductosLocales();
+    return locales;
+  } catch (error) {
+    const locales = await obtenerProductosLocales();
+    const mapaProductos = new Map<string, Producto>();
+    locales.forEach(p => mapaProductos.set(p.id, p));
+    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
+    return ordenarPorActualizacion(Array.from(mapaProductos.values()));
   }
 }
 
@@ -291,12 +304,12 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
   const inicio = Date.now();
   console.log(`[Búsqueda Tiempo Real] Iniciando búsqueda dirigida para: "${query}"`);
 
-  // Raspado dirigido en tiempo real (5 páginas por conector para asegurar máxima cobertura de la búsqueda)
+  // Raspado dirigido en tiempo real (Aumentado a 50 páginas por tienda a pedido del usuario)
   const respuestas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 5, query }),
-    obtenerTodasLasOfertasGrid({ paginas: 5, query }),
-    obtenerTodasLasOfertasDexter({ paginas: 5, query, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 5, query }),
+    obtenerTodasLasOfertasMoov({ paginas: 50, query }),
+    obtenerTodasLasOfertasGrid({ paginas: 50, query }),
+    obtenerTodasLasOfertasDexter({ paginas: 50, query, categoryId: "sale" }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 50, query }),
   ]);
 
   const todosLosNuevos = respuestas.flatMap((respuesta) =>
@@ -313,6 +326,9 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
     }));
 
   console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);
+
+  // 0. Guardar en RAM Caché (Plan C)
+  nuevosProductos.forEach(p => cacheVolatilVercel.set(p.id, p));
 
   if (nuevosProductos.length === 0) {
     return [];
