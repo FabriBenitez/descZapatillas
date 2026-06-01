@@ -34,39 +34,6 @@
     "size": "37.5"
   },
   {
-<<<<<<< Updated upstream
-=======
-    "id": "dionysos-725482",
-    "name": "ZAPATILLAS AIR FORCE 1 LOW SOFTYELLOW",
-    "normalizedName": "zapatillas air force 1 low softyellow",
-    "brand": "nike",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 249899,
-    "listPrice": 249899,
-    "discount": 24,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/68cc3a276d048-725482-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/dionysos/prod/zapatillas-air-force-1-low-softyellow-nike-725482/",
-    "available": true,
-    "freeShipping": true,
-    "offerType": "temporada",
-    "historicalBestPrice": 249899,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-05-31T04:19:46.010Z",
-        "precio": 249899,
-        "precioAnterior": 249899,
-        "descuento": 24
-      }
-    ]
-  },
-  {
->>>>>>> Stashed changes
     "id": "blast-686458",
     "name": "ZAPATILLAS NIKE SB DUNK LOW PRO DARK TEAM RED AND OLIVE FLAK",
     "normalizedName": "zapatillas nike sb dunk low pro dark team red and olive flak",
@@ -86,7 +53,7 @@
     "storeSlug": "blast",
     "storeName": "Blast",
     "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
+    "updatedAt": "2026-05-31T04:34:51.722Z",
     "priceHistory": [
       {
         "fecha": "2026-05-31T04:19:46.060Z",
@@ -116,7 +83,7 @@
     "storeSlug": "blast",
     "storeName": "Blast",
     "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
+    "updatedAt": "2026-05-31T04:34:51.722Z",
     "priceHistory": [
       {
         "fecha": "2026-05-31T04:19:46.060Z",
@@ -146,7 +113,7 @@
     "storeSlug": "blast",
     "storeName": "Blast",
     "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
+    "updatedAt": "2026-05-31T04:34:51.722Z",
     "priceHistory": [
       {
         "fecha": "2026-05-31T04:19:46.061Z",
@@ -176,7 +143,7 @@
     "storeSlug": "blast",
     "storeName": "Blast",
     "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
+    "updatedAt": "2026-05-31T04:34:51.722Z",
     "priceHistory": [
       {
         "fecha": "2026-05-31T04:19:46.061Z",
@@ -206,7 +173,7 @@
     "storeSlug": "blast",
     "storeName": "Blast",
     "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
+    "updatedAt": "2026-05-31T04:34:51.722Z",
     "priceHistory": [
       {
         "fecha": "2026-05-31T04:19:46.061Z",
@@ -5578,11 +5545,7 @@
     "productUrl": "https://www.moov.com.ar/zapatillas-adidas-adizero-aruku/ADIH0849.html",
     "province": "Buenos Aires",
     "available": true,
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 125999,
@@ -5593,11 +5556,7 @@
         "precioAnterior": 179999,
         "descuento": 30
       }
-    ],
-    "sizes": [
-      "36.5"
-    ],
-    "size": "36.5"
+    ]
   },
   {
     "id": "moov-PU401756-01",
@@ -6881,7 +6840,7 @@
     "productUrl": "https://www.grid.com.ar/zapatillas-adidas-originals-adizero-aruku-moda-unisex-2680597/p",
     "province": "Buenos Aires",
     "available": true,
-    "updatedAt": "2026-06-01T03:12:17.932Z",
+    "updatedAt": "2026-05-31T15:42:54.137Z",
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 119999,
@@ -10762,11 +10721,7 @@
     "productUrl": "https://www.dexter.com.ar/zapatillas-tenis-adidas-adizero-ubersonic-5-hombre/ADIH2564.html",
     "province": "Buenos Aires",
     "available": true,
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "liquidacion",
     "historicalBestPrice": 124999,
@@ -10777,16 +10732,7 @@
         "precioAnterior": 249999,
         "descuento": 50
       }
-    ],
-    "sizes": [
-      "41",
-      "41.5",
-      "43",
-      "43.5",
-      "45",
-      "45.5"
-    ],
-    "size": "41"
+    ]
   },
   {
     "id": "dexter-LONC0324741BCVVM94",
@@ -11195,11 +11141,7 @@
     "productUrl": "https://www.dexter.com.ar/zapatillas-running-adidas-adizero-takumi-sen-10-mujer/ADID3629.html",
     "province": "Buenos Aires",
     "available": true,
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 175999,
@@ -11210,17 +11152,7 @@
         "precioAnterior": 319999,
         "descuento": 45
       }
-    ],
-    "sizes": [
-      "34.5",
-      "35.5",
-      "36",
-      "36.5",
-      "37.5",
-      "38",
-      "38.5"
-    ],
-    "size": "34.5"
+    ]
   },
   {
     "id": "dexter-TO52421",
@@ -11826,11 +11758,7 @@
     "productUrl": "https://www.dexter.com.ar/zapatillas-running-adidas-adizero-takumi-10-mujer/ADIG1980.html",
     "province": "Buenos Aires",
     "available": true,
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 161999,
@@ -11841,16 +11769,7 @@
         "precioAnterior": 269999,
         "descuento": 40
       }
-    ],
-    "sizes": [
-      "34.5",
-      "35.5",
-      "36.5",
-      "37.5",
-      "38",
-      "38.5"
-    ],
-    "size": "34.5"
+    ]
   },
   {
     "id": "dexter-TO89576",
@@ -17479,11 +17398,7 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
->>>>>>> Stashed changes
     "priceHistory": [
       {
         "fecha": "2026-05-31T15:42:54.137Z",
@@ -17491,12 +17406,7 @@
         "precioAnterior": 342854,
         "descuento": 64
       }
-    ],
-    "sizes": [
-      "34.5",
-      "35.5"
-    ],
-    "size": "34.5"
+    ]
   },
   {
     "id": "stockcenter-PU378469-01",
@@ -47590,7 +47500,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "moov-PU395926-01",
     "storeSlug": "moov",
     "storeName": "Moov",
@@ -95427,8 +95336,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADHP9703",
     "name": "Zapatillas Running adidas Adizero Boston 12 Mujer",
     "normalizedName": "zapatillas running adidas adizero boston 12 mujer",
@@ -95448,17 +95355,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.697Z",
->>>>>>> Stashed changes
         "precio": 119999,
         "precioAnterior": 239998,
         "descuento": 50
@@ -95470,7 +95370,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-NIBQ5673-011",
     "name": "Zapatillas Nike Revolution 5",
     "normalizedName": "zapatillas nike revolution 5",
@@ -100790,8 +100689,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADGY1716",
     "name": "Zapatillas Running adidas Adizero Lightstrike Hombre",
     "normalizedName": "zapatillas running adidas adizero lightstrike hombre",
@@ -100811,23 +100708,15 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.698Z",
->>>>>>> Stashed changes
         "precio": 99999,
         "precioAnterior": 181817,
         "descuento": 45
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -100955,21 +100844,11 @@
     "size": "35",
     "sizes": [
       "35",
-=======
-    "size": "41",
-    "sizes": [
-      "41",
-      "41.5",
-      "42",
-      "43",
-      "43.5",
->>>>>>> Stashed changes
       "44",
       "45"
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-PU376807-13",
     "name": "Zapatillas RunningPuma Deviate Nitro 2 Hombre",
     "normalizedName": "zapatillas runningpuma deviate nitro 2 hombre",
@@ -101678,8 +101557,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADID3629",
     "name": "Zapatillas Running adidas Adizero Takumi Sen 10 Mujer",
     "normalizedName": "zapatillas running adidas adizero takumi sen 10 mujer",
@@ -101692,34 +101569,22 @@
     "discount": 45,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw4a505a65/products/ADID3629/ADID3629-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-takumi-sen-10-mujer/ADID3629.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 175999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.698Z",
->>>>>>> Stashed changes
         "precio": 175999,
         "precioAnterior": 319999,
         "descuento": 45
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -105219,20 +105084,6 @@
     "sizes": []
   },
   {
-=======
-    "size": "34.5",
-    "sizes": [
-      "34.5",
-      "35.5",
-      "36",
-      "36.5",
-      "37.5",
-      "38",
-      "38.5"
-    ]
-  },
-  {
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG1980",
     "name": "Zapatillas Running adidas Adizero Takumi 10 Mujer",
     "normalizedName": "zapatillas running adidas adizero takumi 10 mujer",
@@ -105252,23 +105103,15 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.699Z",
->>>>>>> Stashed changes
         "precio": 161999,
         "precioAnterior": 269999,
         "descuento": 40
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -110012,16 +109855,10 @@
     ],
     "size": "35.5",
     "sizes": [
-=======
-    "size": "34.5",
-    "sizes": [
-      "34.5",
->>>>>>> Stashed changes
       "35.5"
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-FIF02L00231-603",
     "name": "Zapatillas Fila Fx-33 High Mujer",
     "normalizedName": "zapatillas fila fx-33 high mujer",
@@ -118760,8 +118597,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADID1565",
     "name": "Zapatillas Tenis adidas Adizero Ubersonic 4.1 Hombre",
     "normalizedName": "zapatillas tenis adidas adizero ubersonic 4.1 hombre",
@@ -118781,23 +118616,15 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.704Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 215383,
         "descuento": 34
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -119192,11 +119019,6 @@
       "43.5",
       "44",
       "45-45.5"
-=======
-    "size": "45.5",
-    "sizes": [
-      "45.5"
->>>>>>> Stashed changes
     ]
   },
   {
@@ -119212,7 +119034,6 @@
     "discount": 30,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw74ce72ef/products/ADIG8208/ADIG8208-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-takumi-sen--mujer/ADIG8208.html",
-<<<<<<< Updated upstream
     "available": true,
     "freeShipping": false,
     "offerType": "outlet",
@@ -121010,8 +120831,6 @@
     "discount": 30,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw4eb81db0/products/ADID6174/ADID6174-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adistar-byd-hombre/ADID6174.html",
-=======
->>>>>>> Stashed changes
     "available": false,
     "freeShipping": false,
     "offerType": "outlet",
@@ -121019,7 +120838,6 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
@@ -121334,12 +121152,6 @@
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.705Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 285713,
         "descuento": 30
@@ -121360,34 +121172,22 @@
     "discount": 30,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw1ed6db78/products/ADIG6439/ADIG6439-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-adios-pro-3/ADIG6439.html",
-<<<<<<< Updated upstream
     "available": true,
-=======
-    "available": false,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 239999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.705Z",
->>>>>>> Stashed changes
         "precio": 239999,
         "precioAnterior": 342856,
         "descuento": 30
       }
     ],
-<<<<<<< Updated upstream
     "size": "44",
     "sizes": [
       "44"
@@ -123734,11 +123534,6 @@
     ]
   },
   {
-=======
-    "sizes": []
-  },
-  {
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG8202",
     "name": "Zapatillas Running adidas Adizero Takumi Sen 10 Hombre",
     "normalizedName": "zapatillas running adidas adizero takumi sen 10 hombre",
@@ -123758,17 +123553,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.706Z",
->>>>>>> Stashed changes
         "precio": 209998,
         "precioAnterior": 299999,
         "descuento": 30
@@ -123777,7 +123565,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-TO26887",
     "name": "Zapatillas Topper T.350 Mesh",
     "normalizedName": "zapatillas topper t.350 mesh",
@@ -124465,44 +124252,24 @@
     "normalizedName": "zapatillas nike terminator low premium hombre",
     "brand": "Nike",
     "category": "Zapatillas",
-=======
-    "id": "stockcenter-ADIH2759",
-    "name": "Botines Rugby adidas Adizero RS15 Pro SG",
-    "normalizedName": "botines rugby adidas adizero rs15 pro sg",
-    "brand": "Adidas",
-    "category": "Botines",
->>>>>>> Stashed changes
     "gender": "Hombre",
     "color": "",
     "price": 239999,
     "listPrice": 342856,
     "discount": 30,
-<<<<<<< Updated upstream
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwa50d3f1b/products/NIFZ3964-252/NIFZ3964-252-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-nike-terminator-low-premium-hombre/NIFZ3964-252.html",
     "available": false,
-=======
-    "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw30a37ef0/products/ADIH2759/ADIH2759-1.JPG?sw=600&sh=600",
-    "productUrl": "https://www.stockcenter.com.ar/botines-rugby-adidas-adizero-rs15-pro-sg/ADIH2759.html",
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "outlet",
     "historicalBestPrice": 239999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.706Z",
->>>>>>> Stashed changes
         "precio": 239999,
         "precioAnterior": 342856,
         "descuento": 30
@@ -124511,7 +124278,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-LONC00241161MAF42",
     "name": "Zapatillas Running Lotto Relaxed Trail Hombre",
     "normalizedName": "zapatillas running lotto relaxed trail hombre",
@@ -125691,8 +125457,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF9211",
     "name": "Zapatillas adidas Adizero Boston 12 Hombre",
     "normalizedName": "zapatillas adidas adizero boston 12 hombre",
@@ -125712,17 +125476,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.707Z",
->>>>>>> Stashed changes
         "precio": 179999,
         "precioAnterior": 257142,
         "descuento": 30
@@ -125731,7 +125488,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADII0000",
     "name": "Zapatillas adidas Vl Court Bold Mujer",
     "normalizedName": "zapatillas adidas vl court bold mujer",
@@ -126757,8 +126513,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIH5717",
     "name": "Zapatillas adidas Adizero Takumi 10 de Mujer",
     "normalizedName": "zapatillas adidas adizero takumi 10 de mujer",
@@ -126778,17 +126532,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.707Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 285713,
         "descuento": 30
@@ -126797,7 +126544,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-FIF01R00130-879",
     "name": "Zapatillas Running Fila Float Fenix Hombre",
     "normalizedName": "zapatillas running fila float fenix hombre",
@@ -127255,8 +127001,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADID6939",
     "name": "Zapatillas Running adidas Adizero Takumi Sen 9 Hombre",
     "normalizedName": "zapatillas running adidas adizero takumi sen 9 hombre",
@@ -127276,17 +127020,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.708Z",
->>>>>>> Stashed changes
         "precio": 199997,
         "precioAnterior": 285712,
         "descuento": 30
@@ -127295,7 +127032,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADID9596",
     "name": "Zapatillas adidas X_PLORBOOST Hombre",
     "normalizedName": "zapatillas adidas x_plorboost hombre",
@@ -130691,8 +130427,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG6442",
     "name": "Las Zapatillas Running adidas Adizero Adios Pro 3",
     "normalizedName": "las zapatillas running adidas adizero adios pro 3",
@@ -130712,17 +130446,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.708Z",
->>>>>>> Stashed changes
         "precio": 259999,
         "precioAnterior": 346666,
         "descuento": 25
@@ -130731,7 +130458,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-RE1100033759",
     "name": "Zapatillas Rebook Court Advance Sintético",
     "normalizedName": "zapatillas rebook court advance sintetico",
@@ -131011,8 +130737,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG3326",
     "name": "Zapatillas Running adidas Adizero Boston 12",
     "normalizedName": "zapatillas running adidas adizero boston 12",
@@ -131032,17 +130756,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.709Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 266666,
         "descuento": 25
@@ -131051,7 +130768,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADIF6330",
     "name": "Botines Fútbol adidas Predator Pro Fg",
     "normalizedName": "botines futbol adidas predator pro fg",
@@ -131586,8 +131302,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG1979",
     "name": "Zapatillas Running adidas Adizero Takumi 10 Hombre",
     "normalizedName": "zapatillas running adidas adizero takumi 10 hombre",
@@ -131607,17 +131321,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.709Z",
->>>>>>> Stashed changes
         "precio": 206249,
         "precioAnterior": 274999,
         "descuento": 25
@@ -131626,7 +131333,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-TO28414",
     "name": "Zapatillas Topper Profesional C Mix",
     "normalizedName": "zapatillas topper profesional c mix",
@@ -132123,8 +131829,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF6766",
     "name": "Zapatillas Running adidas Adizero SL2 Mujer",
     "normalizedName": "zapatillas running adidas adizero sl2 mujer",
@@ -132137,34 +131841,22 @@
     "discount": 25,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwcb9ccbd7/products/ADIF6766/ADIF6766-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-sl2-mujer/ADIF6766.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 139999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.709Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 186666,
         "descuento": 25
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -132538,16 +132230,6 @@
       }
     ],
     "sizes": []
-=======
-    "sizes": [
-      "34.5",
-      "35.5",
-      "36",
-      "36.5",
-      "37.5"
-    ],
-    "size": "34.5"
->>>>>>> Stashed changes
   },
   {
     "id": "stockcenter-ADID3621",
@@ -132562,34 +132244,22 @@
     "discount": 25,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw7cadf6a0/products/ADID3621/ADID3621-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-takumi-sen-10-hombre/ADID3621.html",
-<<<<<<< Updated upstream
     "available": true,
-=======
-    "available": false,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 206249,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.710Z",
->>>>>>> Stashed changes
         "precio": 206249,
         "precioAnterior": 274999,
         "descuento": 25
       }
     ],
-<<<<<<< Updated upstream
     "size": "39.5",
     "sizes": [
       "39.5",
@@ -134601,8 +134271,6 @@
         "descuento": 25
       }
     ],
-=======
->>>>>>> Stashed changes
     "sizes": []
   },
   {
@@ -134625,17 +134293,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.710Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 266666,
         "descuento": 25
@@ -134644,7 +134305,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADIF6108",
     "name": "Zapatillas adidas Advantage Mujer",
     "normalizedName": "zapatillas adidas advantage mujer",
@@ -135669,8 +135329,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF1211",
     "name": "Zapatillas adidas Adizero Takumi Sen 10 Hombre",
     "normalizedName": "zapatillas adidas adizero takumi sen 10 hombre",
@@ -135690,17 +135348,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.711Z",
->>>>>>> Stashed changes
         "precio": 206249,
         "precioAnterior": 274999,
         "descuento": 25
@@ -135709,7 +135360,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-NIHJ7352-674",
     "name": "Zapatillas Running Nike Journey Mujer",
     "normalizedName": "zapatillas running nike journey mujer",
@@ -136020,8 +135670,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF6726",
     "name": "Zapatillas adidas Adizero Sl2 Hombre",
     "normalizedName": "zapatillas adidas adizero sl2 hombre",
@@ -136034,34 +135682,22 @@
     "discount": 25,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw279fc627/products/ADIF6726/ADIF6726-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-adidas-adizero-sl2-hombre/ADIF6726.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 139999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.711Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 186666,
         "descuento": 25
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -137983,13 +137619,6 @@
       }
     ],
     "sizes": []
-=======
-    "sizes": [
-      "43.5",
-      "45"
-    ],
-    "size": "43.5"
->>>>>>> Stashed changes
   },
   {
     "id": "stockcenter-ADIG8199",
@@ -138011,17 +137640,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.711Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 186665,
         "descuento": 24
@@ -138030,7 +137652,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-PU310052-08",
     "name": "Zapatillas Running Puma Velocity Nitro 3 para Mujer",
     "normalizedName": "zapatillas running puma velocity nitro 3 para mujer",
@@ -139636,8 +139257,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF9220",
     "name": "Zapatillas Running adidas Adizero Boston 12 Mujer",
     "normalizedName": "zapatillas running adidas adizero boston 12 mujer",
@@ -139657,17 +139276,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.712Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 249999,
         "descuento": 20
@@ -139676,7 +139288,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADIG7512",
     "name": "Zapatillas Running adidas Supernova Rise Mujer",
     "normalizedName": "zapatillas running adidas supernova rise mujer",
@@ -140421,8 +140032,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADHQ2171",
     "name": "Zapatillas Running adidas Adizero Boston 12 Mujer",
     "normalizedName": "zapatillas running adidas adizero boston 12 mujer",
@@ -140442,17 +140051,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.713Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 249999,
         "descuento": 20
@@ -140461,7 +140063,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-FIF01L00252-6316",
     "name": "Zapatillas Fila Fx Court 70",
     "normalizedName": "zapatillas fila fx court 70",
@@ -141116,8 +140717,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADID3633",
     "name": "Zapatillas Running adidas Adizero Adios Pro 3",
     "normalizedName": "zapatillas running adidas adizero adios pro 3",
@@ -141137,17 +140736,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.713Z",
->>>>>>> Stashed changes
         "precio": 259999,
         "precioAnterior": 324999,
         "descuento": 20
@@ -141156,7 +140748,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-ADID8630",
     "name": "Zapatillas adidas Dropset 3",
     "normalizedName": "zapatillas adidas dropset 3",
@@ -141436,8 +141027,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG8200",
     "name": "Zapatillas Running adidas Adizero Sl Hombre Malla",
     "normalizedName": "zapatillas running adidas adizero sl hombre malla",
@@ -141457,17 +141046,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.713Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 174999,
         "descuento": 20
@@ -141476,7 +141058,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-AS1042A217300",
     "name": "Zapatillas Tenis Asics Gel-game 9 Clay/oc Mujer",
     "normalizedName": "zapatillas tenis asics gel-game 9 clay/oc mujer",
@@ -142156,8 +141737,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADID8468",
     "name": "Zapatillas Running adidas Adizero Adios Pro 3",
     "normalizedName": "zapatillas running adidas adizero adios pro 3",
@@ -142177,17 +141756,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.714Z",
->>>>>>> Stashed changes
         "precio": 259999,
         "precioAnterior": 324999,
         "descuento": 20
@@ -142196,7 +141768,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-SCH183020NVY",
     "name": "Zapatillas Skechers Uno Retro One",
     "normalizedName": "zapatillas skechers uno retro one",
@@ -142786,8 +142357,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIH9936",
     "name": "Zapatillas adidas Adizero Ubersonic 5 Mujer",
     "normalizedName": "zapatillas adidas adizero ubersonic 5 mujer",
@@ -142807,17 +142376,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.714Z",
->>>>>>> Stashed changes
         "precio": 159999,
         "precioAnterior": 199999,
         "descuento": 20
@@ -142826,7 +142388,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-FIF02R00131-6321",
     "name": "Zapatillas Entrenamiento Fila Float Fenix Mujer",
     "normalizedName": "zapatillas entrenamiento fila float fenix mujer",
@@ -144725,8 +144286,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADHQ7231",
     "name": "Zapatillas Running adidas Adizero Sl Hombre",
     "normalizedName": "zapatillas running adidas adizero sl hombre",
@@ -144746,17 +144305,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.715Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 174999,
         "descuento": 20
@@ -144765,7 +144317,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-TO25847",
     "name": "Zapatillas Topper Terre Infantil",
     "normalizedName": "zapatillas topper terre infantil",
@@ -145107,8 +144658,6 @@
     "sizes": []
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADJI4472",
     "name": "Zapatillas Running adidas Adizero Boston 12 Hombre",
     "normalizedName": "zapatillas running adidas adizero boston 12 hombre",
@@ -145121,34 +144670,22 @@
     "discount": 20,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwe0a1caf8/products/ADJI4472/ADJI4472-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-boston-12-hombre/ADJI4472.html",
-<<<<<<< Updated upstream
     "available": true,
-=======
-    "available": false,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 199999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.715Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 249999,
         "descuento": 20
       }
     ],
-<<<<<<< Updated upstream
     "size": "41.5",
     "sizes": [
       "41.5",
@@ -145528,8 +145065,6 @@
         "descuento": 20
       }
     ],
-=======
->>>>>>> Stashed changes
     "sizes": []
   },
   {
@@ -145552,17 +145087,10 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.716Z",
->>>>>>> Stashed changes
         "precio": 259999,
         "precioAnterior": 324999,
         "descuento": 20
@@ -145571,7 +145099,6 @@
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-PU397387-07",
     "name": "Zapatillas Puma Trinity Mid Hybrid Hombre",
     "normalizedName": "zapatillas puma trinity mid hybrid hombre",
@@ -146501,8 +146028,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "stockcenter-ADIF0445",
     "name": "Zapatillas Tenis adidas Adizero Ubersonic 4.1",
     "normalizedName": "zapatillas tenis adidas adizero ubersonic 4.1",
@@ -146522,23 +146047,15 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.743Z",
->>>>>>> Stashed changes
         "precio": 179999,
         "precioAnterior": 211764,
         "descuento": 15
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -147160,17 +146677,6 @@
       }
     ],
     "sizes": []
-=======
-    "size": "42",
-    "sizes": [
-      "42",
-      "43",
-      "43.5",
-      "44",
-      "45",
-      "45.5"
-    ]
->>>>>>> Stashed changes
   },
   {
     "id": "stockcenter-ADIF9221",
@@ -147185,34 +146691,22 @@
     "discount": 15,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw4e7c4785/products/ADIF9221/ADIF9221-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-boston-12-mujer/ADIF9221.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 199999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.744Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 235293,
         "descuento": 15
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -149897,12 +149391,6 @@
       "43",
       "44",
       "45"
-=======
-    "size": "34.5",
-    "sizes": [
-      "34.5",
-      "35.5"
->>>>>>> Stashed changes
     ]
   },
   {
@@ -149925,23 +149413,15 @@
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.744Z",
->>>>>>> Stashed changes
         "precio": 279999,
         "precioAnterior": 329411,
         "descuento": 15
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -150315,13 +149795,6 @@
       }
     ],
     "sizes": []
-=======
-    "size": "39.5",
-    "sizes": [
-      "39.5",
-      "41"
-    ]
->>>>>>> Stashed changes
   },
   {
     "id": "stockcenter-ADIG6427",
@@ -150336,34 +149809,22 @@
     "discount": 15,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwb5b85b86/products/ADIG6427/ADIG6427-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-running-adidas-adizero-adios-pro-3-mujer/ADIG6427.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 279999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.745Z",
->>>>>>> Stashed changes
         "precio": 279999,
         "precioAnterior": 329411,
         "descuento": 15
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -152054,50 +151515,11 @@
         "precio": 170999,
         "precioAnterior": 189999,
         "descuento": 10
-=======
-    "size": "34.5",
-    "sizes": [
-      "34.5",
-      "35.5",
-      "36",
-      "36.5",
-      "37.5"
-    ]
-  },
-  {
-    "id": "stockcenter-ADIG4013",
-    "name": "Botines Rugby adidas Adizero RS15 Pro Fg",
-    "normalizedName": "botines rugby adidas adizero rs15 pro fg",
-    "brand": "Adidas",
-    "category": "Botines",
-    "gender": "Hombre",
-    "color": "",
-    "price": 279999,
-    "listPrice": 329411,
-    "discount": 15,
-    "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwb3cd8633/products/ADIG4013/ADIG4013-1.JPG?sw=600&sh=600",
-    "productUrl": "https://www.stockcenter.com.ar/botines-rugby-adidas-adizero-rs15-pro-fg/ADIG4013.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 279999,
-    "storeSlug": "stockcenter",
-    "storeName": "StockCenter",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.745Z",
-        "precio": 279999,
-        "precioAnterior": 329411,
-        "descuento": 15
->>>>>>> Stashed changes
       }
     ],
     "size": "39.5",
     "sizes": [
       "39.5",
-<<<<<<< Updated upstream
       "41",
       "41.5",
       "42-42.5",
@@ -152231,20 +151653,6 @@
     "sizes": []
   },
   {
-=======
-      "40",
-      "41",
-      "41.5",
-      "42",
-      "43",
-      "43.5",
-      "44",
-      "45",
-      "45.5"
-    ]
-  },
-  {
->>>>>>> Stashed changes
     "id": "stockcenter-ADIG3340",
     "name": "Zapatillas adidas Adizero SL Mujer",
     "normalizedName": "zapatillas adidas adizero sl mujer",
@@ -152257,34 +151665,22 @@
     "discount": 10,
     "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dwb4c0ab56/products/ADIG3340/ADIG3340-1.JPG?sw=600&sh=600",
     "productUrl": "https://www.stockcenter.com.ar/zapatillas-adidas-adizero-sl-mujer/ADIG3340.html",
-<<<<<<< Updated upstream
     "available": false,
-=======
-    "available": true,
->>>>>>> Stashed changes
     "freeShipping": false,
     "offerType": "temporada",
     "historicalBestPrice": 159999,
     "storeSlug": "stockcenter",
     "storeName": "StockCenter",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:10.746Z",
->>>>>>> Stashed changes
         "precio": 159999,
         "precioAnterior": 177777,
         "descuento": 10
       }
     ],
-<<<<<<< Updated upstream
     "sizes": []
   },
   {
@@ -153335,77 +152731,11 @@
         "precio": 86759,
         "precioAnterior": 96399,
         "descuento": 10
-=======
-    "size": "34.5",
-    "sizes": [
-      "34.5"
-    ]
-  },
-  {
-    "id": "opensports-6356",
-    "name": "Musculosa Adidas Adizero",
-    "normalizedName": "musculosa adidas adizero",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 59999,
-    "listPrice": 70999,
-    "discount": 15,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/i/m/im9836_0.jpg",
-    "productUrl": "https://www.opensports.com.ar/musculosa-adidas-adizero-im9836.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 59999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.669Z",
-        "precio": 59999,
-        "precioAnterior": 70999,
-        "descuento": 15
       }
     ],
     "sizes": []
   },
   {
-    "id": "opensports-20651",
-    "name": "Musculosa Adidas Adizero",
-    "normalizedName": "musculosa adidas adizero",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 62999,
-    "listPrice": 94999,
-    "discount": 34,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/i/n/in1117_0.jpg",
-    "productUrl": "https://www.opensports.com.ar/musculosa-adidas-adizero-in1117.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 62999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.669Z",
-        "precio": 62999,
-        "precioAnterior": 94999,
-        "descuento": 34
->>>>>>> Stashed changes
-      }
-    ],
-    "sizes": []
-  },
-  {
-<<<<<<< Updated upstream
     "id": "stockcenter-NIFJ7127-001",
     "name": "Zapatillas Entrenamiento Nike Free Metcon 6 Hombre",
     "normalizedName": "zapatillas entrenamiento nike free metcon 6 hombre",
@@ -153432,102 +152762,11 @@
         "precio": 242999,
         "precioAnterior": 269999,
         "descuento": 10
-=======
-    "id": "opensports-64543",
-    "name": "Biker Adidas Adizero",
-    "normalizedName": "biker adidas adizero",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 48999,
-    "listPrice": 73999,
-    "discount": 34,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/I/X/IX2869_0_26.jpg",
-    "productUrl": "https://www.opensports.com.ar/biker-adidas-adizero-ix2869.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 48999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.503Z",
-        "precio": 48999,
-        "precioAnterior": 73999,
-        "descuento": 34
       }
     ],
     "sizes": []
   },
   {
-    "id": "opensports-154438",
-    "name": "Zapatillas Adidas Adizero Boston 13",
-    "normalizedName": "zapatillas adidas adizero boston 13",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 195999,
-    "listPrice": 279999,
-    "discount": 30,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/J/Q/JQ9825_0.jpg",
-    "productUrl": "https://www.opensports.com.ar/zapatillas-adidas-adizero-boston-13-jq9825.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 195999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.597Z",
-        "precio": 195999,
-        "precioAnterior": 279999,
-        "descuento": 30
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "opensports-79125",
-    "name": "Zapatillas Adidas Adizero Takumi Sen 10",
-    "normalizedName": "zapatillas adidas adizero takumi sen 10",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 135000,
-    "listPrice": 269999,
-    "discount": 50,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/I/D/ID3629_0_12.jpg",
-    "productUrl": "https://www.opensports.com.ar/zapatillas-adidas-adizero-takumi-sen-10-id3629.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "liquidacion",
-    "historicalBestPrice": 135000,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.598Z",
-        "precio": 135000,
-        "precioAnterior": 269999,
-        "descuento": 50
->>>>>>> Stashed changes
-      }
-    ],
-    "sizes": []
-  },
-  {
-<<<<<<< Updated upstream
     "id": "stockcenter-SCH129001NTCL",
     "name": "Zapatillas Skechers Go Run Elevate 2.0 para Mujer",
     "normalizedName": "zapatillas skechers go run elevate 2.0 para mujer",
@@ -154753,40 +153992,11 @@
         "precio": 179999,
         "precioAnterior": 199999,
         "descuento": 10
-=======
-    "id": "opensports-139995",
-    "name": "Zapatillas Adidas Adizero Takumi Sen 11",
-    "normalizedName": "zapatillas adidas adizero takumi sen 11",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 179999,
-    "listPrice": 299999,
-    "discount": 40,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/J/Q/JQ2812_0.jpg",
-    "productUrl": "https://www.opensports.com.ar/zapatillas-adidas-adizero-takumi-sen-11-jq2812.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 179999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:13.599Z",
-        "precio": 179999,
-        "precioAnterior": 299999,
-        "descuento": 40
->>>>>>> Stashed changes
       }
     ],
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "stockcenter-NIFD6454-405",
     "name": "Zapatillas Running Nike Downshifter 13 Hombre",
     "normalizedName": "zapatillas running nike downshifter 13 hombre",
@@ -161758,40 +160968,11 @@
         "precio": 62550,
         "precioAnterior": 74100,
         "descuento": 16
-=======
-    "id": "solodeportes-133183",
-    "name": "Zapatillas Running Adidas Adizero SL Turquesa",
-    "normalizedName": "zapatillas running adidas adizero sl turquesa",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-turquesa-100010id6923001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-turquesa.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.374Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
->>>>>>> Stashed changes
       }
     ],
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "solodeportes-162667",
     "name": "Zapatillas John Foos Roja",
     "normalizedName": "zapatillas john foos roja",
@@ -161849,40 +161030,11 @@
         "precio": 89900,
         "precioAnterior": 99900,
         "descuento": 10
-=======
-    "id": "solodeportes-133129",
-    "name": "Zapatillas Running Adidas Adizero SL Negra",
-    "normalizedName": "zapatillas running adidas adizero sl negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-negra-100010hq1349001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.374Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
->>>>>>> Stashed changes
       }
     ],
     "sizes": []
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2072838",
     "name": "Zapatillas Topper Temple Unisex",
     "normalizedName": "zapatillas topper temple unisex",
@@ -167906,1156 +167058,6 @@
         "precio": 119999,
         "precioAnterior": 179999,
         "descuento": 33
-=======
-    "id": "solodeportes-133279",
-    "name": "Zapatillas Running Adidas Adizero SL Verde",
-    "normalizedName": "zapatillas running adidas adizero sl verde",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-verde-100010hq7231001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-verde.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.375Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132390",
-    "name": "Zapatillas De Running Adidas Adizero SL Gris",
-    "normalizedName": "zapatillas de running adidas adizero sl gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-gris-100010ig3337001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.503Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132329",
-    "name": "Zapatillas De Running Adidas Adizero SL Crudo",
-    "normalizedName": "zapatillas de running adidas adizero sl crudo",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-crudo-100010ig3336001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-crudo.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.503Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133077",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Negra",
-    "normalizedName": "zapatillas running adidas adizero sl mujer negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-negra-100010hq1342001-1_.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-mujer-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.504Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133267",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Celeste",
-    "normalizedName": "zapatillas running adidas adizero sl mujer celeste",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-celeste-53636537-100010id6928001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-mujer-celeste-53636537.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.504Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133223",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Gris",
-    "normalizedName": "zapatillas running adidas adizero sl mujer gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-gris-100010hq7232001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-mujer-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.504Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133184",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Verde",
-    "normalizedName": "zapatillas running adidas adizero sl mujer verde",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-verde-100010id6933001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-mujer-verde.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.505Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132027",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Lila",
-    "normalizedName": "zapatillas running adidas adizero sl mujer lila",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-lila-100010id6929001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-sl-mujer-lila.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.505Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-408743",
-    "name": "Zapatillas De Tenis Adidas Adizero Cybersonic Gris",
-    "normalizedName": "zapatillas de tenis adidas adizero cybersonic gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 207999,
-    "listPrice": 259999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-tenis-adidas-adizero-cybersonic-gris-100010if0435001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-tenis-adidas-adizero-cybersonic-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 207999,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.505Z",
-        "precio": 207999,
-        "precioAnterior": 259999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133922",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Azul",
-    "normalizedName": "zapatillas running adidas adizero rc 4 azul",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-azul-100010gz0181001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-rc-4-azul.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.506Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-134016",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Negra",
-    "normalizedName": "zapatillas running adidas adizero rc 4 negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 111999,
-    "listPrice": 139999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-negra-100010gx6660001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-rc-4-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 111999,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.380Z",
-        "precio": 111999,
-        "precioAnterior": 139999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-186848",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Terracota",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer terracota",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-terracota-100010ig8199001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-mujer-terracota.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.380Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132487",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Lila",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer lila",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-lila-100010ig3339001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-mujer-lila.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.381Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132391",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Celeste",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer celeste",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-celeste-100010ig3340001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-mujer-celeste.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.381Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-132333",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Crudo",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer crudo",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-crudo-100010ig3341001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-de-running-adidas-adizero-sl-mujer-crudo.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.381Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133892",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Mujer Rosa",
-    "normalizedName": "zapatillas running adidas adizero rc 4 mujer rosa",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-mujer-rosa_100010gx8156001-6-100010gx8156001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-rc-4-mujer-rosa.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.382Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solodeportes-133845",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Mujer Negra",
-    "normalizedName": "zapatillas running adidas adizero rc 4 mujer negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-mujer-negra-100010gx8157001-1.jpg?width=240&height=240&store=solodeportes&image-type=small_image",
-    "productUrl": "https://www.solodeportes.com.ar/zapatillas-running-adidas-adizero-rc-4-mujer-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solodeportes",
-    "storeName": "Solo Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.446Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133183",
-    "name": "Zapatillas Running Adidas Adizero SL Turquesa",
-    "normalizedName": "zapatillas running adidas adizero sl turquesa",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-turquesa-100010id6923001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-turquesa.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.306Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133129",
-    "name": "Zapatillas Running Adidas Adizero SL Negra",
-    "normalizedName": "zapatillas running adidas adizero sl negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-negra-100010hq1349001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.306Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133279",
-    "name": "Zapatillas Running Adidas Adizero SL Verde",
-    "normalizedName": "zapatillas running adidas adizero sl verde",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-verde-100010hq7231001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-verde.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.308Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132390",
-    "name": "Zapatillas De Running Adidas Adizero SL Gris",
-    "normalizedName": "zapatillas de running adidas adizero sl gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-gris-100010ig3337001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.326Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132329",
-    "name": "Zapatillas De Running Adidas Adizero SL Crudo",
-    "normalizedName": "zapatillas de running adidas adizero sl crudo",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-crudo-100010ig3336001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-crudo.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.326Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133077",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Negra",
-    "normalizedName": "zapatillas running adidas adizero sl mujer negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-negra-100010hq1342001-1_.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-mujer-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.326Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133267",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Celeste",
-    "normalizedName": "zapatillas running adidas adizero sl mujer celeste",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-celeste-53636537-100010id6928001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-mujer-celeste-53636537.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.327Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133223",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Gris",
-    "normalizedName": "zapatillas running adidas adizero sl mujer gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-gris-100010hq7232001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-mujer-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.327Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133184",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Verde",
-    "normalizedName": "zapatillas running adidas adizero sl mujer verde",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-verde-100010id6933001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-mujer-verde.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.327Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132027",
-    "name": "Zapatillas Running Adidas Adizero SL Mujer Lila",
-    "normalizedName": "zapatillas running adidas adizero sl mujer lila",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-sl-mujer-lila-100010id6929001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-sl-mujer-lila.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.328Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-408743",
-    "name": "Zapatillas De Tenis Adidas Adizero Cybersonic Gris",
-    "normalizedName": "zapatillas de tenis adidas adizero cybersonic gris",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 207999,
-    "listPrice": 259999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-tenis-adidas-adizero-cybersonic-gris-100010if0435001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-tenis-adidas-adizero-cybersonic-gris.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 207999,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.328Z",
-        "precio": 207999,
-        "precioAnterior": 259999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133922",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Azul",
-    "normalizedName": "zapatillas running adidas adizero rc 4 azul",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-azul-100010gz0181001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-rc-4-azul.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.329Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-134016",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Negra",
-    "normalizedName": "zapatillas running adidas adizero rc 4 negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 111999,
-    "listPrice": 139999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-negra-100010gx6660001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-rc-4-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 111999,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.476Z",
-        "precio": 111999,
-        "precioAnterior": 139999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132391",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Celeste",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer celeste",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-celeste-100010ig3340001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-mujer-celeste.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.476Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-186848",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Terracota",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer terracota",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-terracota-100010ig8199001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-mujer-terracota.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.477Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132487",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Lila",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer lila",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-lila-100010ig3339001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-mujer-lila.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.477Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-132333",
-    "name": "Zapatillas De Running Adidas Adizero SL Mujer Crudo",
-    "normalizedName": "zapatillas de running adidas adizero sl mujer crudo",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 137599,
-    "listPrice": 171999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-de-running-adidas-adizero-sl-mujer-crudo-100010ig3341001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-de-running-adidas-adizero-sl-mujer-crudo.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 137599,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.477Z",
-        "precio": 137599,
-        "precioAnterior": 171999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133892",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Mujer Rosa",
-    "normalizedName": "zapatillas running adidas adizero rc 4 mujer rosa",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-mujer-rosa_100010gx8156001-6-100010gx8156001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-rc-4-mujer-rosa.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.478Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "solourbano-133845",
-    "name": "Zapatillas Running Adidas Adizero RC 4 Mujer Negra",
-    "normalizedName": "zapatillas running adidas adizero rc 4 mujer negra",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Mujer",
-    "color": "",
-    "price": 128799,
-    "listPrice": 160999,
-    "discount": 20,
-    "imageUrl": "https://www-cdn.solodeportes.com.ar/media/catalog/product/z/a/zapatillas-running-adidas-adizero-rc-4-mujer-negra-100010gx8157001-1.jpg?width=240&height=240&store=solourbano&image-type=small_image",
-    "productUrl": "https://www.solourbano.com/zapatillas-running-adidas-adizero-rc-4-mujer-negra.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 128799,
-    "storeSlug": "solourbano",
-    "storeName": "Solo Urbano",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:12.412Z",
-        "precio": 128799,
-        "precioAnterior": 160999,
-        "descuento": 20
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "sportline-2080903",
-    "name": "Botines Con Tapones adidas Adizero Rs15 Pro (Sg) Hombre",
-    "normalizedName": "botines con tapones adidas adizero rs15 pro (sg) hombre",
-    "brand": "Adidas",
-    "category": "HOMBRE CALZADOS BOTINES CON TAPONES",
-    "gender": "HOMBRE",
-    "color": "Amarillo",
-    "size": "39",
-    "sizes": [
-      "39",
-      "39.5",
-      "40"
-    ],
-    "price": 199999,
-    "listPrice": 320999,
-    "discount": 38,
-    "imageUrl": "https://sportline.vteximg.com.br/arquivos/ids/1428309/004013000IG4014_1.jpg?v=638730417724970000",
-    "productUrl": "https://www.sportline.com.ar/adizero-rs15-pro--sg--004013000ig4014/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 199999,
-    "storeSlug": "sportline",
-    "storeName": "SportLine",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.398Z",
-        "precio": 199999,
-        "precioAnterior": 320999,
-        "descuento": 38
->>>>>>> Stashed changes
       }
     ]
   },
@@ -169083,17 +167085,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.398Z",
->>>>>>> Stashed changes
         "precio": 299999,
         "precioAnterior": 449999,
         "descuento": 33
@@ -169101,7 +167096,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2089902",
     "name": "Zapatillas Topper Araka Low Unisex",
     "normalizedName": "zapatillas topper araka low unisex",
@@ -169331,8 +167325,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2078754",
     "name": "Zapatillas adidas Adizero Ubersonic 4.1 M Hombre",
     "normalizedName": "zapatillas adidas adizero ubersonic 4.1 m hombre",
@@ -169357,17 +167349,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 139999,
         "precioAnterior": 205999,
         "descuento": 32
@@ -169375,7 +167360,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2078153",
     "name": "Zapatillas Puma Softride Sway Adp Hombre",
     "normalizedName": "zapatillas puma softride sway adp hombre",
@@ -177872,48 +175856,11 @@
         "fecha": "2026-06-01T04:32:48.389Z",
         "precio": 196699,
         "precioAnterior": 280999,
-=======
-    "id": "sportline-2083744",
-    "name": "Botines Con Tapones adidas Adizero Rs15 Pro (Sg) Hombre",
-    "normalizedName": "botines con tapones adidas adizero rs15 pro (sg) hombre",
-    "brand": "Adidas",
-    "category": "HOMBRE CALZADOS BOTINES CON TAPONES",
-    "gender": "HOMBRE",
-    "color": "Naranja",
-    "size": "38.5",
-    "sizes": [
-      "38.5",
-      "39",
-      "39.5",
-      "40",
-      "41",
-      "41.5"
-    ],
-    "price": 224699,
-    "listPrice": 320999,
-    "discount": 30,
-    "imageUrl": "https://sportline.vteximg.com.br/arquivos/ids/1657328/004013000IH2759_1.jpg?v=638919578003070000",
-    "productUrl": "https://www.sportline.com.ar/adizero-rs15-pro--sg--004013000ih2759/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 224699,
-    "storeSlug": "sportline",
-    "storeName": "SportLine",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
-        "precio": 224699,
-        "precioAnterior": 320999,
->>>>>>> Stashed changes
         "descuento": 30
       }
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2086620",
     "name": "Zapatillas Nike Air Jordan Legacy 312 Low Hombre",
     "normalizedName": "zapatillas nike air jordan legacy 312 low hombre",
@@ -182557,8 +180504,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2083922",
     "name": "Zapatillas adidas Adizero Sl2 W Mujer",
     "normalizedName": "zapatillas adidas adizero sl2 w mujer",
@@ -182582,17 +180527,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 129999,
         "precioAnterior": 179999,
         "descuento": 28
@@ -182623,17 +180561,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 129999,
         "precioAnterior": 179999,
         "descuento": 28
@@ -182641,7 +180572,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2082926",
     "name": "Zapatillas Nike Full Force Lo Cob Hombre",
     "normalizedName": "zapatillas nike full force lo cob hombre",
@@ -183698,8 +181628,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2081242",
     "name": "Zapatillas adidas Adizero Takumi Sen 10 M Hombre",
     "normalizedName": "zapatillas adidas adizero takumi sen 10 m hombre",
@@ -183730,17 +181658,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 269999,
         "descuento": 26
@@ -183777,17 +181698,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 269999,
         "descuento": 26
@@ -183824,17 +181738,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 269999,
         "descuento": 26
@@ -183866,17 +181773,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 199999,
         "precioAnterior": 269999,
         "descuento": 26
@@ -183884,7 +181784,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2073996",
     "name": "Zapatillas Topper Hyde Ii Unisex",
     "normalizedName": "zapatillas topper hyde ii unisex",
@@ -187022,8 +184921,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2080635",
     "name": "Zapatillas adidas Adizero Boston 12 Hombre",
     "normalizedName": "zapatillas adidas adizero boston 12 hombre",
@@ -187048,17 +184945,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 179999,
         "precioAnterior": 239999,
         "descuento": 25
@@ -187091,17 +184981,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 179999,
         "precioAnterior": 239999,
         "descuento": 25
@@ -187109,7 +184992,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2088760",
     "name": "Zapatillas Nike Air Jordan 1 Low Se Hombre",
     "normalizedName": "zapatillas nike air jordan 1 low se hombre",
@@ -188275,8 +186157,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2078961",
     "name": "Zapatillas adidas Adizero Sl W . Mujer",
     "normalizedName": "zapatillas adidas adizero sl w . mujer",
@@ -188301,17 +186181,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 129999,
         "precioAnterior": 171999,
         "descuento": 24
@@ -188342,17 +186215,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 129999,
         "precioAnterior": 171999,
         "descuento": 24
@@ -188383,17 +186249,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 129999,
         "precioAnterior": 171999,
         "descuento": 24
@@ -188401,7 +186260,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2088661",
     "name": "Zapatillas Topper T-850 Unisex",
     "normalizedName": "zapatillas topper t-850 unisex",
@@ -195815,8 +193673,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2085460",
     "name": "Zapatillas adidas Adizero Select 3.0 Hombre",
     "normalizedName": "zapatillas adidas adizero select 3.0 hombre",
@@ -195846,17 +193702,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.399Z",
->>>>>>> Stashed changes
         "precio": 134399,
         "precioAnterior": 167999,
         "descuento": 20
@@ -195887,17 +193736,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 134399,
         "precioAnterior": 167999,
         "descuento": 20
@@ -195905,7 +193747,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2084489",
     "name": "Zapatillas adidas Supernova Comfortglide M Hombre",
     "normalizedName": "zapatillas adidas supernova comfortglide m hombre",
@@ -196226,8 +194067,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2091627",
     "name": "Zapatillas adidas Adizero Drive Rc M Hombre",
     "normalizedName": "zapatillas adidas adizero drive rc m hombre",
@@ -196251,17 +194090,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 175999,
         "precioAnterior": 219999,
         "descuento": 20
@@ -196269,7 +194101,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2079182",
     "name": "Zapatillas Nike Air Zoom Pegasus 40",
     "normalizedName": "zapatillas nike air zoom pegasus 40",
@@ -196308,8 +194139,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2088808",
     "name": "Zapatillas adidas Adizero Boston 12 W Mujer",
     "normalizedName": "zapatillas adidas adizero boston 12 w mujer",
@@ -196339,17 +194168,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 191999,
         "precioAnterior": 239999,
         "descuento": 20
@@ -196381,17 +194203,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 191999,
         "precioAnterior": 239999,
         "descuento": 20
@@ -196399,7 +194214,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2077401",
     "name": "Zapatillas adidas Terrex Agravic Speed Hombre",
     "normalizedName": "zapatillas adidas terrex agravic speed hombre",
@@ -196473,8 +194287,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2083149",
     "name": "Zapatillas adidas Adizero Takumi Sen 10 M Hombre",
     "normalizedName": "zapatillas adidas adizero takumi sen 10 m hombre",
@@ -196507,17 +194319,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 223199,
         "precioAnterior": 278999,
         "descuento": 20
@@ -196525,7 +194330,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2088784",
     "name": "Zapatillas adidas Ultraboost 5 W Mujer",
     "normalizedName": "zapatillas adidas ultraboost 5 w mujer",
@@ -196564,8 +194368,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportline-2078761",
     "name": "Zapatillas adidas Adizero Adios Pro 3 M Hombre",
     "normalizedName": "zapatillas adidas adizero adios pro 3 m hombre",
@@ -196591,17 +194393,10 @@
     "storeSlug": "sportline",
     "storeName": "SportLine",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.400Z",
->>>>>>> Stashed changes
         "precio": 257599,
         "precioAnterior": 321999,
         "descuento": 20
@@ -196609,7 +194404,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportline-2091236",
     "name": "Zapatillas Montagne Nakar Hombre",
     "normalizedName": "zapatillas montagne nakar hombre",
@@ -205267,196 +203061,6 @@
         "fecha": "2026-06-01T04:32:48.389Z",
         "precio": 209999,
         "precioAnterior": 350000,
-=======
-    "id": "dionysos-686458",
-    "name": "ZAPATILLAS NIKE SB DUNK LOW PRO DARK TEAM RED AND OLIVE FLAK",
-    "normalizedName": "zapatillas nike sb dunk low pro dark team red and olive flak",
-    "brand": "Nike",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 149999,
-    "listPrice": 149999,
-    "discount": 40,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/693dfd8e494d6-686458-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/fluid/prod/zapatillas-nike-sb-dunk-low-pro-dark-team-red-and-olive-flak-nike-686458/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 149999,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.431Z",
-        "precio": 149999,
-        "precioAnterior": 149999,
-        "descuento": 40
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "dionysos-693755",
-    "name": "ZAPATILLAS LIVERPOOL",
-    "normalizedName": "zapatillas liverpool",
-    "brand": "Addnice",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 38999,
-    "listPrice": 38999,
-    "discount": 15,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/694977d3a8af6-693755-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/sport78/prod/zapatillas-liverpool-addnice-693755/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 38999,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.431Z",
-        "precio": 38999,
-        "precioAnterior": 38999,
-        "descuento": 15
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "dionysos-675595",
-    "name": "ZAPATILLAS GAZELLE INDOOR",
-    "normalizedName": "zapatillas gazelle indoor",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 153999,
-    "listPrice": 153999,
-    "discount": 30,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/690a938794219-675595-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/dionysos/prod/zapatillas-gazelle-indoor-adidas-675595/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 153999,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.432Z",
-        "precio": 153999,
-        "precioAnterior": 153999,
-        "descuento": 30
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "dionysos-753021",
-    "name": "ZAPATILLAS SOFTRIDE SYMMETRY FUZION",
-    "normalizedName": "zapatillas softride symmetry fuzion",
-    "brand": "Puma",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 72999,
-    "listPrice": 72999,
-    "discount": 39,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/69e8a84da2874-753021-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/sport78/prod/zapatillas-softride-symmetry-fuzion-puma-753021/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 72999,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.432Z",
-        "precio": 72999,
-        "precioAnterior": 72999,
-        "descuento": 39
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "dionysos-736640",
-    "name": "MUSCULOSA REGINA CORE",
-    "normalizedName": "musculosa regina core",
-    "brand": "Reebok",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 33999,
-    "listPrice": 33999,
-    "discount": 39,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/694bf1b815461-736640-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/sport78/prod/musculosa-regina-core-reebok-736640/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 33999,
-    "storeSlug": "dionysos",
-    "storeName": "Dionysos",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.432Z",
-        "precio": 33999,
-        "precioAnterior": 33999,
-        "descuento": 39
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "newsport-56088",
-    "name": "Botines Adidas Rugby Adizero Rs15 Pro Hombre",
-    "normalizedName": "botines adidas rugby adizero rs15 pro hombre",
-    "brand": "Adidas",
-    "category": "Newsport CALZADO BOTINES",
-    "gender": "HOMBRE",
-    "color": "ROJO",
-    "size": "39.5",
-    "sizes": [
-      "39.5",
-      "39",
-      "40",
-      "38.5",
-      "41"
-    ],
-    "price": 192599,
-    "listPrice": 321000,
-    "discount": 40,
-    "imageUrl": "https://newsport.vteximg.com.br/arquivos/ids/19955259/IH2759-A.jpg?v=638739210445430000",
-    "productUrl": "https://www.newsport.com.ar/botines-adidas-rugby-adizero-rs15-pro-hombre-ih2759/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 192599,
-    "storeSlug": "newsport",
-    "storeName": "NewSport",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.357Z",
-        "precio": 192599,
-        "precioAnterior": 321000,
->>>>>>> Stashed changes
         "descuento": 40
       }
     ]
@@ -205490,17 +203094,10 @@
     "storeSlug": "newsport",
     "storeName": "NewSport",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.357Z",
->>>>>>> Stashed changes
         "precio": 210599,
         "precioAnterior": 351000,
         "descuento": 40
@@ -205508,7 +203105,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "newsport-38103",
     "name": "Zapatillas Asics Training Gel-kamo Go Hombre",
     "normalizedName": "zapatillas asics training gel-kamo go hombre",
@@ -211956,8 +209552,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "newsport-62357",
     "name": "Zapatillas Adidas Running Adizero Drive Rc Mujer",
     "normalizedName": "zapatillas adidas running adizero drive rc mujer",
@@ -211981,17 +209575,10 @@
     "storeSlug": "newsport",
     "storeName": "NewSport",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.357Z",
->>>>>>> Stashed changes
         "precio": 153999,
         "precioAnterior": 220000,
         "descuento": 30
@@ -211999,7 +209586,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "newsport-62091",
     "name": "Zapatillas Salomon Running Aero Blaze 3 Mujer",
     "normalizedName": "zapatillas salomon running aero blaze 3 mujer",
@@ -212748,24 +210334,6 @@
     "discount": 30,
     "imageUrl": "https://newsport.vteximg.com.br/arquivos/ids/20195367/749SMA0090WN1-A.jpg?v=638798247721400000",
     "productUrl": "https://www.newsport.com.ar/zapatillas-lacoste-ag-let23-ultra-x-125-hombre-749sma0090wn1/p",
-=======
-    "id": "newsport-51353",
-    "name": "Botines Adidas Rugby Adizero Rs15 Pro Hombre",
-    "normalizedName": "botines adidas rugby adizero rs15 pro hombre",
-    "brand": "Adidas",
-    "category": "Newsport CALZADO BOTINES",
-    "gender": "HOMBRE",
-    "color": "NEGRO",
-    "size": "39",
-    "sizes": [
-      "39"
-    ],
-    "price": 223999,
-    "listPrice": 320000,
-    "discount": 30,
-    "imageUrl": "https://newsport.vteximg.com.br/arquivos/ids/19421364/IG4014-A.jpg?v=638622888236370000",
-    "productUrl": "https://www.newsport.com.ar/botines-adidas-rugby-adizero-rs15-pro-hombre-ig4014/p",
->>>>>>> Stashed changes
     "available": true,
     "freeShipping": false,
     "offerType": "outlet",
@@ -212773,17 +210341,10 @@
     "storeSlug": "newsport",
     "storeName": "NewSport",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.357Z",
->>>>>>> Stashed changes
         "precio": 223999,
         "precioAnterior": 320000,
         "descuento": 30
@@ -212791,7 +210352,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "newsport-48957",
     "name": "Zapatillas Nike Training Metcon 9 Hombre",
     "normalizedName": "zapatillas nike training metcon 9 hombre",
@@ -234405,44 +231965,6 @@
     "normalizedName": "kappa zapatillas - authentic altin 3 blckth",
     "brand": "Kappa",
     "category": "Calzado Urban",
-=======
-    "id": "blast-736640",
-    "name": "MUSCULOSA REGINA CORE",
-    "normalizedName": "musculosa regina core",
-    "brand": "Reebok",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 33999,
-    "listPrice": 33999,
-    "discount": 39,
-    "imageUrl": "https://www.digitalsport.com.ar/files/products/694bf1b815461-736640-280x280.jpg",
-    "productUrl": "https://www.digitalsport.com.ar/sport78/prod/musculosa-regina-core-reebok-736640/",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 33999,
-    "storeSlug": "blast",
-    "storeName": "Blast",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:14:17.937Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:11.922Z",
-        "precio": 33999,
-        "precioAnterior": 33999,
-        "descuento": 39
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "sportotal-20432",
-    "name": "Botines Adidas Hombre Adizero Rs 15 Pro Rugby Negro",
-    "normalizedName": "botines adidas hombre adizero rs 15 pro rugby negro",
-    "brand": "Adidas",
-    "category": "Hombre Calzado Botines",
->>>>>>> Stashed changes
     "gender": "Hombre",
     "color": "",
     "size": "39",
@@ -234450,7 +231972,6 @@
       "39",
       "40"
     ],
-<<<<<<< Updated upstream
     "price": 61999,
     "listPrice": 87999,
     "discount": 30,
@@ -253506,32 +251027,11 @@
         "fecha": "2026-06-01T04:32:48.389Z",
         "precio": 49999,
         "precioAnterior": 85000,
-=======
-    "price": 189999,
-    "listPrice": 320999,
-    "discount": 41,
-    "imageUrl": "https://sportotalar.vteximg.com.br/arquivos/ids/576241/IG4014-1074-Core-Black---Zero-Metalic---Spark_1.png?v=638628010135770000",
-    "productUrl": "https://www.sportotal.com.ar/botines-adidas-hombre-adizero-rs-15-pro-rugby-negro-ig4014-1074-core-black---zero-metalic---spark/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 189999,
-    "storeSlug": "sportotal",
-    "storeName": "Sport TOTAL",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.284Z",
-        "precio": 189999,
-        "precioAnterior": 320999,
->>>>>>> Stashed changes
         "descuento": 41
       }
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportotal-24077",
     "name": "Zapatillas Olympikus Hombre Virtuous",
     "normalizedName": "zapatillas olympikus hombre virtuous",
@@ -256180,8 +253680,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportotal-22665",
     "name": "Zapatillas Adidas Hombre Adizero Boston 12 Running",
     "normalizedName": "zapatillas adidas hombre adizero boston 12 running",
@@ -256206,17 +253704,10 @@
     "storeSlug": "sportotal",
     "storeName": "Sport TOTAL",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.284Z",
->>>>>>> Stashed changes
         "precio": 149999,
         "precioAnterior": 239999,
         "descuento": 38
@@ -256224,7 +253715,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportotal-13267",
     "name": "Zapatillas Caterpillar Hombre Carson Negras",
     "normalizedName": "zapatillas caterpillar hombre carson negras",
@@ -261606,8 +259096,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportotal-25639",
     "name": "Zapatillas Adidas Hombre Adizero Boston 13",
     "normalizedName": "zapatillas adidas hombre adizero boston 13",
@@ -261631,17 +259119,10 @@
     "storeSlug": "sportotal",
     "storeName": "Sport TOTAL",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T03:12:17.932Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.284Z",
->>>>>>> Stashed changes
         "precio": 179999,
         "precioAnterior": 259999,
         "descuento": 31
@@ -261649,7 +259130,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportotal-16934",
     "name": "Zapatillas On Hombre Cloudswift 3 Verdes Running",
     "normalizedName": "zapatillas on hombre cloudswift 3 verdes running",
@@ -268534,8 +266014,6 @@
     ]
   },
   {
-=======
->>>>>>> Stashed changes
     "id": "sportotal-23017",
     "name": "Zapatillas Adidas Hombre Adizero Sl2 Running",
     "normalizedName": "zapatillas adidas hombre adizero sl2 running",
@@ -268559,17 +266037,10 @@
     "storeSlug": "sportotal",
     "storeName": "Sport TOTAL",
     "province": "Buenos Aires",
-<<<<<<< Updated upstream
     "updatedAt": "2026-06-01T04:32:48.389Z",
     "priceHistory": [
       {
         "fecha": "2026-06-01T04:32:48.389Z",
-=======
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T03:12:14.284Z",
->>>>>>> Stashed changes
         "precio": 109999,
         "precioAnterior": 139999,
         "descuento": 21
@@ -268577,7 +266048,6 @@
     ]
   },
   {
-<<<<<<< Updated upstream
     "id": "sportotal-27556",
     "name": "Zapatillas Reebok Hombre Zignition",
     "normalizedName": "zapatillas reebok hombre zignition",
@@ -269725,51 +267195,10 @@
     "category": "Zapatillas",
     "gender": "Hombre",
     "color": "",
-=======
-    "id": "opensports-126313",
-    "name": "Zapatillas Adidas Adizero Select 2.0 Low",
-    "normalizedName": "zapatillas adidas adizero select 2.0 low",
-    "brand": "Adidas",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "",
-    "price": 125999,
-    "listPrice": 179999,
-    "discount": 30,
-    "imageUrl": "https://www.opensports.com.ar/media/catalog/product/cache/13f2762f70dade795124aae2788a0d51/J/R/JR8282_0_3.jpg",
-    "productUrl": "https://www.opensports.com.ar/zapatillas-adidas-adizero-select-2-0-low-jr8282.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 125999,
-    "storeSlug": "opensports",
-    "storeName": "Open Sports",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T04:42:21.257Z",
-        "precio": 125999,
-        "precioAnterior": 179999,
-        "descuento": 30
-      }
-    ],
-    "sizes": []
-  },
-  {
-    "id": "sportline-2083033",
-    "name": "Zapatillas Puma Graviton Sl 2 Adp Unisex",
-    "normalizedName": "zapatillas puma graviton sl 2 adp unisex",
-    "brand": "Puma",
-    "category": "Zapatillas",
-    "gender": "Unisex",
-    "color": "Amarillo",
->>>>>>> Stashed changes
     "size": "44",
     "sizes": [
       "44"
     ],
-<<<<<<< Updated upstream
     "price": 94999,
     "listPrice": 118900,
     "discount": 20,
@@ -284757,27 +282186,6 @@
         "precio": 132999,
         "precioAnterior": 169900,
         "descuento": 22
-=======
-    "price": 80499,
-    "listPrice": 114999,
-    "discount": 30,
-    "imageUrl": "https://sportline.vteximg.com.br/arquivos/ids/1462387/480020039997002_1.jpg?v=638731523911000000",
-    "productUrl": "https://www.sportline.com.ar/graviton-sl-2-adp-480020039997002/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 80499,
-    "storeSlug": "sportline",
-    "storeName": "SportLine",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-01T04:43:21.158Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T04:42:33.677Z",
-        "precio": 80499,
-        "precioAnterior": 114999,
-        "descuento": 30
->>>>>>> Stashed changes
       }
     ]
   }
