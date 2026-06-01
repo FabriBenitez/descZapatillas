@@ -13,7 +13,7 @@ import {
 } from "@/lib/connectors/talles-detalle";
 import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
-import { normalizarTexto } from "@/lib/formato";
+import { normalizarTexto, normalizarMarca } from "@/lib/formato";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
 const COLECCION_PRODUCTOS = "products";
