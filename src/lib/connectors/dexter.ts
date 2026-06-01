@@ -258,23 +258,35 @@ export async function obtenerTodasLasOfertasDexter({
   categoryId = "hot-sale",
   evitarTalles = false,
 }: ObtenerOfertasDexterOpciones & { paginas?: number } = {}) {
-  const resultados = await Promise.all(
-    Array.from({ length: paginas }, (_, indice) =>
-      obtenerOfertasDexter({
-        start: indice * size,
-        size,
-        query,
-        sortRule,
-        categoryId,
-        evitarTalles,
-      }),
-    ),
+  const promesas = Array.from({ length: paginas }, (_, indice) => () =>
+    obtenerOfertasDexter({
+      start: indice * size,
+      size,
+      query,
+      sortRule,
+      categoryId,
+      evitarTalles,
+    }),
   );
+
+  const chunkSize = 10;
+  const respuestas = [];
+  for (let i = 0; i < promesas.length; i += chunkSize) {
+    const chunk = promesas.slice(i, i + chunkSize);
+    const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
+    respuestas.push(...chunkRespuestas);
+  }
 
   const productos = new Map<string, Producto>();
 
-  resultados.flat().forEach((producto) => {
-    productos.set(producto.id, producto);
+  respuestas.forEach((respuesta) => {
+    if (respuesta.status !== "fulfilled") {
+      return;
+    }
+
+    respuesta.value.forEach((producto) => {
+      productos.set(producto.id, producto);
+    });
   });
 
   return Array.from(productos.values());

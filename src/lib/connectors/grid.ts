@@ -300,23 +300,34 @@ export async function obtenerTodasLasOfertasGrid({
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
   order = "OrderByBestDiscountDESC",
-  evitarTalles = false,
 }: ObtenerOfertasGridOpciones & { paginas?: number } = {}) {
-  const resultados = await Promise.all(
-    Array.from({ length: paginas }, (_, indice) =>
-      obtenerOfertasGrid({
-        from: indice * size,
-        size,
-        query,
-        order,
-      }),
-    ),
+  const promesas = Array.from({ length: paginas }, (_, indice) => () =>
+    obtenerOfertasGrid({
+      from: indice * size,
+      size,
+      query,
+      order,
+    }),
   );
+
+  const chunkSize = 10;
+  const respuestas = [];
+  for (let i = 0; i < promesas.length; i += chunkSize) {
+    const chunk = promesas.slice(i, i + chunkSize);
+    const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
+    respuestas.push(...chunkRespuestas);
+  }
 
   const productos = new Map<string, Producto>();
 
-  resultados.flat().forEach((producto) => {
-    productos.set(producto.id, producto);
+  respuestas.forEach((respuesta) => {
+    if (respuesta.status !== "fulfilled") {
+      return;
+    }
+
+    respuesta.value.forEach((producto) => {
+      productos.set(producto.id, producto);
+    });
   });
 
   return Array.from(productos.values());

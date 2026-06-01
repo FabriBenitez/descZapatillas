@@ -739,17 +739,24 @@ export async function obtenerTodasLasOfertasTiendasExternas({
   query?: string;
   evitarTalles?: boolean;
 } = {}) {
-  const respuestas = await Promise.allSettled(
-    tiendasExternas.flatMap((tienda) =>
-      Array.from({ length: paginas }, (_, pagina) =>
-        obtenerOfertasTiendaExterna(tienda, {
-          pagina,
-          query,
-          evitarTalles,
-        }),
-      ),
+  const todasLasPromesas = tiendasExternas.flatMap((tienda) =>
+    Array.from({ length: paginas }, (_, pagina) => () =>
+      obtenerOfertasTiendaExterna(tienda, {
+        pagina,
+        query,
+        evitarTalles,
+      }),
     ),
   );
+
+  // Ejecutar en grupos de 10 para no saturar la memoria (OOM crash)
+  const chunkSize = 10;
+  const respuestas = [];
+  for (let i = 0; i < todasLasPromesas.length; i += chunkSize) {
+    const chunk = todasLasPromesas.slice(i, i + chunkSize);
+    const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
+    respuestas.push(...chunkRespuestas);
+  }
 
   const productos = new Map<string, Producto>();
 
