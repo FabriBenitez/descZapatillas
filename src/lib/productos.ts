@@ -14,6 +14,7 @@ import {
 import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
 import { normalizarTexto, normalizarMarca, normalizarTalle } from "@/lib/formato";
+import productosDbRaw from "@/data/productos-db.json";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
 const COLECCION_PRODUCTOS = "products";
@@ -203,9 +204,7 @@ function obtenerPlataformaTalles(producto: Producto): PlataformaDetalleTalles | 
 
 async function obtenerProductosLocales(): Promise<Producto[]> {
   try {
-    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
-    const dbContent = await fs.readFile(dbPath, "utf-8");
-    const productosDb = JSON.parse(dbContent);
+    const productosDb = productosDbRaw as unknown as Producto[];
     if (Array.isArray(productosDb) && productosDb.length > 0) {
       const productosNormalizados = productosDb.map((p: Producto) => ({
         ...p,
@@ -215,8 +214,8 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
       }));
       return ordenarPorActualizacion(productosNormalizados);
     }
-  } catch {
-    // Ignorar el error y usar el mock
+  } catch (error) {
+    console.error("Error cargando productosDb:", error);
   }
   return productosMock;
 }
