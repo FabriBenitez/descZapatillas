@@ -1,5 +1,9 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import type { Producto } from "@/types/producto";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 interface ProductListProps {
   titulo?: string;
@@ -47,6 +51,8 @@ function SkeletonGrid({ vista = "grid" }: { vista?: "grid" | "lista" }) {
   );
 }
 
+const ITEMS_PER_PAGE = 24;
+
 export function ProductList({
   titulo,
   descripcion,
@@ -56,6 +62,24 @@ export function ProductList({
   vista = "grid",
   cargando = false,
 }: ProductListProps) {
+  const [limite, setLimite] = useState(ITEMS_PER_PAGE);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const isIntersecting = useIntersectionObserver(triggerRef, { rootMargin: "200px" });
+
+  useEffect(() => {
+    // Reset limit when products array changes (e.g. search or filter)
+    setLimite(ITEMS_PER_PAGE);
+  }, [productos]);
+
+  useEffect(() => {
+    if (isIntersecting && limite < productos.length) {
+      setLimite((prev) => prev + ITEMS_PER_PAGE);
+    }
+  }, [isIntersecting, limite, productos.length]);
+
+  const productosVisibles = productos.slice(0, limite);
+  const tieneMas = limite < productos.length;
+
   return (
     <section className="lista-productos flex flex-col gap-5">
       {titulo || descripcion ? (
@@ -72,22 +96,30 @@ export function ProductList({
       {cargando ? (
         <SkeletonGrid vista={vista} />
       ) : productos.length > 0 ? (
-        <div
-          className={
-            vista === "lista"
-              ? "grid gap-3"
-              : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
-          }
-        >
-          {productos.map((producto, indice) => (
-            <ProductCard
-              key={producto.id}
-              producto={producto}
-              prioridadImagen={indice < cantidadPrioritaria}
-              vista={vista}
-            />
-          ))}
-        </div>
+        <>
+          <div
+            className={
+              vista === "lista"
+                ? "grid gap-3"
+                : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
+            }
+          >
+            {productosVisibles.map((producto, indice) => (
+              <ProductCard
+                key={producto.id}
+                producto={producto}
+                prioridadImagen={indice < cantidadPrioritaria}
+                vista={vista}
+              />
+            ))}
+          </div>
+          
+          {tieneMas && (
+            <div ref={triggerRef} className="mt-8 flex w-full items-center justify-center py-6">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-solid border-[var(--color-tinta)] border-r-transparent"></div>
+            </div>
+          )}
+        </>
       ) : (
         <article className="estado-vacio p-8 text-center">
           <p className="text-lg font-black text-[var(--color-tinta)]">
