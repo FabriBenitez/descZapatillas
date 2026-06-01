@@ -304,12 +304,12 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
   const inicio = Date.now();
   console.log(`[Búsqueda Tiempo Real] Iniciando búsqueda dirigida para: "${query}"`);
 
-  // Raspado dirigido en tiempo real (Bajado a 8 páginas por tienda para evitar Timeouts de 10s en Vercel)
+  // Raspado dirigido en tiempo real (Bajado a 1 página por tienda porque la BD ya tiene todo, esto es solo para precios ultra frescos)
   const respuestas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 8, query }),
-    obtenerTodasLasOfertasGrid({ paginas: 8, query }),
-    obtenerTodasLasOfertasDexter({ paginas: 8, query, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 8, query }),
+    obtenerTodasLasOfertasMoov({ paginas: 1, query }),
+    obtenerTodasLasOfertasGrid({ paginas: 1, query }),
+    obtenerTodasLasOfertasDexter({ paginas: 1, query, categoryId: "sale" }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 1, query }),
   ]);
 
   const todosLosNuevos = respuestas.flatMap((respuesta) =>
