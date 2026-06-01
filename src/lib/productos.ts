@@ -231,11 +231,13 @@ export async function obtenerProductos(): Promise<Producto[]> {
     const referenciaColeccion = collection(firestore, COLECCION_PRODUCTOS);
     const respuesta = await getDocs(referenciaColeccion);
 
+    const locales = await obtenerProductosLocales();
+
     if (respuesta.empty) {
-      return obtenerProductosLocales();
+      return locales;
     }
 
-    const productos = respuesta.docs
+    const productosFirestore = respuesta.docs
       .map((documento) =>
         normalizarProductoFirestore(documento.id, documento.data()),
       )
@@ -247,8 +249,15 @@ export async function obtenerProductos(): Promise<Producto[]> {
         size: p.size ? normalizarTalle(p.size) : undefined
       }));
 
-    if (productos.length > 0) {
-      return ordenarPorActualizacion(productos);
+    // Mezclar locales con Firestore (dando prioridad a Firestore por estar más actualizados)
+    const mapaProductos = new Map<string, Producto>();
+    locales.forEach(p => mapaProductos.set(p.id, p));
+    productosFirestore.forEach(p => mapaProductos.set(p.id, p));
+
+    const productosMezclados = Array.from(mapaProductos.values());
+    
+    if (productosMezclados.length > 0) {
+      return ordenarPorActualizacion(productosMezclados);
     }
 
     return obtenerProductosLocales();
