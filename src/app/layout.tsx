@@ -64,7 +64,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID;
+  const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID || "371328";
 
   return (
     <html lang="es" className={`${plusJakartaSans.variable} ${spaceGrotesk.variable}`}>
