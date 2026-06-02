@@ -306,10 +306,10 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
 
   // Raspado dirigido en tiempo real (Bajado a 1 página por tienda porque la BD ya tiene todo, esto es solo para precios ultra frescos)
   const respuestas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 1, query }),
-    obtenerTodasLasOfertasGrid({ paginas: 1, query }),
-    obtenerTodasLasOfertasDexter({ paginas: 1, query, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 1, query }),
+    obtenerTodasLasOfertasMoov({ paginas: 1, query, evitarTalles: true }),
+    obtenerTodasLasOfertasGrid({ paginas: 1, query, evitarTalles: true }),
+    obtenerTodasLasOfertasDexter({ paginas: 1, query, categoryId: "sale", evitarTalles: true }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 1, query, evitarTalles: true }),
   ]);
 
   const todosLosNuevos = respuestas.flatMap((respuesta) =>
