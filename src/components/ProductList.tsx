@@ -64,7 +64,7 @@ export function ProductList({
 }: ProductListProps) {
   const [limite, setLimite] = useState(ITEMS_PER_PAGE);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const isIntersecting = useIntersectionObserver(triggerRef, { rootMargin: "200px" });
+  const isIntersecting = useIntersectionObserver(triggerRef, { rootMargin: "1500px" });
 
   useEffect(() => {
     // Reset limit when products array changes (e.g. search or filter)
