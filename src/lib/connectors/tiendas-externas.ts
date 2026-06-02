@@ -78,14 +78,6 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     categoryId: "sale",
   },
   {
-    slug: "opensports",
-    nombre: "Open Sports",
-    baseUrl: "https://www.opensports.com.ar",
-    plataforma: "magento",
-    urlProductos:
-      "https://www.opensports.com.ar/sale/tipo-de-producto-zapatillas.html",
-  },
-  {
     slug: "solodeportes",
     nombre: "Solo Deportes",
     baseUrl: "https://www.solodeportes.com.ar",
@@ -94,42 +86,9 @@ export const tiendasExternas: ConfiguracionTienda[] = [
       "https://www.solodeportes.com.ar/catalogsearch/result/?q=zapatillas",
   },
   {
-    slug: "solourbano",
-    nombre: "Solo Urbano",
-    baseUrl: "https://www.solourbano.com",
-    plataforma: "magento",
-    urlProductos: "https://www.solourbano.com/catalogsearch/result/?q=zapatillas",
-  },
-  {
-    slug: "sportline",
-    nombre: "SportLine",
-    baseUrl: "https://www.sportline.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "digitalsport",
-    nombre: "DigitalSport",
-    baseUrl: "https://www.digitalsport.com.ar",
-    plataforma: "digitalsport",
-    urlProductos: "https://www.digitalsport.com.ar/search/?q=zapatillas",
-  },
-  {
-    slug: "dionysos",
-    nombre: "Dionysos",
-    baseUrl: "https://www.digitalsport.com.ar",
-    plataforma: "digitalsport",
-    urlProductos: "https://www.digitalsport.com.ar/dionysos/",
-  },
-  {
     slug: "sevensport",
     nombre: "SevenSport",
     baseUrl: "https://www.sevensport.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "newsport",
-    nombre: "NewSport",
-    baseUrl: "https://www.newsport.com.ar",
     plataforma: "vtex",
   },
   {
@@ -138,43 +97,6 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     baseUrl: "https://www.tiendafuencarral.com.ar",
     plataforma: "vtex",
     provincia: "Cordoba",
-  },
-  {
-    slug: "blast",
-    nombre: "Blast",
-    baseUrl: "https://www.digitalsport.com.ar",
-    plataforma: "digitalsport",
-    urlProductos: "https://www.blast.com.ar/?mobile-app=true&theme=falseCampfire",
-  },
-  {
-    slug: "dashdeportes",
-    nombre: "Dash Deportes",
-    baseUrl: "https://www.dashdeportes.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "sporting",
-    nombre: "Sporting",
-    baseUrl: "https://www.sporting.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "megasports",
-    nombre: "Mega Sports",
-    baseUrl: "https://www.megasports.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "chelsea",
-    nombre: "Chelsea",
-    baseUrl: "https://www.chelsea.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "sportotal",
-    nombre: "Sport TOTAL",
-    baseUrl: "https://www.sportotal.com.ar",
-    plataforma: "vtex",
   },
 ];
 
