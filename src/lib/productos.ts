@@ -257,7 +257,10 @@ export async function obtenerProductos(): Promise<Producto[]> {
         ...p,
         brand: normalizarMarca(p.brand),
         sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-        size: p.size ? normalizarTalle(p.size) : undefined
+        size: p.size ? normalizarTalle(p.size) : undefined,
+        category: normalizarCategoria(p.category),
+        color: normalizarColor(p.color),
+        gender: normalizarGenero(p.gender)
       }));
 
     // Mezclar locales con Firestore y la RAM (dando prioridad a RAM y Firestore por estar más actualizados)
