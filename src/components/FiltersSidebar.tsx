@@ -303,14 +303,9 @@ export function FiltersSidebar({
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="panel-premium p-5 rounded-[24px]">
         <div className="flex items-center justify-between gap-3 md:hidden">
-          <div>
-            <p className="text-[10px] font-extrabold uppercase tracking-wider text-black/40">
+          <p className="text-[10px] font-extrabold uppercase tracking-wider text-black/40">
               Filtros
             </p>
-            <p className="text-base font-black font-titulos text-[#0f1311]">
-              {totalResultados} de {totalProductos}
-            </p>
-          </div>
           <button
             type="button"
             className="boton boton--fantasma min-h-10 px-4 py-2 text-xs font-bold rounded-[12px] uppercase tracking-wider"
