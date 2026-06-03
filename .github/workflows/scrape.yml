@@ -2,8 +2,8 @@ name: Scraping Masivo de Ofertas
 
 on:
   schedule:
-    # Corre todos los días a las 03:00 y a las 15:00 UTC (12:00 y 00:00 hora Argentina)
-    - cron: '0 3,15 * * *'
+    # Corre cada 30 minutos
+    - cron: '*/30 * * * *'
   workflow_dispatch:
     # Permite correr el workflow manualmente desde la interfaz de GitHub
 
