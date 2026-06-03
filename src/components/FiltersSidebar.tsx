@@ -164,14 +164,7 @@ export function FiltersSidebar({
           placeholder="Todas las tiendas"
           alCambiarFiltro={alCambiarFiltro}
         />
-        <GrupoSelect
-          id="provincia"
-          etiqueta="Provincia"
-          valor={filtros.provincia}
-          opciones={opciones.provincias}
-          placeholder="Todas las provincias"
-          alCambiarFiltro={alCambiarFiltro}
-        />
+
       </GrupoPlegable>
 
       <GrupoPlegable titulo="Precio y descuento">

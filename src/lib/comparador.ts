@@ -140,9 +140,7 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.provincia && producto.province !== filtros.provincia) {
-      return false;
-    }
+
 
     if (precioMinimo && producto.price < precioMinimo) {
       return false;

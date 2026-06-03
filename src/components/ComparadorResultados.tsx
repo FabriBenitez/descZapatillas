@@ -27,7 +27,7 @@ function construirResumenFiltros(filtros: FiltrosProductos) {
 
   if (filtros.marca) etiquetas.push(`Marca: ${filtros.marca}`);
   if (filtros.tienda) etiquetas.push(`Tienda: ${filtros.tienda}`);
-  if (filtros.provincia) etiquetas.push(`Provincia: ${filtros.provincia}`);
+
   if (filtros.categoria) etiquetas.push(`Categoria: ${filtros.categoria}`);
   if (filtros.color) etiquetas.push(`Color: ${filtros.color}`);
   if (filtros.talle) etiquetas.push(`Talle: ${filtros.talle}`);
