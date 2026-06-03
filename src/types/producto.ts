@@ -22,7 +22,7 @@ export interface Producto {
   name: string;
   normalizedName: string;
   brand: string;
-  category: string;
+  category: string | null;
   gender: string;
   color: string;
   size?: string;

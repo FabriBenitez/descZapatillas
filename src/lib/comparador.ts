@@ -40,7 +40,24 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       Array.from(new Set(productos.map((producto) => producto.brand))),
     ),
     tiendas: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.storeName))),
+      Array.from(
+        new Set(
+          productos
+            .map((producto) => producto.storeName)
+            .filter((tienda): tienda is string => !!tienda),
+        ),
+      ).filter((tienda) => {
+        const t = tienda.toLowerCase();
+        return (
+          t.includes("dexter") ||
+          t.includes("grid") ||
+          t.includes("moov") ||
+          t.includes("seven") || t.includes("7") ||
+          t.includes("solo deporte") ||
+          t.includes("stockcenter") ||
+          t.includes("fuencarral")
+        );
+      }),
     ),
     talles: ordenarTalles(
       Array.from(
@@ -53,7 +70,13 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       Array.from(new Set(productos.map((producto) => producto.gender))),
     ),
     categorias: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.category))),
+      Array.from(
+        new Set(
+          productos
+            .map((producto) => producto.category)
+            .filter((cat): cat is string => !!cat),
+        ),
+      ),
     ),
     colores: ordenarTexto(
       Array.from(new Set(productos.map((producto) => producto.color))),

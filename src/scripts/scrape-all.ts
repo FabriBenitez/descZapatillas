@@ -30,7 +30,7 @@ async function runScrape() {
       brand: normalizarMarca(p.brand),
       sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
       size: p.size ? normalizarTalle(p.size) : undefined,
-      category: normalizarCategoria(p.category),
+      category: normalizarCategoria(p.category ?? ""),
       color: normalizarColor(p.color),
       gender: normalizarGenero(p.gender)
     }));

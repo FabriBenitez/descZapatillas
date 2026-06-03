@@ -100,16 +100,25 @@ export function normalizarTalle(talle: string) {
   return t;
 }
 
-export function normalizarCategoria(categoria: string) {
-  if (!categoria) return "General";
-  let c = normalizarTexto(categoria);
-  
+export function normalizarCategoria(categoria: string): string | null {
+  if (!categoria) return null;
+  const c = normalizarTexto(categoria);
+
+  // Categorías a excluir directamente
+  if (
+    c.includes("zueco") ||
+    c.includes("zapato") ||
+    c.includes("traje de bano") ||
+    c.includes("newsport") ||
+    c === "category" ||
+    c === "general" ||
+    c.includes("bota")
+  ) return null;
+
   if (c.includes("botin")) return "Botines";
   if (c.includes("zapatilla") || c.includes("sneaker")) return "Zapatillas";
-  if (c.includes("zapato")) return "Zapatos";
-  if (c.includes("bota")) return "Botas";
   if (c.includes("ojota") || c.includes("sandalia") || c.includes("crocs")) return "Sandalias y Ojotas";
-  
+
   return capitalizarTexto(categoria.trim().toLowerCase());
 }
 

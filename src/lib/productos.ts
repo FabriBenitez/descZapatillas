@@ -215,7 +215,7 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
         brand: normalizarMarca(p.brand),
         sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
         size: p.size ? normalizarTalle(p.size) : undefined,
-        category: normalizarCategoria(p.category),
+        category: normalizarCategoria(p.category ?? ""),
         color: normalizarColor(p.color),
         gender: normalizarGenero(p.gender)
       }));
@@ -258,7 +258,7 @@ export async function obtenerProductos(): Promise<Producto[]> {
         brand: normalizarMarca(p.brand),
         sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
         size: p.size ? normalizarTalle(p.size) : undefined,
-        category: normalizarCategoria(p.category),
+        category: normalizarCategoria(p.category ?? ""),
         color: normalizarColor(p.color),
         gender: normalizarGenero(p.gender)
       }));
