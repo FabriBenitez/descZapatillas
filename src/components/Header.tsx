@@ -4,11 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
-const enlacesNavegacion = [
-  { href: "/", etiqueta: "Inicio" },
-  { href: "/#ofertas", etiqueta: "Ofertas" },
-  { href: "/comparador", etiqueta: "Comparador" },
-];
+
 
 const categoriasRapidas = ["Nike", "Adidas", "Puma", "Running"];
 
@@ -84,20 +80,7 @@ export function Header({
             </span>
           </Link>
 
-          <button
-            type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[12px] border border-white/10 bg-white/5 transition-all duration-200 hover:bg-white/10 hover:border-white/20 active:scale-95 lg:hidden"
-            aria-expanded={menuAbierto}
-            aria-controls="menu-movil"
-            aria-label="Abrir menu"
-            onClick={() => setMenuAbierto((valorActual) => !valorActual)}
-          >
-            <span className="flex flex-col gap-1.5">
-              <span className={`h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${menuAbierto ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`h-0.5 w-5 rounded-full bg-current transition-opacity duration-300 ${menuAbierto ? "opacity-0" : ""}`} />
-              <span className={`h-0.5 w-5 rounded-full bg-current transition-transform duration-300 ${menuAbierto ? "-rotate-45 -translate-y-2" : ""}`} />
-            </span>
-          </button>
+
         </div>
 
         <form
@@ -130,21 +113,7 @@ export function Header({
         </form>
 
         <div className="hidden items-center justify-end gap-6 lg:flex">
-          <nav
-            className="flex items-center gap-6 text-sm font-bold text-white/70"
-            aria-label="Navegacion principal"
-          >
-            {enlacesNavegacion.map((enlace) => (
-              <Link
-                key={enlace.etiqueta}
-                href={enlace.href}
-                className="relative py-1 transition-colors duration-200 hover:text-white group"
-              >
-                {enlace.etiqueta}
-                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#10b981] transition-all duration-300 group-hover:w-full" />
-              </Link>
-            ))}
-          </nav>
+
           <Link href="/comparador" className="boton boton--acento min-h-10 px-5 py-2 text-xs uppercase tracking-wider font-extrabold rounded-[12px]">
             Ver ofertas
           </Link>
@@ -153,22 +122,7 @@ export function Header({
 
 
 
-      {menuAbierto ? (
-        <div id="menu-movil" className="border-t border-white/5 bg-[#0f1311] lg:hidden animate-fade-in">
-          <div className="contenedor grid gap-2 py-3">
-            {enlacesNavegacion.map((enlace) => (
-              <Link
-                key={enlace.etiqueta}
-                href={enlace.href}
-                className="rounded-[12px] border border-white/5 bg-white/[0.02] px-4 py-3.5 text-sm font-bold text-white/80 transition-all duration-200 hover:bg-[#10b981]/10 hover:text-[#10b981] hover:border-[#10b981]/20"
-                onClick={() => setMenuAbierto(false)}
-              >
-                {enlace.etiqueta}
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
+
     </header>
   );
 }
