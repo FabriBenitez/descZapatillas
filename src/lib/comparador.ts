@@ -4,7 +4,6 @@ import { calcularMejorPrecioHistorico, normalizarTexto } from "@/lib/formato";
 export interface OpcionesFiltros {
   marcas: string[];
   tiendas: string[];
-  provincias: string[];
   talles: string[];
   generos: string[];
   categorias: string[];
@@ -42,9 +41,6 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
     ),
     tiendas: ordenarTexto(
       Array.from(new Set(productos.map((producto) => producto.storeName))),
-    ),
-    provincias: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.province))),
     ),
     talles: ordenarTalles(
       Array.from(

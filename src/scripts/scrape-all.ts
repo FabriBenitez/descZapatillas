@@ -5,7 +5,7 @@ import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
 import { obtenerTodasLasOfertasDexter } from "../lib/connectors/dexter";
 import { obtenerTodasLasOfertasTiendasExternas } from "../lib/connectors/tiendas-externas";
 import type { Producto } from "../types/producto";
-import { normalizarMarca, normalizarTalle } from "../lib/formato";
+import { normalizarMarca, normalizarTalle, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
 
 async function runScrape() {
   const inicio = Date.now();
@@ -29,7 +29,10 @@ async function runScrape() {
       ...p,
       brand: normalizarMarca(p.brand),
       sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-      size: p.size ? normalizarTalle(p.size) : undefined
+      size: p.size ? normalizarTalle(p.size) : undefined,
+      category: normalizarCategoria(p.category),
+      color: normalizarColor(p.color),
+      gender: normalizarGenero(p.gender)
     }));
 
   console.log(`Se encontraron ${productosFrescos.length} ofertas frescas.`);

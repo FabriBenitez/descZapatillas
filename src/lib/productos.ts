@@ -13,7 +13,7 @@ import {
 } from "@/lib/connectors/talles-detalle";
 import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
-import { normalizarTexto, normalizarMarca, normalizarTalle } from "@/lib/formato";
+import { normalizarTexto, normalizarMarca, normalizarTalle, normalizarCategoria, normalizarColor, normalizarGenero } from "@/lib/formato";
 import productosDbRaw from "@/data/productos-db.json";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
@@ -214,7 +214,10 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
         ...p,
         brand: normalizarMarca(p.brand),
         sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-        size: p.size ? normalizarTalle(p.size) : undefined
+        size: p.size ? normalizarTalle(p.size) : undefined,
+        category: normalizarCategoria(p.category),
+        color: normalizarColor(p.color),
+        gender: normalizarGenero(p.gender)
       }));
       return ordenarPorActualizacion(productosNormalizados);
     }

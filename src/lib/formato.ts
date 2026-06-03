@@ -100,6 +100,65 @@ export function normalizarTalle(talle: string) {
   return t;
 }
 
+export function normalizarCategoria(categoria: string) {
+  if (!categoria) return "General";
+  let c = normalizarTexto(categoria);
+  
+  if (c.includes("botin")) return "Botines";
+  if (c.includes("zapatilla") || c.includes("sneaker")) return "Zapatillas";
+  if (c.includes("zapato")) return "Zapatos";
+  if (c.includes("bota")) return "Botas";
+  if (c.includes("ojota") || c.includes("sandalia") || c.includes("crocs")) return "Sandalias y Ojotas";
+  
+  return capitalizarTexto(categoria.trim().toLowerCase());
+}
+
+export function normalizarColor(color: string) {
+  if (!color || color === ".") return "Varios";
+  const map: Record<string, string> = {
+    "amarillo": "Amarillo",
+    "azul": "Azul",
+    "beige": "Beige",
+    "blanco": "Blanco",
+    "bordo": "Bordó",
+    "celeste": "Celeste",
+    "cobre": "Cobre",
+    "coral": "Coral",
+    "crema": "Crema",
+    "crudo": "Crudo",
+    "fucsia": "Fucsia",
+    "gris": "Gris",
+    "marron": "Marrón",
+    "naranja": "Naranja",
+    "negro": "Negro",
+    "plata": "Plata",
+    "plateado": "Plata",
+    "oro": "Oro",
+    "dorado": "Oro",
+    "rojo": "Rojo",
+    "rosa": "Rosa",
+    "rosado": "Rosa",
+    "verde": "Verde",
+    "violeta": "Violeta",
+    "purpura": "Violeta",
+    "multicolor": "Multicolor",
+    "transparente": "Transparente"
+  };
+  const c = normalizarTexto(color);
+  return map[c] || capitalizarTexto(color.trim().toLowerCase());
+}
+
+export function normalizarGenero(genero: string) {
+  if (!genero) return "Unisex";
+  const g = normalizarTexto(genero);
+  
+  if (g.includes("nino") || g.includes("nina") || g.includes("bebe")) return "Niños";
+  if (g.includes("mujer") || g.includes("femenino")) return "Mujer";
+  if (g.includes("hombre") || g.includes("masculino")) return "Hombre";
+  
+  return "Unisex";
+}
+
 export function esZapatilla(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 

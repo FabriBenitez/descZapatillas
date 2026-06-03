@@ -45,7 +45,6 @@ export interface Producto {
 export interface FiltrosProductos {
   marca: string;
   tienda: string;
-  provincia: string;
   precioMinimo: string;
   precioMaximo: string;
   talle: string;
@@ -62,7 +61,6 @@ export interface FiltrosProductos {
 export const filtrosIniciales: FiltrosProductos = {
   marca: "",
   tienda: "",
-  provincia: "",
   precioMinimo: "",
   precioMaximo: "",
   talle: "",
