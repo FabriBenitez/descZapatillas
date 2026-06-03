@@ -228,46 +228,7 @@ export function FiltersSidebar({
         />
       </GrupoPlegable>
 
-      <GrupoPlegable titulo="Disponibilidad" abiertoInicial={false}>
-        <GrupoSelect
-          id="tipoOferta"
-          etiqueta="Tipo de oferta"
-          valor={filtros.tipoOferta}
-          opciones={opciones.tiposOferta}
-          placeholder="Cualquier tipo"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <GrupoSelect
-          id="ultimaActualizacion"
-          etiqueta="Actualización"
-          valor={filtros.ultimaActualizacion}
-          opciones={["24h", "72h", "168h"]}
-          placeholder="Cualquier fecha"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <label className="flex items-center justify-between rounded-[14px] border border-[#e2e7e4]/60 bg-[#f0f3f1] px-4 py-3 text-xs font-bold text-[#0f1311] transition duration-200 hover:border-[#10b981]/30 cursor-pointer select-none">
-          <span className="uppercase tracking-wider text-black/50">Solo con stock</span>
-          <input
-            type="checkbox"
-            checked={filtros.soloStock}
-            onChange={(evento) =>
-              alCambiarFiltro("soloStock", evento.target.checked)
-            }
-            className="h-4.5 w-4.5 accent-[#10b981] rounded cursor-pointer"
-          />
-        </label>
-        <label className="flex items-center justify-between rounded-[14px] border border-[#e2e7e4]/60 bg-[#f0f3f1] px-4 py-3 text-xs font-bold text-[#0f1311] transition duration-200 hover:border-[#10b981]/30 cursor-pointer select-none">
-          <span className="uppercase tracking-wider text-black/50">Envío gratis</span>
-          <input
-            type="checkbox"
-            checked={filtros.envioGratis}
-            onChange={(evento) =>
-              alCambiarFiltro("envioGratis", evento.target.checked)
-            }
-            className="h-4.5 w-4.5 accent-[#10b981] rounded cursor-pointer"
-          />
-        </label>
-      </GrupoPlegable>
+
 
 
     </>
