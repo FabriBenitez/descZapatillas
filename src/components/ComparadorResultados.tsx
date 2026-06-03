@@ -92,8 +92,6 @@ export function ComparadorResultados({
           <FiltersSidebar
             filtros={filtros}
             opciones={opciones}
-            totalResultados={productosFiltrados.length}
-            totalProductos={productos.length}
             estaActualizando={estaActualizando}
             alCambiarFiltro={actualizarFiltro}
             alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
@@ -107,17 +105,13 @@ export function ComparadorResultados({
             <h1 className="text-[1.8rem] font-black leading-[0.95] tracking-[-0.04em] text-[var(--color-tinta)] sm:text-3xl">
               {terminoDiferido ? `Resultados para "${terminoDiferido}"` : "Comparador de ofertas"}
             </h1>
-            <p className="text-sm text-[var(--color-muted)]">
-              Mostrando <span className="font-extrabold text-[var(--color-tinta)]">{productosFiltrados.length}</span> ofertas de zapatillas de entre <span className="font-semibold">{productos.length}</span> modelos en el catálogo.
-            </p>
+
           </div>
 
           <div className="lg:hidden">
             <FiltersSidebar
               filtros={filtros}
               opciones={opciones}
-              totalResultados={productosFiltrados.length}
-              totalProductos={productos.length}
               estaActualizando={estaActualizando}
               alCambiarFiltro={actualizarFiltro}
               alLimpiarFiltros={() => setFiltros(filtrosIniciales)}

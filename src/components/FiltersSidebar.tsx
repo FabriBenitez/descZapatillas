@@ -9,8 +9,8 @@ import { SortSelect } from "@/components/SortSelect";
 interface FiltersSidebarProps {
   filtros: FiltrosProductos;
   opciones: OpcionesFiltros;
-  totalResultados: number;
-  totalProductos: number;
+  totalResultados?: never;
+  totalProductos?: never;
   estaActualizando: boolean;
   alCambiarFiltro: (
     nombre: keyof FiltrosProductos,
@@ -108,8 +108,6 @@ function GrupoPlegable({
 export function FiltersSidebar({
   filtros,
   opciones,
-  totalResultados,
-  totalProductos,
   estaActualizando,
   alCambiarFiltro,
   alLimpiarFiltros,
@@ -120,20 +118,7 @@ export function FiltersSidebar({
 
   const contenidoFiltros = (
     <>
-      <div className="hidden items-start justify-between gap-4 md:flex pb-4">
-        <div>
-          <p className="text-[10px] font-extrabold uppercase tracking-wider text-black/40">
-            Filtros activos
-          </p>
-          <div className="flex items-baseline gap-1 mt-1">
-            <p className="text-2xl font-black font-titulos text-[#0f1311]">
-              {totalResultados}
-            </p>
-            <p className="text-xs font-bold text-black/40">
-              de {totalProductos} prod.
-            </p>
-          </div>
-        </div>
+        <div className="hidden items-start justify-end gap-4 md:flex pb-4">
         <button
           type="button"
           className="text-xs font-extrabold uppercase tracking-wider text-black/40 transition hover:text-[#f43f5e]"
@@ -284,18 +269,7 @@ export function FiltersSidebar({
         </label>
       </GrupoPlegable>
 
-      <div className={`rounded-[16px] p-4 mt-3 text-white transition-all duration-300 ${
-        estaActualizando
-          ? "bg-gradient-to-br from-[#d4af37] to-[#b45309] shadow-lg shadow-[#d4af37]/10 pulse"
-          : "bg-gradient-to-br from-[#10b981] to-[#059669] shadow-lg shadow-[#10b981]/10"
-      }`}>
-        <p className="text-[10px] font-extrabold uppercase tracking-widest text-white/70">
-          {estaActualizando ? "Actualizando base" : "Filtros aplicados"}
-        </p>
-        <p className="mt-1 text-base font-black font-titulos">
-          {totalResultados} coincidencias
-        </p>
-      </div>
+
     </>
   );
 
