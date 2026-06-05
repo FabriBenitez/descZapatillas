@@ -228,62 +228,21 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
 }
 
 export async function obtenerProductos(): Promise<Producto[]> {
-  const firestore = obtenerFirestoreCliente();
+  // ESTRATEGIA: Servir los datos locales (JSON bundleado) de forma INSTANTÁNEA (~35ms).
+  // Firebase se usa solo desde el cron job (/api/cron/sync) para actualizar precios,
+  // nunca en el critical path del usuario. Esto elimina el bloqueo de 1-2 segundos
+  // que causaba la pantalla en blanco/spinner.
+  const locales = await obtenerProductosLocales();
+  const mapaProductos = new Map<string, Producto>();
+  locales.forEach(p => mapaProductos.set(p.id, p));
 
-  if (!firestore) {
-    const locales = await obtenerProductosLocales();
-    const mapaProductos = new Map<string, Producto>();
-    locales.forEach(p => mapaProductos.set(p.id, p));
-    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
-    return ordenarPorActualizacion(Array.from(mapaProductos.values()));
-  }
+  // Mezclar con la RAM caché volátil (productos frescos del cron o búsquedas en tiempo real)
+  // Estos tienen prioridad por estar más actualizados.
+  Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
 
-  try {
-    const referenciaColeccion = collection(firestore, COLECCION_PRODUCTOS);
-    const respuesta = await getDocs(referenciaColeccion);
-
-    const locales = await obtenerProductosLocales();
-
-    if (respuesta.empty) {
-      return locales;
-    }
-
-    const productosFirestore = respuesta.docs
-      .map((documento) =>
-        normalizarProductoFirestore(documento.id, documento.data()),
-      )
-      .filter((producto): producto is Producto => Boolean(producto))
-      .map(p => ({
-        ...p,
-        brand: normalizarMarca(p.brand),
-        sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-        size: p.size ? normalizarTalle(p.size) : undefined,
-        category: normalizarCategoria(p.category ?? ""),
-        color: normalizarColor(p.color),
-        gender: normalizarGenero(p.gender)
-      }));
-
-    // Mezclar locales con Firestore y la RAM (dando prioridad a RAM y Firestore por estar más actualizados)
-    const mapaProductos = new Map<string, Producto>();
-    locales.forEach(p => mapaProductos.set(p.id, p));
-    productosFirestore.forEach(p => mapaProductos.set(p.id, p));
-    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
-
-    const productosMezclados = Array.from(mapaProductos.values());
-    
-    if (productosMezclados.length > 0) {
-      return ordenarPorActualizacion(productosMezclados);
-    }
-
-    return locales;
-  } catch (error) {
-    const locales = await obtenerProductosLocales();
-    const mapaProductos = new Map<string, Producto>();
-    locales.forEach(p => mapaProductos.set(p.id, p));
-    Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
-    return ordenarPorActualizacion(Array.from(mapaProductos.values()));
-  }
+  return ordenarPorActualizacion(Array.from(mapaProductos.values()));
 }
+
 
 export async function obtenerProductoPorId(id: string) {
   const productos = await obtenerProductos();
