@@ -2,7 +2,7 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { obtenerFirestoreCliente } from "../lib/firebase";
-import { normalizarMarca, normalizarTalle, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
+import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
 
 async function testPerformance() {
   console.log("Iniciando pruebas de rendimiento...");
