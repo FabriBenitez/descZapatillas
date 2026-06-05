@@ -133,9 +133,17 @@ export function filtrarProductos(
     .map((p) => p.replace(/[^a-z0-9]/g, ""))
     .filter(Boolean);
 
-  const precioMinimo = Number(filtros.precioMinimo || 0);
-  const precioMaximo = Number(filtros.precioMaximo || 0);
-  const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
+  const parsearMonto = (valor: string | number | undefined) => {
+    if (!valor) return 0;
+    const limpio = String(valor).replace(/\./g, "").replace(/,/g, ".");
+    return Number(limpio) || 0;
+  };
+
+  const precioMinimo = parsearMonto(filtros.precioMinimo);
+  const precioMaximo = parsearMonto(filtros.precioMaximo);
+  
+  // El input de descuento viene como entero (ej. 10 para 10%), pero en la DB es 0.1
+  const descuentoMinimo = Number(filtros.descuentoMinimo || 0) / 100;
 
   return productos.filter((producto) => {
     if (palabrasBusqueda.length > 0) {
@@ -144,6 +152,9 @@ export function filtrarProductos(
         producto.brand,
         producto.storeName,
         producto.storeSlug,
+        producto.gender,
+        producto.category,
+        producto.color
       ].join(" ")).replace(/[^a-z0-9]/g, "");
 
       const coincideTodo = palabrasBusqueda.every((palabra) =>
@@ -162,8 +173,6 @@ export function filtrarProductos(
     if (filtros.tienda && producto.storeName !== filtros.tienda) {
       return false;
     }
-
-
 
     if (precioMinimo && producto.price < precioMinimo) {
       return false;
