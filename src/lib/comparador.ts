@@ -20,7 +20,9 @@ function ordenarTexto(valores: string[]) {
 function normalizarBusquedaConAlias(valor: string) {
   return normalizarTexto(valor)
     .replace(/\bdesxter\b/g, "dexter")
-    .replace(/\bdexterr\b/g, "dexter");
+    .replace(/\bdexterr\b/g, "dexter")
+    .replace(/\bninos\b/g, "nino")
+    .replace(/\bninas\b/g, "nina");
 }
 
 function ordenarTalles(valores: string[]) {
@@ -67,7 +69,16 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ).filter(Boolean),
     ),
     generos: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.gender))),
+      Array.from(new Set(
+        productos.map((producto) => {
+          const g = producto.gender?.toLowerCase() || "";
+          if (g.includes("nino") || g.includes("niño") || g.includes("niños") || g.includes("ninos")) return "Niños";
+          if (g.includes("nina") || g.includes("niña") || g.includes("niñas") || g.includes("ninas")) return "Niñas";
+          if (g === "hombre") return "Hombre";
+          if (g === "mujer") return "Mujer";
+          return "Unisex";
+        })
+      ))
     ),
     categorias: ordenarTexto(
       Array.from(
@@ -144,8 +155,9 @@ export function filtrarProductos(
 
   const parsearMonto = (valor: string | number | undefined) => {
     if (!valor) return 0;
-    const limpio = String(valor).replace(/\./g, "").replace(/,/g, ".");
-    return Number(limpio) || 0;
+    const stringLimpio = String(valor).replace(/[^0-9.,]/g, "");
+    const conPunto = stringLimpio.replace(/\./g, "").replace(/,/g, ".");
+    return Number(conPunto) || 0;
   };
 
   const precioMinimo = parsearMonto(filtros.precioMinimo);
@@ -179,8 +191,10 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.tienda && producto.storeName !== filtros.tienda) {
-      return false;
+    if (filtros.tienda) {
+      const tiendaProducto = normalizarTexto(producto.storeName);
+      const tiendaFiltro = normalizarTexto(filtros.tienda);
+      if (tiendaProducto !== tiendaFiltro) return false;
     }
 
     if (precioMinimo && producto.price < precioMinimo) {
@@ -199,8 +213,15 @@ export function filtrarProductos(
       }
     }
 
-    if (filtros.genero && producto.gender !== filtros.genero) {
-      return false;
+    if (filtros.genero) {
+      const g = producto.gender?.toLowerCase() || "";
+      let genNormalizado = "Unisex";
+      if (g.includes("nino") || g.includes("niño") || g.includes("niños") || g.includes("ninos")) genNormalizado = "Niños";
+      else if (g.includes("nina") || g.includes("niña") || g.includes("niñas") || g.includes("ninas")) genNormalizado = "Niñas";
+      else if (g === "hombre") genNormalizado = "Hombre";
+      else if (g === "mujer") genNormalizado = "Mujer";
+
+      if (genNormalizado !== filtros.genero) return false;
     }
 
     if (filtros.categoria && producto.category !== filtros.categoria) {
