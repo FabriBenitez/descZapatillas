@@ -5,7 +5,7 @@ import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
 import { obtenerTodasLasOfertasDexter } from "../lib/connectors/dexter";
 import { obtenerTodasLasOfertasTiendasExternas } from "../lib/connectors/tiendas-externas";
 import type { Producto } from "../types/producto";
-import { normalizarMarca, normalizarTalle, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
+import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
 
 async function runScrape() {
   const inicio = Date.now();
@@ -28,8 +28,8 @@ async function runScrape() {
     .map((p) => ({
       ...p,
       brand: normalizarMarca(p.brand),
-      sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-      size: p.size ? normalizarTalle(p.size) : undefined,
+      sizes: normalizarTallesArray(p.sizes || []),
+      size: p.size ? normalizarTalleUnico(p.size) : undefined,
       category: normalizarCategoria(p.category ?? ""),
       color: normalizarColor(p.color),
       gender: normalizarGenero(p.gender)
