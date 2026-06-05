@@ -189,7 +189,7 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.color && producto.color !== filtros.color) {
+    if (filtros.color && !normalizarTexto(producto.color).includes(normalizarTexto(filtros.color))) {
       return false;
     }
 

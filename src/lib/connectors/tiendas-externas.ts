@@ -388,7 +388,7 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
         discount: descuento,
         imageUrl: absolutizarUrl(tienda.baseUrl, imagen),
         productUrl: absolutizarUrl(tienda.baseUrl, enlace),
-        available: producto.find(".stock-info").length > 0,
+        available: producto.find(".out-of-stock").length === 0,
         freeShipping: false,
         offerType: inferirTipoOferta(descuento),
         historicalBestPrice: precio,
