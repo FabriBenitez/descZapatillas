@@ -20,7 +20,9 @@ function ordenarTexto(valores: string[]) {
 function normalizarBusquedaConAlias(valor: string) {
   return normalizarTexto(valor)
     .replace(/\bdesxter\b/g, "dexter")
-    .replace(/\bdexterr\b/g, "dexter");
+    .replace(/\bdexterr\b/g, "dexter")
+    .replace(/\bninos\b/g, "nino")
+    .replace(/\bninas\b/g, "nina");
 }
 
 function ordenarTalles(valores: string[]) {
@@ -46,18 +48,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
             .map((producto) => producto.storeName)
             .filter((tienda): tienda is string => !!tienda),
         ),
-      ).filter((tienda) => {
-        const t = tienda.toLowerCase();
-        return (
-          t.includes("dexter") ||
-          t.includes("grid") ||
-          t.includes("moov") ||
-          t.includes("seven") || t.includes("7") ||
-          t.includes("solo deporte") ||
-          t.includes("stockcenter") ||
-          t.includes("fuencarral")
-        );
-      }),
+      ),
     ),
     talles: ordenarTalles(
       Array.from(
@@ -79,7 +70,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ),
     ),
     colores: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.color))),
+      Array.from(new Set(productos.map((producto) => producto.color).filter(Boolean))),
     ),
     tiposOferta: ordenarTexto(
       Array.from(
@@ -135,15 +126,16 @@ export function filtrarProductos(
 
   const parsearMonto = (valor: string | number | undefined) => {
     if (!valor) return 0;
-    const limpio = String(valor).replace(/\./g, "").replace(/,/g, ".");
-    return Number(limpio) || 0;
+    const stringLimpio = String(valor).replace(/[^0-9.,]/g, "");
+    const conPunto = stringLimpio.replace(/\./g, "").replace(/,/g, ".");
+    return Number(conPunto) || 0;
   };
 
   const precioMinimo = parsearMonto(filtros.precioMinimo);
   const precioMaximo = parsearMonto(filtros.precioMaximo);
   
-  // El input de descuento viene como entero (ej. 10 para 10%), pero en la DB es 0.1
-  const descuentoMinimo = Number(filtros.descuentoMinimo || 0) / 100;
+  // Los descuentos están guardados como enteros (ej. 30 = 30% de descuento)
+  const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
 
   return productos.filter((producto) => {
     if (palabrasBusqueda.length > 0) {
@@ -198,7 +190,7 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.color && !normalizarTexto(producto.color).includes(normalizarTexto(filtros.color))) {
+    if (filtros.color && producto.color !== filtros.color) {
       return false;
     }
 

@@ -386,6 +386,19 @@ a:focus-visible {
   animation: brillo 1.6s infinite;
 }
 
+/* Variante inline para el shimmer (se aplica directamente en un div hijo) */
+.skeleton-shine {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.65),
+    transparent
+  );
+  animation: brillo 1.6s infinite;
+  transform: translateX(-100%);
+}
+
+
 /* ==========================================
    Historial de Precios Gráficos
    ========================================== */

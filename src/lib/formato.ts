@@ -86,17 +86,24 @@ export function normalizarMarca(marca: string) {
   return capitalizarTexto(m);
 }
 
-export function normalizarTalle(talle: string) {
-  if (!talle) return "";
-  
-  // Reemplazar comas por puntos y quitar espacios
-  let t = talle.trim().replace(",", ".").toUpperCase();
+export function normalizarTallesArray(talles: (string | number)[]): string[] {
+  if (!talles) return [];
+  const procesados = talles.flatMap(t => {
+    if (t === null || t === undefined) return [];
+    // Separamos por cualquier tipo de guión o barra (ej: "36-36.5", "36/37")
+    return String(t).split(/[-–—/]/).map(parte => {
+      let limpio = parte.trim().replace(",", ".").toUpperCase();
+      if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length - 2);
+      return limpio;
+    });
+  });
+  return Array.from(new Set(procesados)).filter(Boolean);
+}
 
-  // Si tiene un '.0' al final, se lo sacamos (ej. '35.0' -> '35')
-  if (t.endsWith(".0")) {
-    t = t.substring(0, t.length - 2);
-  }
-
+export function normalizarTalleUnico(talle: string | number): string {
+  if (talle === null || talle === undefined) return "";
+  let t = String(talle).split(/[-–—/]/)[0].trim().replace(",", ".").toUpperCase();
+  if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
   return t;
 }
 
