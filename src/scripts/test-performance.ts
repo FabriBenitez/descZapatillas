@@ -23,8 +23,8 @@ async function testPerformance() {
     const normalizados = localProducts.map((p: any) => ({
       ...p,
       brand: normalizarMarca(p.brand || ""),
-      sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-      size: p.size ? normalizarTalle(p.size) : undefined,
+      sizes: normalizarTallesArray(p.sizes || []),
+      size: p.size ? normalizarTalleUnico(p.size) : undefined,
       category: normalizarCategoria(p.category ?? ""),
       color: normalizarColor(p.color || ""),
       gender: normalizarGenero(p.gender || "")
