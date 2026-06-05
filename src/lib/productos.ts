@@ -58,9 +58,19 @@ export async function obtenerProductosConectoresSinCache() {
     }),
   ]);
 
-  return respuestas.flatMap((respuesta) =>
+  const crudos = respuestas.flatMap((respuesta) =>
     respuesta.status === "fulfilled" ? respuesta.value : [],
   );
+
+  return crudos.map(p => ({
+    ...p,
+    brand: normalizarMarca(p.brand),
+    sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
+    size: p.size ? normalizarTalle(p.size) : undefined,
+    category: normalizarCategoria(p.category ?? ""),
+    color: normalizarColor(p.color),
+    gender: normalizarGenero(p.gender)
+  }));
 }
 
 const obtenerProductosConectores = unstable_cache(
@@ -212,12 +222,8 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
     if (Array.isArray(productosDb) && productosDb.length > 0) {
       const productosNormalizados = productosDb.map((p: Producto) => ({
         ...p,
-        brand: normalizarMarca(p.brand),
-        sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-        size: p.size ? normalizarTalle(p.size) : undefined,
-        category: normalizarCategoria(p.category ?? ""),
-        color: normalizarColor(p.color),
-        gender: normalizarGenero(p.gender)
+        // Eliminamos las normalizaciones en runtime para mejorar la performance
+        // ya que los datos ahora se guardan limpios en el cron job
       }));
       return ordenarPorActualizacion(productosNormalizados);
     }
@@ -287,7 +293,10 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
       ...p,
       brand: normalizarMarca(p.brand),
       sizes: p.sizes?.map(normalizarTalle).filter(Boolean) || [],
-      size: p.size ? normalizarTalle(p.size) : undefined
+      size: p.size ? normalizarTalle(p.size) : undefined,
+      category: normalizarCategoria(p.category ?? ""),
+      color: normalizarColor(p.color),
+      gender: normalizarGenero(p.gender)
     }));
 
   console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);

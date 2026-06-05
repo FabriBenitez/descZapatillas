@@ -48,18 +48,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
             .map((producto) => producto.storeName)
             .filter((tienda): tienda is string => !!tienda),
         ),
-      ).filter((tienda) => {
-        const t = tienda.toLowerCase();
-        return (
-          t.includes("dexter") ||
-          t.includes("grid") ||
-          t.includes("moov") ||
-          t.includes("seven") || t.includes("7") ||
-          t.includes("solo deporte") ||
-          t.includes("stockcenter") ||
-          t.includes("fuencarral")
-        );
-      }),
+      ),
     ),
     talles: ordenarTalles(
       Array.from(
@@ -69,16 +58,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ).filter(Boolean),
     ),
     generos: ordenarTexto(
-      Array.from(new Set(
-        productos.map((producto) => {
-          const g = producto.gender?.toLowerCase() || "";
-          if (g.includes("nino") || g.includes("niño") || g.includes("niños") || g.includes("ninos")) return "Niños";
-          if (g.includes("nina") || g.includes("niña") || g.includes("niñas") || g.includes("ninas")) return "Niñas";
-          if (g === "hombre") return "Hombre";
-          if (g === "mujer") return "Mujer";
-          return "Unisex";
-        })
-      ))
+      Array.from(new Set(productos.map((producto) => producto.gender))),
     ),
     categorias: ordenarTexto(
       Array.from(
@@ -90,16 +70,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ),
     ),
     colores: ordenarTexto(
-      Array.from(new Set(
-        productos
-          .map(p => {
-            const c = normalizarTexto(p.color || "");
-            if (!c || c === "varios") return null;
-            // Capitalizar primera letra
-            return c.charAt(0).toUpperCase() + c.slice(1);
-          })
-          .filter((c): c is string => !!c)
-      ))
+      Array.from(new Set(productos.map((producto) => producto.color).filter(Boolean))),
     ),
     tiposOferta: ordenarTexto(
       Array.from(
@@ -191,10 +162,8 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.tienda) {
-      const tiendaProducto = normalizarTexto(producto.storeName);
-      const tiendaFiltro = normalizarTexto(filtros.tienda);
-      if (tiendaProducto !== tiendaFiltro) return false;
+    if (filtros.tienda && producto.storeName !== filtros.tienda) {
+      return false;
     }
 
     if (precioMinimo && producto.price < precioMinimo) {
@@ -213,28 +182,16 @@ export function filtrarProductos(
       }
     }
 
-    if (filtros.genero) {
-      const g = producto.gender?.toLowerCase() || "";
-      let genNormalizado = "Unisex";
-      if (g.includes("nino") || g.includes("niño") || g.includes("niños") || g.includes("ninos")) genNormalizado = "Niños";
-      else if (g.includes("nina") || g.includes("niña") || g.includes("niñas") || g.includes("ninas")) genNormalizado = "Niñas";
-      else if (g === "hombre") genNormalizado = "Hombre";
-      else if (g === "mujer") genNormalizado = "Mujer";
-
-      if (genNormalizado !== filtros.genero) return false;
+    if (filtros.genero && producto.gender !== filtros.genero) {
+      return false;
     }
 
     if (filtros.categoria && producto.category !== filtros.categoria) {
       return false;
     }
 
-    if (filtros.color) {
-      // Normalizar AMBOS lados: el color del producto puede estar en mayúsculas (ROJO) o capitalizado (Rojo)
-      const colorProducto = normalizarTexto(producto.color || "");
-      const colorFiltro = normalizarTexto(filtros.color);
-      if (!colorProducto || colorProducto === "varios" || !colorProducto.includes(colorFiltro)) {
-        return false;
-      }
+    if (filtros.color && producto.color !== filtros.color) {
+      return false;
     }
 
     if (descuentoMinimo && producto.discount < descuentoMinimo) {
