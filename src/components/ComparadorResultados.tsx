@@ -73,6 +73,15 @@ export function ComparadorResultados({
         console.error("Error restaurando estado", e);
       }
     }
+
+    // Escuchar el evento de búsqueda del header para actualizar sin recargar el servidor
+    const handleNuevaBusqueda = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      setTerminoBusqueda(customEvent.detail);
+      setFiltros(filtrosIniciales);
+    };
+    window.addEventListener("nuevaBusqueda", handleNuevaBusqueda);
+    return () => window.removeEventListener("nuevaBusqueda", handleNuevaBusqueda);
   }, [busquedaInicial]);
 
   // Guardar estado cuando cambia algo
