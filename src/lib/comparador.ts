@@ -79,7 +79,16 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ),
     ),
     colores: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.color))),
+      Array.from(new Set(
+        productos
+          .map(p => {
+            const c = normalizarTexto(p.color || "");
+            if (!c || c === "varios") return null;
+            // Capitalizar primera letra
+            return c.charAt(0).toUpperCase() + c.slice(1);
+          })
+          .filter((c): c is string => !!c)
+      ))
     ),
     tiposOferta: ordenarTexto(
       Array.from(
@@ -142,8 +151,8 @@ export function filtrarProductos(
   const precioMinimo = parsearMonto(filtros.precioMinimo);
   const precioMaximo = parsearMonto(filtros.precioMaximo);
   
-  // El input de descuento viene como entero (ej. 10 para 10%), pero en la DB es 0.1
-  const descuentoMinimo = Number(filtros.descuentoMinimo || 0) / 100;
+  // Los descuentos están guardados como enteros (ej. 30 = 30% de descuento)
+  const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
 
   return productos.filter((producto) => {
     if (palabrasBusqueda.length > 0) {
@@ -198,8 +207,13 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.color && !normalizarTexto(producto.color).includes(normalizarTexto(filtros.color))) {
-      return false;
+    if (filtros.color) {
+      // Normalizar AMBOS lados: el color del producto puede estar en mayúsculas (ROJO) o capitalizado (Rojo)
+      const colorProducto = normalizarTexto(producto.color || "");
+      const colorFiltro = normalizarTexto(filtros.color);
+      if (!colorProducto || colorProducto === "varios" || !colorProducto.includes(colorFiltro)) {
+        return false;
+      }
     }
 
     if (descuentoMinimo && producto.discount < descuentoMinimo) {
