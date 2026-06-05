@@ -86,12 +86,12 @@ export function normalizarMarca(marca: string) {
   return capitalizarTexto(m);
 }
 
-export function normalizarTallesArray(talles: string[]): string[] {
+export function normalizarTallesArray(talles: (string | number)[]): string[] {
   if (!talles) return [];
   const procesados = talles.flatMap(t => {
-    if (!t) return [];
-    // Si viene "36-36.5", separamos por el guión
-    return t.split("-").map(parte => {
+    if (t === null || t === undefined) return [];
+    // Separamos por cualquier tipo de guión o barra (ej: "36-36.5", "36/37")
+    return String(t).split(/[-–—/]/).map(parte => {
       let limpio = parte.trim().replace(",", ".").toUpperCase();
       if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length - 2);
       return limpio;
@@ -100,9 +100,9 @@ export function normalizarTallesArray(talles: string[]): string[] {
   return Array.from(new Set(procesados)).filter(Boolean);
 }
 
-export function normalizarTalleUnico(talle: string): string {
-  if (!talle) return "";
-  let t = talle.split("-")[0].trim().replace(",", ".").toUpperCase();
+export function normalizarTalleUnico(talle: string | number): string {
+  if (talle === null || talle === undefined) return "";
+  let t = String(talle).split(/[-–—/]/)[0].trim().replace(",", ".").toUpperCase();
   if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
   return t;
 }
