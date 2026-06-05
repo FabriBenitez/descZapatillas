@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useDeferredValue, useState } from "react";
+import { startTransition, useDeferredValue, useState, useEffect } from "react";
 
 import { FiltersSidebar } from "@/components/FiltersSidebar";
 import { ProductList } from "@/components/ProductList";
@@ -53,6 +53,38 @@ export function ComparadorResultados({
   );
   const [filtros, setFiltros] = useState<FiltrosProductos>(filtrosIniciales);
   const [estaActualizando, setEstaActualizando] = useState(false);
+
+  // Restaurar estado al volver a la pagina (usamos sessionStorage para que dure mientras la pestaña esté abierta)
+  useEffect(() => {
+    const savedState = sessionStorage.getItem("comparadorState");
+    if (savedState) {
+      try {
+        const parsed = JSON.parse(savedState);
+        
+        // Si hay una busqueda en la URL, la respetamos. Si no, restauramos la guardada
+        if (!busquedaInicial && parsed.terminoBusqueda) {
+          setTerminoBusqueda(parsed.terminoBusqueda);
+        }
+        
+        if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
+        if (parsed.filtros) setFiltros(parsed.filtros);
+        if (parsed.vistaResultados) setVistaResultados(parsed.vistaResultados);
+      } catch (e) {
+        console.error("Error restaurando estado", e);
+      }
+    }
+  }, [busquedaInicial]);
+
+  // Guardar estado cuando cambia algo
+  useEffect(() => {
+    const stateToSave = {
+      terminoBusqueda,
+      ordenSeleccionado,
+      filtros,
+      vistaResultados
+    };
+    sessionStorage.setItem("comparadorState", JSON.stringify(stateToSave));
+  }, [terminoBusqueda, ordenSeleccionado, filtros, vistaResultados]);
 
   const terminoDiferido = useDeferredValue(terminoBusqueda);
   const opciones = obtenerOpcionesFiltros(productos);
