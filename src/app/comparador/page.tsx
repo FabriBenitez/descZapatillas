@@ -26,11 +26,19 @@ export const metadata: Metadata = {
 
 // Componente async separado: permite que Next.js haga streaming
 async function ComparadorConDatos({ busquedaInicial }: { busquedaInicial: string }) {
-  const productos = await obtenerProductos();
+  const productosCrudos = await obtenerProductos();
+  
+  // Limpiamos datos pesados (historial) para evitar el límite de 4.5MB de Vercel Serverless Functions
+  // al momento de serializar las props hacia el Client Component.
+  const productosLimpios = productosCrudos.map((p) => {
+    const { priceHistory, productUrl, ...resto } = p;
+    return resto as Producto;
+  });
+
   return (
     <ComparadorResultados
       key={busquedaInicial}
-      productos={productos}
+      productos={productosLimpios}
       busquedaInicial={busquedaInicial}
     />
   );
