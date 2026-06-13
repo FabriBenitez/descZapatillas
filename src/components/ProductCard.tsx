@@ -21,14 +21,14 @@ export function ProductCard({
   vista = "grid",
 }: ProductCardProps) {
   const esLista = vista === "lista";
-  const esSuperAhorro = producto.discount >= 0.5;
+  const esSuperAhorro = producto.discount >= 50;
   const descuentoVal = producto.discount;
 
   // Determinar color de badge de descuento según el nivel
   let badgeClase = "bg-gradient-to-br from-[#10b981] to-[#047857] text-white shadow-lg shadow-[#10b981]/20";
-  if (descuentoVal >= 0.5) {
+  if (descuentoVal >= 50) {
     badgeClase = "bg-gradient-to-br from-[#d4af37] to-[#b45309] text-white shadow-lg shadow-[#d4af37]/30 border border-[#d4af37]/20";
-  } else if (descuentoVal >= 0.3) {
+  } else if (descuentoVal >= 30) {
     badgeClase = "bg-gradient-to-br from-[#f43f5e] to-[#be123c] text-white shadow-lg shadow-[#f43f5e]/20";
   }
 

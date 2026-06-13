@@ -39,7 +39,7 @@ function ordenarTalles(valores: string[]) {
 export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
   return {
     marcas: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.brand))),
+      Array.from(new Set(productos.map((producto) => producto.brand).filter((val): val is string => !!val))),
     ),
     tiendas: ordenarTexto(
       Array.from(
@@ -58,7 +58,7 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
       ).filter(Boolean),
     ),
     generos: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.gender))),
+      Array.from(new Set(productos.map((producto) => producto.gender).filter((val): val is string => !!val))),
     ),
     categorias: ordenarTexto(
       Array.from(
@@ -252,8 +252,11 @@ export function obtenerProductosDestacados(productos: Producto[], cantidad = 4) 
 }
 
 function contarCoincidenciasModelo(productoBase: Producto, candidato: Producto) {
-  const palabrasBase = new Set(productoBase.normalizedName.split(" "));
-  const palabrasCandidatas = candidato.normalizedName.split(" ");
+  const nombreBase = productoBase?.normalizedName || (productoBase?.name ? normalizarTexto(productoBase.name) : "");
+  const nombreCandidato = candidato?.normalizedName || (candidato?.name ? normalizarTexto(candidato.name) : "");
+
+  const palabrasBase = new Set(nombreBase.split(" "));
+  const palabrasCandidatas = nombreCandidato.split(" ");
 
   return palabrasCandidatas.filter((palabra) => palabrasBase.has(palabra)).length;
 }
