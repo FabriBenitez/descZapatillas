@@ -8,6 +8,7 @@ import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
 import { obtenerProductos } from "@/lib/productos";
 import { ProductListSkeleton } from "@/components/ProductSkeleton";
+import type { Producto } from "@/types/producto";
 
 interface ComparadorPageProps {
   searchParams: Promise<{
