@@ -1,4 +1,6 @@
+import { sendGAEvent } from "@next/third-parties/google";
 import { ProductImage } from "@/components/ProductImage";
+import { generarEnlaceAfiliado } from "@/lib/afiliados";
 import {
   calcularAhorro,
   formatearFecha,
@@ -151,9 +153,12 @@ export function ProductDetail({ producto }: ProductDetailProps) {
 
         <div className="mt-6 grid gap-3">
           <a
-            href={producto.productUrl}
+            href={generarEnlaceAfiliado(producto)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              sendGAEvent('event', 'click_oferta', { value: producto.storeName });
+            }}
             className={`boton ${esSuperAhorro ? "boton--gold" : "boton--acento"} min-h-14 w-full rounded-[16px] text-sm uppercase tracking-widest font-black shadow-lg`}
           >
             Ver producto en la tienda

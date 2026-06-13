@@ -13,10 +13,10 @@ async function runScrape() {
 
   // 1. Obtener productos frescos con un límite muy alto
   const promesas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 100 }),
-    obtenerTodasLasOfertasGrid({ paginas: 100 }),
-    obtenerTodasLasOfertasDexter({ paginas: 100, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 100 }),
+    obtenerTodasLasOfertasMoov({ paginas: 200 }),
+    obtenerTodasLasOfertasGrid({ paginas: 200 }),
+    obtenerTodasLasOfertasDexter({ paginas: 200, categoryId: "sale" }),
+    obtenerTodasLasOfertasTiendasExternas({ paginas: 200 }),
   ]);
 
   const todosLosFrescos = promesas.flatMap((respuesta) =>
@@ -150,28 +150,33 @@ async function runScrape() {
   let eliminadosObsoletos = 0;
 
   const HORA_EN_MS = 60 * 60 * 1000;
-  const umbralObsoleto = Date.now() - 24 * HORA_EN_MS;
+  const umbralObsoleto = Date.now() - (7 * 24 * HORA_EN_MS); // 7 días para borrar definitivamente
 
   for (const [id, prod] of todosLosProductos.entries()) {
-    let eliminar = false;
+    let eliminarDefinitivamente = false;
 
+    // Si no lo vimos en la pasada fresca, pero la tienda respondió bien
     if (!idsFrescos.has(id)) {
       if (tiendasExitosas.has(prod.storeSlug)) {
-        eliminar = true;
-        eliminadosNoVistos++;
+        if (prod.available !== false) {
+          prod.available = false; // Lo marcamos como sin stock
+          // NO actualizamos updatedAt aquí, para que siga envejeciendo
+          eliminadosNoVistos++; 
+        }
       }
     }
 
-    if (!eliminar) {
-      const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-      if (fechaActualizacionMs < umbralObsoleto) {
-        eliminar = true;
-        eliminadosObsoletos++;
-      }
+    // Evaluamos si es tan viejo que ya hay que borrarlo del todo
+    const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
+    if (fechaActualizacionMs < umbralObsoleto) {
+      eliminarDefinitivamente = true;
+      eliminadosObsoletos++;
     }
 
-    if (eliminar) {
+    if (eliminarDefinitivamente) {
       todosLosProductos.delete(id);
+    } else {
+      todosLosProductos.set(id, prod);
     }
   }
 

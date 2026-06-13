@@ -12,7 +12,15 @@ interface ProductImageProps {
 }
 
 function usaOptimizacionExternaProblematica(src: string) {
-  return src.includes("digitalsport.com.ar/files/products");
+  const dominiosProblematicos = [
+    "digitalsport.com.ar",
+    "dexter.com.ar",
+    "stockcenter.com.ar",
+    "moov.com.ar",
+    "grid.com.ar",
+    "tiendafuencarral.com.ar"
+  ];
+  return dominiosProblematicos.some((dominio) => src.includes(dominio));
 }
 
 export function ProductImage({
