@@ -10,6 +10,7 @@
     "scrape": "tsx src/scripts/scrape-all.ts"
   },
   "dependencies": {
+    "@next/third-parties": "^16.2.9",
     "@vercel/analytics": "^2.0.1",
     "cheerio": "^1.2.0",
     "firebase": "^12.13.0",

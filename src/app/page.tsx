@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { ComparadorHome } from "@/components/ComparadorHome";
 import {
   obtenerOpcionesFiltros,
