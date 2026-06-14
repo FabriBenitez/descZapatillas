@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ProductImage } from "@/components/ProductImage";
 import {
   calcularAhorro,
-  formatearFecha,
   formatearPorcentaje,
   formatearPrecio,
 } from "@/lib/formato";
@@ -38,7 +37,8 @@ export function ProductCard({
     : `/producto/${producto.id}`;
 
   return (
-    <article
+    <Link
+      href={hrefProducto}
       className={`tarjeta-producto group relative overflow-hidden border border-[#e2e7e4] bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(15,19,17,0.06)] hover:border-[#c2cbc5] ${
         esSuperAhorro ? "tarjeta-producto--gold border-[#d4af37]/20" : ""
       } ${
@@ -47,8 +47,7 @@ export function ProductCard({
           : "flex h-full flex-col rounded-[20px] sm:rounded-[24px]"
       }`}
     >
-      <Link
-        href={hrefProducto}
+      <div
         className={`relative block overflow-hidden bg-[#f0f3f1] ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto rounded-t-[20px] sm:rounded-l-[24px] sm:rounded-tr-none"
@@ -74,19 +73,17 @@ export function ProductCard({
             Envío gratis
           </span>
         ) : null}
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2.5 sm:p-4">
         <div className="flex items-start justify-between gap-2.5">
           <div className="min-w-0">
-            <p className="text-[9px] font-extrabold uppercase tracking-wider text-white/10 bg-gradient-to-r from-[#10b981] to-[#047857] bg-clip-text text-transparent sm:block">
+            <p className="text-[9px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-[#10b981] to-[#047857] bg-clip-text text-transparent sm:block">
               {producto.brand}
             </p>
-            <Link href={hrefProducto}>
-              <h3 className="mt-0.5 line-clamp-2 text-xs font-bold font-titulos leading-snug text-[#0f1311] transition duration-200 group-hover:text-[#10b981] sm:text-sm">
-                {producto.name}
-              </h3>
-            </Link>
+            <h3 className="mt-0.5 line-clamp-2 text-xs font-bold font-titulos leading-snug text-[#0f1311] transition duration-200 group-hover:text-[#10b981] sm:text-sm">
+              {producto.name}
+            </h3>
           </div>
           <span
             className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider ${
@@ -131,19 +128,7 @@ export function ProductCard({
             </p>
           </div>
         </div>
-
-        <div className="flex items-center justify-between gap-2.5 border-t border-[#e2e7e4] pt-2.5 mt-0.5">
-          <p className="text-[9px] font-semibold text-black/40" suppressHydrationWarning>
-            {producto.province} · {formatearFecha(producto.updatedAt)}
-          </p>
-          <Link
-            href={hrefProducto}
-            className={`boton ${esSuperAhorro ? "boton--gold" : "boton--acento"} min-h-8 px-4 py-1.5 rounded-[10px] text-[11px] font-extrabold uppercase tracking-wider`}
-          >
-            Ver
-          </Link>
-        </div>
       </div>
-    </article>
+    </Link>
   );
 }
