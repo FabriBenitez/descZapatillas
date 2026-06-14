@@ -5,7 +5,6 @@ import { ProductImage } from "@/components/ProductImage";
 import { generarEnlaceAfiliado } from "@/lib/afiliados";
 import {
   calcularAhorro,
-  formatearFecha,
   formatearPorcentaje,
   formatearPrecio,
 } from "@/lib/formato";
@@ -45,23 +44,7 @@ export function ProductDetail({ producto }: ProductDetailProps) {
           </span>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          {[producto.imageUrl, producto.imageUrl, producto.imageUrl].map(
-            (imagen, indice) => (
-              <div
-                key={`${imagen}-${indice}`}
-                className="relative aspect-[4/3] overflow-hidden rounded-[16px] border border-[#e2e7e4] bg-[#f0f3f1] group cursor-pointer"
-              >
-                <ProductImage
-                  src={imagen}
-                  alt={`${producto.name} vista ${indice + 1}`}
-                  sizes="(max-width: 1024px) 30vw, 180px"
-                  className={`object-cover transition-all duration-500 group-hover:scale-105 ${indice > 0 ? "opacity-70 group-hover:opacity-100" : ""}`}
-                />
-              </div>
-            ),
-          )}
-        </div>
+
       </section>
 
       <section className="panel-premium p-6 sm:p-8 rounded-[26px] border-[#e2e7e4] bg-white/80 backdrop-blur-md shadow-lg lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -104,32 +87,7 @@ export function ProductDetail({ producto }: ProductDetailProps) {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <article className="rounded-[16px] border border-[#e2e7e4]/60 bg-[#f0f3f1] p-4 transition-all duration-200 hover:border-[#10b981]/25">
-            <p className="text-[9px] font-extrabold uppercase tracking-wider text-black/40">
-              Ubicación
-            </p>
-            <p className="mt-1 text-sm font-extrabold text-[#0f1311]">
-              {producto.province}
-            </p>
-          </article>
-          <article className="rounded-[16px] border border-[#e2e7e4]/60 bg-[#f0f3f1] p-4 transition-all duration-200 hover:border-[#10b981]/25">
-            <p className="text-[9px] font-extrabold uppercase tracking-wider text-black/40">
-              Disponibilidad
-            </p>
-            <p className="mt-1 text-sm font-extrabold text-[#0f1311]">
-              {producto.available ? "En stock" : "Confirmar stock"}
-            </p>
-          </article>
-          <article className="rounded-[16px] border border-[#e2e7e4]/60 bg-[#f0f3f1] p-4 sm:col-span-2 transition-all duration-200 hover:border-[#10b981]/25">
-            <p className="text-[9px] font-extrabold uppercase tracking-wider text-black/40">
-              Última actualización
-            </p>
-            <p className="mt-1 text-sm font-extrabold text-[#0f1311]" suppressHydrationWarning>
-              {formatearFecha(producto.updatedAt)}
-            </p>
-          </article>
-        </div>
+
 
         <div className="mt-6">
           <p className="text-[10px] font-extrabold uppercase tracking-widest text-black/40">
@@ -165,14 +123,10 @@ export function ProductDetail({ producto }: ProductDetailProps) {
           >
             Ver producto en la tienda
           </a>
-          <span className="boton boton--fantasma w-full min-h-12 border-[#e2e7e4]/80 text-[#0f1311] rounded-[16px] text-xs font-bold pointer-events-none">
-            {producto.freeShipping ? "Incluye envío gratis" : "Costo de envío según la tienda"}
-          </span>
+
         </div>
 
-        <p className="mt-5 rounded-[16px] border border-[#ead7a4]/60 bg-[#fff8e7]/80 px-4 py-3.5 text-xs font-medium leading-relaxed text-[#7a5b12]" suppressHydrationWarning>
-          <strong>Advertencia:</strong> El precio publicado suele corresponder a un talle específico en liquidación (últimos pares) o a una promoción especial. Al ingresar a la tienda y elegir tu talle, el precio puede volver al valor original si este no entra en la promoción. Última actualización: {formatearFecha(producto.updatedAt)}.
-        </p>
+
       </section>
     </article>
   );
