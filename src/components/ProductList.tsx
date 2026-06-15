@@ -21,7 +21,7 @@ function SkeletonGrid({ vista = "grid" }: { vista?: "grid" | "lista" }) {
       className={
         vista === "lista"
           ? "grid gap-3"
-          : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
+          : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
       }
     >
       {Array.from({ length: vista === "lista" ? 4 : 6 }).map((_, indice) => (
@@ -101,7 +101,7 @@ export function ProductList({
             className={
               vista === "lista"
                 ? "grid gap-3"
-                : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
+                : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
             }
           >
             {productosVisibles.map((producto, indice) => (

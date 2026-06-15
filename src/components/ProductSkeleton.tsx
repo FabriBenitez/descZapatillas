@@ -46,7 +46,7 @@ export function ProductCardSkeleton() {
 // Grid de skeletons que imita el layout real
 export function ProductListSkeleton({ cantidad = 9 }: { cantidad?: number }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-3">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: cantidad }).map((_, i) => (
         <ProductCardSkeleton key={i} />
       ))}
