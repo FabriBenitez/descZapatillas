@@ -252,19 +252,10 @@ export async function obtenerProductos(): Promise<Producto[]> {
 
 export async function obtenerProductoPorId(id: string) {
   const productos = await obtenerProductos();
-  const producto = productos.find((item) => item.id === id) ?? null;
-
-  if (!producto || producto.sizes?.length) {
-    return producto;
-  }
-
-  const plataforma = obtenerPlataformaTalles(producto);
-
-  if (!plataforma) {
-    return producto;
-  }
-
-  return enriquecerProductoConTalles(producto, plataforma);
+  // Devolvemos el producto tal cual está en la DB, sin scraping externo en tiempo de render.
+  // Los talles se cargan en el cron job (/api/cron/sync) de forma asíncrona.
+  // Hacer scraping aquí causaba error 500 en Vercel cuando la tienda tardaba > 10s.
+  return productos.find((item) => item.id === id) ?? null;
 }
 
 export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promise<Producto[]> {

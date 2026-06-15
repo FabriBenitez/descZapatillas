@@ -15,7 +15,8 @@ interface ProductoPageProps {
   searchParams: Promise<{ f?: string }>;
 }
 
-export const revalidate = 60; // Revalidar cada 60 segundos para evitar cachés de 404 y precios viejos
+export const revalidate = 60; // Revalidar cada 60 segundos
+export const maxDuration = 60; // Prevenir error 500 por timeout en Vercel
 
 export async function generateMetadata({
   params,
@@ -63,20 +64,21 @@ export default async function ProductoPage({ params, searchParams }: ProductoPag
   const { id } = await params;
   const { f } = await searchParams;
   
-  const [productoOriginal, productos] = await Promise.all([
-    obtenerProductoPorId(id),
+  // Cargamos todos los productos (para calcular similares) y el producto especifico en paralelo
+  const [producto, productos] = await Promise.all([
+    (async () => {
+      let p = await obtenerProductoPorId(id);
+      if (!p && f) {
+        try {
+          p = JSON.parse(decodeURIComponent(f));
+        } catch {
+          // ignore
+        }
+      }
+      return p;
+    })(),
     obtenerProductos(),
   ]);
-
-  let producto = productoOriginal;
-
-  if (!producto && f) {
-    try {
-      producto = JSON.parse(decodeURIComponent(f));
-    } catch (err) {
-      // ignore
-    }
-  }
 
   if (!producto) {
     notFound();

@@ -21,7 +21,7 @@ function SkeletonGrid({ vista = "grid" }: { vista?: "grid" | "lista" }) {
       className={
         vista === "lista"
           ? "grid gap-3"
-          : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
+          : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
       }
     >
       {Array.from({ length: vista === "lista" ? 4 : 6 }).map((_, indice) => (
@@ -51,7 +51,7 @@ function SkeletonGrid({ vista = "grid" }: { vista?: "grid" | "lista" }) {
   );
 }
 
-const ITEMS_PER_PAGE = 24;
+const ITEMS_PER_PAGE = 48;
 
 export function ProductList({
   titulo,
@@ -64,7 +64,7 @@ export function ProductList({
 }: ProductListProps) {
   const [limite, setLimite] = useState(ITEMS_PER_PAGE);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const isIntersecting = useIntersectionObserver(triggerRef, { rootMargin: "1500px" });
+  const isIntersecting = useIntersectionObserver(triggerRef, { rootMargin: "2500px" });
 
   useEffect(() => {
     // Reset limit when products array changes (e.g. search or filter)
@@ -101,7 +101,7 @@ export function ProductList({
             className={
               vista === "lista"
                 ? "grid gap-3"
-                : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 xl:grid-cols-3"
+                : "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
             }
           >
             {productosVisibles.map((producto, indice) => (
