@@ -68,7 +68,7 @@ export const filtrosIniciales: FiltrosProductos = {
   categoria: "",
   color: "",
   descuentoMinimo: "",
-  soloStock: false,
+  soloStock: true,
   tipoOferta: "",
   envioGratis: false,
   ultimaActualizacion: "",
