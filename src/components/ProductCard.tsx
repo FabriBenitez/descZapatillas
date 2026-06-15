@@ -40,8 +40,6 @@ export function ProductCard({
     <Link
       href={hrefProducto}
       className={`tarjeta-producto group relative overflow-hidden border border-[#e2e7e4] bg-white transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(15,19,17,0.06)] hover:border-[#c2cbc5] ${
-        esSuperAhorro ? "tarjeta-producto--gold border-[#d4af37]/20" : ""
-      } ${
         esLista
           ? "grid rounded-[20px] sm:grid-cols-[240px_minmax(0,1fr)] sm:rounded-[24px]"
           : "flex h-full flex-col rounded-[20px] sm:rounded-[24px]"

@@ -337,24 +337,6 @@ a:focus-visible {
   transform: translateY(-4px);
 }
 
-.tarjeta-producto--gold {
-  position: relative;
-}
-
-.tarjeta-producto--gold::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  background: linear-gradient(135deg, var(--color-premium), var(--color-premium-brillo), #b45309);
-  border-radius: calc(var(--radio-md) + 1px);
-  opacity: 0.4;
-  transition: opacity 0.3s ease;
-}
-
-.tarjeta-producto--gold:hover::before {
-  opacity: 0.9;
-}
 
 /* ==========================================
    Estados Vacíos y Esqueleto
