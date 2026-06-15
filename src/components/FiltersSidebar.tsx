@@ -128,7 +128,7 @@ export function FiltersSidebar({
         </button>
       </div>
 
-      <div className="border-b border-[#e2e7e4] pb-4 mb-4">
+      <div className="hidden border-b border-[#e2e7e4] pb-4 mb-4 md:block">
         <SortSelect valor={ordenSeleccionado} alCambiar={alCambiarOrden} />
       </div>
 
@@ -237,17 +237,17 @@ export function FiltersSidebar({
   return (
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="panel-premium p-5 rounded-[24px]">
-        <div className="flex items-center justify-between gap-3 md:hidden">
-          <p className="text-[10px] font-extrabold uppercase tracking-wider text-black/40">
-              Filtros
-            </p>
+        <div className="flex items-center gap-3 md:hidden">
           <button
             type="button"
-            className="boton boton--fantasma min-h-10 px-4 py-2 text-xs font-bold rounded-[12px] uppercase tracking-wider"
+            className="boton boton--fantasma min-h-10 px-4 py-2 text-xs font-bold rounded-[12px] uppercase tracking-wider whitespace-nowrap"
             onClick={() => setFiltrosAbiertos((valorActual) => !valorActual)}
           >
             {filtrosAbiertos ? "Cerrar" : "Filtrar"}
           </button>
+          <div className="flex-1 min-w-0">
+            <SortSelect valor={ordenSeleccionado} alCambiar={alCambiarOrden} ocultarEtiqueta={true} />
+          </div>
         </div>
 
         <div className={`${filtrosAbiertos ? "mt-4 block animate-fade-in" : "hidden"} md:block`}>

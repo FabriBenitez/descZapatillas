@@ -3,6 +3,7 @@ import type { OrdenProductos } from "@/types/producto";
 interface SortSelectProps {
   valor: OrdenProductos;
   alCambiar: (valor: OrdenProductos) => void;
+  ocultarEtiqueta?: boolean;
 }
 
 const opcionesOrdenamiento: Array<{
@@ -17,14 +18,14 @@ const opcionesOrdenamiento: Array<{
   { valor: "historico", etiqueta: "Mejor precio histórico" },
 ];
 
-export function SortSelect({ valor, alCambiar }: SortSelectProps) {
+export function SortSelect({ valor, alCambiar, ocultarEtiqueta = false }: SortSelectProps) {
   return (
-    <label className="grid gap-1.5 text-xs font-bold text-black/50">
-      <span className="uppercase tracking-wider">Ordenar por</span>
+    <label className={`grid text-xs font-bold text-black/50 ${ocultarEtiqueta ? "" : "gap-1.5"}`}>
+      {!ocultarEtiqueta && <span className="uppercase tracking-wider">Ordenar por</span>}
       <select
         value={valor}
         onChange={(evento) => alCambiar(evento.target.value as OrdenProductos)}
-        className="select-base h-10 text-sm font-bold sm:h-11 text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200"
+        className="select-base h-10 text-sm font-bold sm:h-11 text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200 w-full"
       >
         {opcionesOrdenamiento.map((opcion) => (
           <option key={opcion.valor} value={opcion.valor}>
