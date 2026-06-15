@@ -21,18 +21,43 @@ const BUSQUEDAS_PRINCIPALES = [
 
 // Búsquedas por marca (para capturar productos que no aparecen en categorías genéricas)
 const BUSQUEDAS_MARCAS = [
-  "nike", "adidas", "puma", "new balance", "reebok",
-  "under armour", "fila", "vans", "converse", "skechers",
-  "asics", "mizuno", "salomon", "hoka", "saucony",
-  "jordan", "lacoste", "umbro", "topper", "diadora",
-  "reebok", "lotto", "penalty", "olympikus",
-].map((query) => ({ query, paginas: 15 }));
+  { query: "nike", paginas: 100 },
+  { query: "adidas", paginas: 100 },
+  { query: "puma", paginas: 100 },
+  { query: "new balance", paginas: 50 },
+  { query: "reebok", paginas: 50 },
+  { query: "under armour", paginas: 50 },
+  { query: "fila", paginas: 50 },
+  { query: "vans", paginas: 30 },
+  { query: "converse", paginas: 30 },
+  { query: "skechers", paginas: 30 },
+  { query: "asics", paginas: 30 },
+  { query: "mizuno", paginas: 30 },
+  { query: "salomon", paginas: 30 },
+  { query: "hoka", paginas: 30 },
+  { query: "saucony", paginas: 30 },
+  { query: "jordan", paginas: 30 },
+  { query: "lacoste", paginas: 30 },
+  { query: "umbro", paginas: 30 },
+  { query: "topper", paginas: 30 },
+  { query: "diadora", paginas: 30 },
+  { query: "lotto", paginas: 30 },
+  { query: "penalty", paginas: 30 },
+  { query: "olympikus", paginas: 30 },
+];
 
 // Búsquedas por deporte/actividad
 const BUSQUEDAS_CATEGORIAS = [
-  "running", "training", "futbol", "basketball", "tenis",
-  "outdoor", "skateboarding", "urbano", "lifestyle",
-].map((query) => ({ query, paginas: 15 }));
+  { query: "running", paginas: 100 },
+  { query: "training", paginas: 50 },
+  { query: "futbol", paginas: 50 },
+  { query: "basketball", paginas: 50 },
+  { query: "tenis", paginas: 30 },
+  { query: "outdoor", paginas: 30 },
+  { query: "skateboarding", paginas: 30 },
+  { query: "urbano", paginas: 30 },
+  { query: "lifestyle", paginas: 30 },
+];
 
 const TODAS_LAS_BUSQUEDAS = [
   ...BUSQUEDAS_PRINCIPALES,
