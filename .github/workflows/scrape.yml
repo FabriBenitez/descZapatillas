@@ -2,8 +2,8 @@ name: Scraping Masivo de Ofertas
 
 on:
   schedule:
-    # Corre cada 30 minutos
-    - cron: '*/30 * * * *'
+    # Corre cada 15 minutos
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     # Permite correr el workflow manualmente desde la interfaz de GitHub
 
@@ -29,7 +29,7 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Ejecutar Scraping Masivo (Hasta 50 páginas)
+      - name: Ejecutar Scraping Masivo Multi-Query
         run: npm run scrape
 
       - name: Hacer commit y push de la Base de Datos

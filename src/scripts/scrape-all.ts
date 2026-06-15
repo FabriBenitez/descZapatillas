@@ -7,16 +7,117 @@ import { obtenerTodasLasOfertasTiendasExternas } from "../lib/connectors/tiendas
 import type { Producto } from "../types/producto";
 import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
 
+// =============================================
+// Configuración de búsquedas masivas
+// =============================================
+
+// Búsquedas principales por categoría (con muchas páginas para ser exhaustivos)
+const BUSQUEDAS_PRINCIPALES = [
+  { query: "zapatillas", paginas: 200 },
+  { query: "botines", paginas: 80 },
+  { query: "calzado", paginas: 50 },
+  { query: "sneakers", paginas: 30 },
+];
+
+// Búsquedas por marca (para capturar productos que no aparecen en categorías genéricas)
+const BUSQUEDAS_MARCAS = [
+  "nike", "adidas", "puma", "new balance", "reebok",
+  "under armour", "fila", "vans", "converse", "skechers",
+  "asics", "mizuno", "salomon", "hoka", "saucony",
+  "jordan", "lacoste", "umbro", "topper", "diadora",
+  "reebok", "lotto", "penalty", "olympikus",
+].map((query) => ({ query, paginas: 15 }));
+
+// Búsquedas por deporte/actividad
+const BUSQUEDAS_CATEGORIAS = [
+  "running", "training", "futbol", "basketball", "tenis",
+  "outdoor", "skateboarding", "urbano", "lifestyle",
+].map((query) => ({ query, paginas: 15 }));
+
+const TODAS_LAS_BUSQUEDAS = [
+  ...BUSQUEDAS_PRINCIPALES,
+  ...BUSQUEDAS_MARCAS,
+  ...BUSQUEDAS_CATEGORIAS,
+];
+
+// =============================================
+// Helper de scraping multi-query
+// =============================================
+
+async function scrapeTiendaMultiQuery(
+  nombre: string,
+  fn: (opts: Record<string, unknown>) => Promise<Producto[]>,
+  busquedas: { query: string; paginas: number }[],
+  opcionesExtra: Record<string, unknown> = {},
+): Promise<Producto[]> {
+  const productos = new Map<string, Producto>();
+  let esPrimeraBusqueda = true;
+
+  for (const { query, paginas } of busquedas) {
+    console.log(`  → ${nombre}: buscando "${query}" (${paginas} pág)...`);
+    try {
+      const resultados = await fn({
+        ...opcionesExtra,
+        paginas,
+        query,
+        // Solo enriquecer talles (scraping de detalle) en la primera búsqueda
+        // para no sobrecargar con requests de detalle en cada query
+        evitarTalles: !esPrimeraBusqueda,
+      });
+
+      let nuevos = 0;
+      for (const p of resultados) {
+        if (!productos.has(p.id)) {
+          productos.set(p.id, p);
+          nuevos++;
+        }
+      }
+      console.log(`    ✓ ${resultados.length} encontrados, ${nuevos} nuevos (${productos.size} total acumulado)`);
+    } catch (err) {
+      console.error(`    ✗ Error en ${nombre} con query "${query}":`, err instanceof Error ? err.message : err);
+    }
+    esPrimeraBusqueda = false;
+  }
+
+  return Array.from(productos.values());
+}
+
+// =============================================
+// Función principal
+// =============================================
+
 async function runScrape() {
   const inicio = Date.now();
-  console.log("Iniciando scraping masivo (hasta 50 páginas por tienda)...");
+  console.log("====================================");
+  console.log("🚀 Iniciando scraping MASIVO multi-query");
+  console.log(`📋 ${TODAS_LAS_BUSQUEDAS.length} términos de búsqueda por tienda`);
+  console.log(`🏪 7 tiendas (Moov, Grid, Dexter, StockCenter, SoloDeportes, SevenSport, TiendaFuencarral)`);
+  console.log("====================================\n");
 
-  // 1. Obtener productos frescos con un límite muy alto
+  // 1. Obtener productos frescos con múltiples queries por tienda
+  // Ejecutamos cada tienda en paralelo, pero las queries dentro de cada tienda van en secuencia
   const promesas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({ paginas: 200 }),
-    obtenerTodasLasOfertasGrid({ paginas: 200 }),
-    obtenerTodasLasOfertasDexter({ paginas: 200, categoryId: "sale" }),
-    obtenerTodasLasOfertasTiendasExternas({ paginas: 200 }),
+    scrapeTiendaMultiQuery(
+      "Moov",
+      (opts) => obtenerTodasLasOfertasMoov(opts as Parameters<typeof obtenerTodasLasOfertasMoov>[0]),
+      TODAS_LAS_BUSQUEDAS,
+    ),
+    scrapeTiendaMultiQuery(
+      "Grid",
+      (opts) => obtenerTodasLasOfertasGrid(opts as Parameters<typeof obtenerTodasLasOfertasGrid>[0]),
+      TODAS_LAS_BUSQUEDAS,
+    ),
+    scrapeTiendaMultiQuery(
+      "Dexter",
+      (opts) => obtenerTodasLasOfertasDexter(opts as Parameters<typeof obtenerTodasLasOfertasDexter>[0]),
+      TODAS_LAS_BUSQUEDAS,
+      { categoryId: "sale" },
+    ),
+    scrapeTiendaMultiQuery(
+      "Tiendas Externas",
+      (opts) => obtenerTodasLasOfertasTiendasExternas(opts as Parameters<typeof obtenerTodasLasOfertasTiendasExternas>[0]),
+      TODAS_LAS_BUSQUEDAS,
+    ),
   ]);
 
   const todosLosFrescos = promesas.flatMap((respuesta) =>
@@ -35,7 +136,7 @@ async function runScrape() {
       gender: normalizarGenero(p.gender)
     }));
 
-  console.log(`Se encontraron ${productosFrescos.length} ofertas frescas.`);
+  console.log(`\n📊 Se encontraron ${productosFrescos.length} ofertas frescas en total.`);
 
   if (productosFrescos.length === 0) {
     console.log("No se obtuvieron ofertas nuevas. Saliendo...");
@@ -57,6 +158,8 @@ async function runScrape() {
   } catch (err) {
     console.log("No se encontró base de datos previa o está corrupta. Empezando de cero.");
   }
+
+  console.log(`📦 Base de datos actual: ${productosExistentes.size} productos`);
 
   // 3. Emparejar y procesar actualizaciones
   let creados = 0;
@@ -143,14 +246,15 @@ async function runScrape() {
     }
   }
 
-  // 4. Limpieza de obsoletos
+  // 4. Limpieza agresiva de obsoletos
   const tiendasExitosas = new Set(productosFrescos.map((p) => p.storeSlug));
   const idsFrescos = new Set(productosFrescos.map((p) => p.id));
   let eliminadosNoVistos = 0;
   let eliminadosObsoletos = 0;
 
   const HORA_EN_MS = 60 * 60 * 1000;
-  const umbralObsoleto = Date.now() - (7 * 24 * HORA_EN_MS); // 7 días para borrar definitivamente
+  // Limpieza agresiva: eliminar productos no actualizados en 24 horas
+  const umbralObsoleto = Date.now() - (24 * HORA_EN_MS);
 
   for (const [id, prod] of todosLosProductos.entries()) {
     let eliminarDefinitivamente = false;
@@ -158,25 +262,24 @@ async function runScrape() {
     // Si no lo vimos en la pasada fresca, pero la tienda respondió bien
     if (!idsFrescos.has(id)) {
       if (tiendasExitosas.has(prod.storeSlug)) {
-        if (prod.available !== false) {
-          prod.available = false; // Lo marcamos como sin stock
-          // NO actualizamos updatedAt aquí, para que siga envejeciendo
-          eliminadosNoVistos++; 
-        }
+        // Con scraping multi-query exhaustivo, si no aparece en ninguna búsqueda,
+        // lo eliminamos directamente en vez de marcarlo como sin stock
+        eliminarDefinitivamente = true;
+        eliminadosNoVistos++;
       }
     }
 
     // Evaluamos si es tan viejo que ya hay que borrarlo del todo
-    const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-    if (fechaActualizacionMs < umbralObsoleto) {
-      eliminarDefinitivamente = true;
-      eliminadosObsoletos++;
+    if (!eliminarDefinitivamente) {
+      const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
+      if (fechaActualizacionMs < umbralObsoleto) {
+        eliminarDefinitivamente = true;
+        eliminadosObsoletos++;
+      }
     }
 
     if (eliminarDefinitivamente) {
       todosLosProductos.delete(id);
-    } else {
-      todosLosProductos.set(id, prod);
     }
   }
 
@@ -187,13 +290,14 @@ async function runScrape() {
     "utf-8",
   );
 
-  console.log("====================================");
-  console.log(`⏱️ Tiempo total: ${((Date.now() - inicio) / 1000).toFixed(1)}s`);
+  const duracion = ((Date.now() - inicio) / 1000).toFixed(1);
+  console.log("\n====================================");
+  console.log(`⏱️  Tiempo total: ${duracion}s`);
   console.log(`✅ Creados: ${creados}`);
   console.log(`💵 Actualizados (Precio): ${actualizadosPrecio}`);
   console.log(`🔄 Actualizados (Stock/Talles): ${actualizadosMeta}`);
-  console.log(`🗑️ Eliminados (Ya no en oferta): ${eliminadosNoVistos}`);
-  console.log(`🗑️ Eliminados (Obsoletos): ${eliminadosObsoletos}`);
+  console.log(`🗑️  Eliminados (Ya no en oferta): ${eliminadosNoVistos}`);
+  console.log(`🗑️  Eliminados (Obsoletos >24h): ${eliminadosObsoletos}`);
   console.log(`👟 Total en Base de Datos: ${todosLosProductos.size}`);
   console.log("====================================");
 }
