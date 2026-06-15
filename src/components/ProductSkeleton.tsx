@@ -3,12 +3,12 @@ export function ProductCardSkeleton() {
   return (
     <article className="flex h-full flex-col rounded-[20px] sm:rounded-[24px] overflow-hidden border border-[#e2e7e4] bg-white">
       {/* Imagen */}
-      <div className="aspect-square bg-[#f0f3f1] relative overflow-hidden">
+      <div className="aspect-[4/3] sm:aspect-square bg-[#f0f3f1] relative overflow-hidden">
         <div className="absolute inset-0 skeleton-shine" />
       </div>
 
       {/* Contenido */}
-      <div className="flex flex-1 flex-col gap-2.5 p-3 sm:p-4">
+      <div className="flex flex-1 flex-col gap-2.5 p-2.5 sm:p-4">
         {/* Marca */}
         <div className="h-3 w-16 rounded-full bg-[#e8edea] relative overflow-hidden">
           <div className="absolute inset-0 skeleton-shine" />

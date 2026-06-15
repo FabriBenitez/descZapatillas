@@ -49,7 +49,7 @@ export function ProductCard({
         className={`relative block overflow-hidden bg-[#f0f3f1] ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto rounded-t-[20px] sm:rounded-l-[24px] sm:rounded-tr-none"
-            : "aspect-square rounded-t-[20px] sm:rounded-t-[24px]"
+            : "aspect-[4/3] sm:aspect-square rounded-t-[20px] sm:rounded-t-[24px]"
         }`}
       >
         <ProductImage
@@ -73,7 +73,7 @@ export function ProductCard({
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2.5 sm:p-4">
+      <div className="flex flex-1 flex-col gap-1.5 p-2.5 sm:gap-2.5 sm:p-4">
         <div className="flex items-start justify-between gap-2.5">
           <div className="min-w-0">
             <p className="text-[9px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-[#10b981] to-[#047857] bg-clip-text text-transparent sm:block">
