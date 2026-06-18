@@ -2,63 +2,42 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="pie-pagina mt-14 border-t border-white/10 bg-[#111713] py-10 text-white">
-      <div className="contenedor grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,0.7fr))]">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-white text-sm font-black text-[#111713]">
-              PO
-            </span>
-            <div>
-              <p className="text-lg font-black">Pisando Ofertas</p>
-              <p className="text-sm font-semibold text-white/50">
-                Comparador premium de sneakers
-              </p>
+    <footer className="pie-pagina mt-14 border-t border-white/10 bg-[#111713] py-16 text-white">
+      <div className="contenedor mx-auto max-w-7xl px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          
+          {/* Navegación */}
+          <div className="space-y-6 border-b border-white/10 py-8 md:border-b-0 md:border-r md:py-0 md:pr-12 lg:pr-24">
+            <h3 className="text-[15px] font-medium text-white">Navegación</h3>
+            <div className="flex flex-col space-y-3.5">
+              <Link href="/" className="text-[14px] text-white/50 transition hover:text-white">Inicio</Link>
+              <Link href="/comparador" className="text-[14px] text-white/50 transition hover:text-white">Comparador</Link>
+              <Link href="/#ofertas" className="text-[14px] text-white/50 transition hover:text-white">Ofertas Destacadas</Link>
+              <a href="mailto:hola@pisandoofertas.com" className="text-[14px] text-white/50 transition hover:text-white">Contacto</a>
             </div>
           </div>
-          <p className="max-w-md text-sm leading-6 text-white/58">
-            Ofertas ordenadas para comparar precio, descuento, stock e historial
-            con la menor friccion posible.
-          </p>
-          <p className="rounded-[16px] border border-white/10 bg-white/[0.06] px-4 py-3 text-sm leading-6 text-white/62">
-            Los precios y descuentos son informativos y pueden cambiar en la
-            tienda oficial.
-          </p>
-        </div>
 
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Navegacion</p>
-          <Link href="/" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Inicio
-          </Link>
-          <Link href="/comparador" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Comparador
-          </Link>
-          <Link href="/#ofertas" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Ofertas destacadas
-          </Link>
-        </div>
+          {/* Categorías */}
+          <div className="space-y-6 border-b border-white/10 py-8 md:border-b-0 md:border-r md:py-0 md:px-12 lg:px-24">
+            <h3 className="text-[15px] font-medium text-white">Categorías</h3>
+            <div className="flex flex-col space-y-3.5">
+              <Link href="/comparador?q=zapatillas" className="text-[14px] text-white/50 transition hover:text-white">Zapatillas</Link>
+              <Link href="/comparador?q=botines" className="text-[14px] text-white/50 transition hover:text-white">Botines</Link>
+              <Link href="/comparador?q=running" className="text-[14px] text-white/50 transition hover:text-white">Running</Link>
+              <Link href="/comparador?q=nike" className="text-[14px] text-white/50 transition hover:text-white">Nike</Link>
+              <Link href="/comparador?q=adidas" className="text-[14px] text-white/50 transition hover:text-white">Adidas</Link>
+            </div>
+          </div>
 
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Utiles</p>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="/sitemap.xml">
-            Sitemap
-          </a>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="/robots.txt">
-            Robots
-          </a>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="mailto:hola@pisandoofertas.com">
-            Contacto
-          </a>
-        </div>
+          {/* Legal */}
+          <div className="space-y-6 py-8 md:py-0 md:pl-12 lg:pl-24">
+            <h3 className="text-[15px] font-medium text-white">Legal</h3>
+            <div className="flex flex-col space-y-3.5">
+              <Link href="/terminos" className="text-[14px] text-white/50 transition hover:text-white">Términos y Condiciones</Link>
+              <Link href="/privacidad" className="text-[14px] text-white/50 transition hover:text-white">Política de Privacidad</Link>
+            </div>
+          </div>
 
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Contacto</p>
-          <p className="text-sm font-semibold text-white/55">hola@pisandoofertas.com</p>
-          <p className="text-sm font-semibold text-white/55">Buenos Aires, Argentina</p>
-          <p className="text-sm font-semibold text-white/55">
-            Preparado para escalar a muchas tiendas
-          </p>
         </div>
       </div>
     </footer>
