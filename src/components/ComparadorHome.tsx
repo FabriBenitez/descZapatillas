@@ -1,8 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSearch } from "@/components/HeroSearch";
@@ -22,34 +19,14 @@ export function ComparadorHome({
   cantidadMarcas,
   cantidadTiendas,
 }: ComparadorHomeProps) {
-  const router = useRouter();
-  const [terminoBusqueda, setTerminoBusqueda] = useState("");
-
   const ofertaDestacada = productosDestacados[0] ?? null;
-
-  function irAPaginaComparador() {
-    const parametros = new URLSearchParams();
-
-    if (terminoBusqueda.trim()) {
-      parametros.set("q", terminoBusqueda.trim());
-    }
-
-    router.push(`/comparador${parametros.toString() ? `?${parametros}` : ""}`);
-  }
 
   return (
     <>
-      <Header
-        terminoBusqueda={terminoBusqueda}
-        alCambiarBusqueda={setTerminoBusqueda}
-        alEnviarBusqueda={irAPaginaComparador}
-      />
+      <Header />
 
       <main className="pagina flex-1">
         <HeroSearch
-          terminoBusqueda={terminoBusqueda}
-          alCambiarBusqueda={setTerminoBusqueda}
-          alEnviarBusqueda={irAPaginaComparador}
           cantidadProductos={cantidadProductos}
           cantidadMarcas={cantidadMarcas}
           cantidadTiendas={cantidadTiendas}

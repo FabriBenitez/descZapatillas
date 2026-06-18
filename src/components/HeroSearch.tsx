@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
 
 import { ProductImage } from "@/components/ProductImage";
 import {
@@ -11,9 +13,9 @@ import {
 import type { Producto } from "@/types/producto";
 
 interface HeroSearchProps {
-  terminoBusqueda: string;
-  alCambiarBusqueda: (valor: string) => void;
-  alEnviarBusqueda: () => void;
+  terminoBusqueda?: string;
+  alCambiarBusqueda?: (valor: string) => void;
+  alEnviarBusqueda?: () => void;
   cantidadProductos: number;
   cantidadMarcas: number;
   cantidadTiendas: number;
@@ -23,7 +25,7 @@ interface HeroSearchProps {
 const busquedasSugeridas = ["Air Force", "Campus", "Suede", "Dunk", "Gel"];
 
 export function HeroSearch({
-  terminoBusqueda,
+  terminoBusqueda = "",
   alCambiarBusqueda,
   alEnviarBusqueda,
   cantidadProductos,
@@ -31,9 +33,35 @@ export function HeroSearch({
   cantidadTiendas,
   ofertaDestacada,
 }: HeroSearchProps) {
+  const router = useRouter();
+  const [terminoLocal, setTerminoLocal] = useState(terminoBusqueda);
+  const valorBusqueda = alCambiarBusqueda ? terminoBusqueda : terminoLocal;
+
+  function navegarAlComparador(valor: string) {
+    const parametros = new URLSearchParams();
+    if (valor.trim()) {
+      parametros.set("q", valor.trim());
+    }
+    router.push(`/comparador${parametros.toString() ? `?${parametros}` : ""}`);
+  }
+
+  function enviarBusqueda(evento: FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
+    if (alEnviarBusqueda) {
+      alEnviarBusqueda();
+    } else {
+      navegarAlComparador(valorBusqueda);
+    }
+  }
+
   function buscarSugerencia(valor: string) {
-    alCambiarBusqueda(valor);
-    alEnviarBusqueda();
+    if (alCambiarBusqueda && alEnviarBusqueda) {
+      alCambiarBusqueda(valor);
+      alEnviarBusqueda();
+    } else {
+      setTerminoLocal(valor);
+      navegarAlComparador(valor);
+    }
   }
 
   const esSuperAhorro = ofertaDestacada && ofertaDestacada.discount >= 50;
@@ -69,10 +97,7 @@ export function HeroSearch({
 
           <form
             className="rounded-[24px] border border-white/10 bg-white/[0.02] p-2 backdrop-blur-xl shadow-[0_24px_50px_rgba(0,0,0,0.6)] focus-within:border-[#10b981]/50 focus-within:shadow-[0_0_30px_rgba(16,185,129,0.15)] transition-all duration-300"
-            onSubmit={(evento) => {
-              evento.preventDefault();
-              alEnviarBusqueda();
-            }}
+            onSubmit={enviarBusqueda}
           >
             <label htmlFor="busqueda-hero" className="sr-only">
               Buscar zapatillas
@@ -96,8 +121,14 @@ export function HeroSearch({
                 <input
                   id="busqueda-hero"
                   type="search"
-                  value={terminoBusqueda}
-                  onChange={(evento) => alCambiarBusqueda(evento.target.value)}
+                  value={valorBusqueda}
+                  onChange={(evento) => {
+                    if (alCambiarBusqueda) {
+                      alCambiarBusqueda(evento.target.value);
+                    } else {
+                      setTerminoLocal(evento.target.value);
+                    }
+                  }}
                   placeholder="Nike Air Force, Adidas Campus, Puma Suede..."
                   className="min-h-14 rounded-[18px] border-0 bg-white/[0.03] pl-12 pr-5 text-base font-semibold text-white outline-none placeholder:text-white/40 focus:bg-white/[0.06] transition-all duration-250 w-full"
                 />
