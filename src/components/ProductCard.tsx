@@ -70,37 +70,37 @@ export function ProductCard({
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
-        <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-1 flex-col gap-1.5 p-2 sm:gap-2 sm:p-5">
+        <div className="flex items-start justify-between gap-1.5 sm:gap-3">
           <div className="min-w-0">
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#111] bg-white border-2 border-[#111] px-2 py-1 rounded-[4px] inline-block mb-2 max-w-full truncate">
+            <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-[#111] bg-white border sm:border-2 border-[#111] px-1 sm:px-2 py-0.5 sm:py-1 rounded-[4px] inline-block mb-1 sm:mb-2 max-w-full truncate">
               {producto.brand}
             </p>
-            <h3 className="line-clamp-2 text-sm font-black font-titulos leading-snug text-[#111] transition duration-200 group-hover:text-[#FF4500] uppercase tracking-tighter">
+            <h3 className="line-clamp-2 text-[11px] sm:text-sm font-black font-titulos leading-snug text-[#111] transition duration-200 group-hover:text-[#FF4500] uppercase tracking-tighter">
               {producto.name}
             </h3>
           </div>
           <span
-            className={`shrink-0 rounded-[4px] px-2 py-1 text-[9px] font-black uppercase tracking-widest border-2 ${
+            className={`shrink-0 rounded-[4px] px-1 sm:px-2 py-0.5 sm:py-1 text-[7px] sm:text-[9px] font-black uppercase tracking-widest border sm:border-2 ${
               producto.available
-                ? "bg-white text-[#111] border-[#111] shadow-[2px_2px_0px_#111]"
-                : "bg-[#FF4500] text-white border-[#FF4500] shadow-[2px_2px_0px_#111]"
+                ? "bg-white text-[#111] border-[#111] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111]"
+                : "bg-[#FF4500] text-white border-[#FF4500] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111]"
             }`}
           >
-            {producto.available ? "En stock" : "Sin stock"}
+            {producto.available ? "Stock" : "Sin"}
           </span>
         </div>
 
-        <div className="mt-auto pt-3 border-t-2 border-[#111]/10">
-          <div className="flex flex-wrap items-baseline gap-2">
-            <p className="text-2xl font-black font-mono leading-none tracking-tighter text-[#111]">
+        <div className="mt-auto pt-2 sm:pt-3 border-t-2 border-[#111]/10">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-baseline sm:gap-2">
+            <p className="text-lg sm:text-2xl font-black font-mono leading-none tracking-tighter text-[#111]">
               {formatearPrecio(producto.price)}
             </p>
-            <p className="text-[11px] font-bold font-mono text-black/50 line-through shrink-0">
+            <p className="text-[9px] sm:text-[11px] font-bold font-mono text-black/50 line-through shrink-0 mt-0.5 sm:mt-0">
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
-          <span className={`inline-flex rounded-[4px] px-2.5 py-1 text-[10px] font-black mt-2 border-2 shadow-[2px_2px_0px_#111] ${
+          <span className={`inline-flex rounded-[4px] px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[8px] sm:text-[10px] font-black mt-1.5 sm:mt-2 border sm:border-2 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] ${
             esSuperAhorro
               ? "bg-[#FF4500] text-white border-[#FF4500]"
               : "bg-white text-[#111] border-[#111]"
@@ -109,13 +109,13 @@ export function ProductCard({
           </span>
         </div>
 
-        <div className="grid grid-cols-[1fr_1.5fr] gap-2 text-[11px] pt-3 mt-3 border-t-2 border-[#111]/10">
-          <div className="flex items-center justify-center rounded-[4px] bg-white border-2 border-[#111] p-2 shadow-[2px_2px_0px_#111]">
+        <div className="grid grid-cols-[1fr_1.2fr] sm:grid-cols-[1fr_1.5fr] gap-1 sm:gap-2 text-[11px] pt-2 sm:pt-3 mt-2 sm:mt-3 border-t-2 border-[#111]/10">
+          <div className="flex items-center justify-center rounded-[4px] bg-white border sm:border-2 border-[#111] p-1 sm:p-2 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden min-w-0">
             <StoreLogo storeName={producto.storeName} />
           </div>
-          <div className="flex flex-col justify-center rounded-[4px] bg-[#f9f9f9] border-2 border-[#111] px-3 py-1 shadow-[2px_2px_0px_#111] overflow-hidden">
-            <p className="text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talle</p>
-            <p className="font-black text-[#111] text-xs line-clamp-2">
+          <div className="flex flex-col justify-center rounded-[4px] bg-[#f9f9f9] border sm:border-2 border-[#111] px-1.5 sm:px-3 py-0.5 sm:py-1 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden">
+            <p className="text-[7px] sm:text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talle</p>
+            <p className="font-black text-[#111] text-[9px] sm:text-xs line-clamp-1 sm:line-clamp-2">
               {producto.size ?? "Consultar"}
             </p>
           </div>
