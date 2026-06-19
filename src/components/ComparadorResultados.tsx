@@ -61,10 +61,9 @@ export function ComparadorResultados({
       try {
         const parsed = JSON.parse(savedState);
         
-        // Si hay una busqueda en la URL, la respetamos. Si no, restauramos la guardada
-        if (!busquedaInicial && parsed.terminoBusqueda) {
-          setTerminoBusqueda(parsed.terminoBusqueda);
-        }
+        // Ya no restauramos terminoBusqueda de la sesión para evitar
+        // que al entrar a "Ver ofertas" se filtre por una busqueda vieja.
+        // La fuente de verdad para el término de búsqueda es la URL (busquedaInicial).
         
         if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
         if (parsed.filtros) setFiltros(parsed.filtros);

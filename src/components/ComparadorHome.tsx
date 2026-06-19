@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ProductList } from "@/components/ProductList";
+import { Marquee } from "@/components/Marquee";
 import type { Producto } from "@/types/producto";
 
 interface ComparadorHomeProps {
@@ -43,6 +44,7 @@ export function ComparadorHome({
         terminoBusqueda={terminoBusqueda}
         alCambiarBusqueda={setTerminoBusqueda}
         alEnviarBusqueda={irAPaginaComparador}
+        ocultarBuscador={true}
       />
 
       <main className="pagina flex-1">
@@ -55,8 +57,9 @@ export function ComparadorHome({
           cantidadTiendas={cantidadTiendas}
           ofertaDestacada={ofertaDestacada}
         />
+        <Marquee text="ÚLTIMAS OFERTAS DETECTADAS EN TIEMPO REAL" />
 
-        <section id="ofertas" className="pb-10 pt-3">
+        <section id="ofertas" className="pb-10 pt-8 sm:pt-12">
           <div className="contenedor">
             <ProductList
               titulo="Ofertas que conviene mirar primero"

@@ -22,7 +22,7 @@ const REVALIDACION_PRODUCTOS_SEGUNDOS = 60 * 60;
 
 // Caché RAM (Plan C) para Vercel Serverless
 // Esto guarda las búsquedas en memoria volátil por si Firebase falla y el FileSystem es Read-Only
-let cacheVolatilVercel = new Map<string, Producto>();
+const cacheVolatilVercel = new Map<string, Producto>();
 
 function ordenarPorActualizacion(productos: Producto[]) {
   return [...productos].sort(

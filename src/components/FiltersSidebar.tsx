@@ -57,12 +57,12 @@ function GrupoSelect({
   alCambiarFiltro,
 }: GrupoSelectProps) {
   return (
-    <label className="grid gap-1.5 text-xs font-bold text-black/50">
-      <span className="uppercase tracking-wider">{etiqueta}</span>
+    <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest">
+      <span>{etiqueta}</span>
       <select
         value={valor}
         onChange={(evento) => alCambiarFiltro(id, evento.target.value)}
-        className="select-base text-sm font-bold text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200"
+        className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all cursor-pointer appearance-none"
       >
         <option value="">{placeholder}</option>
         {opciones.map((opcion) => (
@@ -87,18 +87,18 @@ function GrupoPlegable({
   const [abierto, setAbierto] = useState(abiertoInicial);
 
   return (
-    <section className="border-t border-[#e2e7e4] py-4 first:border-t-0">
+    <section className="border-t-2 border-[#111]/10 py-4 first:border-t-0">
       <button
         type="button"
         className="flex w-full items-center justify-between gap-3 text-left group"
         onClick={() => setAbierto((valorActual) => !valorActual)}
       >
-        <span className="text-sm font-extrabold uppercase tracking-wider text-[#0f1311] group-hover:text-[#10b981] transition-colors duration-200">
+        <span className="text-sm font-black uppercase tracking-widest text-[#111] group-hover:text-[#FF4500] transition-colors duration-200">
           {titulo}
         </span>
-        <ChevronIcon className={`text-black/40 group-hover:text-black ${abierto ? "rotate-180" : ""}`} />
+        <ChevronIcon className={`text-[#111] transition-transform duration-300 ${abierto ? "rotate-180" : ""}`} />
       </button>
-      <div className={`grid gap-3 transition-all duration-300 ${abierto ? "mt-4 opacity-100 h-auto visible" : "h-0 opacity-0 invisible overflow-hidden"}`}>
+      <div className={`grid gap-4 transition-all duration-300 ${abierto ? "mt-4 opacity-100 h-auto visible" : "h-0 opacity-0 invisible overflow-hidden"}`}>
         {children}
       </div>
     </section>
@@ -118,129 +118,126 @@ export function FiltersSidebar({
 
   const contenidoFiltros = (
     <>
-        <div className="hidden items-start justify-end gap-4 md:flex pb-4">
+      <div className="hidden items-start justify-end gap-4 md:flex pb-4 border-b-2 border-[#111] mb-6">
         <button
           type="button"
-          className="text-xs font-extrabold uppercase tracking-wider text-black/40 transition hover:text-[#f43f5e]"
+          className="text-[10px] font-black uppercase tracking-widest text-black/50 transition hover:text-[#FF4500]"
           onClick={alLimpiarFiltros}
         >
           Limpiar todo
         </button>
       </div>
 
-      <div className="hidden border-b border-[#e2e7e4] pb-4 mb-4 md:block">
+      <div className="hidden pb-6 md:block">
         <SortSelect valor={ordenSeleccionado} alCambiar={alCambiarOrden} />
       </div>
 
-      <GrupoPlegable titulo="Marca y tienda">
-        <GrupoSelect
-          id="marca"
-          etiqueta="Marca"
-          valor={filtros.marca}
-          opciones={opciones.marcas}
-          placeholder="Todas las marcas"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <GrupoSelect
-          id="tienda"
-          etiqueta="Tienda"
-          valor={filtros.tienda}
-          opciones={opciones.tiendas}
-          placeholder="Todas las tiendas"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-
-      </GrupoPlegable>
-
-      <GrupoPlegable titulo="Precio y descuento">
-        <div className="grid grid-cols-2 gap-2">
-          <label className="grid gap-1.5 text-xs font-bold text-black/50">
-            <span className="uppercase tracking-wider">Mínimo</span>
-            <input
-              type="number"
-              value={filtros.precioMinimo}
-              onChange={(evento) =>
-                alCambiarFiltro("precioMinimo", evento.target.value)
-              }
-              placeholder="Min ($)"
-              className="input-base text-sm font-bold text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200"
-            />
-          </label>
-          <label className="grid gap-1.5 text-xs font-bold text-black/50">
-            <span className="uppercase tracking-wider">Máximo</span>
-            <input
-              type="number"
-              value={filtros.precioMaximo}
-              onChange={(evento) =>
-                alCambiarFiltro("precioMaximo", evento.target.value)
-              }
-              placeholder="Max ($)"
-              className="input-base text-sm font-bold text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200"
-            />
-          </label>
-        </div>
-        <label className="grid gap-1.5 text-xs font-bold text-black/50">
-          <span className="uppercase tracking-wider">Descuento mínimo (%)</span>
-          <input
-            type="number"
-            value={filtros.descuentoMinimo}
-            onChange={(evento) =>
-              alCambiarFiltro("descuentoMinimo", evento.target.value)
-            }
-            placeholder="Ej. 20%"
-            className="input-base text-sm font-bold text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200"
+      <div className="grid gap-4">
+        <GrupoPlegable titulo="Marca y tienda">
+          <GrupoSelect
+            id="marca"
+            etiqueta="Marca"
+            valor={filtros.marca}
+            opciones={opciones.marcas}
+            placeholder="Todas las marcas"
+            alCambiarFiltro={alCambiarFiltro}
           />
-        </label>
-      </GrupoPlegable>
+          <GrupoSelect
+            id="tienda"
+            etiqueta="Tienda"
+            valor={filtros.tienda}
+            opciones={opciones.tiendas}
+            placeholder="Todas las tiendas"
+            alCambiarFiltro={alCambiarFiltro}
+          />
+        </GrupoPlegable>
 
-      <GrupoPlegable titulo="Producto">
-        <GrupoSelect
-          id="talle"
-          etiqueta="Talle"
-          valor={filtros.talle}
-          opciones={opciones.talles}
-          placeholder="Todos los talles"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <GrupoSelect
-          id="categoria"
-          etiqueta="Categoría"
-          valor={filtros.categoria}
-          opciones={opciones.categorias}
-          placeholder="Todas las categorías"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <GrupoSelect
-          id="color"
-          etiqueta="Color"
-          valor={filtros.color}
-          opciones={opciones.colores}
-          placeholder="Todos los colores"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-        <GrupoSelect
-          id="genero"
-          etiqueta="Género"
-          valor={filtros.genero}
-          opciones={opciones.generos}
-          placeholder="Cualquier género"
-          alCambiarFiltro={alCambiarFiltro}
-        />
-      </GrupoPlegable>
+        <GrupoPlegable titulo="Precio y descuento">
+          <div className="grid grid-cols-2 gap-3">
+            <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest">
+              <span>Mínimo</span>
+              <input
+                type="number"
+                value={filtros.precioMinimo}
+                onChange={(evento) =>
+                  alCambiarFiltro("precioMinimo", evento.target.value)
+                }
+                placeholder="Min ($)"
+                className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+              />
+            </label>
+            <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest">
+              <span>Máximo</span>
+              <input
+                type="number"
+                value={filtros.precioMaximo}
+                onChange={(evento) =>
+                  alCambiarFiltro("precioMaximo", evento.target.value)
+                }
+                placeholder="Max ($)"
+                className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+              />
+            </label>
+          </div>
+          <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest mt-4">
+            <span>Descuento mínimo (%)</span>
+            <input
+              type="number"
+              value={filtros.descuentoMinimo}
+              onChange={(evento) =>
+                alCambiarFiltro("descuentoMinimo", evento.target.value)
+              }
+              placeholder="Ej. 20%"
+              className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+            />
+          </label>
+        </GrupoPlegable>
 
-
-
-
+        <GrupoPlegable titulo="Producto">
+          <GrupoSelect
+            id="talle"
+            etiqueta="Talle"
+            valor={filtros.talle}
+            opciones={opciones.talles}
+            placeholder="Todos los talles"
+            alCambiarFiltro={alCambiarFiltro}
+          />
+          <GrupoSelect
+            id="categoria"
+            etiqueta="Categoría"
+            valor={filtros.categoria}
+            opciones={opciones.categorias}
+            placeholder="Todas las categorías"
+            alCambiarFiltro={alCambiarFiltro}
+          />
+          <GrupoSelect
+            id="color"
+            etiqueta="Color"
+            valor={filtros.color}
+            opciones={opciones.colores}
+            placeholder="Todos los colores"
+            alCambiarFiltro={alCambiarFiltro}
+          />
+          <GrupoSelect
+            id="genero"
+            etiqueta="Género"
+            valor={filtros.genero}
+            opciones={opciones.generos}
+            placeholder="Cualquier género"
+            alCambiarFiltro={alCambiarFiltro}
+          />
+        </GrupoPlegable>
+      </div>
     </>
   );
 
   return (
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div className="panel-premium p-5 rounded-[24px]">
+      <div className="bg-white border-2 border-[#111] p-5 sm:p-6 rounded-[8px] shadow-[6px_6px_0px_#e2e7e4]">
         <div className="flex items-center gap-3 md:hidden">
           <button
             type="button"
-            className="boton boton--fantasma min-h-10 px-4 py-2 text-xs font-bold rounded-[12px] uppercase tracking-wider whitespace-nowrap"
+            className="bg-white border-2 border-[#111] min-h-10 px-4 py-2 text-xs font-black rounded-[4px] uppercase tracking-widest whitespace-nowrap shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#111] transition-all"
             onClick={() => setFiltrosAbiertos((valorActual) => !valorActual)}
           >
             {filtrosAbiertos ? "Cerrar" : "Filtrar"}
@@ -250,11 +247,11 @@ export function FiltersSidebar({
           </div>
         </div>
 
-        <div className={`${filtrosAbiertos ? "mt-4 block animate-fade-in" : "hidden"} md:block`}>
+        <div className={`${filtrosAbiertos ? "mt-6 block animate-fade-in" : "hidden"} md:block`}>
           {contenidoFiltros}
           <button
             type="button"
-            className="mt-4 w-full rounded-[14px] border border-[#e2e7e4] px-4 py-3.5 text-xs font-extrabold uppercase tracking-wider text-black/40 transition hover:text-black hover:border-black md:hidden"
+            className="mt-6 w-full rounded-[4px] border-2 border-[#111] bg-white px-4 py-3.5 text-xs font-black uppercase tracking-widest text-[#111] transition hover:bg-[#111] hover:text-white md:hidden shadow-[2px_2px_0px_#111]"
             onClick={alLimpiarFiltros}
           >
             Restablecer filtros

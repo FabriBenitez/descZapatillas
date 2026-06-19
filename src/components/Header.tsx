@@ -12,12 +12,14 @@ interface HeaderProps {
   terminoBusqueda?: string;
   alCambiarBusqueda?: (valor: string) => void;
   alEnviarBusqueda?: () => void;
+  ocultarBuscador?: boolean;
 }
 
 export function Header({
   terminoBusqueda = "",
   alCambiarBusqueda,
   alEnviarBusqueda,
+  ocultarBuscador = false,
 }: HeaderProps) {
   const router = useRouter();
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -59,70 +61,86 @@ export function Header({
   }
 
   return (
-    <header className="encabezado sticky top-0 z-50 border-b border-[#10b981]/15 bg-[#0f1311]/90 text-white backdrop-blur-xl transition-all duration-300">
-      <div className="contenedor grid gap-3 py-3 lg:grid-cols-[auto_minmax(240px,1fr)_auto] lg:items-center">
-        <div className="flex items-center justify-between gap-3">
+    <header className="encabezado sticky top-0 z-50 border-b-4 border-[#111] bg-[#f0f3f1] text-[#111] transition-all duration-300">
+      <div className="contenedor grid gap-4 py-4 lg:grid-cols-[auto_minmax(300px,1fr)_auto] lg:items-center">
+        <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
             className="encabezado__marca flex items-center gap-3 group"
             onClick={() => setMenuAbierto(false)}
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-gradient-to-br from-[#10b981] to-[#059669] text-sm font-black text-[#0f1311] shadow-lg shadow-[#10b981]/20 transition-all duration-300 group-hover:scale-105 group-hover:shadow-[#10b981]/40">
+            <span className="flex h-12 w-12 items-center justify-center border-2 border-[#111] bg-[#FF4500] text-xl font-black text-[#111] shadow-[4px_4px_0px_#111] transition-all duration-200 group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[2px_2px_0px_#111]">
               PO
             </span>
             <span className="flex flex-col leading-none">
-              <span className="text-base font-black tracking-tight font-titulos bg-gradient-to-r from-white to-white/90 bg-clip-text text-transparent group-hover:text-[#10b981] transition-colors">
+              <span className="text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase">
                 Pisando Ofertas
               </span>
-              <span className="mt-1 text-[10px] font-semibold text-white/50 tracking-wider uppercase font-cuerpo">
-                Sneaker deals tracker
+              <span className="mt-1 text-xs font-bold text-[#111]/60 tracking-widest uppercase font-cuerpo">
+                Deals Tracker
               </span>
             </span>
           </Link>
-
-
         </div>
 
-        <form
-          className="encabezado__busqueda relative order-3 lg:order-none"
-          onSubmit={enviarBusqueda}
-        >
-          <label htmlFor="busqueda-header" className="sr-only">
-            Buscar zapatillas
-          </label>
-          <input
-            id="busqueda-header"
-            type="search"
-            value={valorBusqueda}
-            onChange={(evento) => {
-              if (alCambiarBusqueda) {
-                alCambiarBusqueda(evento.target.value);
-              } else {
-                setTerminoLocal(evento.target.value);
-              }
-            }}
-            placeholder="Buscar modelo, marca o tienda"
-            className="h-11 w-full rounded-[14px] border border-white/10 bg-white/[0.06] px-4 pr-24 text-sm text-white outline-none transition-all duration-250 placeholder:text-white/40 focus:border-[#10b981]/50 focus:bg-[#0f1311] focus:ring-4 focus:ring-[#10b981]/10"
-          />
-          <button
-            type="submit"
-            className="absolute right-1.5 top-1.5 h-8 rounded-[10px] bg-white px-4 text-xs font-black text-[#0f1311] transition-all duration-200 hover:bg-[#10b981] hover:text-white active:scale-95"
+        {!ocultarBuscador && (
+          <form
+            className="encabezado__busqueda relative order-3 lg:order-none flex w-full"
+            onSubmit={enviarBusqueda}
           >
-            Buscar
-          </button>
-        </form>
+            <label htmlFor="busqueda-header" className="sr-only">
+              Buscar zapatillas
+            </label>
+            <div className="flex w-full border-2 border-[#111] bg-white shadow-[4px_4px_0px_#111] focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-[2px_2px_0px_#111] transition-all duration-200">
+              <div className="flex items-center pl-4">
+                <svg
+                  className="h-5 w-5 text-[#111]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <input
+                id="busqueda-header"
+                type="search"
+                value={valorBusqueda}
+                onChange={(evento) => {
+                  if (alCambiarBusqueda) {
+                    alCambiarBusqueda(evento.target.value);
+                  } else {
+                    setTerminoLocal(evento.target.value);
+                  }
+                }}
+                placeholder="BUSCAR MARCAS, MODELOS..."
+                className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-bold uppercase text-[#111] outline-none placeholder:text-[#111]/40"
+              />
+              <button
+                type="submit"
+                className="border-l-2 border-[#111] bg-[#111] px-6 text-sm font-black uppercase text-white transition-colors duration-200 hover:bg-[#FF4500] hover:text-[#111]"
+              >
+                Buscar
+              </button>
+            </div>
+          </form>
+        )}
 
         <div className="hidden items-center justify-end gap-6 lg:flex">
-
-          <Link href="/comparador" className="boton boton--acento min-h-10 px-5 py-2 text-xs uppercase tracking-wider font-extrabold rounded-[12px]">
+          <Link
+            href="/comparador"
+            className="flex h-12 items-center justify-center border-2 border-[#111] bg-[#10b981] px-6 text-sm font-black uppercase tracking-widest text-[#111] shadow-[4px_4px_0px_#111] transition-all duration-200 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#111]"
+          >
             Ver ofertas
           </Link>
         </div>
       </div>
-
-
-
-
     </header>
   );
 }

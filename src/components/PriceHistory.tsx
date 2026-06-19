@@ -18,9 +18,9 @@ export function PriceHistory({ producto }: PriceHistoryProps) {
 
   if (historial.length === 0) {
     return (
-      <section className="panel-premium p-6 rounded-[24px] border-[#e2e7e4]">
-        <h2 className="titulo-seccion font-titulos text-[#0f1311]">Historial de precios</h2>
-        <p className="mt-2 text-sm text-black/40">
+      <section className="p-6 rounded-[8px] border-2 border-[#111] bg-[#f9f9f9] shadow-[6px_6px_0px_#e2e7e4]">
+        <h2 className="text-2xl font-black uppercase tracking-tighter text-[#111]">Historial de precios</h2>
+        <p className="mt-2 text-sm font-bold text-black/50">
           Todavía no hay suficientes registros históricos para este producto.
         </p>
       </section>
@@ -31,50 +31,50 @@ export function PriceHistory({ producto }: PriceHistoryProps) {
   const precioMenor = Math.min(...historial.map((registro) => registro.precio));
 
   return (
-    <section className="historial-precios panel-premium p-6 sm:p-8 rounded-[24px] border-[#e2e7e4]">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="seccion-cabecera">
-          <h2 className="titulo-seccion font-titulos text-[#0f1311] tracking-tight">Historial de precios</h2>
-          <p className="max-w-2xl text-xs font-semibold leading-relaxed text-black/40 mt-1">
-            Evolución reciente del precio para validar si el descuento actual realmente representa una oportunidad.
+    <section className="p-6 sm:p-8 rounded-[8px] border-2 border-[#111] bg-white shadow-[8px_8px_0px_#e2e7e4]">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-[#111]">Historial de precios</h2>
+          <p className="max-w-2xl text-xs font-bold leading-relaxed text-black/50 mt-2 uppercase tracking-wide">
+            Evolución reciente para validar si el descuento representa una oportunidad.
           </p>
         </div>
-        <div className="rounded-[18px] bg-[#10b981]/8 border border-[#10b981]/25 px-5 py-3 shadow-sm shadow-[#10b981]/5 min-w-[180px]">
-          <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#047857]">
+        <div className="rounded-[4px] bg-[#E5F529] border-2 border-[#111] px-5 py-3 shadow-[4px_4px_0px_#111] min-w-[180px]">
+          <p className="text-[10px] font-black uppercase tracking-widest text-[#111]">
             Piso detectado
           </p>
-          <p className="mt-0.5 text-2xl font-black font-titulos text-[#0f1311]">
+          <p className="mt-1 text-3xl font-black font-mono text-[#111]">
             {formatearPrecio(precioMenor)}
           </p>
         </div>
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
-        <div className="rounded-[22px] border border-[#e2e7e4]/60 bg-[#f0f3f1] p-5 shadow-inner">
-          <div className="space-y-4">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
+        <div className="rounded-[4px] border-2 border-[#111] bg-[#f9f9f9] p-5 shadow-[4px_4px_0px_#111]">
+          <div className="space-y-5">
             {historial.map((registro) => {
               const esPrecioMinimo = registro.precio === precioMenor;
               const esPrecioMaximo = registro.precio === precioMayor;
 
-              let claseBarra = "h-full rounded-full bg-gradient-to-r from-[#10b981] to-[#059669] transition-all duration-500";
+              let claseBarra = "h-full bg-black/80 transition-all duration-500";
               if (esPrecioMinimo) {
-                claseBarra = "h-full rounded-full bg-gradient-to-r from-[#10b981] to-[#00f59b] shadow-md shadow-[#10b981]/20 transition-all duration-500";
+                claseBarra = "h-full bg-[#10b981] transition-all duration-500";
               } else if (esPrecioMaximo) {
-                claseBarra = "h-full rounded-full bg-black/25 transition-all duration-500";
+                claseBarra = "h-full bg-black/20 transition-all duration-500";
               }
 
               return (
-                <div key={registro.fecha} className="grid gap-1.5 group">
-                  <div className="flex items-center justify-between gap-4 text-xs font-bold">
-                    <span className="text-[#0f1311] group-hover:text-[#10b981] transition-colors" suppressHydrationWarning>
+                <div key={registro.fecha} className="grid gap-2 group">
+                  <div className="flex items-center justify-between gap-4 text-xs font-bold font-mono">
+                    <span className="text-[#111] uppercase" suppressHydrationWarning>
                       {formatearFecha(registro.fecha)}
                     </span>
-                    <span className={esPrecioMinimo ? "text-[#047857] font-black" : "text-black/60"}>
+                    <span className={esPrecioMinimo ? "text-[#10b981] font-black" : "text-black/60"}>
                       {formatearPrecio(registro.precio)}
-                      {esPrecioMinimo ? " (Mínimo)" : ""}
+                      {esPrecioMinimo ? " (MÍN)" : ""}
                     </span>
                   </div>
-                  <div className="h-3 rounded-full bg-white border border-[#e2e7e4]/30 overflow-hidden p-[2px]">
+                  <div className="h-4 bg-white border-2 border-[#111] overflow-hidden">
                     <div
                       className={claseBarra}
                       style={{ width: obtenerAnchoBarra(registro, precioMayor) }}
@@ -86,33 +86,38 @@ export function PriceHistory({ producto }: PriceHistoryProps) {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-[22px] border border-[#e2e7e4]/60 bg-white">
+        <div className="overflow-x-auto rounded-[4px] border-2 border-[#111] bg-white shadow-[4px_4px_0px_#111]">
           <table className="min-w-full text-left text-xs">
-            <thead className="border-b border-[#e2e7e4]/80 bg-[#f0f3f1] text-black/50">
+            <thead className="border-b-2 border-[#111] bg-[#f5f5f5] text-[#111]">
               <tr>
-                <th className="px-4 py-3 font-extrabold uppercase tracking-wider">Fecha</th>
-                <th className="px-4 py-3 font-extrabold uppercase tracking-wider">Precio</th>
-                <th className="px-4 py-3 font-extrabold uppercase tracking-wider">Anterior</th>
-                <th className="px-4 py-3 font-extrabold uppercase tracking-wider">Desc.</th>
+                <th className="px-4 py-3 font-black uppercase tracking-widest border-r-2 border-[#111]">Fecha</th>
+                <th className="px-4 py-3 font-black uppercase tracking-widest border-r-2 border-[#111]">Precio</th>
+                <th className="px-4 py-3 font-black uppercase tracking-widest border-r-2 border-[#111]">Anterior</th>
+                <th className="px-4 py-3 font-black uppercase tracking-widest">Desc.</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#e2e7e4]/60 text-black/80">
+            <tbody className="divide-y-2 divide-[#111] text-[#111] font-mono">
               {historial.map((registro) => {
                 const esPrecioMinimo = registro.precio === precioMenor;
-
                 return (
-                  <tr key={registro.fecha} className="transition duration-150 hover:bg-[#10b981]/5">
-                    <td className="px-4 py-3.5 font-bold" suppressHydrationWarning>
+                  <tr key={registro.fecha} className={esPrecioMinimo ? "bg-[#10b981]/10 font-black" : "font-bold"}>
+                    <td className="px-4 py-3 whitespace-nowrap border-r-2 border-[#111]" suppressHydrationWarning>
                       {formatearFecha(registro.fecha)}
                     </td>
-                    <td className={`px-4 py-3.5 font-black ${esPrecioMinimo ? "text-[#047857]" : ""}`}>
+                    <td className={`px-4 py-3 whitespace-nowrap border-r-2 border-[#111] ${esPrecioMinimo ? "text-[#10b981]" : ""}`}>
                       {formatearPrecio(registro.precio)}
                     </td>
-                    <td className="px-4 py-3.5 font-bold text-black/40">
+                    <td className="px-4 py-3 whitespace-nowrap text-black/50 border-r-2 border-[#111]">
                       {formatearPrecio(registro.precioAnterior)}
                     </td>
-                    <td className="px-4 py-3.5 font-black text-[#10b981]">
-                      {formatearPorcentaje(registro.descuento)}
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {registro.descuento > 0 ? (
+                        <span className="text-[#10b981] font-black">
+                          {formatearPorcentaje(registro.descuento)}
+                        </span>
+                      ) : (
+                        <span className="text-black/30">-</span>
+                      )}
                     </td>
                   </tr>
                 );

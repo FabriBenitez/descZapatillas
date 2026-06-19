@@ -2,64 +2,62 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="pie-pagina mt-14 border-t border-white/10 bg-[#111713] py-10 text-white">
-      <div className="contenedor grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,0.7fr))]">
-        <div className="space-y-4">
+    <footer className="pie-pagina mt-14 border-t border-black/5 bg-[#F7F5F0] py-16 text-[#111]">
+      <div className="contenedor grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_repeat(2,minmax(0,0.8fr))]">
+        <div className="space-y-6">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-white text-sm font-black text-[#111713]">
+            <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-black text-lg font-black text-white shadow-sm">
               PO
             </span>
             <div>
-              <p className="text-lg font-black">Pisando Ofertas</p>
-              <p className="text-sm font-semibold text-white/50">
-                Comparador premium de sneakers
+              <p className="text-xl font-black font-titulos text-[#111]">Pisando Ofertas</p>
+              <p className="text-sm font-bold text-black/40 font-cuerpo">
+                Sneaker Deals Tracker
               </p>
             </div>
           </div>
-          <p className="max-w-md text-sm leading-6 text-white/58">
-            Ofertas ordenadas para comparar precio, descuento, stock e historial
-            con la menor friccion posible.
+          <p className="max-w-md text-base font-medium leading-relaxed text-black/60 font-cuerpo">
+            Buscamos, filtramos y ordenamos las mejores ofertas de zapatillas para que encuentres tu par ideal al mejor precio, sin esfuerzo.
           </p>
-          <p className="rounded-[16px] border border-white/10 bg-white/[0.06] px-4 py-3 text-sm leading-6 text-white/62">
-            Los precios y descuentos son informativos y pueden cambiar en la
-            tienda oficial.
-          </p>
+          <div className="inline-block rounded-[16px] border border-[#FF4500]/20 bg-[#FF4500]/5 px-4 py-3 text-xs font-bold leading-6 text-[#FF4500]">
+            Los precios y descuentos son informativos y pueden cambiar en la tienda oficial.
+          </div>
         </div>
 
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Navegacion</p>
-          <Link href="/" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Inicio
-          </Link>
-          <Link href="/comparador" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Comparador
-          </Link>
-          <Link href="/#ofertas" className="block text-sm font-semibold text-white/55 transition hover:text-white">
-            Ofertas destacadas
-          </Link>
+        <div className="space-y-4 pt-2 lg:justify-self-center">
+          <p className="text-sm font-black uppercase tracking-widest text-[#111] font-titulos">Navegación</p>
+          <div className="space-y-3">
+            <Link href="/" className="block text-sm font-bold text-black/50 transition-colors hover:text-[#FF4500]">
+              Inicio
+            </Link>
+            <Link href="/comparador" className="block text-sm font-bold text-black/50 transition-colors hover:text-[#FF4500]">
+              Comparador de precios
+            </Link>
+            <Link href="/#ofertas" className="block text-sm font-bold text-black/50 transition-colors hover:text-[#FF4500]">
+              Ofertas destacadas
+            </Link>
+          </div>
         </div>
 
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Utiles</p>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="/sitemap.xml">
-            Sitemap
-          </a>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="/robots.txt">
-            Robots
-          </a>
-          <a className="block text-sm font-semibold text-white/55 transition hover:text-white" href="mailto:hola@pisandoofertas.com">
-            Contacto
-          </a>
+        <div className="space-y-4 pt-2 lg:justify-self-end">
+          <p className="text-sm font-black uppercase tracking-widest text-[#111] font-titulos">Contacto</p>
+          <div className="space-y-3">
+            <a href="mailto:hola@pisandoofertas.com" className="block text-sm font-bold text-black/50 transition-colors hover:text-[#FF4500]">
+              hola@pisandoofertas.com
+            </a>
+            <p className="block text-sm font-bold text-black/50">
+              Buenos Aires, Argentina
+            </p>
+          </div>
         </div>
-
-        <div className="space-y-3">
-          <p className="text-sm font-black uppercase text-white">Contacto</p>
-          <p className="text-sm font-semibold text-white/55">hola@pisandoofertas.com</p>
-          <p className="text-sm font-semibold text-white/55">Buenos Aires, Argentina</p>
-          <p className="text-sm font-semibold text-white/55">
-            Preparado para escalar a muchas tiendas
-          </p>
-        </div>
+      </div>
+      <div className="contenedor mt-16 pt-8 border-t border-black/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs font-bold text-black/40">
+          © {new Date().getFullYear()} Pisando Ofertas. Todos los derechos reservados.
+        </p>
+        <p className="text-xs font-bold text-black/30">
+          Construido con dedicación para los sneakerheads.
+        </p>
       </div>
     </footer>
   );
