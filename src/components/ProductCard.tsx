@@ -73,7 +73,7 @@ export function ProductCard({
       <div className="flex flex-1 flex-col gap-2 p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#111] bg-white border-2 border-[#111] px-2 py-1 rounded-[4px] inline-block mb-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-[#111] bg-white border-2 border-[#111] px-2 py-1 rounded-[4px] inline-block mb-2 max-w-full truncate">
               {producto.brand}
             </p>
             <h3 className="line-clamp-2 text-sm font-black font-titulos leading-snug text-[#111] transition duration-200 group-hover:text-[#FF4500] uppercase tracking-tighter">
@@ -92,11 +92,11 @@ export function ProductCard({
         </div>
 
         <div className="mt-auto pt-3 border-t-2 border-[#111]/10">
-          <div className="flex items-baseline gap-2">
+          <div className="flex flex-wrap items-baseline gap-2">
             <p className="text-2xl font-black font-mono leading-none tracking-tighter text-[#111]">
               {formatearPrecio(producto.price)}
             </p>
-            <p className="text-[11px] font-bold font-mono text-black/50 line-through">
+            <p className="text-[11px] font-bold font-mono text-black/50 line-through shrink-0">
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
@@ -109,13 +109,13 @@ export function ProductCard({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 text-[11px] pt-3 mt-3 border-t-2 border-[#111]/10">
+        <div className="grid grid-cols-[1fr_1.5fr] gap-2 text-[11px] pt-3 mt-3 border-t-2 border-[#111]/10">
           <div className="flex items-center justify-center rounded-[4px] bg-white border-2 border-[#111] p-2 shadow-[2px_2px_0px_#111]">
             <StoreLogo storeName={producto.storeName} />
           </div>
-          <div className="flex flex-col justify-center rounded-[4px] bg-[#f9f9f9] border-2 border-[#111] px-3 py-1 shadow-[2px_2px_0px_#111]">
-            <p className="text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5">Talle</p>
-            <p className="font-black text-[#111] text-xs">
+          <div className="flex flex-col justify-center rounded-[4px] bg-[#f9f9f9] border-2 border-[#111] px-3 py-1 shadow-[2px_2px_0px_#111] overflow-hidden">
+            <p className="text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talle</p>
+            <p className="font-black text-[#111] text-xs line-clamp-2">
               {producto.size ?? "Consultar"}
             </p>
           </div>

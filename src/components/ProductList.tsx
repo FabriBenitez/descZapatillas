@@ -131,7 +131,7 @@ export function ProductList({
             className={
               vista === "lista"
                 ? "grid gap-4"
-                : "grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
+                : "grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
             }
           >
             {productosVisibles.map((producto, indice) => (
