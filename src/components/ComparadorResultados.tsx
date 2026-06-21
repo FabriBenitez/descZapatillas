@@ -195,6 +195,7 @@ export function ComparadorResultados({
           </div>
 
           <ProductList
+            key={`${terminoDiferido}-${productosFiltrados.length}-${ordenSeleccionado}`}
             productos={productosFiltrados}
             mensajeVacio="Proba cambiando la busqueda, ampliando el rango de precio o quitando algun filtro puntual."
             cantidadPrioritaria={3}
