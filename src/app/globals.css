@@ -120,10 +120,10 @@ button {
   transform: translateY(0);
 }
 
-.boton:focus-visible,
-input:focus-visible,
-select:focus-visible,
-a:focus-visible {
+.boton:focus-visible:not(.outline-none),
+input:focus-visible:not(.outline-none),
+select:focus-visible:not(.outline-none),
+a:focus-visible:not(.outline-none) {
   outline: 3px solid rgba(16, 185, 129, 0.4);
   outline-offset: 2px;
 }
