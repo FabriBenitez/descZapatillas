@@ -33,6 +33,10 @@ export function Header({
       parametros.set("q", valor.trim());
     }
 
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("comparadorState");
+    }
+
     router.push(`/comparador${parametros.toString() ? `?${parametros}` : ""}`);
   }
 

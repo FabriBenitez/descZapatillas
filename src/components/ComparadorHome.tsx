@@ -35,6 +35,10 @@ export function ComparadorHome({
       parametros.set("q", terminoBusqueda.trim());
     }
 
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("comparadorState");
+    }
+
     router.push(`/comparador${parametros.toString() ? `?${parametros}` : ""}`);
   }
 
