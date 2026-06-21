@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 
 export function useIntersectionObserver(
   elementRef: RefObject<Element | null>,
-  options: IntersectionObserverInit = { threshold: 0, rootMargin: "0px" }
+  { threshold = 0, root = null, rootMargin = "0px" }: IntersectionObserverInit = {},
+  onChange?: (isIntersecting: boolean) => void
 ) {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -16,7 +17,10 @@ export function useIntersectionObserver(
 
     observerRef.current = new IntersectionObserver(([entry]) => {
       setIsIntersecting(entry.isIntersecting);
-    }, options);
+      if (onChange) {
+        onChange(entry.isIntersecting);
+      }
+    }, { threshold, root, rootMargin });
 
     observerRef.current.observe(element);
 
@@ -25,7 +29,7 @@ export function useIntersectionObserver(
         observerRef.current.disconnect();
       }
     };
-  }, [elementRef, options.rootMargin, options.threshold]);
+  }, [elementRef, threshold, root, rootMargin, onChange]);
 
   return isIntersecting;
 }

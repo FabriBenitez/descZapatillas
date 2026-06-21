@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import { Outfit, Syne } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  variable: "--font-outfit",
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const syne = Syne({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-syne",
   display: "swap",
 });
 
@@ -69,7 +69,7 @@ export default function RootLayout({
   const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID || "371328";
 
   return (
-    <html lang="es" className={`${plusJakartaSans.variable} ${spaceGrotesk.variable}`}>
+    <html lang="es" className={`${outfit.variable} ${syne.variable}`}>
       <body className="antialiased">
         {children}
         <Script

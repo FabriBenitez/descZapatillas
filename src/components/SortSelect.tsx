@@ -20,12 +20,12 @@ const opcionesOrdenamiento: Array<{
 
 export function SortSelect({ valor, alCambiar, ocultarEtiqueta = false }: SortSelectProps) {
   return (
-    <label className={`grid text-xs font-bold text-black/50 ${ocultarEtiqueta ? "" : "gap-1.5"}`}>
-      {!ocultarEtiqueta && <span className="uppercase tracking-wider">Ordenar por</span>}
+    <label className={`grid text-[10px] font-black text-black/50 uppercase tracking-widest ${ocultarEtiqueta ? "" : "gap-2"}`}>
+      {!ocultarEtiqueta && <span>Ordenar por</span>}
       <select
         value={valor}
         onChange={(evento) => alCambiar(evento.target.value as OrdenProductos)}
-        className="select-base h-10 text-sm font-bold sm:h-11 text-[#0f1311] border-[#e2e7e4] bg-[#f0f3f1] focus:bg-white transition-all duration-200 w-full"
+        className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all cursor-pointer appearance-none min-h-10 sm:min-h-11"
       >
         {opcionesOrdenamiento.map((opcion) => (
           <option key={opcion.valor} value={opcion.valor}>
