@@ -15,6 +15,19 @@ interface ProductCardProps {
   vista?: "grid" | "lista";
 }
 
+function obtenerColorMarca(marca: string): string {
+  const m = marca.toLowerCase();
+  if (m.includes("nike")) return "bg-[#FFEBE5]"; // light red-orange
+  if (m.includes("adidas")) return "bg-[#E6F0FA]"; // light blue
+  if (m.includes("puma")) return "bg-[#E6FAF0]"; // light mint
+  if (m.includes("under") || m.includes("armour")) return "bg-[#FCF6E5]"; // light cream/yellow
+  if (m.includes("topper")) return "bg-[#FFF0F5]"; // light pink
+  if (m.includes("reebok")) return "bg-[#F3E8FF]"; // light lavender
+  if (m.includes("fila")) return "bg-[#ECFDF5]"; // light teal
+  if (m.includes("converse")) return "bg-[#FEF2F2]"; // light red
+  return "bg-[#F5F7F6]"; // default soft gray
+}
+
 export function ProductCard({
   producto,
   prioridadImagen = false,
@@ -23,9 +36,11 @@ export function ProductCard({
   const esLista = vista === "lista";
   const esSuperAhorro = producto.discount >= 50;
 
-  let badgeClase = "bg-black text-white border-2 border-black shadow-[2px_2px_0px_#111]";
+  const colorFondoMarca = obtenerColorMarca(producto.brand);
+
+  let badgeClase = "bg-[#10b981] text-white border-2 border-[#111] shadow-[2px_2px_0px_#111]";
   if (esSuperAhorro) {
-    badgeClase = "bg-[#FF4500] text-white border-2 border-[#FF4500] shadow-[2px_2px_0px_#111]";
+    badgeClase = "bg-[#FF4500] text-white border-2 border-[#111] shadow-[2px_2px_0px_#111]";
   }
 
   // Si es un producto "fresco" (recien scrapeado y no guardado), pasamos su data por URL
@@ -43,7 +58,7 @@ export function ProductCard({
       }`}
     >
       <div
-        className={`relative block overflow-hidden bg-[#f9f9f9] border-b-2 border-[#111] ${
+        className={`relative block overflow-hidden ${colorFondoMarca} border-b-2 border-[#111] ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto sm:border-b-0 sm:border-r-2"
             : "aspect-[4/3] sm:aspect-square"
@@ -73,7 +88,7 @@ export function ProductCard({
       <div className="flex flex-1 flex-col gap-1.5 p-2 sm:gap-2 sm:p-5">
         <div className="flex items-start justify-between gap-1.5 sm:gap-3">
           <div className="min-w-0">
-            <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-[#111] bg-white border sm:border-2 border-[#111] px-1 sm:px-2 py-0.5 sm:py-1 rounded-[4px] inline-block mb-1 sm:mb-2 max-w-full truncate">
+            <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-[#111] bg-[#fbbf24] border sm:border-2 border-[#111] px-1 sm:px-2 py-0.5 sm:py-1 rounded-[4px] inline-block mb-1 sm:mb-2 max-w-full truncate shadow-[1px_1px_0px_#111]">
               {producto.brand}
             </p>
             <h3 className="line-clamp-2 text-[11px] sm:text-sm font-black font-titulos leading-snug text-[#111] transition duration-200 group-hover:text-[#FF4500] uppercase tracking-tighter">
@@ -81,10 +96,10 @@ export function ProductCard({
             </h3>
           </div>
           <span
-            className={`shrink-0 rounded-[4px] px-1 sm:px-2 py-0.5 sm:py-1 text-[7px] sm:text-[9px] font-black uppercase tracking-widest border sm:border-2 ${
+            className={`shrink-0 rounded-[4px] px-1 sm:px-2 py-0.5 sm:py-1 text-[7px] sm:text-[9px] font-black uppercase tracking-widest border sm:border-2 border-[#111] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] ${
               producto.available
-                ? "bg-white text-[#111] border-[#111] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111]"
-                : "bg-[#FF4500] text-white border-[#FF4500] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111]"
+                ? "bg-[#10b981] text-white"
+                : "bg-[#f43f5e] text-white"
             }`}
           >
             {producto.available ? "Stock" : "Sin"}
@@ -100,10 +115,10 @@ export function ProductCard({
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
-          <span className={`inline-flex rounded-[4px] px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[8px] sm:text-[10px] font-black mt-1.5 sm:mt-2 border sm:border-2 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] ${
+          <span className={`inline-flex rounded-[4px] px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[8px] sm:text-[10px] font-black mt-1.5 sm:mt-2 border sm:border-2 border-[#111] shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] ${
             esSuperAhorro
-              ? "bg-[#FF4500] text-white border-[#FF4500]"
-              : "bg-white text-[#111] border-[#111]"
+              ? "bg-[#FF4500] text-white"
+              : "bg-[#FEF2F2] text-[#FF4500]"
           }`}>
             Ahorras {formatearPrecio(calcularAhorro(producto))}
           </span>
@@ -113,7 +128,7 @@ export function ProductCard({
           <div className="flex items-center justify-center rounded-[4px] bg-white border sm:border-2 border-[#111] p-1 sm:p-2 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden min-w-0">
             <StoreLogo storeName={producto.storeName} />
           </div>
-          <div className="flex flex-col justify-center rounded-[4px] bg-[#f9f9f9] border sm:border-2 border-[#111] px-1.5 sm:px-3 py-0.5 sm:py-1 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden">
+          <div className="flex flex-col justify-center rounded-[4px] bg-[#EBF6FF] border sm:border-2 border-[#111] px-1.5 sm:px-3 py-0.5 sm:py-1 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden">
             <p className="text-[7px] sm:text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talle</p>
             <p className="font-black text-[#111] text-[9px] sm:text-xs line-clamp-1 sm:line-clamp-2">
               {producto.size ?? "Consultar"}

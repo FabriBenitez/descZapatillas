@@ -62,7 +62,9 @@ function GrupoSelect({
       <select
         value={valor}
         onChange={(evento) => alCambiarFiltro(id, evento.target.value)}
-        className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all cursor-pointer appearance-none"
+        className={`w-full text-xs font-black text-[#111] border-2 border-[#111] px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all cursor-pointer appearance-none ${
+          valor ? "bg-[#bbf7d0] border-[#10b981] shadow-[2px_2px_0px_#10b981]" : "bg-white"
+        }`}
       >
         <option value="">{placeholder}</option>
         {opciones.map((opcion) => (
@@ -118,10 +120,11 @@ export function FiltersSidebar({
 
   const contenidoFiltros = (
     <>
-      <div className="hidden items-start justify-end gap-4 md:flex pb-4 border-b-2 border-[#111] mb-6">
+      <div className="border-2 border-[#111] bg-[#fbbf24] px-4 py-2.5 mb-5 shadow-[2px_2px_0px_#111] flex justify-between items-center">
+        <span className="text-xs font-black uppercase tracking-wider text-[#111]">Filtros de búsqueda</span>
         <button
           type="button"
-          className="text-[10px] font-black uppercase tracking-widest text-black/50 transition hover:text-[#FF4500]"
+          className="text-[9px] font-black uppercase tracking-widest text-[#111] hover:underline"
           onClick={alLimpiarFiltros}
         >
           Limpiar todo
@@ -163,7 +166,9 @@ export function FiltersSidebar({
                   alCambiarFiltro("precioMinimo", evento.target.value)
                 }
                 placeholder="Min ($)"
-                className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+                className={`w-full text-xs font-black text-[#111] border-2 border-[#111] px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all ${
+                  filtros.precioMinimo ? "bg-[#bbf7d0] border-[#10b981] shadow-[2px_2px_0px_#10b981]" : "bg-white"
+                }`}
               />
             </label>
             <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest">
@@ -175,7 +180,9 @@ export function FiltersSidebar({
                   alCambiarFiltro("precioMaximo", evento.target.value)
                 }
                 placeholder="Max ($)"
-                className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+                className={`w-full text-xs font-black text-[#111] border-2 border-[#111] px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all ${
+                  filtros.precioMaximo ? "bg-[#bbf7d0] border-[#10b981] shadow-[2px_2px_0px_#10b981]" : "bg-white"
+                }`}
               />
             </label>
           </div>
@@ -188,7 +195,9 @@ export function FiltersSidebar({
                 alCambiarFiltro("descuentoMinimo", evento.target.value)
               }
               placeholder="Ej. 20%"
-              className="w-full text-xs font-black text-[#111] border-2 border-[#111] bg-white px-3 py-2 rounded-[4px] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] transition-all"
+              className={`w-full text-xs font-black text-[#111] border-2 border-[#111] px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all ${
+                filtros.descuentoMinimo ? "bg-[#bbf7d0] border-[#10b981] shadow-[2px_2px_0px_#10b981]" : "bg-white"
+              }`}
             />
           </label>
         </GrupoPlegable>
@@ -233,7 +242,7 @@ export function FiltersSidebar({
 
   return (
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div className="bg-white border-2 border-[#111] p-5 sm:p-6 rounded-[8px] shadow-[6px_6px_0px_#e2e7e4]">
+      <div className="bg-white border-2 border-[#111] p-5 sm:p-6 rounded-[8px] shadow-[6px_6px_0px_#111]">
         <div className="flex items-center gap-3 md:hidden">
           <button
             type="button"

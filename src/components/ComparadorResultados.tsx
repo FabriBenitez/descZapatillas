@@ -141,12 +141,46 @@ export function ComparadorResultados({
         </div>
 
         <div className="comparador__contenido space-y-4 sm:space-y-6">
-          <div className="space-y-1 sm:space-y-2">
-            <h1 className="text-[1.8rem] font-black leading-[0.95] tracking-[-0.04em] text-[var(--color-tinta)] sm:text-3xl">
-              {terminoDiferido ? `Resultados para "${terminoDiferido}"` : "Comparador de ofertas"}
-            </h1>
-
+          <div className="border-4 border-[#111] bg-[#10b981] p-6 text-white shadow-[6px_6px_0px_#111] relative overflow-hidden">
+            {/* Background decorative neon element */}
+            <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-42 h-42 bg-[#00f59b] opacity-35 rounded-full blur-3xl"></div>
+            
+            <div className="relative z-10">
+              <h1 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter text-[#111] leading-none mb-1">
+                {terminoDiferido ? `Resultados: "${terminoDiferido}"` : "Comparador de Ofertas"}
+              </h1>
+              <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#111]/75">
+                {productosFiltrados.length} zapatillas con descuento encontradas
+              </p>
+            </div>
           </div>
+
+          {resumenFiltros.length > 0 && (
+            <div className="flex flex-wrap gap-2 items-center bg-white border-2 border-[#111] p-4 rounded-[8px] shadow-[4px_4px_0px_#111]">
+              <span className="text-[9px] font-black uppercase tracking-widest text-black/50">Filtros activos:</span>
+              <div className="flex flex-wrap gap-2">
+                {resumenFiltros.map((filtro, idx) => {
+                  const colors = ["bg-[#E6F0FA]", "bg-[#FFF0EB]", "bg-[#EBF7F0]", "bg-[#FAF5FF]", "bg-[#FEF9C3]"];
+                  const color = colors[idx % colors.length];
+                  return (
+                    <span
+                      key={filtro}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-[#111] ${color} text-[10px] font-black text-[#111] shadow-[2px_2px_0px_#111]`}
+                    >
+                      {filtro}
+                    </span>
+                  );
+                })}
+              </div>
+              <button
+                type="button"
+                onClick={() => setFiltros(filtrosIniciales)}
+                className="text-[10px] font-black uppercase tracking-widest text-[#FF4500] hover:underline ml-auto"
+              >
+                Limpiar todo
+              </button>
+            </div>
+          )}
 
           <div className="lg:hidden">
             <FiltersSidebar
