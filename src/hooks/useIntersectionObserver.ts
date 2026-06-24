@@ -9,6 +9,12 @@ export function useIntersectionObserver(
 ) {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  
+  // Guardamos el callback en una ref para no tener que recrear el observer si cambia la función
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     const element = elementRef.current;
@@ -17,8 +23,8 @@ export function useIntersectionObserver(
 
     observerRef.current = new IntersectionObserver(([entry]) => {
       setIsIntersecting(entry.isIntersecting);
-      if (onChange) {
-        onChange(entry.isIntersecting);
+      if (onChangeRef.current) {
+        onChangeRef.current(entry.isIntersecting);
       }
     }, { threshold, root, rootMargin });
 
@@ -29,7 +35,7 @@ export function useIntersectionObserver(
         observerRef.current.disconnect();
       }
     };
-  }, [elementRef, threshold, root, rootMargin, onChange]);
+  }, [elementRef, threshold, root, rootMargin]);
 
   return isIntersecting;
 }
