@@ -54,16 +54,8 @@ function SkeletonGrid({ vista = "grid" }: { vista?: "grid" | "lista" }) {
 
 const ITEMS_PER_PAGE = 48;
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
-};
-
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
@@ -122,11 +114,7 @@ export function ProductList({
         <SkeletonGrid vista={vista} />
       ) : productos.length > 0 ? (
         <>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "100px" }}
+          <div
             className={
               vista === "lista"
                 ? "grid gap-4"
@@ -134,7 +122,12 @@ export function ProductList({
             }
           >
             {productosVisibles.map((producto, indice) => (
-              <motion.div key={producto.id} variants={itemVariants}>
+              <motion.div
+                key={producto.id}
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 <ProductCard
                   producto={producto}
                   prioridadImagen={indice < cantidadPrioritaria}
@@ -142,7 +135,7 @@ export function ProductList({
                 />
               </motion.div>
             ))}
-          </motion.div>
+          </div>
           
           {tieneMas && (
             <div ref={triggerRef} className="mt-8 flex w-full items-center justify-center py-6">
