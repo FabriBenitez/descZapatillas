@@ -15,6 +15,8 @@ interface ConfiguracionTienda {
   siteId?: string;
   categoryId?: string;
   urlProductos?: string;
+  /** Cantidad total de páginas a scrapear para esta tienda (override del default) */
+  paginasTotales?: number;
 }
 
 interface VtexOffer {
@@ -83,7 +85,8 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     baseUrl: "https://www.solodeportes.com.ar",
     plataforma: "magento",
     urlProductos:
-      "https://www.solodeportes.com.ar/catalogsearch/result/?q=zapatillas",
+      "https://www.solodeportes.com.ar/ofertas/calzado.html",
+    paginasTotales: 220,
   },
   {
     slug: "sevensport",
@@ -438,11 +441,15 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
       nombre.split(" ")[1] ||
       "";
 
-    if (!idBase || !nombre || !esZapatilla(nombre, "Zapatillas") || !precio || !imagen || !enlace) {
+    if (!idBase || !nombre || !esZapatilla(nombre, "Calzado") || !precio || !imagen || !enlace) {
       return;
     }
 
     const descuento = calcularDescuento(precio, precioLista);
+    const nombreLower = nombre.toLowerCase();
+    const categoriaDetectada = nombreLower.includes("botin") || nombreLower.includes("botín")
+      ? "Botines"
+      : "Zapatillas";
 
     productos.set(
       idBase,
@@ -451,7 +458,7 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
         name: nombre,
         normalizedName: normalizarTexto(nombre),
         brand: marca,
-        category: "Zapatillas",
+        category: categoriaDetectada,
         gender: inferirGenero(nombre),
         color: "",
         price: precio,
@@ -545,7 +552,11 @@ function construirUrlTienda(
 
   if (tienda.plataforma === "magento") {
     if (!esBusquedaEspecifica && tienda.urlProductos) {
-      return tienda.urlProductos;
+      // Agregar paginación a la URL de productos (ej: ofertas/calzado.html?p=2)
+      const separator = tienda.urlProductos.includes("?") ? "&" : "?";
+      return pagina > 0
+        ? `${tienda.urlProductos}${separator}p=${pagina + 1}`
+        : tienda.urlProductos;
     }
     const params = new URLSearchParams({
       q: query,
@@ -661,18 +672,21 @@ export async function obtenerTodasLasOfertasTiendasExternas({
   query?: string;
   evitarTalles?: boolean;
 } = {}) {
-  const todasLasPromesas = tiendasExternas.flatMap((tienda) =>
-    Array.from({ length: paginas }, (_, pagina) => () =>
+  const todasLasPromesas = tiendasExternas.flatMap((tienda) => {
+    // Usar paginasTotales de la tienda si existe, sino el default
+    const paginasTienda = tienda.paginasTotales ?? paginas;
+    return Array.from({ length: paginasTienda }, (_, pagina) => () =>
       obtenerOfertasTiendaExterna(tienda, {
         pagina,
         query,
-        evitarTalles,
+        evitarTalles: paginasTienda > 10 ? true : evitarTalles,
       }),
-    ),
-  );
+    );
+  });
 
-  // Ejecutar en grupos de 10 para no saturar la memoria (OOM crash)
-  const chunkSize = 10;
+  // Ejecutar en grupos de 20 en paralelo (cada página de Magento trae solo 13 items,
+  // con 220 páginas necesitamos ser eficientes para caber en los 60s del cron)
+  const chunkSize = 20;
   const respuestas = [];
   for (let i = 0; i < todasLasPromesas.length; i += chunkSize) {
     const chunk = todasLasPromesas.slice(i, i + chunkSize);
