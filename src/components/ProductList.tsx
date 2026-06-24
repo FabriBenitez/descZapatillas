@@ -92,10 +92,9 @@ export function ProductList({
 
   const triggerRef = useRef<HTMLDivElement>(null);
   
-  // Usamos el callback onChange para evitar useEffect
   useIntersectionObserver(
     triggerRef, 
-    { rootMargin: "2500px" },
+    { rootMargin: "600px" },
     (isIntersecting) => {
       if (isIntersecting) {
         setLimite((prev) => (prev < productos.length ? prev + ITEMS_PER_PAGE : prev));
