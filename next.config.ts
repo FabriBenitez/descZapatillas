@@ -116,6 +116,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.fila.com",
       },
+      {
+        protocol: "https",
+        hostname: "tiendain.vtexassets.com",
+      },
+      {
+        protocol: "https",
+        hostname: "celadasa.vtexassets.com",
+      },
+      {
+        protocol: "https",
+        hostname: "templofutbol.vtexassets.com",
+      },
     ],
   },
 };
