@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permitir lectura a todo el mundo (nuestros usuarios)
+    match /{document=**} {
+      allow read: if true;
+      // BLOQUEAR la escritura a todo el mundo desde la web/cliente.
+      // Solo el entorno de servidor (cron bot en Vercel con el Admin SDK) podrá escribir.
+      allow write: if false;
+    }
+  }
+}

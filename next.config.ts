@@ -130,6 +130,36 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        // Aplicar estas cabeceras a todas las rutas de la web
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff", // Evita que el navegador intente adivinar el tipo de contenido y prevenga XSS
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY", // Evita el "Clickjacking" impidiendo que tu sitio se cargue en un iframe externo
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block", // Bloquea la carga de la página si se detecta un ataque XSS
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin", // Protege la privacidad no enviando la URL completa a otros sitios
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload", // Fuerza el uso de HTTPS
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
