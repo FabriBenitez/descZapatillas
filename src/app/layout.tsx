@@ -61,6 +61,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { FloatingMascot } from "@/components/FloatingMascot";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -72,6 +74,7 @@ export default function RootLayout({
     <html lang="es" className={`${outfit.variable} ${syne.variable}`}>
       <body className="antialiased">
         {children}
+        <FloatingMascot />
         <Script
           src="https://t.contentsquare.net/uxa/c7c00dff4b4b4.js"
           strategy="afterInteractive"

@@ -111,7 +111,19 @@ export function ProductList({
       ) : null}
 
       {cargando ? (
-        <SkeletonGrid vista={vista} />
+        <div className="flex flex-col items-center justify-center space-y-6 py-12">
+          <motion.div
+            animate={{ y: [0, -20, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="h-32 w-32"
+          >
+            <img src="/mascota-buscando.png" alt="Buscando ofertas..." className="h-full w-full object-contain" />
+          </motion.div>
+          <p className="text-lg font-black uppercase tracking-widest text-[#111]">Buscando las mejores ofertas...</p>
+          <div className="w-full opacity-50 mt-8">
+            <SkeletonGrid vista={vista} />
+          </div>
+        </div>
       ) : productos.length > 0 ? (
         <>
           <div
@@ -138,13 +150,22 @@ export function ProductList({
           </div>
           
           {tieneMas && (
-            <div ref={triggerRef} className="mt-8 flex w-full items-center justify-center py-6">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-solid border-[#111] border-r-transparent"></div>
+            <div ref={triggerRef} className="mt-8 flex w-full flex-col items-center justify-center py-6">
+              <motion.div
+                animate={{ y: [0, -10, 0], rotate: [0, 5, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 1 }}
+                className="h-12 w-12"
+              >
+                <img src="/mascota-buscando.png" alt="Cargando más..." className="h-full w-full object-contain" />
+              </motion.div>
             </div>
           )}
         </>
       ) : (
-        <article className="estado-vacio p-10 text-center border-2 border-[#111] bg-white shadow-[8px_8px_0px_#111]">
+        <article className="estado-vacio flex flex-col items-center justify-center p-12 text-center border-2 border-[#111] bg-white shadow-[8px_8px_0px_#111]">
+          <div className="h-40 w-40 mb-6">
+            <img src="/mascota-triste.png" alt="Sin resultados" className="h-full w-full object-contain grayscale-[0.2]" />
+          </div>
           <p className="text-3xl font-black uppercase tracking-tighter text-[#111]">
             Sin resultados por ahora
           </p>

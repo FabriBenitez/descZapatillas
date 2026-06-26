@@ -73,9 +73,13 @@ export function Header({
             className="encabezado__marca flex items-center gap-3 group"
             onClick={() => setMenuAbierto(false)}
           >
-            <span className="flex h-12 w-12 items-center justify-center border-2 border-[#111] bg-[#FF4500] text-xl font-black text-[#111] shadow-[4px_4px_0px_#111] transition-all duration-200 group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-[2px_2px_0px_#111]">
-              PO
-            </span>
+            <div className="relative h-14 w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6">
+              <img 
+                src="/mascota-default.png" 
+                alt="Logo Pisando Ofertas" 
+                className="h-full w-full object-contain"
+              />
+            </div>
             <span className="flex flex-col leading-none">
               <span className="text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase">
                 Pisando Ofertas
