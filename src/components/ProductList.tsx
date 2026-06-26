@@ -117,7 +117,7 @@ export function ProductList({
             transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
             className="h-32 w-32"
           >
-            <img src="/mascota-buscando.png" alt="Buscando ofertas..." className="h-full w-full object-contain" />
+            <img src="/img/mascota-buscando.png" alt="Buscando ofertas..." className="h-full w-full object-contain" />
           </motion.div>
           <p className="text-lg font-black uppercase tracking-widest text-[#111]">Buscando las mejores ofertas...</p>
           <div className="w-full opacity-50 mt-8">
@@ -156,7 +156,7 @@ export function ProductList({
                 transition={{ repeat: Infinity, duration: 1 }}
                 className="h-12 w-12"
               >
-                <img src="/mascota-buscando.png" alt="Cargando más..." className="h-full w-full object-contain" />
+                <img src="/img/mascota-buscando.png" alt="Cargando más..." className="h-full w-full object-contain" />
               </motion.div>
             </div>
           )}
@@ -164,7 +164,7 @@ export function ProductList({
       ) : (
         <article className="estado-vacio flex flex-col items-center justify-center p-12 text-center border-2 border-[#111] bg-white shadow-[8px_8px_0px_#111]">
           <div className="h-40 w-40 mb-6">
-            <img src="/mascota-triste.png" alt="Sin resultados" className="h-full w-full object-contain grayscale-[0.2]" />
+            <img src="/img/mascota-triste.png" alt="Sin resultados" className="h-full w-full object-contain grayscale-[0.2]" />
           </div>
           <p className="text-3xl font-black uppercase tracking-tighter text-[#111]">
             Sin resultados por ahora

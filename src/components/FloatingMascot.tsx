@@ -41,7 +41,7 @@ export function FloatingMascot() {
           aria-label="Volver arriba"
         >
           <img 
-            src="/mascota-default.png" 
+            src="/img/mascota-default.png" 
             alt="Volver arriba con Mascota" 
             className="h-full w-full object-contain"
           />

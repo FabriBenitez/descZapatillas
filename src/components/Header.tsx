@@ -75,7 +75,7 @@ export function Header({
           >
             <div className="relative h-14 w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6">
               <img 
-                src="/mascota-default.png" 
+                src="/img/mascota-default.png" 
                 alt="Logo Pisando Ofertas" 
                 className="h-full w-full object-contain"
               />
