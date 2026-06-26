@@ -101,6 +101,32 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     plataforma: "vtex",
     provincia: "Cordoba",
   },
+  {
+    slug: "instoreweb",
+    nombre: "InstoreWeb",
+    baseUrl: "https://www.instoreweb.com.ar",
+    plataforma: "vtex",
+  },
+  {
+    slug: "dashdeportes",
+    nombre: "Dash Deportes",
+    baseUrl: "https://www.dashdeportes.com.ar",
+    plataforma: "vtex",
+  },
+  {
+    slug: "templodelfutbol",
+    nombre: "Templo del Futbol",
+    baseUrl: "https://www.templodelfutbol.com.ar",
+    plataforma: "vtex",
+  },
+  {
+    slug: "opensports",
+    nombre: "OpenSports",
+    baseUrl: "https://www.opensports.com.ar",
+    plataforma: "magento",
+    urlProductos: "https://www.opensports.com.ar/ofertas.html",
+    paginasTotales: 50,
+  },
 ];
 
 function limpiarTexto(valor: string | undefined) {
