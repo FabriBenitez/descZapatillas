@@ -68622,40 +68622,6 @@
     "size": "39.5"
   },
   {
-    "id": "stockcenter-NINESSE522-338",
-    "name": "Traje de Baño Nike Sneakers 7 Hombre",
-    "normalizedName": "traje de bano nike sneakers 7 hombre",
-    "brand": "Nike",
-    "category": "Trajes De BañO",
-    "gender": "Hombre",
-    "color": "Varios",
-    "price": 59999,
-    "listPrice": 92307,
-    "discount": 35,
-    "imageUrl": "https://www.stockcenter.com.ar/dw/image/v2/BDTF_PRD/on/demandware.static/-/Sites-365-dabra-catalog/default/dw63b2a9ae/products/NINESSE522-338/NINESSE522-338-1.JPG?sw=600&sh=600",
-    "productUrl": "https://www.stockcenter.com.ar/traje-de-bano-nike-sneakers-7-hombre/NINESSE522-338.html",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 59999,
-    "storeSlug": "stockcenter",
-    "storeName": "StockCenter",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-26T04:47:26.085Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-01T04:32:48.389Z",
-        "precio": 59999,
-        "precioAnterior": 92307,
-        "descuento": 35
-      }
-    ],
-    "sizes": [
-      "S"
-    ],
-    "size": "S"
-  },
-  {
     "id": "stockcenter-NIDM9538-101",
     "name": "Zapatillas Nike Air Max Systm Mujer",
     "normalizedName": "zapatillas nike air max systm mujer",
@@ -183898,45 +183864,6 @@
     ]
   },
   {
-    "id": "instoreweb-886892",
-    "name": "Sandalias Mujer Nike Air Force 1",
-    "normalizedName": "sandalias mujer nike air force 1",
-    "brand": "Nike Sportswear",
-    "category": "Sandalias y Ojotas",
-    "gender": "Mujer",
-    "color": "Varios",
-    "size": "37.5",
-    "sizes": [
-      "37.5",
-      "39.5",
-      "40.5",
-      "39",
-      "35.5",
-      "37"
-    ],
-    "price": 202105,
-    "listPrice": 252631,
-    "discount": 20,
-    "imageUrl": "https://celadasa.vteximg.com.br/arquivos/ids/393418/AO1523-100-1.jpg?v=638640920570930000",
-    "productUrl": "https://www.instoreweb.com.ar/zapatillas-mujer-nike-air-force-1-lifestyle-ao1523100/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "temporada",
-    "historicalBestPrice": 202105,
-    "storeSlug": "instoreweb",
-    "storeName": "InstoreWeb",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-26T04:47:26.085Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-26T04:47:26.085Z",
-        "precio": 202105,
-        "precioAnterior": 252631,
-        "descuento": 20
-      }
-    ]
-  },
-  {
     "id": "instoreweb-889768",
     "name": "Zapatillas Hombre Air Jordan 3 Retro",
     "normalizedName": "zapatillas hombre air jordan 3 retro",
@@ -233584,47 +233511,6 @@
       }
     ],
     "sizes": []
-  },
-  {
-    "id": "dashdeportes-51287",
-    "name": "SANDALIAS PUMA CATCH SOLEIL BALLERINA MUJER",
-    "normalizedName": "sandalias puma catch soleil ballerina mujer",
-    "brand": "Puma",
-    "category": "Sandalias y Ojotas",
-    "gender": "Mujer",
-    "color": "Negro",
-    "size": "34.5",
-    "sizes": [
-      "34.5",
-      "35",
-      "36",
-      "36.5",
-      "37",
-      "37.5",
-      "39",
-      "39.5"
-    ],
-    "price": 69999,
-    "listPrice": 99999,
-    "discount": 30,
-    "imageUrl": "https://essential.vteximg.com.br/arquivos/ids/2545172/968-0615_1.jpg?v=639077211395800000",
-    "productUrl": "https://www.dashdeportes.com.ar/sandalias-puma-catch-soleil-ballerina-moda-mujer-9680615/p",
-    "available": true,
-    "freeShipping": false,
-    "offerType": "outlet",
-    "historicalBestPrice": 69999,
-    "storeSlug": "dashdeportes",
-    "storeName": "Dash Deportes",
-    "province": "Buenos Aires",
-    "updatedAt": "2026-06-26T04:47:26.085Z",
-    "priceHistory": [
-      {
-        "fecha": "2026-06-26T04:47:26.085Z",
-        "precio": 69999,
-        "precioAnterior": 99999,
-        "descuento": 30
-      }
-    ]
   },
   {
     "id": "opensports-63103",
