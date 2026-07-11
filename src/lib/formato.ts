@@ -192,7 +192,8 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
     "chalecos", "conjuntos", "sandalia", "ojota", "ojotas", "crocs", "pantufla", "pantuflas",
     "bota", "botas", "accesorios", "indumentaria", "tiza", "inflador",
     "antidoping", "gorra", "visera", "medias", "cordones", "plantillas", "bermuda", "bermudas",
-    "chews", "gummy", "caramelo"
+    "chews", "gummy", "caramelo", "pantorrillera", "venda", "canillera", "botinero", "rodillera",
+    "tobillera", "cinta", "muñequera", "munequera", "cinturon", "cinturón", "balon", "balón"
   ];
 
   for (const termino of terminosExcluidos) {
