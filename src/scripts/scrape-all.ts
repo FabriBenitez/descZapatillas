@@ -87,10 +87,10 @@ async function scrapeTiendaMultiQuery(
         ...opcionesExtra,
         paginas,
         query,
-        // En el scraper masivo (GitHub Actions) tenemos hasta 6 horas,
-        // por lo que NUNCA evitamos los talles. Queremos que TODO
-        // producto tenga sus talles completos.
-        evitarTalles: false,
+        // Extraemos talles SOLO en la primera búsqueda principal ("zapatillas")
+        // para mantener el scraper en un tiempo razonable (~2 horas) y 
+        // no exceder el límite de 6 horas de GitHub Actions.
+        evitarTalles: !esPrimeraBusqueda,
       });
 
       let nuevos = 0;
