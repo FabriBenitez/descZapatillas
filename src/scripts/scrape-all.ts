@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase-admin/firestore";
 import { obtenerFirestoreAdmin } from "../lib/firebase-admin";
 import { obtenerTodasLasOfertasMoov } from "../lib/connectors/moov";
 import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
