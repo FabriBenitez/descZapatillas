@@ -710,9 +710,10 @@ export async function obtenerTodasLasOfertasTiendasExternas({
     );
   });
 
-  // Ejecutar en grupos de 20 en paralelo (cada página de Magento trae solo 13 items,
-  // con 220 páginas necesitamos ser eficientes para caber en los 60s del cron)
-  const chunkSize = 20;
+  // Ejecutar en grupos (chunks) para no saturar al servidor.
+  // Si evitamos talles, solo bajamos la página de categoría, podemos ir rápido (20).
+  // Si extraemos talles, por cada categoría bajamos el HTML de cada zapatilla, debemos ir lento (2).
+  const chunkSize = evitarTalles ? 20 : 2;
   const respuestas = [];
   for (let i = 0; i < todasLasPromesas.length; i += chunkSize) {
     const chunk = todasLasPromesas.slice(i, i + chunkSize);
