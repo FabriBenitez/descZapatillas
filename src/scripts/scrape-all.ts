@@ -205,7 +205,7 @@ async function runScrape() {
   let creados = 0;
   let actualizadosPrecio = 0;
   let actualizadosMeta = 0;
-  const operacionesEscritura: (() => Promise<void>)[] = [];
+  const operacionesEscritura: (() => Promise<unknown>)[] = [];
 
   const fechaActualizacion = new Date().toISOString();
   const todosLosProductos = new Map<string, Producto>(productosExistentes);
