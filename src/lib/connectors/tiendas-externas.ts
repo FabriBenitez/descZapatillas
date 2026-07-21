@@ -712,8 +712,8 @@ export async function obtenerTodasLasOfertasTiendasExternas({
 
   // Ejecutar en grupos (chunks) para no saturar al servidor.
   // Si evitamos talles, solo bajamos la página de categoría, podemos ir rápido (20).
-  // Si extraemos talles, por cada categoría bajamos el HTML de cada zapatilla, debemos ir lento (2).
-  const chunkSize = evitarTalles ? 20 : 2;
+  // Si extraemos talles, procesamos de a 1 sola página a la vez para máxima seguridad (1).
+  const chunkSize = evitarTalles ? 20 : 1;
   const respuestas = [];
   for (let i = 0; i < todasLasPromesas.length; i += chunkSize) {
     const chunk = todasLasPromesas.slice(i, i + chunkSize);

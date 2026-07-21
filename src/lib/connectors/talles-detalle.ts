@@ -143,9 +143,14 @@ export async function enriquecerProductosConTalles(
   const productosPriorizados = productos.slice(0, limite);
   const productosSinDetalle = productos.slice(limite);
   const enriquecidos: Producto[] = [];
-  const tamanoLote = 4;
+  const tamanoLote = 2; // Extraer talles de a 2 zapatillas por vez para no saturar
 
   for (let indice = 0; indice < productosPriorizados.length; indice += tamanoLote) {
+    // Pequeña pausa entre lotes para evitar error 429 (Too Many Requests)
+    if (indice > 0) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
     const lote = productosPriorizados.slice(indice, indice + tamanoLote);
     const resultados = await Promise.all(
       lote.map(async (producto) => {
