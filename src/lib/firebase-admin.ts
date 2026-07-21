@@ -3,7 +3,7 @@
  * A diferencia de firebase/firestore/lite (que es para browsers),
  * firebase-admin funciona con autenticación por variables de entorno en servidores.
  */
-import { initializeApp, getApps, cert, type App } from "firebase-admin/app";
+import { initializeApp, getApps, type App } from "firebase-admin/app";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 
 let adminApp: App | null = null;
