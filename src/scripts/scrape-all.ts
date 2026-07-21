@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { obtenerFirestoreAdmin } from "../lib/firebase-admin";
 import { obtenerTodasLasOfertasMoov } from "../lib/connectors/moov";
 import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
@@ -174,9 +175,10 @@ async function runScrape() {
   const productosExistentes = new Map<string, Producto>();
 
   if (firestore) {
-    console.log("🔌 Conectado a Firebase Admin. Obteniendo productos existentes...");
+    console.log("🔌 Conectado a Firebase. Obteniendo productos existentes...");
     try {
-      const querySnapshot = await firestore.collection("products").get();
+      const refColeccion = collection(firestore, "products");
+      const querySnapshot = await getDocs(refColeccion);
       querySnapshot.forEach((docSnapshot) => {
         productosExistentes.set(docSnapshot.id, docSnapshot.data() as Producto);
       });
@@ -229,7 +231,7 @@ async function runScrape() {
       creados++;
       todosLosProductos.set(fresh.id, fresh);
       if (firestore) {
-        operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(fresh));
+        operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), fresh));
       }
     } else {
       // Producto existente
@@ -270,7 +272,7 @@ async function runScrape() {
         actualizadosPrecio++;
         todosLosProductos.set(fresh.id, existing);
         if (firestore) {
-          operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       } else if (
         disponibleCambio ||
@@ -286,14 +288,14 @@ async function runScrape() {
         actualizadosMeta++;
         todosLosProductos.set(fresh.id, existing);
         if (firestore) {
-          operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       } else {
         existing.updatedAt = fechaActualizacion;
         todosLosProductos.set(fresh.id, existing);
         actualizadosMeta++;
         if (firestore) {
-          operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       }
     }
@@ -332,7 +334,7 @@ async function runScrape() {
     if (eliminarDefinitivamente) {
       todosLosProductos.delete(id);
       if (firestore) {
-        operacionesEscritura.push(() => firestore.collection("products").doc(id).delete());
+        operacionesEscritura.push(() => deleteDoc(doc(firestore, "products", id)));
       }
     }
   }
