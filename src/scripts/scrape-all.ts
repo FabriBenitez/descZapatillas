@@ -207,7 +207,7 @@ async function runScrape() {
   let creados = 0;
   let actualizadosPrecio = 0;
   let actualizadosMeta = 0;
-  const promesasEscritura: Promise<void>[] = [];
+  const operacionesEscritura: (() => Promise<void>)[] = [];
 
   const fechaActualizacion = new Date().toISOString();
   const todosLosProductos = new Map<string, Producto>(productosExistentes);
@@ -231,7 +231,7 @@ async function runScrape() {
       creados++;
       todosLosProductos.set(fresh.id, fresh);
       if (firestore) {
-        promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), fresh));
+        operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), fresh));
       }
     } else {
       // Producto existente
@@ -272,7 +272,7 @@ async function runScrape() {
         actualizadosPrecio++;
         todosLosProductos.set(fresh.id, existing);
         if (firestore) {
-          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       } else if (
         disponibleCambio ||
@@ -288,14 +288,14 @@ async function runScrape() {
         actualizadosMeta++;
         todosLosProductos.set(fresh.id, existing);
         if (firestore) {
-          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       } else {
         existing.updatedAt = fechaActualizacion;
         todosLosProductos.set(fresh.id, existing);
         actualizadosMeta++;
         if (firestore) {
-          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+          operacionesEscritura.push(() => setDoc(doc(firestore, "products", fresh.id), existing));
         }
       }
     }
@@ -334,18 +334,18 @@ async function runScrape() {
     if (eliminarDefinitivamente) {
       todosLosProductos.delete(id);
       if (firestore) {
-        promesasEscritura.push(deleteDoc(doc(firestore, "products", id)));
+        operacionesEscritura.push(() => deleteDoc(doc(firestore, "products", id)));
       }
     }
   }
 
   // 5. Ejecutar todas las escrituras en lotes
   if (firestore) {
-    console.log(`💾 Guardando ${promesasEscritura.length} operaciones en Firebase...`);
+    console.log(`💾 Guardando ${operacionesEscritura.length} operaciones en Firebase (en lotes)...`);
     const BATCH_SIZE = 50;
-    for (let i = 0; i < promesasEscritura.length; i += BATCH_SIZE) {
-      const batch = promesasEscritura.slice(i, i + BATCH_SIZE);
-      await Promise.all(batch);
+    for (let i = 0; i < operacionesEscritura.length; i += BATCH_SIZE) {
+      const batchFns = operacionesEscritura.slice(i, i + BATCH_SIZE);
+      await Promise.all(batchFns.map(fn => fn()));
     }
   } else {
     const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
