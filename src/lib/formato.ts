@@ -193,7 +193,9 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
     "bota", "botas", "accesorios", "indumentaria", "tiza", "inflador",
     "antidoping", "gorra", "visera", "medias", "cordones", "plantillas", "bermuda", "bermudas",
     "chews", "gummy", "caramelo", "pantorrillera", "venda", "canillera", "botinero", "rodillera",
-    "tobillera", "cinta", "muñequera", "munequera", "cinturon", "cinturón", "balon", "balón"
+    "tobillera", "cinta", "muñequera", "munequera", "cinturon", "cinturón", "balon", "balón",
+    "musculosa", "polera", "chomba", "sweater", "sueter", "pulover", "abrigo", "guantes", "bufanda",
+    "bandana", "lentes", "reloj", "cartera", "bandolera", "toalla", "vincha", "pala", "paleta", "raqueta"
   ];
 
   for (const termino of terminosExcluidos) {
@@ -208,7 +210,7 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
     const catNormalizada = normalizarTexto(categoria);
     const categoriasExcluidas = [
       "indumentaria", "accesorios", "ropa", "remeras", "buzos", "pantalones",
-      "shorts", "medias", "gorras", "pelotas", "equipamiento"
+      "shorts", "medias", "gorras", "pelotas", "equipamiento", "lifestyle ropa"
     ];
     for (const catExcl of categoriasExcluidas) {
       if (catNormalizada.includes(catExcl)) {
@@ -217,36 +219,8 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
     }
   }
 
-  // 3. Determinar si tiene indicación positiva de calzado en el nombre
-  const tienePalabraClaveNombre = 
-    nombreNormalizado.includes("zapatilla") || 
-    nombreNormalizado.includes("sneaker") || 
-    nombreNormalizado.includes("zapa") ||
-    nombreNormalizado.includes("zapato") ||
-    nombreNormalizado.includes("botin");
-
-  // 4. Determinar si la categoría indica que es calzado
-  let tieneCategoriaCalzado = false;
-  if (categoria) {
-    const catNormalizada = normalizarTexto(categoria);
-    tieneCategoriaCalzado =
-      catNormalizada.includes("zapatilla") ||
-      catNormalizada.includes("calzado") ||
-      catNormalizada.includes("botin") ||
-      catNormalizada.includes("sneaker") ||
-      catNormalizada.includes("zapas") ||
-      catNormalizada.includes("footwear") ||
-      catNormalizada.includes("running") ||
-      catNormalizada.includes("training") ||
-      catNormalizada.includes("tenis") ||
-      catNormalizada.includes("futbol") ||
-      catNormalizada.includes("basquet");
-  }
-
-  // Si no tiene indicación de calzado en el nombre ni en la categoría, se descarta
-  if (!tienePalabraClaveNombre && !tieneCategoriaCalzado) {
-    return false;
-  }
-
+  // Al relajar el filtro positivo, confiamos en que el scraper está
+  // haciendo búsquedas específicas (ej. "zapatillas nike") y que,
+  // al no tener ninguna palabra prohibida, el producto es calzado válido.
   return true;
 }

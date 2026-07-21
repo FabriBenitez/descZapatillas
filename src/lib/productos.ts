@@ -43,34 +43,59 @@ function combinarProductos(...fuentes: Producto[][]) {
 }
 
 export async function obtenerProductosConectoresSinCache() {
-  const respuestas = await Promise.allSettled([
-    obtenerTodasLasOfertasMoov({
-      paginas: 5,
-    }),
-    obtenerTodasLasOfertasGrid({
-      paginas: 4,
-    }),
-    obtenerTodasLasOfertasDexter({
-      paginas: 5,
-    }),
-    obtenerTodasLasOfertasTiendasExternas({
-      paginas: 2,
-    }),
-  ]);
+  const queries = [
+    "zapatillas nike",
+    "zapatillas adidas",
+    "zapatillas puma",
+    "zapatillas topper",
+    "zapatillas under armour",
+    "zapatillas asics",
+    "zapatillas fila",
+    "zapatillas reebok",
+    "zapatillas salomon",
+    "zapatillas converse",
+    "zapatillas vans",
+    "zapatillas", // Fallback para marcas menores
+  ];
 
-  const crudos = respuestas.flatMap((respuesta) =>
-    respuesta.status === "fulfilled" ? respuesta.value : [],
-  );
+  const crudos = [];
+  const chunkSize = 3; // 3 queries * 4 tiendas = 12 promesas en paralelo
 
-  return crudos.map(p => ({
-    ...p,
-    brand: normalizarMarca(p.brand),
-    sizes: normalizarTallesArray(p.sizes || []),
-    size: p.size ? normalizarTalleUnico(p.size) : undefined,
-    category: normalizarCategoria(p.category ?? ""),
-    color: normalizarColor(p.color),
-    gender: normalizarGenero(p.gender)
-  }));
+  for (let i = 0; i < queries.length; i += chunkSize) {
+    const chunkQueries = queries.slice(i, i + chunkSize);
+    const promesas = [];
+
+    for (const query of chunkQueries) {
+      promesas.push(obtenerTodasLasOfertasMoov({ paginas: 1, query }));
+      promesas.push(obtenerTodasLasOfertasGrid({ paginas: 1, query }));
+      promesas.push(obtenerTodasLasOfertasDexter({ paginas: 1, query }));
+      promesas.push(obtenerTodasLasOfertasTiendasExternas({ paginas: 1, query }));
+    }
+
+    const respuestas = await Promise.allSettled(promesas);
+    const productosChunk = respuestas.flatMap((respuesta) =>
+      respuesta.status === "fulfilled" ? respuesta.value : []
+    );
+    crudos.push(...productosChunk);
+  }
+
+  const productosUnicos = new Map<string, typeof crudos[0]>();
+
+  crudos.forEach((p) => {
+    if (!productosUnicos.has(p.id)) {
+      productosUnicos.set(p.id, {
+        ...p,
+        brand: normalizarMarca(p.brand),
+        sizes: normalizarTallesArray(p.sizes || []),
+        size: p.size ? normalizarTalleUnico(p.size) : undefined,
+        category: normalizarCategoria(p.category ?? ""),
+        color: normalizarColor(p.color),
+        gender: normalizarGenero(p.gender)
+      });
+    }
+  });
+
+  return Array.from(productosUnicos.values());
 }
 
 const obtenerProductosConectores = unstable_cache(

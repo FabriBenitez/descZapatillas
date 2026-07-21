@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore/lite";
+import { obtenerFirestoreCliente } from "../lib/firebase";
 import { obtenerTodasLasOfertasMoov } from "../lib/connectors/moov";
 import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
 import { obtenerTodasLasOfertasDexter } from "../lib/connectors/dexter";
@@ -169,19 +171,34 @@ async function runScrape() {
   }
 
   // 2. Obtener base de datos actual
-  const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+  const firestore = obtenerFirestoreCliente();
   const productosExistentes = new Map<string, Producto>();
 
-  try {
-    const dbContent = await fs.readFile(dbPath, "utf-8");
-    const productosLocales = JSON.parse(dbContent) as Producto[];
-    if (Array.isArray(productosLocales)) {
-      productosLocales.forEach((prod) => {
-        productosExistentes.set(prod.id, prod);
+  if (firestore) {
+    console.log("🔌 Conectado a Firebase. Obteniendo productos existentes...");
+    try {
+      const refColeccion = collection(firestore, "products");
+      const querySnapshot = await getDocs(refColeccion);
+      querySnapshot.forEach((docSnapshot) => {
+        productosExistentes.set(docSnapshot.id, docSnapshot.data() as Producto);
       });
+    } catch (error) {
+      console.error("❌ Error leyendo Firebase:", error);
     }
-  } catch (err) {
-    console.log("No se encontró base de datos previa o está corrupta. Empezando de cero.");
+  } else {
+    console.log("⚠️ No hay configuración de Firebase. Usando JSON local fallback.");
+    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+    try {
+      const dbContent = await fs.readFile(dbPath, "utf-8");
+      const productosLocales = JSON.parse(dbContent) as Producto[];
+      if (Array.isArray(productosLocales)) {
+        productosLocales.forEach((prod) => {
+          productosExistentes.set(prod.id, prod);
+        });
+      }
+    } catch (err) {
+      console.log("No se encontró base de datos previa o está corrupta. Empezando de cero.");
+    }
   }
 
   console.log(`📦 Base de datos actual: ${productosExistentes.size} productos`);
@@ -190,6 +207,7 @@ async function runScrape() {
   let creados = 0;
   let actualizadosPrecio = 0;
   let actualizadosMeta = 0;
+  const promesasEscritura: Promise<void>[] = [];
 
   const fechaActualizacion = new Date().toISOString();
   const todosLosProductos = new Map<string, Producto>(productosExistentes);
@@ -212,6 +230,9 @@ async function runScrape() {
 
       creados++;
       todosLosProductos.set(fresh.id, fresh);
+      if (firestore) {
+        promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), fresh));
+      }
     } else {
       // Producto existente
       const precioCambio = existing.price !== fresh.price;
@@ -250,6 +271,9 @@ async function runScrape() {
 
         actualizadosPrecio++;
         todosLosProductos.set(fresh.id, existing);
+        if (firestore) {
+          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+        }
       } else if (
         disponibleCambio ||
         fresh.sizes?.length !== existing.sizes?.length
@@ -263,10 +287,16 @@ async function runScrape() {
 
         actualizadosMeta++;
         todosLosProductos.set(fresh.id, existing);
+        if (firestore) {
+          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+        }
       } else {
         existing.updatedAt = fechaActualizacion;
         todosLosProductos.set(fresh.id, existing);
         actualizadosMeta++;
+        if (firestore) {
+          promesasEscritura.push(setDoc(doc(firestore, "products", fresh.id), existing));
+        }
       }
     }
   }
@@ -287,8 +317,6 @@ async function runScrape() {
     // Si no lo vimos en la pasada fresca, pero la tienda respondió bien
     if (!idsFrescos.has(id)) {
       if (tiendasExitosas.has(prod.storeSlug)) {
-        // Con scraping multi-query exhaustivo, si no aparece en ninguna búsqueda,
-        // lo eliminamos directamente en vez de marcarlo como sin stock
         eliminarDefinitivamente = true;
         eliminadosNoVistos++;
       }
@@ -305,15 +333,28 @@ async function runScrape() {
 
     if (eliminarDefinitivamente) {
       todosLosProductos.delete(id);
+      if (firestore) {
+        promesasEscritura.push(deleteDoc(doc(firestore, "products", id)));
+      }
     }
   }
 
-  // 5. Guardar base de datos
-  await fs.writeFile(
-    dbPath,
-    JSON.stringify(Array.from(todosLosProductos.values()), null, 2),
-    "utf-8",
-  );
+  // 5. Ejecutar todas las escrituras en lotes
+  if (firestore) {
+    console.log(`💾 Guardando ${promesasEscritura.length} operaciones en Firebase...`);
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < promesasEscritura.length; i += BATCH_SIZE) {
+      const batch = promesasEscritura.slice(i, i + BATCH_SIZE);
+      await Promise.all(batch);
+    }
+  } else {
+    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+    await fs.writeFile(
+      dbPath,
+      JSON.stringify(Array.from(todosLosProductos.values()), null, 2),
+      "utf-8",
+    );
+  }
 
   const duracion = ((Date.now() - inicio) / 1000).toFixed(1);
   console.log("\n====================================");
