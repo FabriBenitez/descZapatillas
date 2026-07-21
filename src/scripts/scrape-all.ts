@@ -87,9 +87,10 @@ async function scrapeTiendaMultiQuery(
         ...opcionesExtra,
         paginas,
         query,
-        // Solo enriquecer talles (scraping de detalle) en la primera búsqueda
-        // para no sobrecargar con requests de detalle en cada query
-        evitarTalles: !esPrimeraBusqueda,
+        // En el scraper masivo (GitHub Actions) tenemos hasta 6 horas,
+        // por lo que NUNCA evitamos los talles. Queremos que TODO
+        // producto tenga sus talles completos.
+        evitarTalles: false,
       });
 
       let nuevos = 0;

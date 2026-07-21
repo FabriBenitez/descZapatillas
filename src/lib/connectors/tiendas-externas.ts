@@ -670,7 +670,7 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarMagento(tienda, html),
       "magento",
-      opciones.evitarTalles ? 0 : 6
+      opciones.evitarTalles ? 0 : 999
     );
   }
 
@@ -678,14 +678,14 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarDigitalSport(tienda, html),
       "digitalsport",
-      opciones.evitarTalles ? 0 : 6
+      opciones.evitarTalles ? 0 : 999
     );
   }
 
   return enriquecerProductosConTalles(
     normalizarDemandware(tienda, html),
     "demandware",
-    opciones.evitarTalles ? 0 : 6
+    opciones.evitarTalles ? 0 : 999
   );
 }
 
@@ -705,7 +705,7 @@ export async function obtenerTodasLasOfertasTiendasExternas({
       obtenerOfertasTiendaExterna(tienda, {
         pagina,
         query,
-        evitarTalles: paginasTienda > 10 ? true : evitarTalles,
+        evitarTalles,
       }),
     );
   });
