@@ -10,6 +10,8 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 360  # Máximo 6 horas
+    permissions:
+      contents: write  # Necesario para hacer git push del productos-db.json
     
     steps:
       - name: Checkout repositorio
