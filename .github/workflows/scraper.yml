@@ -34,3 +34,11 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
         run: npm run scrape
+
+      - name: Commitear base de datos JSON
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add src/data/productos-db.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated data sync: Actualizar productos-db.json [skip ci]" && git pull --rebase && git push)
+

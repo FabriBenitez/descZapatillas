@@ -346,14 +346,16 @@ async function runScrape() {
       const batchFns = operacionesEscritura.slice(i, i + BATCH_SIZE);
       await Promise.all(batchFns.map(fn => fn()));
     }
-  } else {
-    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
-    await fs.writeFile(
-      dbPath,
-      JSON.stringify(Array.from(todosLosProductos.values()), null, 2),
-      "utf-8",
-    );
   }
+  
+  // SIEMPRE guardar en el JSON local para que el frontend pueda consumirlo sin gastar cuota de Firebase
+  console.log(`💾 Guardando en productos-db.json localmente...`);
+  const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+  await fs.writeFile(
+    dbPath,
+    JSON.stringify(Array.from(todosLosProductos.values()), null, 2),
+    "utf-8",
+  );
 
   const duracion = ((Date.now() - inicio) / 1000).toFixed(1);
   console.log("\n====================================");
