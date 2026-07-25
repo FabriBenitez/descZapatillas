@@ -111,25 +111,59 @@ export function normalizarCategoria(categoria: string): string | null {
   if (!categoria) return null;
   const c = normalizarTexto(categoria);
 
-  // Categorías a excluir directamente
+  // Categorías a excluir directamente (calzado que NO queremos)
   if (
     c.includes("zueco") ||
     c.includes("zapato") ||
     c.includes("traje de bano") ||
-    c.includes("traje de baño") ||
     c.includes("ojota") ||
     c.includes("sandalia") ||
     c.includes("crocs") ||
     c.includes("newsport") ||
     c === "category" ||
     c === "general" ||
-    c.includes("bota")
+    // bota sola → excluir, pero botin → permitir (ver abajo)
+    (c.includes("bota") && !c.includes("botin"))
   ) return null;
 
-  if (c.includes("botin")) return "Botines";
-  if (c.includes("zapatilla") || c.includes("sneaker")) return "Zapatillas";
+  // Botines (fútbol) — categoría permitida
+  if (c.includes("botin") || c === "futbol" || c === "football") return "Botines";
+
+  // Zapatillas — categoría permitida
+  if (c.includes("zapatilla") || c.includes("sneaker") || c.includes("calzado")
+      || c.includes("running") || c.includes("training") || c.includes("basketball")
+      || c.includes("tenis") || c.includes("outdoor") || c.includes("skate")
+      || c.includes("lifestyle") || c.includes("urbano") || c.includes("indoor")
+      || c.includes("futsal") || c.includes("sala")) return "Zapatillas";
 
   return capitalizarTexto(categoria.trim().toLowerCase());
+}
+
+/** Infiere la subcategoría de un producto (Running, Training, Basketball, etc.)
+ *  a partir del nombre del producto y/o su categoría. */
+export function inferirSubcategoria(nombre: string, categoria?: string | null): string | null {
+  const n = normalizarTexto(nombre);
+  const c = normalizarTexto(categoria ?? "");
+  const texto = `${n} ${c}`;
+
+  // ── Botines: subcategorías de fútbol ──────────────────────────────────
+  if (c === "botines" || n.includes("botin")) {
+    if (texto.includes("sala") || texto.includes("futsal") || texto.includes(" ic ") || texto.includes(" in ")) return "Sala";
+    if (texto.includes("sintetico") || texto.includes("artificial") || texto.includes(" ag ") || texto.includes(" tf ")) return "Sintético";
+    return "Campo";
+  }
+
+  // ── Zapatillas: subcategorías por deporte / uso ───────────────────────
+  if (texto.includes("running") || texto.includes("correr") || texto.includes(" run ") || texto.endsWith(" run")) return "Running";
+  if (texto.includes("training") || texto.includes("crossfit") || texto.includes("cross") || texto.includes("entrenamiento")) return "Training";
+  if (texto.includes("basketball") || texto.includes("basquet") || texto.includes("nba")) return "Basketball";
+  if (texto.includes(" tenis") || texto.includes("tennis") || texto.includes(" clay") || texto.includes(" clay")) return "Tenis";
+  if (texto.includes("futsal") || texto.includes("futbol sala") || texto.includes("indoor soccer")) return "Fútbol Sala";
+  if (texto.includes("outdoor") || texto.includes("trail") || texto.includes("hiking") || texto.includes("hike")) return "Outdoor";
+  if (texto.includes("skate") || texto.includes("skateboarding")) return "Skate";
+  if (texto.includes("lifestyle") || texto.includes("urbano") || texto.includes("casual") || texto.includes("street")) return "Lifestyle";
+
+  return null; // Sin subcategoría específica detectada
 }
 
 export function normalizarColor(color: string) {
@@ -178,70 +212,72 @@ export function normalizarGenero(genero: string) {
   return "Unisex";
 }
 
-export function esZapatilla(nombre: string, categoria?: string): boolean {
+/** Determina si un producto es calzado permitido (zapatillas O botines).
+ *  Los botines de fútbol también son bienvenidos ahora. */
+export function esCalzadoPermitido(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 
-  // 1. Excluir si contiene términos prohibidos en el nombre
+  // 1. Si el nombre contiene "botin" o "botines" → siempre permitido
+  if (nombreNormalizado.includes("botin")) return true;
+
+  // 2. Excluir si contiene términos prohibidos en el nombre
   const terminosExcluidos = [
     // Ropa superior
     "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",
     "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
     "rompeviento", "t-shirt", "shirt", "jersey", "sweatshirt", "pullover", "cardigan",
     "corpino", "bra", "sosten", "camperon",
-    
+
     // Ropa inferior
     "pantalon", "pantalones", "short", "shorts", "calza", "calzas", "bermuda", "bermudas",
     "jogger", "calzoncillo", "boxer", "tanga", "slip", "malla", "sunga", "bikini",
     "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
     "vestido", "pollera", "conjunto", "traje", "bano",
-    
-    // Calzado no zapatilla
-    "botin", "botines", "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
+
+    // Calzado NO permitido
+    "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
     "pantuflas", "borcego", "borcegos", "clava", "clavas", "taco",
-    
+
     // Accesorios y equipamiento
     "media", "medias", "socks", "mochila", "bolso", "bolsos", "rinonera", "cartera",
     "bandolera", "morral", "billetera", "botinero", "gorra", "gorro", "gorras", "visera",
     "sombrero", "anteojos", "lentes", "reloj", "perfume", "fragancia", "botella", "termo",
-    "llavero", "munequera", "muñequera", "cinturon", "cinturón", "toalla", "vincha",
+    "llavero", "munequera", "cinturon", "toalla", "vincha",
     "cuello", "bufanda", "guantes", "mitones", "bandana", "plantillas",
-    
+
     // Deportes / Hardware
-    "pelota", "balon", "balón", "ball", "hoop", "inflador", "antidoping",
+    "pelota", "balon", "ball", "hoop", "inflador",
     "tiza", "pala", "paleta", "raqueta", "palo", "stick", "bocha", "disco", "pesa",
-    "mancuerna", "colchoneta", "mat", "soga", "red", "arco", "aro",
-    
+    "mancuerna", "colchoneta", "mat", "soga", "arco", "aro",
+
     // Protecciones
     "canillera", "pantorrillera", "venda", "rodillera", "tobillera", "codera", "casco",
-    
-    // Materiales/Tecnologías exclusivas de ropa
-    "fleece", "terry", "dri-fit", "aeroready", "climalite", "climacool", "heatgear",
-    "coldgear", "techfit", "algodon", "poliester", "spandex", "lycra", "elastano", "microfibra"
+
+    // Materiales / tecnologías de ropa
+    "fleece", "terry", "climalite", "climacool", "heatgear",
+    "coldgear", "algodon", "poliester", "spandex", "lycra", "elastano", "microfibra",
   ];
 
   for (const termino of terminosExcluidos) {
-    const regex = new RegExp(`\\b${termino}\\b`, "i");
-    if (regex.test(nombreNormalizado)) {
+    if (new RegExp(`\\b${termino}\\b`, "i").test(nombreNormalizado)) {
       return false;
     }
   }
 
-  // 2. Excluir si la categoría es de ropa o accesorios
+  // 3. Excluir si la categoría es claramente de ropa o accesorios
   if (categoria) {
-    const catNormalizada = normalizarTexto(categoria);
-    const categoriasExcluidas = [
+    const catNorm = normalizarTexto(categoria);
+    const catExcluidas = [
       "indumentaria", "accesorios", "ropa", "remeras", "buzos", "pantalones",
-      "shorts", "medias", "gorras", "pelotas", "equipamiento", "lifestyle ropa"
+      "shorts", "medias", "gorras", "pelotas", "equipamiento", "lifestyle ropa",
     ];
-    for (const catExcl of categoriasExcluidas) {
-      if (catNormalizada.includes(catExcl)) {
-        return false;
-      }
+    for (const catExcl of catExcluidas) {
+      if (catNorm.includes(catExcl)) return false;
     }
   }
 
-  // Al relajar el filtro positivo, confiamos en que el scraper está
-  // haciendo búsquedas específicas (ej. "zapatillas nike") y que,
-  // al no tener ninguna palabra prohibida, el producto es calzado válido.
   return true;
 }
+
+/** Alias de compatibilidad — preferir esCalzadoPermitido en código nuevo */
+export const esZapatilla = esCalzadoPermitido;

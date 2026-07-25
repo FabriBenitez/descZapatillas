@@ -28,7 +28,8 @@ function construirResumenFiltros(filtros: FiltrosProductos) {
   if (filtros.marca) etiquetas.push(`Marca: ${filtros.marca}`);
   if (filtros.tienda) etiquetas.push(`Tienda: ${filtros.tienda}`);
 
-  if (filtros.categoria) etiquetas.push(`Categoria: ${filtros.categoria}`);
+  if (filtros.categoria) etiquetas.push(`Categoría: ${filtros.categoria}`);
+  if ((filtros as { subcategoria?: string }).subcategoria) etiquetas.push(`Tipo: ${(filtros as { subcategoria?: string }).subcategoria}`);
   if (filtros.color) etiquetas.push(`Color: ${filtros.color}`);
   if (filtros.talle) etiquetas.push(`Talle: ${filtros.talle}`);
   if (filtros.genero) etiquetas.push(`Genero: ${filtros.genero}`);

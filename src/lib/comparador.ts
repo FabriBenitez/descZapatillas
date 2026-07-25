@@ -7,6 +7,7 @@ export interface OpcionesFiltros {
   talles: string[];
   generos: string[];
   categorias: string[];
+  subcategorias: string[];
   colores: string[];
   tiposOferta: string[];
 }
@@ -71,6 +72,15 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
     ),
     colores: ordenarTexto(
       Array.from(new Set(productos.map((producto) => producto.color).filter(Boolean))),
+    ),
+    subcategorias: ordenarTexto(
+      Array.from(
+        new Set(
+          productos
+            .map((producto) => (producto as { subcategory?: string | null }).subcategory)
+            .filter((s): s is string => !!s),
+        ),
+      ),
     ),
     tiposOferta: ordenarTexto(
       Array.from(
@@ -186,12 +196,23 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.categoria && producto.category !== filtros.categoria) {
-      return false;
+    if (filtros.categoria) {
+      const catFiltro = normalizarTexto(filtros.categoria);
+      const catProd = normalizarTexto(producto.category ?? "");
+      if (!catProd.includes(catFiltro)) return false;
     }
 
-    if (filtros.color && producto.color !== filtros.color) {
-      return false;
+    if ((filtros as { subcategoria?: string }).subcategoria) {
+      const subFiltro = normalizarTexto((filtros as { subcategoria?: string }).subcategoria ?? "");
+      const subProd = normalizarTexto((producto as { subcategory?: string | null }).subcategory ?? "");
+      if (!subProd.includes(subFiltro)) return false;
+    }
+
+    if (filtros.color) {
+      // Búsqueda parcial normalizada: "Negro" matchea "Negro/Blanco", "Negro Mate", etc.
+      const colorFiltro = normalizarTexto(filtros.color);
+      const colorProd = normalizarTexto(producto.color ?? "");
+      if (!colorProd.includes(colorFiltro)) return false;
     }
 
     if (descuentoMinimo && producto.discount < descuentoMinimo) {

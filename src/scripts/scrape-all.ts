@@ -6,7 +6,7 @@ import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
 import { obtenerTodasLasOfertasDexter } from "../lib/connectors/dexter";
 import { obtenerTodasLasOfertasTiendasExternas } from "../lib/connectors/tiendas-externas";
 import type { Producto } from "../types/producto";
-import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero } from "../lib/formato";
+import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero, inferirSubcategoria } from "../lib/formato";
 
 // =============================================
 // Configuración de búsquedas masivas
@@ -45,6 +45,17 @@ const BUSQUEDAS_MARCAS = [
   { query: "zapatillas lotto", paginas: 30 },
   { query: "zapatillas penalty", paginas: 30 },
   { query: "zapatillas olympikus", paginas: 30 },
+  // Botines por marca — igual de importante
+  { query: "botines adidas", paginas: 50 },
+  { query: "botines nike", paginas: 50 },
+  { query: "botines puma", paginas: 50 },
+  { query: "botines umbro", paginas: 30 },
+  { query: "botines mizuno", paginas: 30 },
+  { query: "botines penalty", paginas: 30 },
+  { query: "botines diadora", paginas: 30 },
+  { query: "botines under armour", paginas: 30 },
+  { query: "botines new balance", paginas: 20 },
+  { query: "botines lotto", paginas: 20 },
 ];
 
 // Búsquedas por deporte/actividad
@@ -153,15 +164,19 @@ async function runScrape() {
 
   const productosFrescos = todosLosFrescos
     .filter((p) => p.discount >= 1 && p.discount <= 100)
-    .map((p) => ({
-      ...p,
-      brand: normalizarMarca(p.brand),
-      sizes: normalizarTallesArray(p.sizes || []),
-      size: p.size ? normalizarTalleUnico(p.size) : undefined,
-      category: normalizarCategoria(p.category ?? ""),
-      color: normalizarColor(p.color),
-      gender: normalizarGenero(p.gender)
-    }));
+    .map((p) => {
+      const catNorm = normalizarCategoria(p.category ?? "");
+      return {
+        ...p,
+        brand: normalizarMarca(p.brand),
+        sizes: normalizarTallesArray(p.sizes || []),
+        size: p.size ? normalizarTalleUnico(p.size) : undefined,
+        category: catNorm,
+        subcategory: inferirSubcategoria(p.name, catNorm),
+        color: normalizarColor(p.color),
+        gender: normalizarGenero(p.gender),
+      };
+    });
 
   console.log(`\n📊 Se encontraron ${productosFrescos.length} ofertas frescas en total.`);
 

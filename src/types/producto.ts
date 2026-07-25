@@ -8,6 +8,25 @@ export type OrdenProductos =
   | "recientes"
   | "historico";
 
+// Categorías principales
+export type CategoriaPrincipal = "Zapatillas" | "Botines";
+
+// Subcategorías de zapatillas
+export type SubcategoriaZapatillas =
+  | "Running"
+  | "Training"
+  | "Basketball"
+  | "Tenis"
+  | "Fútbol Sala"
+  | "Outdoor"
+  | "Skate"
+  | "Lifestyle";
+
+// Subcategorías de botines
+export type SubcategoriaBotines = "Campo" | "Sala" | "Sintético";
+
+export type Subcategoria = SubcategoriaZapatillas | SubcategoriaBotines;
+
 export interface RegistroPrecio {
   fecha: string;
   precio: number;
@@ -23,6 +42,7 @@ export interface Producto {
   normalizedName: string;
   brand: string;
   category: string | null;
+  subcategory?: string | null;
   gender: string;
   color: string;
   size?: string;
@@ -50,6 +70,7 @@ export interface FiltrosProductos {
   talle: string;
   genero: string;
   categoria: string;
+  subcategoria: string;
   color: string;
   descuentoMinimo: string;
   soloStock: boolean;
@@ -66,6 +87,7 @@ export const filtrosIniciales: FiltrosProductos = {
   talle: "",
   genero: "",
   categoria: "",
+  subcategoria: "",
   color: "",
   descuentoMinimo: "",
   soloStock: true,

@@ -107,6 +107,10 @@ function GrupoPlegable({
   );
 }
 
+// Subcategorías disponibles para cada categoría principal
+const SUBCATS_ZAPATILLAS = ["Running", "Training", "Basketball", "Tenis", "Fútbol Sala", "Outdoor", "Skate", "Lifestyle"];
+const SUBCATS_BOTINES = ["Campo", "Sala", "Sintético"];
+
 export function FiltersSidebar({
   filtros,
   opciones,
@@ -117,6 +121,31 @@ export function FiltersSidebar({
   alCambiarOrden,
 }: FiltersSidebarProps) {
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
+
+  const subcatsDisponibles =
+    filtros.categoria === "Botines" ? SUBCATS_BOTINES :
+    filtros.categoria === "Zapatillas" ? SUBCATS_ZAPATILLAS :
+    // Sin categoría seleccionada → mostrar las que existen en DB
+    opciones.subcategorias;
+
+  const handleCategoriaToggle = (cat: string) => {
+    if (filtros.categoria === cat) {
+      // Deseleccionar: limpiar categoría y subcategoría
+      alCambiarFiltro("categoria", "");
+      alCambiarFiltro("subcategoria", "");
+    } else {
+      alCambiarFiltro("categoria", cat);
+      alCambiarFiltro("subcategoria", ""); // Resetear subcategoría al cambiar categoría
+    }
+  };
+
+  const handleSubcatToggle = (subcat: string) => {
+    if (filtros.subcategoria === subcat) {
+      alCambiarFiltro("subcategoria", "");
+    } else {
+      alCambiarFiltro("subcategoria", subcat);
+    }
+  };
 
   const contenidoFiltros = (
     <>
@@ -136,6 +165,58 @@ export function FiltersSidebar({
       </div>
 
       <div className="grid gap-4">
+
+        {/* ── CATEGORÍA: Zapatillas / Botines ── */}
+        <GrupoPlegable titulo="Categoría">
+          <div className="grid grid-cols-2 gap-2">
+            {["Zapatillas", "Botines"].map((cat) => {
+              const activa = filtros.categoria === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => handleCategoriaToggle(cat)}
+                  className={`py-2.5 px-3 text-xs font-black uppercase tracking-widest rounded-[4px] border-2 transition-all duration-200 shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:shadow-[0px_0px_0px_#111] ${
+                    activa
+                      ? "bg-[#FF4500] text-white border-[#FF4500] shadow-[2px_2px_0px_#c43500]"
+                      : "bg-white text-[#111] border-[#111] hover:bg-[#111] hover:text-white"
+                  }`}
+                >
+                  {cat === "Zapatillas" ? "👟 Zapatillas" : "⚽ Botines"}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Subcategorías — aparecen solo cuando hay una categoría seleccionada o hay opciones */}
+          {subcatsDisponibles.length > 0 && (
+            <div>
+              <p className="text-[10px] font-black text-black/50 uppercase tracking-widest mb-2">
+                {filtros.categoria === "Botines" ? "Tipo de terreno" : "Deporte / Uso"}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {subcatsDisponibles.map((sub) => {
+                  const activa = filtros.subcategoria === sub;
+                  return (
+                    <button
+                      key={sub}
+                      type="button"
+                      onClick={() => handleSubcatToggle(sub)}
+                      className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-full border-2 transition-all duration-150 ${
+                        activa
+                          ? "bg-[#111] text-white border-[#111]"
+                          : "bg-white text-[#111] border-[#111]/40 hover:border-[#111]"
+                      }`}
+                    >
+                      {sub}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </GrupoPlegable>
+
         <GrupoPlegable titulo="Marca y tienda">
           <GrupoSelect
             id="marca"
@@ -209,14 +290,6 @@ export function FiltersSidebar({
             valor={filtros.talle}
             opciones={opciones.talles}
             placeholder="Todos los talles"
-            alCambiarFiltro={alCambiarFiltro}
-          />
-          <GrupoSelect
-            id="categoria"
-            etiqueta="Categoría"
-            valor={filtros.categoria}
-            opciones={opciones.categorias}
-            placeholder="Todas las categorías"
             alCambiarFiltro={alCambiarFiltro}
           />
           <GrupoSelect
