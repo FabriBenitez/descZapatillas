@@ -624,9 +624,8 @@ function construirUrlTienda(
     sz: String(pageSize),
   });
 
-  if (query === "zapatillas") {
-    parametros.set("cgid", tienda.categoryId ?? "sale");
-  }
+  // Forzar siempre la categoría elegida para no traer productos a precio completo
+  parametros.set("cgid", tienda.categoryId ?? "sale");
 
   return `${tienda.baseUrl}/on/demandware.store/${tienda.siteId}/default/Search-UpdateGrid?${parametros}`;
 }

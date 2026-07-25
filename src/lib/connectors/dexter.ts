@@ -139,9 +139,8 @@ export function construirUrlDexterSale({
     sz: String(size),
   });
 
-  if (query === "zapatillas") {
-    parametros.set("cgid", categoryId);
-  }
+  // Forzar siempre la categoría elegida para no traer productos a precio completo
+  parametros.set("cgid", categoryId);
 
   return `${DEXTER_BASE_URL}${DEXTER_SEARCH_PATH}?${parametros}`;
 }

@@ -138,9 +138,8 @@ export function construirUrlMoovSale({
     sz: String(size),
   });
 
-  if (query === "zapatillas") {
-    parametros.set("cgid", "sale");
-  }
+  // Forzar siempre la categoría de ofertas para no traer productos a precio completo
+  parametros.set("cgid", "sale");
 
   return `${MOOV_BASE_URL}${MOOV_SEARCH_PATH}?${parametros}`;
 }

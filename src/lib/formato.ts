@@ -185,26 +185,26 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
   const terminosExcluidos = [
     // Ropa superior
     "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",
-    "polo", "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
+    "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
     "rompeviento", "t-shirt", "shirt", "jersey", "sweatshirt", "pullover", "cardigan",
-    "top", "corpino", "bra", "sosten", "camperon",
+    "corpino", "bra", "sosten", "camperon",
     
     // Ropa inferior
     "pantalon", "pantalones", "short", "shorts", "calza", "calzas", "bermuda", "bermudas",
     "jogger", "calzoncillo", "boxer", "tanga", "slip", "malla", "sunga", "bikini",
-    "jean", "denim", "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
+    "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
     "vestido", "pollera", "conjunto", "traje", "bano",
     
     // Calzado no zapatilla
     "botin", "botines", "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
-    "pantuflas", "bota", "botas", "borcego", "borcegos", "clava", "clavas", "taco",
+    "pantuflas", "borcego", "borcegos", "clava", "clavas", "taco",
     
     // Accesorios y equipamiento
     "media", "medias", "socks", "mochila", "bolso", "bolsos", "rinonera", "cartera",
     "bandolera", "morral", "billetera", "botinero", "gorra", "gorro", "gorras", "visera",
     "sombrero", "anteojos", "lentes", "reloj", "perfume", "fragancia", "botella", "termo",
     "llavero", "munequera", "muñequera", "cinturon", "cinturón", "toalla", "vincha",
-    "cuello", "bufanda", "guantes", "mitones", "bandana", "plantillas", "cordones",
+    "cuello", "bufanda", "guantes", "mitones", "bandana", "plantillas",
     
     // Deportes / Hardware
     "pelota", "balon", "balón", "ball", "hoop", "inflador", "antidoping",
