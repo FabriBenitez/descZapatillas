@@ -183,19 +183,40 @@ export function esZapatilla(nombre: string, categoria?: string): boolean {
 
   // 1. Excluir si contiene términos prohibidos en el nombre
   const terminosExcluidos = [
-    "buzo", "remera", "camiseta", "pantalon", "short", "media", "mochila", "gorra", "gorro",
-    "calza", "top", "pelota", "campera", "chaleco", "vestido", "pollera", "conjunto", "bolso",
-    "rinonera", "anteojos", "medias", "hoop", "ball", "cap", "socks", "hoodie", "jacket",
-    "t-shirt", "bra", "sosten", "corpino", "calzoncillo", "boxer", "tanga", "slip", "perfume",
-    "fragancia", "botella", "termo", "llavero", "munequera", "pantaloneta", "pantalon",
-    "camperas", "buzos", "remeras", "camisetas", "calzas", "shorts", "bolsos", "gorras",
-    "chalecos", "conjuntos", "sandalia", "ojota", "ojotas", "crocs", "pantufla", "pantuflas",
-    "bota", "botas", "accesorios", "indumentaria", "tiza", "inflador",
-    "antidoping", "gorra", "visera", "medias", "cordones", "plantillas", "bermuda", "bermudas",
-    "chews", "gummy", "caramelo", "pantorrillera", "venda", "canillera", "botinero", "rodillera",
-    "tobillera", "cinta", "muñequera", "munequera", "cinturon", "cinturón", "balon", "balón",
-    "musculosa", "polera", "chomba", "sweater", "sueter", "pulover", "abrigo", "guantes", "bufanda",
-    "bandana", "lentes", "reloj", "cartera", "bandolera", "toalla", "vincha", "pala", "paleta", "raqueta"
+    // Ropa superior
+    "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",
+    "polo", "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
+    "rompeviento", "t-shirt", "shirt", "jersey", "sweatshirt", "pullover", "cardigan",
+    "top", "corpino", "bra", "sosten", "camperon",
+    
+    // Ropa inferior
+    "pantalon", "pantalones", "short", "shorts", "calza", "calzas", "bermuda", "bermudas",
+    "jogger", "calzoncillo", "boxer", "tanga", "slip", "malla", "sunga", "bikini",
+    "jean", "denim", "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
+    "vestido", "pollera", "conjunto", "traje", "bano",
+    
+    // Calzado no zapatilla
+    "botin", "botines", "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
+    "pantuflas", "bota", "botas", "borcego", "borcegos", "clava", "clavas", "taco",
+    
+    // Accesorios y equipamiento
+    "media", "medias", "socks", "mochila", "bolso", "bolsos", "rinonera", "cartera",
+    "bandolera", "morral", "billetera", "botinero", "gorra", "gorro", "gorras", "visera",
+    "sombrero", "anteojos", "lentes", "reloj", "perfume", "fragancia", "botella", "termo",
+    "llavero", "munequera", "muñequera", "cinturon", "cinturón", "toalla", "vincha",
+    "cuello", "bufanda", "guantes", "mitones", "bandana", "plantillas", "cordones",
+    
+    // Deportes / Hardware
+    "pelota", "balon", "balón", "ball", "hoop", "inflador", "antidoping",
+    "tiza", "pala", "paleta", "raqueta", "palo", "stick", "bocha", "disco", "pesa",
+    "mancuerna", "colchoneta", "mat", "soga", "red", "arco", "aro",
+    
+    // Protecciones
+    "canillera", "pantorrillera", "venda", "rodillera", "tobillera", "codera", "casco",
+    
+    // Materiales/Tecnologías exclusivas de ropa
+    "fleece", "terry", "dri-fit", "aeroready", "climalite", "climacool", "heatgear",
+    "coldgear", "techfit", "algodon", "poliester", "spandex", "lycra", "elastano", "microfibra"
   ];
 
   for (const termino of terminosExcluidos) {

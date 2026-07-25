@@ -528,7 +528,10 @@ function normalizarDigitalSport(tienda: ConfiguracionTienda, html: string) {
       leerDescuento(textoCard.match(/-\s*(\d+)%/)?.[1]) ||
       calcularDescuento(precio, precioLista);
 
-    if (!idBase || !nombre || !esZapatilla(nombre, "Zapatillas") || !precio || !imagen || !enlace) {
+    const categoryReal =
+      limpiarTexto(producto.attr("data-category")) || "Zapatillas";
+
+    if (!idBase || !nombre || !esZapatilla(nombre, categoryReal) || !precio || !imagen || !enlace) {
       return;
     }
 
