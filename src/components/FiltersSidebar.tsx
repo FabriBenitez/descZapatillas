@@ -107,8 +107,9 @@ function GrupoPlegable({
   );
 }
 
-// Subcategorías disponibles para cada categoría principal
-const SUBCATS_ZAPATILLAS = ["Running", "Training", "Basketball", "Tenis", "Fútbol Sala", "Outdoor", "Skate", "Lifestyle"];
+// Subcategorías de zapatillas (solo deportes que se juegan con zapatillas)
+const SUBCATS_ZAPATILLAS = ["Running", "Training", "Basketball", "Tenis", "Outdoor", "Skate", "Lifestyle"];
+// Subcategorías de botines (fútbol)
 const SUBCATS_BOTINES = ["Campo", "Sala", "Sintético"];
 
 export function FiltersSidebar({
@@ -283,21 +284,13 @@ export function FiltersSidebar({
           </label>
         </GrupoPlegable>
 
-        <GrupoPlegable titulo="Producto">
+        <GrupoPlegable titulo="Talle y género">
           <GrupoSelect
             id="talle"
             etiqueta="Talle"
             valor={filtros.talle}
             opciones={opciones.talles}
             placeholder="Todos los talles"
-            alCambiarFiltro={alCambiarFiltro}
-          />
-          <GrupoSelect
-            id="color"
-            etiqueta="Color"
-            valor={filtros.color}
-            opciones={opciones.colores}
-            placeholder="Todos los colores"
             alCambiarFiltro={alCambiarFiltro}
           />
           <GrupoSelect

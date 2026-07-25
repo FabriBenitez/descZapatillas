@@ -1,5 +1,5 @@
 import { filtrosIniciales, type FiltrosProductos, type OrdenProductos, type Producto } from "@/types/producto";
-import { calcularMejorPrecioHistorico, normalizarTexto } from "@/lib/formato";
+import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarTexto } from "@/lib/formato";
 
 export interface OpcionesFiltros {
   marcas: string[];
@@ -204,15 +204,11 @@ export function filtrarProductos(
 
     if ((filtros as { subcategoria?: string }).subcategoria) {
       const subFiltro = normalizarTexto((filtros as { subcategoria?: string }).subcategoria ?? "");
-      const subProd = normalizarTexto((producto as { subcategory?: string | null }).subcategory ?? "");
+      // Usar el campo guardado O inferirlo del nombre en tiempo real
+      // (necesario para productos scraped antes de que existiera el campo)
+      const subGuardada = (producto as { subcategory?: string | null }).subcategory;
+      const subProd = normalizarTexto(subGuardada ?? inferirSubcategoria(producto.name, producto.category) ?? "");
       if (!subProd.includes(subFiltro)) return false;
-    }
-
-    if (filtros.color) {
-      // Búsqueda parcial normalizada: "Negro" matchea "Negro/Blanco", "Negro Mate", etc.
-      const colorFiltro = normalizarTexto(filtros.color);
-      const colorProd = normalizarTexto(producto.color ?? "");
-      if (!colorProd.includes(colorFiltro)) return false;
     }
 
     if (descuentoMinimo && producto.discount < descuentoMinimo) {
