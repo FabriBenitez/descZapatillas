@@ -44,5 +44,6 @@ jobs:
             echo "No se encontraron ofertas nuevas o cambios."
           else
             git commit -m "chore: actualización automática de la base de datos de zapatillas"
+            git pull --rebase origin main
             git push
           fi
