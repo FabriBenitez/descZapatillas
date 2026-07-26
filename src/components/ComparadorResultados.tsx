@@ -61,16 +61,20 @@ export function ComparadorResultados({
     if (savedState) {
       try {
         const parsed = JSON.parse(savedState);
-        
-        // Ya no restauramos terminoBusqueda de la sesión para evitar
-        // que al entrar a "Ver ofertas" se filtre por una busqueda vieja.
-        // La fuente de verdad para el término de búsqueda es la URL (busquedaInicial).
-        
-        if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
-        if (parsed.filtros) setFiltros(parsed.filtros);
-        if (parsed.vistaResultados) setVistaResultados(parsed.vistaResultados);
+
+        // Si el estado guardado no tiene la versión actual, lo descartamos
+        // (evita bugs por estructuras de filtros incompatibles entre versiones)
+        const VERSION_ACTUAL = "v3";
+        if (parsed._version !== VERSION_ACTUAL) {
+          sessionStorage.removeItem("comparadorState");
+        } else {
+          if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
+          if (parsed.filtros) setFiltros({ ...filtrosIniciales, ...parsed.filtros });
+          if (parsed.vistaResultados) setVistaResultados(parsed.vistaResultados);
+        }
       } catch (e) {
         console.error("Error restaurando estado", e);
+        sessionStorage.removeItem("comparadorState");
       }
     }
 
@@ -87,6 +91,7 @@ export function ComparadorResultados({
   // Guardar estado cuando cambia algo
   useEffect(() => {
     const stateToSave = {
+      _version: "v3",
       terminoBusqueda,
       ordenSeleccionado,
       filtros,

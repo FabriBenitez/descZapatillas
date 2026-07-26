@@ -1,5 +1,5 @@
 import { filtrosIniciales, type FiltrosProductos, type OrdenProductos, type Producto } from "@/types/producto";
-import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarTexto } from "@/lib/formato";
+import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarCategoria, normalizarTexto } from "@/lib/formato";
 
 export interface OpcionesFiltros {
   marcas: string[];
@@ -198,7 +198,10 @@ export function filtrarProductos(
 
     if (filtros.categoria) {
       const catFiltro = normalizarTexto(filtros.categoria);
-      const catProd = normalizarTexto(producto.category ?? "");
+      // Usar la categoría guardada. Si es null, intentar inferirla del nombre del producto.
+      const catGuardada = producto.category;
+      const catEfectiva = catGuardada ?? normalizarCategoria(producto.name) ?? "";
+      const catProd = normalizarTexto(catEfectiva);
       if (!catProd.includes(catFiltro)) return false;
     }
 
