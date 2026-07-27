@@ -576,6 +576,11 @@ function construirUrlTienda(
       O: "OrderByBestDiscountDESC",
     });
 
+    // fq=B:sale filtra por la colección "sale/outlet" de la tienda.
+    // Las tiendas VTEX sin esa colección simplemente ignoran el parámetro.
+    // Esto asegura traer solo productos con descuento real.
+    parametros.set("fq", "B:sale");
+
     return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
   }
 

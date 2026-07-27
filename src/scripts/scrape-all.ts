@@ -9,72 +9,18 @@ import type { Producto } from "../types/producto";
 import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero, inferirSubcategoria } from "../lib/formato";
 
 // =============================================
-// Configuración de búsquedas masivas
+// Configuración de búsquedas
 // =============================================
-
-// Búsquedas principales por categoría (con muchas páginas para ser exhaustivos)
-const BUSQUEDAS_PRINCIPALES = [
-  { query: "zapatillas", paginas: 200 },
-  { query: "botines", paginas: 80 },
-  { query: "calzado", paginas: 50 },
-  { query: "sneakers", paginas: 30 },
-];
-
-// Búsquedas por marca (para capturar productos que no aparecen en categorías genéricas)
-const BUSQUEDAS_MARCAS = [
-  { query: "zapatillas nike", paginas: 100 },
-  { query: "zapatillas adidas", paginas: 100 },
-  { query: "zapatillas puma", paginas: 100 },
-  { query: "zapatillas new balance", paginas: 50 },
-  { query: "zapatillas reebok", paginas: 50 },
-  { query: "zapatillas under armour", paginas: 50 },
-  { query: "zapatillas fila", paginas: 50 },
-  { query: "zapatillas vans", paginas: 30 },
-  { query: "zapatillas converse", paginas: 30 },
-  { query: "zapatillas skechers", paginas: 30 },
-  { query: "zapatillas asics", paginas: 30 },
-  { query: "zapatillas mizuno", paginas: 30 },
-  { query: "zapatillas salomon", paginas: 30 },
-  { query: "zapatillas hoka", paginas: 30 },
-  { query: "zapatillas saucony", paginas: 30 },
-  { query: "zapatillas jordan", paginas: 30 },
-  { query: "zapatillas lacoste", paginas: 30 },
-  { query: "zapatillas umbro", paginas: 30 },
-  { query: "zapatillas topper", paginas: 30 },
-  { query: "zapatillas diadora", paginas: 30 },
-  { query: "zapatillas lotto", paginas: 30 },
-  { query: "zapatillas penalty", paginas: 30 },
-  { query: "zapatillas olympikus", paginas: 30 },
-  // Botines por marca — igual de importante
-  { query: "botines adidas", paginas: 50 },
-  { query: "botines nike", paginas: 50 },
-  { query: "botines puma", paginas: 50 },
-  { query: "botines umbro", paginas: 30 },
-  { query: "botines mizuno", paginas: 30 },
-  { query: "botines penalty", paginas: 30 },
-  { query: "botines diadora", paginas: 30 },
-  { query: "botines under armour", paginas: 30 },
-  { query: "botines new balance", paginas: 20 },
-  { query: "botines lotto", paginas: 20 },
-];
-
-// Búsquedas por deporte/actividad
-const BUSQUEDAS_CATEGORIAS = [
-  { query: "zapatillas running", paginas: 100 },
-  { query: "zapatillas training", paginas: 50 },
-  { query: "zapatillas futbol", paginas: 50 },
-  { query: "zapatillas basketball", paginas: 50 },
-  { query: "zapatillas tenis", paginas: 30 },
-  { query: "zapatillas outdoor", paginas: 30 },
-  { query: "zapatillas skateboarding", paginas: 30 },
-  { query: "zapatillas urbano", paginas: 30 },
-  { query: "zapatillas lifestyle", paginas: 30 },
-];
-
+// En vez de 44 queries por tienda (que traen duplicados),
+// usamos 3 queries directas con más páginas para mayor cobertura.
+// Cada tienda ya filtra por su sección de sale internamente.
 const TODAS_LAS_BUSQUEDAS = [
-  ...BUSQUEDAS_PRINCIPALES,
-  ...BUSQUEDAS_MARCAS,
-  ...BUSQUEDAS_CATEGORIAS,
+  // Query principal: cubre la mayoría de zapatillas en descuento
+  { query: "zapatillas", paginas: 500 },
+  // Botines: búsqueda separada para asegurar cobertura de fútbol
+  { query: "botines", paginas: 200 },
+  // Calzado: captura lo que los connectors no etiquetan como "zapatillas"
+  { query: "calzado", paginas: 100 },
 ];
 
 // =============================================
@@ -315,28 +261,33 @@ async function runScrape() {
     }
   }
 
-  // 4. Limpieza agresiva de obsoletos
-  const tiendasExitosas = new Set(productosFrescos.map((p) => p.storeSlug));
+  // 4. Limpieza inteligente:
+  // - Solo eliminar productos de tiendas que respondieron con datos esta corrida
+  // - Umbral de obsoleto: 72h (antes era 24h) para tolerar fallos puntuales
+  const tiendasConDatos = new Set(
+    productosFrescos
+      .filter((p) => p.storeSlug)
+      .map((p) => p.storeSlug)
+  );
   const idsFrescos = new Set(productosFrescos.map((p) => p.id));
   let eliminadosNoVistos = 0;
   let eliminadosObsoletos = 0;
 
   const HORA_EN_MS = 60 * 60 * 1000;
-  // Limpieza agresiva: eliminar productos no actualizados en 24 horas
-  const umbralObsoleto = Date.now() - (24 * HORA_EN_MS);
+  // 72h: tolera hasta 3 corridas fallidas antes de borrar
+  const umbralObsoleto = Date.now() - (72 * HORA_EN_MS);
 
   for (const [id, prod] of todosLosProductos.entries()) {
     let eliminarDefinitivamente = false;
 
-    // Si no lo vimos en la pasada fresca, pero la tienda respondió bien
-    if (!idsFrescos.has(id)) {
-      if (tiendasExitosas.has(prod.storeSlug)) {
-        eliminarDefinitivamente = true;
-        eliminadosNoVistos++;
-      }
+    // Solo limpiar productos de tiendas que respondieron con éxito esta corrida
+    // Si la tienda no respondio (0 productos o error), conservamos sus datos
+    if (!idsFrescos.has(id) && tiendasConDatos.has(prod.storeSlug)) {
+      eliminarDefinitivamente = true;
+      eliminadosNoVistos++;
     }
 
-    // Evaluamos si es tan viejo que ya hay que borrarlo del todo
+    // Independientemente, si el producto es muy antiguo (72h sin actualizarse) borrarlo
     if (!eliminarDefinitivamente) {
       const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
       if (fechaActualizacionMs < umbralObsoleto) {
