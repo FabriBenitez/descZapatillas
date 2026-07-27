@@ -126,8 +126,8 @@ export function FiltersSidebar({
   const subcatsDisponibles =
     filtros.categoria === "Botines" ? SUBCATS_BOTINES :
     filtros.categoria === "Zapatillas" ? SUBCATS_ZAPATILLAS :
-    // Sin categoría seleccionada → mostrar las que existen en DB
-    opciones.subcategorias;
+    // Sin categoría seleccionada → no mostrar subcategorías
+    [];
 
   const handleCategoriaToggle = (cat: string) => {
     if (filtros.categoria === cat) {
