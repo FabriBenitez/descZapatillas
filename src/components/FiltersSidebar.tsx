@@ -107,10 +107,6 @@ function GrupoPlegable({
   );
 }
 
-// Subcategorías de zapatillas (solo deportes que se juegan con zapatillas)
-const SUBCATS_ZAPATILLAS = ["Running", "Training", "Basketball", "Tenis", "Outdoor", "Skate", "Lifestyle"];
-// Subcategorías de botines (fútbol)
-const SUBCATS_BOTINES = ["Campo", "Sala", "Sintético"];
 
 export function FiltersSidebar({
   filtros,
@@ -123,28 +119,12 @@ export function FiltersSidebar({
 }: FiltersSidebarProps) {
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
 
-  const subcatsDisponibles =
-    filtros.categoria === "Botines" ? SUBCATS_BOTINES :
-    filtros.categoria === "Zapatillas" ? SUBCATS_ZAPATILLAS :
-    // Sin categoría seleccionada → no mostrar subcategorías
-    [];
 
   const handleCategoriaToggle = (cat: string) => {
     if (filtros.categoria === cat) {
-      // Deseleccionar: limpiar categoría y subcategoría
       alCambiarFiltro("categoria", "");
-      alCambiarFiltro("subcategoria", "");
     } else {
       alCambiarFiltro("categoria", cat);
-      alCambiarFiltro("subcategoria", ""); // Resetear subcategoría al cambiar categoría
-    }
-  };
-
-  const handleSubcatToggle = (subcat: string) => {
-    if (filtros.subcategoria === subcat) {
-      alCambiarFiltro("subcategoria", "");
-    } else {
-      alCambiarFiltro("subcategoria", subcat);
     }
   };
 
@@ -189,33 +169,6 @@ export function FiltersSidebar({
             })}
           </div>
 
-          {/* Subcategorías — aparecen solo cuando hay una categoría seleccionada o hay opciones */}
-          {subcatsDisponibles.length > 0 && (
-            <div>
-              <p className="text-[10px] font-black text-black/50 uppercase tracking-widest mb-2">
-                {filtros.categoria === "Botines" ? "Tipo de terreno" : "Deporte / Uso"}
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {subcatsDisponibles.map((sub) => {
-                  const activa = filtros.subcategoria === sub;
-                  return (
-                    <button
-                      key={sub}
-                      type="button"
-                      onClick={() => handleSubcatToggle(sub)}
-                      className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-full border-2 transition-all duration-150 ${
-                        activa
-                          ? "bg-[#111] text-white border-[#111]"
-                          : "bg-white text-[#111] border-[#111]/40 hover:border-[#111]"
-                      }`}
-                    >
-                      {sub}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
         </GrupoPlegable>
 
         <GrupoPlegable titulo="Marca y tienda">
