@@ -14,14 +14,55 @@ import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normaliza
 // En vez de 44 queries por tienda (que traen duplicados),
 // usamos 3 queries directas con más páginas para mayor cobertura.
 // Cada tienda ya filtra por su sección de sale internamente.
+// En vez de buscar solo "zapatillas" y chocar con el límite de 2500 de la API,
+// hacemos fragmentación por marcas para traer el 100% del catálogo sin censura.
 const TODAS_LAS_BUSQUEDAS = [
-  // Query principal: cubre la mayoría de zapatillas en descuento
-  { query: "zapatillas", paginas: 500 },
-  // Botines: búsqueda separada para asegurar cobertura de fútbol
-  { query: "botines", paginas: 200 },
-  // Calzado: captura lo que los connectors no etiquetan como "zapatillas"
-  { query: "calzado", paginas: 100 },
+  { query: "nike", paginas: 150 },
+  { query: "adidas", paginas: 150 },
+  { query: "puma", paginas: 150 },
+  { query: "reebok", paginas: 100 },
+  { query: "under armour", paginas: 100 },
+  { query: "asics", paginas: 100 },
+  { query: "fila", paginas: 100 },
+  { query: "topper", paginas: 100 },
+  { query: "converse", paginas: 100 },
+  { query: "vans", paginas: 100 },
+  { query: "new balance", paginas: 100 },
+  { query: "salomon", paginas: 100 },
+  // Fallbacks genéricos para marcas menores que hayan quedado fuera
+  { query: "zapatillas", paginas: 300 },
+  { query: "botines", paginas: 100 },
 ];
+
+const PALABRAS_PROHIBIDAS_INDUMENTARIA = [
+  "remera", "pantalon", "pantalón", "short", "campera", "medias", "calcetines",
+  "buzo", "calza", " top ", " top", "jogger", "musculosa", "gorra",
+  "mochila", "bolso", "riñonera", "cinta", "guantes", "pelota", "balón", "balon",
+  "canillera", "muñequera", "ojota", "sandalia", "gorro", "visera", "sombrero",
+  "lentes", "botella", "conjunto", "camis", "chomba", "sudadera",
+  "chaleco", "vestido", "falda", "pollera", "body", "traje", "bikini",
+  "malla", "sunga", "toalla", "vincha", "bolsa", "cuello"
+];
+
+function esCalzado(producto: Producto): boolean {
+  const texto = `${producto.name} ${producto.category || ''} ${producto.subcategory || ''}`.toLowerCase();
+  
+  // Si dice explícitamente zapatilla o botín, lo aceptamos
+  if (texto.includes("zapatilla") || texto.includes("botin") || texto.includes("botín") || texto.includes("calzado")) {
+    return true;
+  }
+
+  // Si tiene alguna palabra de ropa/accesorio, lo rechazamos
+  for (const palabra of PALABRAS_PROHIBIDAS_INDUMENTARIA) {
+    if (texto.includes(palabra)) {
+      return false;
+    }
+  }
+
+  // Si no tiene la palabra zapatilla, pero tampoco ropa (ej: "Nike Air Max 90"),
+  // asumimos que es calzado (muy común en tiendas que omiten la categoría en el título).
+  return true;
+}
 
 // =============================================
 // Helper de scraping multi-query
@@ -52,15 +93,21 @@ async function scrapeTiendaMultiQuery(
       let nuevos = 0;
       for (const p of resultados) {
         if (!productos.has(p.id)) {
-          productos.set(p.id, p);
-          nuevos++;
+          // Filtrado estricto para evitar remeras, shorts, accesorios, etc.
+          if (esCalzado(p)) {
+            productos.set(p.id, p);
+            nuevos++;
+          }
         }
       }
-      console.log(`    ✓ ${resultados.length} encontrados, ${nuevos} nuevos (${productos.size} total acumulado)`);
+      console.log(`    ✓ ${resultados.length} encontrados, ${nuevos} guardados tras filtro (${productos.size} total acumulado)`);
     } catch (err) {
       console.error(`    ✗ Error en ${nombre} con query "${query}":`, err instanceof Error ? err.message : err);
     }
-    esPrimeraBusqueda = false;
+    // Después de Nike/Adidas/etc ya empezamos a desactivar el scrap de talles profundo
+    if (productos.size > 2000) {
+      esPrimeraBusqueda = false;
+    }
   }
 
   return Array.from(productos.values());
