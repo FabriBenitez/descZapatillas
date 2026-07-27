@@ -706,6 +706,13 @@ export async function obtenerTodasLasOfertasTiendasExternas({
   evitarTalles?: boolean;
 } = {}) {
   const todasLasPromesas = tiendasExternas.flatMap((tienda) => {
+    // Si la tienda tiene un catálogo de ofertas fijo (urlProductos), ignoramos las
+    // búsquedas por marcas específicas para no spamear su buscador (catalogsearch)
+    // repetidamente y de forma ineficiente. Solo la scrapearemos en la pasada "zapatillas".
+    if (tienda.urlProductos && query !== "zapatillas") {
+      return [];
+    }
+
     // Usar paginasTotales de la tienda si existe, sino el default
     const paginasTienda = tienda.paginasTotales ?? paginas;
     return Array.from({ length: paginasTienda }, (_, pagina) => () =>
