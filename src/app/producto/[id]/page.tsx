@@ -28,7 +28,11 @@ export async function generateMetadata({
 
   if (!producto && f) {
     try {
-      producto = JSON.parse(decodeURIComponent(f));
+      const parsed = JSON.parse(decodeURIComponent(f));
+      // Basic validation
+      if (parsed && typeof parsed.name === "string" && typeof parsed.price === "number") {
+        producto = parsed;
+      }
     } catch (err) {
       // ignore
     }
@@ -40,20 +44,23 @@ export async function generateMetadata({
     };
   }
 
+  // Sanitizar nombre para metadata (prevenir XSS si viene inyectado de la URL)
+  const safeName = producto.name.replace(/<[^>]*>?/gm, '');
+
   return {
-    title: `${producto.name} en oferta`,
-    description: `${producto.name} disponible en ${producto.storeName}, ${producto.province}. Consulta precio actual, descuento, talles e historial.`,
+    title: `${safeName} en oferta`,
+    description: `${safeName} disponible en ${producto.storeName}, ${producto.province}. Consulta precio actual, descuento, talles e historial.`,
     alternates: {
       canonical: `/producto/${producto.id}`,
     },
     openGraph: {
-      title: `${producto.name} | Pisando Ofertas`,
+      title: `${safeName} | Pisando Ofertas`,
       description: `Precio actual ${producto.price} con descuento del ${producto.discount}% en ${producto.storeName}.`,
       url: `/producto/${producto.id}`,
       images: [
         {
           url: producto.imageUrl,
-          alt: producto.name,
+          alt: safeName,
         },
       ],
     },
@@ -64,27 +71,33 @@ export default async function ProductoPage({ params, searchParams }: ProductoPag
   const { id } = await params;
   const { f } = await searchParams;
   
-  // Cargamos todos los productos (para calcular similares) y el producto especifico en paralelo
-  const [producto, productos] = await Promise.all([
-    (async () => {
-      let p = await obtenerProductoPorId(id);
-      if (!p && f) {
-        try {
-          p = JSON.parse(decodeURIComponent(f));
-        } catch {
-          // ignore
-        }
+  let productoBase = await obtenerProductoPorId(id);
+  let esFresco = false;
+  
+  if (!productoBase && f) {
+    try {
+      const parsed = JSON.parse(decodeURIComponent(f));
+      if (parsed && typeof parsed.name === "string" && typeof parsed.price === "number") {
+        productoBase = parsed;
+        esFresco = true;
       }
-      return p;
-    })(),
-    obtenerProductos(),
-  ]);
+    } catch {
+      // ignore
+    }
+  }
 
-  if (!producto) {
+  if (!productoBase) {
     notFound();
   }
 
-  const productosSimilares = calcularProductosSimilares(producto, productos, 4);
+  // Sanitizar si viene de la URL
+  if (esFresco) {
+    productoBase.name = productoBase.name.replace(/<[^>]*>?/gm, '');
+  }
+
+  // Solo buscar similares si el producto existe en DB (evita cargar todo el JSON en memoria para un producto fresco)
+  const productos = esFresco ? [] : await obtenerProductos();
+  const productosSimilares = esFresco ? [] : calcularProductosSimilares(productoBase, productos, 4);
 
   return (
     <>
@@ -102,13 +115,16 @@ export default async function ProductoPage({ params, searchParams }: ProductoPag
               </Link>
               <span className="text-[var(--color-muted)]">/</span>
               <span className="chip bg-[var(--color-tinta)] text-white">
-                {producto.brand}
+                {productoBase.brand}
               </span>
             </div>
 
-            <ProductDetail producto={producto} />
-            <PriceHistory producto={producto} />
-            <SimilarProducts productos={productosSimilares} />
+            <ProductDetail producto={productoBase} />
+            <PriceHistory producto={productoBase} />
+            
+            {productosSimilares.length > 0 && (
+              <SimilarProducts productos={productosSimilares} />
+            )}
           </div>
         </section>
       </main>

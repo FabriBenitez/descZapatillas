@@ -259,18 +259,28 @@ export function FiltersSidebar({
     </>
   );
 
+  const hayFiltrosActivos = Object.entries(filtros).some(
+    ([key, value]) => key !== "soloStock" && value !== "" && value !== false
+  );
+
   return (
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="bg-white border-2 border-[#111] p-5 sm:p-6 rounded-[8px] shadow-[6px_6px_0px_#111]">
         <div className="flex items-center gap-3 md:hidden">
           <button
             type="button"
-            className="bg-white border-2 border-[#111] min-h-10 px-4 py-2 text-xs font-black rounded-[4px] uppercase tracking-widest whitespace-nowrap shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#111] transition-all"
+            className="bg-white border-2 border-[#111] min-h-10 px-4 py-2 text-xs font-black rounded-[4px] uppercase tracking-widest whitespace-nowrap shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#111] transition-all relative"
             onClick={() => setFiltrosAbiertos((valorActual) => !valorActual)}
           >
             {filtrosAbiertos ? "Cerrar" : "Filtrar"}
+            {hayFiltrosActivos && !filtrosAbiertos && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4500] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FF4500] border-2 border-[#111]"></span>
+              </span>
+            )}
           </button>
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 flex gap-2">
             <SortSelect valor={ordenSeleccionado} alCambiar={alCambiarOrden} ocultarEtiqueta={true} />
           </div>
         </div>

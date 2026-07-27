@@ -140,7 +140,7 @@ export function ComparadorResultados({
             opciones={opciones}
             estaActualizando={estaActualizando}
             alCambiarFiltro={actualizarFiltro}
-            alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
+            alLimpiarFiltros={() => setFiltros({...filtrosIniciales, soloStock: true})}
             ordenSeleccionado={ordenSeleccionado}
             alCambiarOrden={cambiarOrden}
           />
@@ -156,8 +156,34 @@ export function ComparadorResultados({
                 {terminoDiferido ? `Resultados: "${terminoDiferido}"` : "Comparador de Ofertas"}
               </h1>
               <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#111]/75">
-                {productosFiltrados.length} zapatillas con descuento encontradas
+                {productosFiltrados.length} {filtros.categoria ? filtros.categoria.toLowerCase() : "productos"} con descuento {productosFiltrados.length === 1 ? 'encontrado' : 'encontrados'}
               </p>
+            </div>
+          </div>
+
+          <div className="flex justify-end mb-4">
+            <div className="flex bg-white border-2 border-[#111] rounded-[4px] shadow-[2px_2px_0px_#111] overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setVistaResultados("grid")}
+                className={`px-3 py-2 text-[#111] transition-colors ${vistaResultados === "grid" ? "bg-[#FF4500] text-white" : "hover:bg-[#f0f3f1]"}`}
+                title="Vista Grilla"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </button>
+              <div className="w-[2px] bg-[#111]"></div>
+              <button
+                type="button"
+                onClick={() => setVistaResultados("lista")}
+                className={`px-3 py-2 text-[#111] transition-colors ${vistaResultados === "lista" ? "bg-[#FF4500] text-white" : "hover:bg-[#f0f3f1]"}`}
+                title="Vista Lista"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -194,7 +220,7 @@ export function ComparadorResultados({
               opciones={opciones}
               estaActualizando={estaActualizando}
               alCambiarFiltro={actualizarFiltro}
-              alLimpiarFiltros={() => setFiltros(filtrosIniciales)}
+              alLimpiarFiltros={() => setFiltros({...filtrosIniciales, soloStock: true})}
               ordenSeleccionado={ordenSeleccionado}
               alCambiarOrden={cambiarOrden}
             />

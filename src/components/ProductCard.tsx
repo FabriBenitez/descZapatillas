@@ -83,6 +83,21 @@ export function ProductCard({
             Envío gratis
           </span>
         ) : null}
+        
+        {producto.productUrl && (
+          <a 
+            href={producto.productUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-3 right-3 bg-white text-[#111] p-1.5 sm:p-2 rounded border-2 border-[#111] shadow-[2px_2px_0px_#111] hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_#111] hover:bg-[#FF4500] hover:text-white transition-all z-10"
+            title="Ir a la tienda"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-2 sm:gap-2 sm:p-5">

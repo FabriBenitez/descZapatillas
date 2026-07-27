@@ -6,7 +6,7 @@ import { type FormEvent, useState } from "react";
 
 
 
-const categoriasRapidas = ["Nike", "Adidas", "Puma", "Running"];
+const categoriasRapidas = ["Ofertas", "Botines", "Nike", "Adidas"];
 
 interface HeaderProps {
   terminoBusqueda?: string;
@@ -89,6 +89,22 @@ export function Header({
               </span>
             </span>
           </Link>
+
+          <button
+            type="button"
+            className="lg:hidden p-2 text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] rounded bg-white hover:bg-[#FF4500] hover:text-white transition-colors"
+            onClick={() => setMenuAbierto(!menuAbierto)}
+          >
+            <span className="sr-only">Abrir menú</span>
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d={menuAbierto ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
         </div>
 
         {!ocultarBuscador && (
@@ -149,6 +165,33 @@ export function Header({
           </Link>
         </div>
       </div>
+
+      {/* Menú Mobile */}
+      {menuAbierto && (
+        <div className="lg:hidden border-t-4 border-[#111] bg-white px-4 py-4 space-y-4 shadow-inner">
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-black uppercase tracking-widest text-black/50">Búsquedas rápidas</span>
+            <div className="flex flex-wrap gap-2">
+              {categoriasRapidas.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => buscarCategoria(cat)}
+                  className="border-2 border-[#111] bg-[#f0f3f1] px-3 py-1.5 text-xs font-black uppercase text-[#111] shadow-[2px_2px_0px_#111] hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_#111]"
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+          <Link
+            href="/comparador"
+            onClick={() => setMenuAbierto(false)}
+            className="flex h-12 w-full items-center justify-center border-2 border-[#111] bg-[#10b981] px-6 text-sm font-black uppercase tracking-widest text-[#111] shadow-[4px_4px_0px_#111]"
+          >
+            Ver ofertas
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

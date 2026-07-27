@@ -32,7 +32,7 @@ async function ComparadorConDatos({ busquedaInicial }: { busquedaInicial: string
   // Limpiamos datos pesados (historial) para evitar el límite de 4.5MB de Vercel Serverless Functions
   // al momento de serializar las props hacia el Client Component.
   const productosLimpios = productosCrudos.map((p) => {
-    const { priceHistory, productUrl, ...resto } = p;
+    const { priceHistory, ...resto } = p;
     return resto as Producto;
   });
 

@@ -5,8 +5,7 @@ export type OrdenProductos =
   | "precio-desc"
   | "descuento-desc"
   | "descuento-asc"
-  | "recientes"
-  | "historico";
+  | "recientes";
 
 // Categorías principales
 export type CategoriaPrincipal = "Zapatillas" | "Botines";

@@ -15,7 +15,6 @@ const opcionesOrdenamiento: Array<{
   { valor: "descuento-desc", etiqueta: "Descuento: mayor a menor" },
   { valor: "descuento-asc", etiqueta: "Descuento: menor a mayor" },
   { valor: "recientes", etiqueta: "Más recientes" },
-  { valor: "historico", etiqueta: "Mejor precio histórico" },
 ];
 
 export function SortSelect({ valor, alCambiar, ocultarEtiqueta = false }: SortSelectProps) {

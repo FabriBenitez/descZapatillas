@@ -184,16 +184,16 @@ export function filtrarProductos(
       return false;
     }
 
+    // Filtro por talle
     if (filtros.talle) {
-      const tallesDisponibles = producto.sizes ?? [producto.size ?? ""];
-
-      if (!tallesDisponibles.includes(filtros.talle)) {
-        return false;
-      }
+      const tallesDisponibles = producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []);
+      if (!tallesDisponibles.includes(filtros.talle)) return false;
     }
 
-    if (filtros.genero && producto.gender !== filtros.genero) {
-      return false;
+    // Filtro por género (normalizamos a "Niños" con tilde para matchear productos viejos que lo tengan sin tilde)
+    if (filtros.genero) {
+      const prodGender = producto.gender?.replace("Ninos", "Niños");
+      if (prodGender !== filtros.genero) return false;
     }
 
     if (filtros.categoria) {
@@ -250,11 +250,6 @@ export function ordenarProductos(
         return productoB.discount - productoA.discount;
       case "descuento-asc":
         return productoA.discount - productoB.discount;
-      case "historico":
-        return (
-          calcularMejorPrecioHistorico(productoA) -
-          calcularMejorPrecioHistorico(productoB)
-        );
       case "recientes":
       default:
         return (
