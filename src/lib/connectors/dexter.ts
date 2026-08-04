@@ -130,7 +130,7 @@ export function construirUrlDexterSale({
   size = DEXTER_PAGE_SIZE,
   query = "zapatillas",
   sortRule = "product-discount",
-  categoryId = "hot-sale",
+  categoryId,
 }: ObtenerOfertasDexterOpciones = {}) {
   const parametros = new URLSearchParams({
     q: query,
@@ -139,8 +139,11 @@ export function construirUrlDexterSale({
     sz: String(size),
   });
 
-  // Forzar siempre la categoría elegida para no traer productos a precio completo
-  parametros.set("cgid", categoryId);
+  if (categoryId) {
+    parametros.set("cgid", categoryId);
+  } else if (query === "zapatillas") {
+    parametros.set("cgid", "sale");
+  }
 
   return `${DEXTER_BASE_URL}${DEXTER_SEARCH_PATH}?${parametros}`;
 }

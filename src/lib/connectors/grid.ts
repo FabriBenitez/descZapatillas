@@ -197,7 +197,10 @@ export function construirUrlGridSale({
   query = "zapatillas",
   order = "OrderByBestDiscountDESC",
 }: ObtenerOfertasGridOpciones = {}) {
-  const to = Math.max(from, from + size - 1);
+  if (from >= 2500) {
+    return "";
+  }
+  const to = Math.min(from + size - 1, 2499);
   const parametros = new URLSearchParams({
     _from: String(from),
     _to: String(to),
@@ -274,6 +277,9 @@ export async function obtenerOfertasGrid(
   opciones: ObtenerOfertasGridOpciones = {},
 ) {
   const url = construirUrlGridSale(opciones);
+  if (!url) {
+    return [];
+  }
   const respuesta = await fetch(url, {
     headers: {
       Accept: "application/json",

@@ -570,16 +570,16 @@ function construirUrlTienda(
   if (tienda.plataforma === "vtex") {
     const pageSize = size ?? VTEX_PAGE_SIZE;
     const from = pagina * pageSize;
+    // VTEX limita _from a máximo 2500
+    if (from >= 2500) {
+      return null;
+    }
+
     const parametros = new URLSearchParams({
       _from: String(from),
-      _to: String(from + pageSize - 1),
+      _to: String(Math.min(from + pageSize - 1, 2499)),
       O: "OrderByBestDiscountDESC",
     });
-
-    // fq=B:sale filtra por la colección "sale/outlet" de la tienda.
-    // Las tiendas VTEX sin esa colección simplemente ignoran el parámetro.
-    // Esto asegura traer solo productos con descuento real.
-    parametros.set("fq", "B:sale");
 
     return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
   }
@@ -629,8 +629,11 @@ function construirUrlTienda(
     sz: String(pageSize),
   });
 
-  // Forzar siempre la categoría elegida para no traer productos a precio completo
-  parametros.set("cgid", tienda.categoryId ?? "sale");
+  // Solo aplicar cgid si la query es "zapatillas" o si es explícitamente configurada,
+  // para evitar restringir búsquedas específicas por marca que no estén en esa categoría.
+  if (tienda.categoryId && query === "zapatillas") {
+    parametros.set("cgid", tienda.categoryId);
+  }
 
   return `${tienda.baseUrl}/on/demandware.store/${tienda.siteId}/default/Search-UpdateGrid?${parametros}`;
 }
@@ -644,6 +647,9 @@ export async function obtenerOfertasTiendaExterna(
   opciones: OpcionesBusqueda = {},
 ) {
   const url = construirUrlTienda(tienda, opciones);
+  if (!url) {
+    return [];
+  }
   const respuesta = await fetch(url, {
     headers: {
       Accept:
