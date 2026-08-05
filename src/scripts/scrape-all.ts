@@ -44,24 +44,10 @@ const PALABRAS_PROHIBIDAS_INDUMENTARIA = [
   "malla", "sunga", "toalla", "vincha", "bolsa", "cuello"
 ];
 
+import { esCalzadoPermitido } from "../lib/formato";
+
 function esCalzado(producto: Producto): boolean {
-  const texto = `${producto.name} ${producto.category || ''} ${producto.subcategory || ''}`.toLowerCase();
-  
-  // Si dice explícitamente zapatilla o botín, lo aceptamos
-  if (texto.includes("zapatilla") || texto.includes("botin") || texto.includes("botín") || texto.includes("calzado")) {
-    return true;
-  }
-
-  // Si tiene alguna palabra de ropa/accesorio, lo rechazamos
-  for (const palabra of PALABRAS_PROHIBIDAS_INDUMENTARIA) {
-    if (texto.includes(palabra)) {
-      return false;
-    }
-  }
-
-  // Si no tiene la palabra zapatilla, pero tampoco ropa (ej: "Nike Air Max 90"),
-  // asumimos que es calzado (muy común en tiendas que omiten la categoría en el título).
-  return true;
+  return esCalzadoPermitido(producto.name, producto.category);
 }
 
 // =============================================
@@ -122,7 +108,7 @@ async function runScrape() {
   console.log("====================================");
   console.log("🚀 Iniciando scraping MASIVO multi-query");
   console.log(`📋 ${TODAS_LAS_BUSQUEDAS.length} términos de búsqueda por tienda`);
-  console.log(`🏪 7 tiendas (Moov, Grid, Dexter, StockCenter, SoloDeportes, SevenSport, TiendaFuencarral)`);
+  console.log(`🏪 6 tiendas activas (Moov, Grid, Dexter, StockCenter, SoloDeportes, OpenSports)`);
   console.log("====================================\n");
 
   // 1. Obtener productos frescos con múltiples queries por tienda
@@ -142,7 +128,6 @@ async function runScrape() {
       "Dexter",
       (opts) => obtenerTodasLasOfertasDexter(opts as Parameters<typeof obtenerTodasLasOfertasDexter>[0]),
       TODAS_LAS_BUSQUEDAS,
-      { categoryId: "sale" },
     ),
     scrapeTiendaMultiQuery(
       "Tiendas Externas",

@@ -217,11 +217,13 @@ export function normalizarGenero(genero: string) {
 export function esCalzadoPermitido(nombre: string, categoria?: string): boolean {
   const nombreNormalizado = normalizarTexto(nombre);
 
-  // 1. Si el nombre contiene "botin" o "botines" → siempre permitido
-  if (nombreNormalizado.includes("botin")) return true;
-
-  // 2. Excluir si contiene términos prohibidos en el nombre
+  // 1. Excluir si contiene términos prohibidos en el nombre
   const terminosExcluidos = [
+    // Accesorios de calzado / bolsos / protecciones que contienen la palabra "botin" o "zapatilla"
+    "botinero", "botineros", "canillera", "canilleras", "pantorrillera", "pantorrilleras",
+    "rodillera", "rodilleras", "tobillera", "tobilleras", "venda", "vendas", "codera", "coderas",
+    "media", "medias", "socks", "plantilla", "plantillas", "cordon", "cordones",
+
     // Ropa superior
     "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",
     "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
@@ -234,24 +236,21 @@ export function esCalzadoPermitido(nombre: string, categoria?: string): boolean 
     "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
     "vestido", "pollera", "conjunto", "traje", "bano",
 
-    // Calzado NO permitido
+    // Calzado NO permitido (chanclas, ojotas, crocs, pantuflas, etc.)
     "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
-    "pantuflas", "borcego", "borcegos", "clava", "clavas", "taco",
+    "pantuflas", "borcego", "borcegos", "clava", "clavas", "taco", "zueco", "zuecos",
 
     // Accesorios y equipamiento
-    "media", "medias", "socks", "mochila", "bolso", "bolsos", "rinonera", "cartera",
-    "bandolera", "morral", "billetera", "botinero", "gorra", "gorro", "gorras", "visera",
+    "mochila", "bolso", "bolsos", "rinonera", "cartera",
+    "bandolera", "morral", "billetera", "gorra", "gorro", "gorras", "visera",
     "sombrero", "anteojos", "lentes", "reloj", "perfume", "fragancia", "botella", "termo",
     "llavero", "munequera", "cinturon", "toalla", "vincha",
-    "cuello", "bufanda", "guantes", "mitones", "bandana", "plantillas",
+    "cuello", "bufanda", "guantes", "mitones", "bandana",
 
     // Deportes / Hardware
     "pelota", "balon", "ball", "hoop", "inflador",
     "tiza", "pala", "paleta", "raqueta", "palo", "stick", "bocha", "disco", "pesa",
-    "mancuerna", "colchoneta", "mat", "soga", "arco", "aro",
-
-    // Protecciones
-    "canillera", "pantorrillera", "venda", "rodillera", "tobillera", "codera", "casco",
+    "mancuerna", "colchoneta", "mat", "soga", "arco", "aro", "casco",
 
     // Materiales / tecnologías de ropa
     "fleece", "terry", "climalite", "climacool", "heatgear",
@@ -264,7 +263,7 @@ export function esCalzadoPermitido(nombre: string, categoria?: string): boolean 
     }
   }
 
-  // 3. Excluir si la categoría es claramente de ropa o accesorios
+  // 2. Excluir si la categoría es claramente de ropa o accesorios
   if (categoria) {
     const catNorm = normalizarTexto(categoria);
     const catExcluidas = [
@@ -276,6 +275,20 @@ export function esCalzadoPermitido(nombre: string, categoria?: string): boolean 
     }
   }
 
+  // 3. Si el nombre contiene botin, botines, zapatilla, calzado, etc. → permitido
+  if (
+    nombreNormalizado.includes("botin") ||
+    nombreNormalizado.includes("botines") ||
+    nombreNormalizado.includes("zapatilla") ||
+    nombreNormalizado.includes("zapatillas") ||
+    nombreNormalizado.includes("sneaker") ||
+    nombreNormalizado.includes("calzado")
+  ) {
+    return true;
+  }
+
+  // 4. Si no tiene palabras de calzado pero tampoco términos excluidos (ej. "Nike Air Max 90"),
+  // lo consideramos calzado
   return true;
 }
 

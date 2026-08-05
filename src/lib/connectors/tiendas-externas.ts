@@ -89,37 +89,6 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     paginasTotales: 220,
   },
   {
-    slug: "sevensport",
-    nombre: "SevenSport",
-    baseUrl: "https://www.sevensport.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "tiendafuencarral",
-    nombre: "TiendaFuencarral",
-    baseUrl: "https://www.tiendafuencarral.com.ar",
-    plataforma: "vtex",
-    provincia: "Cordoba",
-  },
-  {
-    slug: "instoreweb",
-    nombre: "InstoreWeb",
-    baseUrl: "https://www.instoreweb.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "dashdeportes",
-    nombre: "Dash Deportes",
-    baseUrl: "https://www.dashdeportes.com.ar",
-    plataforma: "vtex",
-  },
-  {
-    slug: "templodelfutbol",
-    nombre: "Templo del Futbol",
-    baseUrl: "https://www.templodelfutbol.com.ar",
-    plataforma: "vtex",
-  },
-  {
     slug: "opensports",
     nombre: "OpenSports",
     baseUrl: "https://www.opensports.com.ar",
