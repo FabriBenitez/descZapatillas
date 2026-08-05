@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const urlSitio =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://pisando-ofertas.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.pisandoofertas.com.ar";
 
 export default function robots(): MetadataRoute.Robots {
   return {

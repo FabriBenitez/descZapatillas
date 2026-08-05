@@ -19,31 +19,33 @@ const syne = Syne({
 });
 
 const urlSitio =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://pisando-ofertas.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.pisandoofertas.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(urlSitio),
   title: {
-    default: "Pisando Ofertas | Comparador de zapatillas en oferta",
+    default: "Pisando Ofertas | Comparador de Zapatillas y Botines en Oferta en Argentina",
     template: "%s | Pisando Ofertas",
   },
   description:
-    "Landing y comparador de ofertas de zapatillas para buscar por marca, tienda, categoria y precio con historial y descuentos visibles.",
+    "Buscador y comparador de ofertas de zapatillas y botines en Argentina. Compará precios, historial de descuentos y stock por talle de Dexter, StockCenter, Moov, Solo Deportes y más.",
   applicationName: "Pisando Ofertas",
   keywords: [
-    "zapatillas en oferta",
-    "comparador de zapatillas",
-    "precios de sneakers",
-    "descuentos de zapatillas",
     "pisando ofertas",
+    "pisandoofertas",
+    "zapatillas en oferta",
+    "botines en oferta",
+    "comparador de zapatillas",
+    "descuentos zapatillas argentina",
+    "precios de sneakers",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Pisando Ofertas",
+    title: "Pisando Ofertas | Comparador de Zapatillas y Botines en Oferta",
     description:
-      "Compara precios, descuentos e historial de zapatillas de distintas tiendas en un solo lugar.",
+      "Compará precios, descuentos e historial de zapatillas y botines de las mejores tiendas de Argentina en un solo lugar.",
     url: urlSitio,
     siteName: "Pisando Ofertas",
     locale: "es_AR",
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Pisando Ofertas",
     description:
-      "Comparador moderno de ofertas de zapatillas con foco en precio, descuento e historial.",
+      "Comparador de ofertas de zapatillas y botines con foco en precio, descuento e historial en Argentina.",
   },
   robots: {
     index: true,

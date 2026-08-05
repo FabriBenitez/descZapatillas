@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { obtenerProductos } from "@/lib/productos";
 
 const urlSitio =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://pisando-ofertas.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.pisandoofertas.com.ar";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productos = await obtenerProductos();
