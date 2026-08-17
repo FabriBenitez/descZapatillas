@@ -22,19 +22,52 @@ const STORE_DOMAINS: Record<string, string> = {
   grid: "grid.com.ar",
   sevensport: "sevensport.com.ar",
   solodeportes: "solodeportes.com.ar",
-  // Quitamos fuencarral para que no traiga el globito de Google
+  opensports: "opensports.com.ar",
+  tiendafuencarral: "tiendafuencarral.com.ar",
+  tripstore: "tripstore.com.ar",
+  dionysos: "digitalsport.com.ar",
+  reebok: "reebok.com.ar",
+  asics: "asics.com.ar",
+  underarmour: "underarmour.com.ar",
+  vans: "vans.com.ar",
+  fila: "fila.com.ar",
+  newbalance: "newbalance.com.ar",
+  topper: "topper.com.ar",
+  adidas: "adidas.com.ar",
+  puma: "puma.com",
+  newsport: "newsport.com.ar",
+  chelsea: "chelsea.com.ar",
+  sportline: "sportline.com.ar",
+  sporting: "sporting.com.ar",
+  dashdeportes: "dashdeportes.com.ar",
 };
 
 function getStoreKey(storeName: string): string {
   const name = storeName.toLowerCase();
-  if (name.includes("stockcenter")) return "stockcenter";
+  if (name.includes("stockcenter") || name.includes("stock center")) return "stockcenter";
   if (name.includes("dexter")) return "dexter";
   if (name.includes("moov")) return "moov";
   if (name.includes("grid")) return "grid";
   if (name.includes("sevensport") || name.includes("seven")) return "sevensport";
-  if (name.includes("solo") || name.includes("solodeportes")) return "solodeportes";
-  if (name.includes("fuencarral")) return "fuencarral";
-  if (name.includes("dash")) return "dash";
+  if (name.includes("solodeportes") || name.includes("solo deportes")) return "solodeportes";
+  if (name.includes("opensports") || name.includes("open sports")) return "opensports";
+  if (name.includes("fuencarral") || name.includes("tiendafuencarral")) return "tiendafuencarral";
+  if (name.includes("tripstore") || name.includes("trip store") || name.includes("trip")) return "tripstore";
+  if (name.includes("dionysos")) return "dionysos";
+  if (name.includes("reebok")) return "reebok";
+  if (name.includes("asics")) return "asics";
+  if (name.includes("underarmour") || name.includes("under armour")) return "underarmour";
+  if (name.includes("vans")) return "vans";
+  if (name.includes("fila")) return "fila";
+  if (name.includes("newbalance") || name.includes("new balance")) return "newbalance";
+  if (name.includes("topper")) return "topper";
+  if (name.includes("adidas")) return "adidas";
+  if (name.includes("puma")) return "puma";
+  if (name.includes("newsport") || name.includes("new sport")) return "newsport";
+  if (name.includes("chelsea")) return "chelsea";
+  if (name.includes("sportline") || name.includes("sport line")) return "sportline";
+  if (name.includes("sporting")) return "sporting";
+  if (name.includes("dashdeportes") || name.includes("dash")) return "dashdeportes";
   return "";
 }
 

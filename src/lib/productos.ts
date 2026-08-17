@@ -222,8 +222,8 @@ function normalizarProductoFirestore(
 }
 
 function obtenerPlataformaTalles(producto: Producto): PlataformaDetalleTalles | null {
-  const tiendasDemandware = new Set(["moov", "dexter", "stockcenter"]);
-  const tiendasMagento = new Set(["opensports", "solodeportes", "solourbano"]);
+  const tiendasDemandware = new Set(["moov", "dexter", "stockcenter", "underarmour", "newbalance"]);
+  const tiendasMagento = new Set(["opensports", "solodeportes", "solourbano", "tripstore"]);
   const tiendasDigitalSport = new Set(["digitalsport", "dionysos", "blast"]);
 
   if (tiendasDemandware.has(producto.storeSlug)) {

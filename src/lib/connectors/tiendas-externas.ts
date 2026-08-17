@@ -4,7 +4,15 @@ import { enriquecerProductosConTalles } from "@/lib/connectors/talles-detalle";
 import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
-type PlataformaTienda = "vtex" | "demandware" | "magento" | "digitalsport";
+type PlataformaTienda =
+  | "vtex"
+  | "demandware"
+  | "magento"
+  | "digitalsport"
+  | "shopify"
+  | "grimoldi"
+  | "adidas"
+  | "puma";
 
 interface ConfiguracionTienda {
   slug: string;
@@ -48,6 +56,60 @@ interface VtexProduct {
   Color?: string[];
   Genero?: string[];
   "Género"?: string[];
+}
+
+interface ShopifyVariant {
+  id: number;
+  title: string;
+  price: string;
+  compare_at_price: string | null;
+  available: boolean;
+}
+
+interface ShopifyProduct {
+  id: number;
+  title: string;
+  handle: string;
+  vendor?: string;
+  product_type?: string;
+  tags?: string[];
+  variants?: ShopifyVariant[];
+  images?: Array<{ src?: string }>;
+}
+
+interface GrimoldiArticulo {
+  idArticulo?: number;
+  codigo?: string;
+  nombre: string;
+  descripcion?: string;
+  precioActual?: number;
+  precioAnterior?: number;
+  porcentajeDescuento?: number;
+  imagenUrl?: string;
+  url?: string;
+  atributoMarca?: string;
+  atributoCategoria?: string;
+  atributoColorWeb?: string;
+  atributoGenero?: string;
+}
+
+interface AdidasProductItem {
+  productId?: string;
+  displayName?: string;
+  price?: number;
+  salePrice?: number;
+  salePercentage?: string;
+  image?: { src?: string };
+  link?: string;
+  availableSizes?: string[];
+  color?: string;
+  subTitle?: string;
+}
+
+interface AdidasResponse {
+  itemList?: {
+    items?: AdidasProductItem[];
+  };
 }
 
 interface GtmProduct {
@@ -95,6 +157,138 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     plataforma: "magento",
     urlProductos: "https://www.opensports.com.ar/ofertas.html",
     paginasTotales: 50,
+  },
+  {
+    slug: "tiendafuencarral",
+    nombre: "Tienda Fuencarral",
+    baseUrl: "https://www.tiendafuencarral.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "tripstore",
+    nombre: "Trip Store",
+    baseUrl: "https://www.tripstore.com.ar",
+    plataforma: "magento",
+    urlProductos: "https://www.tripstore.com.ar/ofertas.html",
+    paginasTotales: 30,
+  },
+  {
+    slug: "dionysos",
+    nombre: "Dionysos",
+    baseUrl: "https://www.digitalsport.com.ar",
+    plataforma: "digitalsport",
+    urlProductos: "https://www.digitalsport.com.ar/dionysos/search/?q=zapatillas",
+    paginasTotales: 10,
+  },
+  {
+    slug: "reebok",
+    nombre: "Reebok",
+    baseUrl: "https://reebok.com.ar",
+    plataforma: "shopify",
+    urlProductos: "https://reebok.com.ar/collections/calzado/products.json",
+    paginasTotales: 5,
+  },
+  {
+    slug: "asics",
+    nombre: "Asics",
+    baseUrl: "https://www.asics.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 20,
+  },
+  {
+    slug: "underarmour",
+    nombre: "Under Armour",
+    baseUrl: "https://www.underarmour.com.ar",
+    plataforma: "demandware",
+    siteId: "Sites-UnderArmour-Site",
+    paginasTotales: 15,
+  },
+  {
+    slug: "vans",
+    nombre: "Vans",
+    baseUrl: "https://www.vans.com.ar",
+    plataforma: "grimoldi",
+    paginasTotales: 15,
+  },
+  {
+    slug: "fila",
+    nombre: "Fila",
+    baseUrl: "https://tienda.fila.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 20,
+  },
+  {
+    slug: "newbalance",
+    nombre: "New Balance",
+    baseUrl: "https://www.newbalance.com.ar",
+    plataforma: "demandware",
+    siteId: "Sites-NewBalance-Site",
+    paginasTotales: 20,
+  },
+  {
+    slug: "topper",
+    nombre: "Topper",
+    baseUrl: "https://www.topper.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "adidas",
+    nombre: "Adidas",
+    baseUrl: "https://www.adidas.com.ar",
+    plataforma: "adidas",
+    paginasTotales: 20,
+  },
+  {
+    slug: "puma",
+    nombre: "Puma",
+    baseUrl: "https://ar.puma.com",
+    plataforma: "puma",
+    urlProductos: "https://ar.puma.com/calzado/zapatillas.html",
+    paginasTotales: 15,
+  },
+  {
+    slug: "newsport",
+    nombre: "New Sport",
+    baseUrl: "https://www.newsport.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "chelsea",
+    nombre: "Chelsea",
+    baseUrl: "https://www.chelsea.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "sevensport",
+    nombre: "Seven Sport",
+    baseUrl: "https://www.sevensport.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "sportline",
+    nombre: "SportLine",
+    baseUrl: "https://www.sportline.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "sporting",
+    nombre: "Sporting",
+    baseUrl: "https://www.sporting.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
+  },
+  {
+    slug: "dashdeportes",
+    nombre: "Dash Deportes",
+    baseUrl: "https://www.dashdeportes.com.ar",
+    plataforma: "vtex",
+    paginasTotales: 30,
   },
 ];
 
@@ -352,7 +546,11 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
     }
 
     const enlace = producto.find(".pdp-link .link").first().attr("href");
-    const imagen = producto.find("img.primary-image").first().attr("src");
+    const imagen =
+      producto.find("img.tile-image").first().attr("src") ||
+      producto.find("img.primary-image").first().attr("src") ||
+      producto.find("img.product-image").first().attr("src") ||
+      producto.find("img").first().attr("src");
     const precio =
       leerNumero(producto.find(".sales .value").first().attr("content")) ||
       leerNumero(producto.find(".sales").first().text()) ||
@@ -377,7 +575,7 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
         id: `${tienda.slug}-${id}`,
         name: nombre,
         normalizedName: normalizarTexto(nombre),
-        brand: limpiarTexto(gtm?.item_brand) || nombre.split(" ")[1] || "",
+        brand: limpiarTexto(gtm?.item_brand) || tienda.nombre || nombre.split(" ")[1] || "",
         category: categoria,
         gender: inferirGenero(`${gtm?.item_list_id ?? ""} ${nombre}`),
         color: "",
@@ -530,6 +728,238 @@ function normalizarDigitalSport(tienda: ConfiguracionTienda, html: string) {
   return Array.from(productos.values());
 }
 
+function normalizarShopify(tienda: ConfiguracionTienda, productos: ShopifyProduct[]) {
+  return productos.flatMap((producto): Producto[] => {
+    const idBase = String(producto.id);
+    const nombre = limpiarTexto(producto.title);
+    const category = limpiarTexto(producto.product_type) || "Zapatillas";
+
+    if (!idBase || !nombre || !esZapatilla(nombre, category)) {
+      return [];
+    }
+
+    const availableVariants = producto.variants?.filter((v) => v.available) || [];
+    const mainVariant = availableVariants[0] || producto.variants?.[0];
+    const precio = leerNumero(mainVariant?.price);
+    const precioLista = leerNumero(mainVariant?.compare_at_price) || precio;
+    const descuento = calcularDescuento(precio, precioLista);
+    const imagen = producto.images?.[0]?.src;
+    const enlace = `/products/${producto.handle}`;
+
+    if (!precio || !imagen) {
+      return [];
+    }
+
+    const talles = Array.from(
+      new Set(
+        availableVariants
+          .map((v) => {
+            const parts = v.title.split("/");
+            return limpiarTexto(parts[parts.length - 1]);
+          })
+          .filter(Boolean),
+      ),
+    );
+
+    return [
+      crearProductoBase(tienda, {
+        id: `${tienda.slug}-${idBase}`,
+        name: nombre,
+        normalizedName: normalizarTexto(nombre),
+        brand: limpiarTexto(producto.vendor) || tienda.nombre,
+        category: category,
+        gender: inferirGenero(`${producto.tags?.join(" ") ?? ""} ${nombre}`),
+        color: "",
+        size: talles[0],
+        sizes: talles.length > 0 ? talles : undefined,
+        price: precio,
+        listPrice: precioLista,
+        discount: descuento,
+        imageUrl: imagen,
+        productUrl: absolutizarUrl(tienda.baseUrl, enlace),
+        available: availableVariants.length > 0,
+        freeShipping: false,
+        offerType: inferirTipoOferta(descuento),
+        historicalBestPrice: precio,
+      }),
+    ];
+  });
+}
+
+function normalizarGrimoldi(tienda: ConfiguracionTienda, articulos: GrimoldiArticulo[]) {
+  return articulos.flatMap((articulo): Producto[] => {
+    const idBase = String(articulo.idArticulo || articulo.codigo?.replace(/\s+/g, "_") || "");
+    const nombreArticulo = limpiarTexto(articulo.nombre);
+    const marca = limpiarTexto(articulo.atributoMarca) || tienda.nombre;
+    const nombre = nombreArticulo.toLowerCase().startsWith(marca.toLowerCase())
+      ? nombreArticulo
+      : `${marca} ${nombreArticulo}`;
+    const categoria = limpiarTexto(articulo.atributoCategoria) || "Zapatillas";
+
+    if (!idBase || !nombreArticulo || !esZapatilla(nombre, categoria)) {
+      return [];
+    }
+
+    const precio = leerNumero(articulo.precioActual);
+    const precioLista = leerNumero(articulo.precioAnterior) || precio;
+    const descuento =
+      leerDescuento(String(articulo.porcentajeDescuento)) ||
+      calcularDescuento(precio, precioLista);
+    const imagen = articulo.imagenUrl;
+    const enlace = articulo.url;
+
+    if (!precio || !imagen || !enlace) {
+      return [];
+    }
+
+    return [
+      crearProductoBase(tienda, {
+        id: `${tienda.slug}-${idBase}`,
+        name: nombre,
+        normalizedName: normalizarTexto(nombre),
+        brand: marca,
+        category: categoria,
+        gender: inferirGenero(`${articulo.atributoGenero ?? ""} ${nombre}`),
+        color: limpiarTexto(articulo.atributoColorWeb),
+        price: precio,
+        listPrice: precioLista,
+        discount: descuento,
+        imageUrl: absolutizarUrl(tienda.baseUrl, imagen),
+        productUrl: absolutizarUrl(tienda.baseUrl, enlace),
+        available: true,
+        freeShipping: false,
+        offerType: inferirTipoOferta(descuento),
+        historicalBestPrice: precio,
+      }),
+    ];
+  });
+}
+
+function normalizarAdidas(tienda: ConfiguracionTienda, items: AdidasProductItem[]) {
+  return items.flatMap((item): Producto[] => {
+    const idBase = limpiarTexto(item.productId);
+    const nombre = limpiarTexto(item.displayName);
+    const category = "Zapatillas";
+
+    if (!idBase || !nombre || !esZapatilla(nombre, category)) {
+      return [];
+    }
+
+    const precio = leerNumero(item.salePrice) || leerNumero(item.price);
+    const precioLista = leerNumero(item.price) || precio;
+    const descuento =
+      leerDescuento(item.salePercentage) ||
+      calcularDescuento(precio, precioLista);
+    const imagen = item.image?.src;
+    const enlace = item.link;
+
+    if (!precio || !imagen || !enlace) {
+      return [];
+    }
+
+    const talles = (item.availableSizes || [])
+      .filter((s) => s && s !== "hidden")
+      .map((s) => s.split("(")[0].trim());
+
+    return [
+      crearProductoBase(tienda, {
+        id: `${tienda.slug}-${idBase}`,
+        name: nombre,
+        normalizedName: normalizarTexto(nombre),
+        brand: "Adidas",
+        category,
+        gender: inferirGenero(`${item.subTitle ?? ""} ${nombre}`),
+        color: limpiarTexto(item.color),
+        size: talles[0],
+        sizes: talles.length > 0 ? talles : undefined,
+        price: precio,
+        listPrice: precioLista,
+        discount: descuento,
+        imageUrl: imagen,
+        productUrl: absolutizarUrl(tienda.baseUrl, enlace),
+        available: true,
+        freeShipping: false,
+        offerType: inferirTipoOferta(descuento),
+        historicalBestPrice: precio,
+      }),
+    ];
+  });
+}
+
+function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
+  const $ = cheerio.load(html);
+  const productos = new Map<string, Producto>();
+
+  $("a.product-tile, a[class*='product-tile']").each((_, elemento) => {
+    const tile = $(elemento);
+    const href = tile.attr("href");
+    const idMatch = href?.match(/\/(\d+)\.html/);
+    const idBase = idMatch ? idMatch[1] : undefined;
+
+    if (!idBase || !href) {
+      return;
+    }
+
+    const imagen =
+      tile.find("img").first().attr("src") ||
+      tile.find("img").first().attr("data-src");
+
+    let nombre =
+      limpiarTexto(tile.find("h3").first().text()) ||
+      limpiarTexto(tile.find("[class*='title'], [class*='name']").first().text());
+
+    if (!nombre) {
+      const textoCompleto = tile.text();
+      const matchZapa = textoCompleto.match(/Zapatillas[^\$]+/i);
+      nombre = matchZapa ? matchZapa[0].trim() : "";
+    }
+
+    nombre = nombre.split("$")[0].replace(/\.[a-zA-Z0-9_-]+\{[^}]*\}/g, "").trim();
+
+    if (!nombre.toLowerCase().startsWith("zapatilla") && !nombre.toLowerCase().startsWith("puma")) {
+      nombre = `Zapatillas Puma ${nombre}`;
+    }
+
+    const textoCard = tile.text();
+    const matchesPrecios = textoCard.match(/\$\s*[\d.,]+/g) || [];
+    const preciosNumericos = matchesPrecios
+      .map((p) => leerNumero(p))
+      .filter((n) => n > 1000);
+
+    const precio = preciosNumericos[preciosNumericos.length - 1] || 0;
+    const precioLista = preciosNumericos[0] || precio;
+    const descuento = calcularDescuento(precio, precioLista);
+
+    if (!precio || !imagen || !esZapatilla(nombre, "Zapatillas")) {
+      return;
+    }
+
+    productos.set(
+      idBase,
+      crearProductoBase(tienda, {
+        id: `${tienda.slug}-${idBase}`,
+        name: nombre,
+        normalizedName: normalizarTexto(nombre),
+        brand: "Puma",
+        category: "Zapatillas",
+        gender: inferirGenero(nombre),
+        color: "",
+        price: precio,
+        listPrice: precioLista,
+        discount: descuento,
+        imageUrl: imagen,
+        productUrl: absolutizarUrl(tienda.baseUrl, href),
+        available: true,
+        freeShipping: false,
+        offerType: inferirTipoOferta(descuento),
+        historicalBestPrice: precio,
+      }),
+    );
+  });
+
+  return Array.from(productos.values());
+}
+
 function construirUrlTienda(
   tienda: ConfiguracionTienda,
   { query = "zapatillas", size, pagina = 0 }: OpcionesBusqueda = {},
@@ -551,6 +981,35 @@ function construirUrlTienda(
     });
 
     return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
+  }
+
+  if (tienda.plataforma === "adidas") {
+    const start = pagina * 48;
+    return `${tienda.baseUrl}/api/search/taxonomy?sitePath=ar&query=${encodeURIComponent(query)}&start=${start}`;
+  }
+
+  if (tienda.plataforma === "puma") {
+    const offset = pagina * 16;
+    if (!esBusquedaEspecifica && tienda.urlProductos) {
+      const sep = tienda.urlProductos.includes("?") ? "&" : "?";
+      return `${tienda.urlProductos}${sep}offset=${offset}`;
+    }
+    return `${tienda.baseUrl}/calzado/zapatillas.html?offset=${offset}`;
+  }
+
+  if (tienda.plataforma === "shopify") {
+    const page = pagina + 1;
+    if (!esBusquedaEspecifica && tienda.urlProductos) {
+      const sep = tienda.urlProductos.includes("?") ? "&" : "?";
+      return `${tienda.urlProductos}${sep}limit=250&page=${page}`;
+    }
+    return `${tienda.baseUrl}/products.json?limit=250&page=${page}`;
+  }
+
+  if (tienda.plataforma === "grimoldi") {
+    const pageSize = size ?? 50;
+    const skip = pagina * pageSize;
+    return `${tienda.baseUrl}/Product/Results?query=${encodeURIComponent(query)}&take=${pageSize}&skip=${skip}`;
   }
 
   if (tienda.plataforma === "magento") {
@@ -622,11 +1081,15 @@ export async function obtenerOfertasTiendaExterna(
   const respuesta = await fetch(url, {
     headers: {
       Accept:
-        tienda.plataforma === "vtex"
+        tienda.plataforma === "vtex" ||
+        tienda.plataforma === "shopify" ||
+        tienda.plataforma === "grimoldi" ||
+        tienda.plataforma === "adidas"
           ? "application/json"
           : "text/html,application/xhtml+xml",
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+      ...(tienda.plataforma === "grimoldi" ? { "X-Requested-With": "XMLHttpRequest" } : {}),
     },
     next: {
       revalidate: 60 * 60,
@@ -646,7 +1109,29 @@ export async function obtenerOfertasTiendaExterna(
     return normalizarVtex(tienda, productos);
   }
 
+  if (tienda.plataforma === "adidas") {
+    const data = (await respuesta.json()) as AdidasResponse;
+
+    return normalizarAdidas(tienda, data.itemList?.items ?? []);
+  }
+
+  if (tienda.plataforma === "shopify") {
+    const data = (await respuesta.json()) as { products?: ShopifyProduct[] };
+
+    return normalizarShopify(tienda, data.products ?? []);
+  }
+
+  if (tienda.plataforma === "grimoldi") {
+    const data = (await respuesta.json()) as { articulos?: GrimoldiArticulo[] };
+
+    return normalizarGrimoldi(tienda, data.articulos ?? []);
+  }
+
   const html = await respuesta.text();
+
+  if (tienda.plataforma === "puma") {
+    return normalizarPuma(tienda, html);
+  }
 
   if (tienda.plataforma === "magento") {
     return enriquecerProductosConTalles(

@@ -223,6 +223,7 @@ export function esCalzadoPermitido(nombre: string, categoria?: string): boolean 
     "botinero", "botineros", "canillera", "canilleras", "pantorrillera", "pantorrilleras",
     "rodillera", "rodilleras", "tobillera", "tobilleras", "venda", "vendas", "codera", "coderas",
     "media", "medias", "socks", "plantilla", "plantillas", "cordon", "cordones",
+    "protector", "limpiador", "shampoo", "cepillo", "impermeabilizante", "pomada",
 
     // Ropa superior
     "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",

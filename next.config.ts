@@ -118,6 +118,46 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cdn.shopify.com",
+      },
+      {
+        protocol: "https",
+        hostname: "mmgrim2.azureedge.net",
+      },
+      {
+        protocol: "https",
+        hostname: "www.tripstore.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "tripstore.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "www.tiendafuencarral.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "tiendafuencarral.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "www.underarmour.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "underarmour.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "www.vans.com.ar",
+      },
+      {
+        protocol: "https",
+        hostname: "vans.com.ar",
+      },
+      {
+        protocol: "https",
         hostname: "tiendain.vtexassets.com",
       },
       {

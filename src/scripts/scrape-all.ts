@@ -108,7 +108,7 @@ async function runScrape() {
   console.log("====================================");
   console.log("🚀 Iniciando scraping MASIVO multi-query");
   console.log(`📋 ${TODAS_LAS_BUSQUEDAS.length} términos de búsqueda por tienda`);
-  console.log(`🏪 6 tiendas activas (Moov, Grid, Dexter, StockCenter, SoloDeportes, OpenSports)`);
+  console.log(`🏪 24 tiendas activas (Moov, Grid, Dexter, StockCenter, SoloDeportes, OpenSports, Tienda Fuencarral, Trip Store, Dionysos, Reebok, Asics, Under Armour, Vans, Fila, New Balance, Topper, Adidas, Puma, New Sport, Chelsea, Seven Sport, SportLine, Sporting, Dash Deportes)`);
   console.log("====================================\n");
 
   // 1. Obtener productos frescos con múltiples queries por tienda
