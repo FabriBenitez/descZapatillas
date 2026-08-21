@@ -5,6 +5,7 @@ import path from "node:path";
 
 import { obtenerFirestoreCliente } from "@/lib/firebase";
 import { obtenerProductosConectoresSinCache } from "@/lib/productos";
+import { esCalzadoPermitido } from "@/lib/formato";
 import type { Producto, RegistroPrecio } from "@/types/producto";
 
 export const maxDuration = 60; // Permite hasta 60 segundos de ejecución en Vercel (Hobby/Pro)
@@ -36,7 +37,9 @@ export async function GET(request: Request) {
   try {
     // 1. Obtener productos de los conectores
     const todosLosFrescos = await obtenerProductosConectoresSinCache();
-    const productosFrescos = todosLosFrescos.filter((p) => p.discount >= 1 && p.discount <= 100);
+    const productosFrescos = todosLosFrescos.filter(
+      (p) => p.discount >= 1 && p.discount <= 100 && esCalzadoPermitido(p.name, p.category)
+    );
     
     if (productosFrescos.length === 0) {
       return NextResponse.json({
@@ -201,10 +204,10 @@ export async function GET(request: Request) {
         }
       }
 
-      // Respaldo por tiempo: si no fue actualizado en las últimas 24 horas, se elimina
+      // Respaldo por tiempo o calzado no permitido: se elimina
       if (!eliminar) {
         const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-        if (fechaActualizacionMs < umbralObsoleto) {
+        if (fechaActualizacionMs < umbralObsoleto || !esCalzadoPermitido(prod.name, prod.category)) {
           eliminar = true;
           eliminadosObsoletos++;
         }

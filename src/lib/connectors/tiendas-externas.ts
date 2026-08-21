@@ -130,7 +130,7 @@ interface OpcionesBusqueda {
 
 const VTEX_PAGE_SIZE = 50;
 const DEMANDWARE_PAGE_SIZE = 36;
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 15000;
 
 export const tiendasExternas: ConfiguracionTienda[] = [
   {
@@ -139,7 +139,6 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     baseUrl: "https://www.stockcenter.com.ar",
     plataforma: "demandware",
     siteId: "Sites-StockCenter-Site",
-    categoryId: "sale",
   },
   {
     slug: "solodeportes",
@@ -452,15 +451,15 @@ function elegirSkuVtex(items: VtexSku[] = []) {
 }
 
 function obtenerCategoriaVtex(producto: VtexProduct) {
-  const categoriaZapatillas = producto.categories?.find((categoria) =>
-    normalizarTexto(categoria).includes("zapatillas"),
-  );
-
-  if (categoriaZapatillas) {
+  const catRaw = producto.categories?.join(" ") ?? "";
+  const catNorm = normalizarTexto(catRaw);
+  if (catNorm.includes("botin") || catNorm.includes("futbol") || catNorm.includes("futsal")) {
+    return "Botines";
+  }
+  if (catNorm.includes("zapatilla") || catNorm.includes("sneaker") || catNorm.includes("running") || catNorm.includes("training") || catNorm.includes("calzado")) {
     return "Zapatillas";
   }
-
-  return limpiarTexto(producto.categories?.[0]?.replace(/\//g, " ")) || "Zapatillas";
+  return limpiarTexto(producto.categories?.[0]?.replace(/\//g, " ")) || "";
 }
 
 function normalizarVtex(tienda: ConfiguracionTienda, productos: VtexProduct[]) {
@@ -634,7 +633,7 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
       nombre.split(" ")[1] ||
       "";
 
-    if (!idBase || !nombre || !esZapatilla(nombre, "Calzado") || !precio || !imagen || !enlace) {
+    if (!idBase || !nombre || !precio || !imagen || !enlace || !esZapatilla(nombre)) {
       return;
     }
 
@@ -841,7 +840,7 @@ function normalizarAdidas(tienda: ConfiguracionTienda, items: AdidasProductItem[
     const nombre = limpiarTexto(item.displayName);
     const category = "Zapatillas";
 
-    if (!idBase || !nombre || !esZapatilla(nombre, category)) {
+    if (!idBase || !nombre || !esZapatilla(nombre)) {
       return [];
     }
 
@@ -930,7 +929,7 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
     const precioLista = preciosNumericos[0] || precio;
     const descuento = calcularDescuento(precio, precioLista);
 
-    if (!precio || !imagen || !esZapatilla(nombre, "Zapatillas")) {
+    if (!precio || !imagen || !esZapatilla(nombre)) {
       return;
     }
 
@@ -1007,9 +1006,7 @@ function construirUrlTienda(
   }
 
   if (tienda.plataforma === "grimoldi") {
-    const pageSize = size ?? 50;
-    const skip = pagina * pageSize;
-    return `${tienda.baseUrl}/Product/Results?query=${encodeURIComponent(query)}&take=${pageSize}&skip=${skip}`;
+    return `${tienda.baseUrl}/Product/Results`;
   }
 
   if (tienda.plataforma === "magento") {
@@ -1057,9 +1054,7 @@ function construirUrlTienda(
     sz: String(pageSize),
   });
 
-  // Solo aplicar cgid si la query es "zapatillas" o si es explícitamente configurada,
-  // para evitar restringir búsquedas específicas por marca que no estén en esa categoría.
-  if (tienda.categoryId && query === "zapatillas") {
+  if (tienda.categoryId) {
     parametros.set("cgid", tienda.categoryId);
   }
 
@@ -1078,18 +1073,51 @@ export async function obtenerOfertasTiendaExterna(
   if (!url) {
     return [];
   }
+
+  if (tienda.plataforma === "grimoldi") {
+    const pageSize = opciones.size ?? 50;
+    const skip = (opciones.pagina ?? 0) * pageSize;
+    const body = new URLSearchParams({
+      query: opciones.query ?? "zapatillas",
+      take: String(pageSize),
+      skip: String(skip),
+    });
+
+    const respuesta = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+      },
+      body: body.toString(),
+      next: {
+        revalidate: 60 * 60,
+      },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+
+    if (!respuesta.ok) {
+      throw new Error(
+        `${tienda.nombre} respondio ${respuesta.status} al consultar ofertas`,
+      );
+    }
+
+    const data = (await respuesta.json()) as { articulos?: GrimoldiArticulo[] };
+    return normalizarGrimoldi(tienda, data.articulos ?? []);
+  }
+
   const respuesta = await fetch(url, {
     headers: {
       Accept:
         tienda.plataforma === "vtex" ||
         tienda.plataforma === "shopify" ||
-        tienda.plataforma === "grimoldi" ||
         tienda.plataforma === "adidas"
           ? "application/json"
           : "text/html,application/xhtml+xml",
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
-      ...(tienda.plataforma === "grimoldi" ? { "X-Requested-With": "XMLHttpRequest" } : {}),
     },
     next: {
       revalidate: 60 * 60,
@@ -1119,12 +1147,6 @@ export async function obtenerOfertasTiendaExterna(
     const data = (await respuesta.json()) as { products?: ShopifyProduct[] };
 
     return normalizarShopify(tienda, data.products ?? []);
-  }
-
-  if (tienda.plataforma === "grimoldi") {
-    const data = (await respuesta.json()) as { articulos?: GrimoldiArticulo[] };
-
-    return normalizarGrimoldi(tienda, data.articulos ?? []);
   }
 
   const html = await respuesta.text();

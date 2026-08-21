@@ -13,7 +13,7 @@ import {
 } from "@/lib/connectors/talles-detalle";
 import { obtenerTodasLasOfertasTiendasExternas } from "@/lib/connectors/tiendas-externas";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
-import { normalizarTexto, normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero } from "@/lib/formato";
+import { normalizarTexto, normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero, esCalzadoPermitido } from "@/lib/formato";
 import productosDbRaw from "@/data/productos-db.json";
 import type { Producto, RegistroPrecio, TipoOferta } from "@/types/producto";
 
@@ -82,13 +82,13 @@ export async function obtenerProductosConectoresSinCache() {
   const productosUnicos = new Map<string, typeof crudos[0]>();
 
   crudos.forEach((p) => {
-    if (!productosUnicos.has(p.id)) {
+    if (!productosUnicos.has(p.id) && esCalzadoPermitido(p.name, p.category)) {
       productosUnicos.set(p.id, {
         ...p,
         brand: normalizarMarca(p.brand),
         sizes: normalizarTallesArray(p.sizes || []),
         size: p.size ? normalizarTalleUnico(p.size) : undefined,
-        category: normalizarCategoria(p.category ?? ""),
+        category: normalizarCategoria(p.category, p.name),
         color: normalizarColor(p.color),
         gender: normalizarGenero(p.gender)
       });
@@ -265,11 +265,19 @@ export async function obtenerProductos(): Promise<Producto[]> {
   // que causaba la pantalla en blanco/spinner.
   const locales = await obtenerProductosLocales();
   const mapaProductos = new Map<string, Producto>();
-  locales.forEach(p => mapaProductos.set(p.id, p));
+  locales.forEach(p => {
+    if (esCalzadoPermitido(p.name, p.category)) {
+      mapaProductos.set(p.id, p);
+    }
+  });
 
   // Mezclar con la RAM caché volátil (productos frescos del cron o búsquedas en tiempo real)
   // Estos tienen prioridad por estar más actualizados.
-  Array.from(cacheVolatilVercel.values()).forEach(p => mapaProductos.set(p.id, p));
+  Array.from(cacheVolatilVercel.values()).forEach(p => {
+    if (esCalzadoPermitido(p.name, p.category)) {
+      mapaProductos.set(p.id, p);
+    }
+  });
 
   return ordenarPorActualizacion(Array.from(mapaProductos.values()));
 }
@@ -304,13 +312,13 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
   );
 
   const nuevosProductos = todosLosNuevos
-    .filter((p) => p.discount >= 1 && p.discount <= 100)
+    .filter((p) => p.discount >= 1 && p.discount <= 100 && esCalzadoPermitido(p.name, p.category))
     .map(p => ({
       ...p,
       brand: normalizarMarca(p.brand),
       sizes: normalizarTallesArray(p.sizes || []),
       size: p.size ? normalizarTalleUnico(p.size) : undefined,
-      category: normalizarCategoria(p.category ?? ""),
+      category: normalizarCategoria(p.category, p.name),
       color: normalizarColor(p.color),
       gender: normalizarGenero(p.gender)
     }));

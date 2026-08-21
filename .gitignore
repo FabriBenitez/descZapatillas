@@ -42,3 +42,13 @@ next-env.d.ts
 
 # temporary scaffold
 /pisando-ofertas/
+scratch/
+debug*.js
+parse_test.js
+test*.js
+test*.ts
+test.html
+count-non-sneakers.js
+remove-*.js
+search_solo.js
+

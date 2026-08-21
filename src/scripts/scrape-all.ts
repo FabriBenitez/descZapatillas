@@ -141,9 +141,9 @@ async function runScrape() {
   );
 
   const productosFrescos = todosLosFrescos
-    .filter((p) => p.discount >= 1 && p.discount <= 100)
+    .filter((p) => p.discount >= 1 && p.discount <= 100 && esCalzadoPermitido(p.name, p.category))
     .map((p) => {
-      const catNorm = normalizarCategoria(p.category ?? "");
+      const catNorm = normalizarCategoria(p.category, p.name);
       return {
         ...p,
         brand: normalizarMarca(p.brand),
@@ -319,10 +319,10 @@ async function runScrape() {
       eliminadosNoVistos++;
     }
 
-    // Independientemente, si el producto es muy antiguo (72h sin actualizarse) borrarlo
+    // Independientemente, si el producto es muy antiguo (72h sin actualizarse) o no es calzado permitido, borrarlo
     if (!eliminarDefinitivamente) {
       const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-      if (fechaActualizacionMs < umbralObsoleto) {
+      if (fechaActualizacionMs < umbralObsoleto || !esCalzadoPermitido(prod.name, prod.category)) {
         eliminarDefinitivamente = true;
         eliminadosObsoletos++;
       }

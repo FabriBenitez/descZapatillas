@@ -107,36 +107,22 @@ export function normalizarTalleUnico(talle: string | number): string {
   return t;
 }
 
-export function normalizarCategoria(categoria: string): string | null {
-  if (!categoria) return null;
-  const c = normalizarTexto(categoria);
+export function normalizarCategoria(categoria?: string | null, nombre?: string): string {
+  const c = normalizarTexto(categoria ?? "");
+  const n = normalizarTexto(nombre ?? "");
+  const texto = `${c} ${n}`;
 
-  // Categorías a excluir directamente (calzado que NO queremos)
   if (
-    c.includes("zueco") ||
-    c.includes("zapato") ||
-    c.includes("traje de bano") ||
-    c.includes("ojota") ||
-    c.includes("sandalia") ||
-    c.includes("crocs") ||
-    c.includes("newsport") ||
-    c === "category" ||
-    c === "general" ||
-    // bota sola → excluir, pero botin → permitir (ver abajo)
-    (c.includes("bota") && !c.includes("botin"))
-  ) return null;
+    texto.includes("botin") ||
+    texto.includes("botines") ||
+    texto.includes("futbol") ||
+    texto.includes("futsal") ||
+    texto.includes("football")
+  ) {
+    return "Botines";
+  }
 
-  // Botines (fútbol) — categoría permitida
-  if (c.includes("botin") || c === "futbol" || c === "football") return "Botines";
-
-  // Zapatillas — categoría permitida
-  if (c.includes("zapatilla") || c.includes("sneaker") || c.includes("calzado")
-      || c.includes("running") || c.includes("training") || c.includes("basketball")
-      || c.includes("tenis") || c.includes("outdoor") || c.includes("skate")
-      || c.includes("lifestyle") || c.includes("urbano") || c.includes("indoor")
-      || c.includes("futsal") || c.includes("sala")) return "Zapatillas";
-
-  return capitalizarTexto(categoria.trim().toLowerCase());
+  return "Zapatillas";
 }
 
 /** Infiere la subcategoría de un producto (Running, Training, Basketball, etc.)
@@ -157,7 +143,7 @@ export function inferirSubcategoria(nombre: string, categoria?: string | null): 
   if (texto.includes("running") || texto.includes("correr") || texto.includes(" run ") || texto.endsWith(" run")) return "Running";
   if (texto.includes("training") || texto.includes("crossfit") || texto.includes("cross") || texto.includes("entrenamiento")) return "Training";
   if (texto.includes("basketball") || texto.includes("basquet") || texto.includes("nba")) return "Basketball";
-  if (texto.includes(" tenis") || texto.includes("tennis") || texto.includes(" clay") || texto.includes(" clay")) return "Tenis";
+  if (texto.includes(" tenis") || texto.includes("tennis") || texto.includes(" clay")) return "Tenis";
   if (texto.includes("futsal") || texto.includes("futbol sala") || texto.includes("indoor soccer")) return "Fútbol Sala";
   if (texto.includes("outdoor") || texto.includes("trail") || texto.includes("hiking") || texto.includes("hike")) return "Outdoor";
   if (texto.includes("skate") || texto.includes("skateboarding")) return "Skate";
@@ -212,85 +198,79 @@ export function normalizarGenero(genero: string) {
   return "Unisex";
 }
 
-/** Determina si un producto es calzado permitido (zapatillas O botines).
- *  Los botines de fútbol también son bienvenidos ahora. */
-export function esCalzadoPermitido(nombre: string, categoria?: string): boolean {
-  const nombreNormalizado = normalizarTexto(nombre);
+// Calzado no permitido (chanclas, ojotas, sandalias, slides, crocs, pantuflas, ballerinas, mocasines, tacos)
+const CALZADO_NO_PERMITIDO_RE = /\b(ojota|ojotas|sandalia|sandalias|slide|slides|crocs|croc|pantufla|pantuflas|zueco|zuecos|flip flop|flip-flop|ballerina|ballerinas|chancleta|chancletas|alpargata|alpargatas|taco|tacos|stiletto|stilettos|mocasin|mocasines)\b/i;
 
-  // 1. Excluir si contiene términos prohibidos en el nombre
-  const terminosExcluidos = [
-    // Accesorios de calzado / bolsos / protecciones que contienen la palabra "botin" o "zapatilla"
-    "botinero", "botineros", "canillera", "canilleras", "pantorrillera", "pantorrilleras",
-    "rodillera", "rodilleras", "tobillera", "tobilleras", "venda", "vendas", "codera", "coderas",
-    "media", "medias", "socks", "plantilla", "plantillas", "cordon", "cordones",
-    "protector", "limpiador", "shampoo", "cepillo", "impermeabilizante", "pomada",
+// Accesorios de calzado / cuidado
+const ACCESORIOS_CALZADO_RE = /\b(botinero|botineros|cordon|cordones|plantilla|plantillas|shampoo|limpiador|impermeabilizante|pomada|cepillo)\b/i;
 
-    // Ropa superior
-    "buzo", "remera", "camiseta", "campera", "chaleco", "musculosa", "chomba", "polera",
-    "hoodie", "jacket", "sweater", "sueter", "pulover", "abrigo", "parka",
-    "rompeviento", "t-shirt", "shirt", "jersey", "sweatshirt", "pullover", "cardigan",
-    "corpino", "bra", "sosten", "camperon",
+// Categorías prohibidas que descartan de plano
+const CATEGORIAS_PROHIBIDAS_RE = /\b(indumentaria|ropa|ropa deportiva|remera|remeras|camisa|camisas|camiseta|camisetas|top|tops|buzo|buzos|hoodie|hoodies|sweater|sweaters|campera|camperas|chaleco|chalecos|pantalon|pantalones|short|shorts|calza|calzas|bermuda|bermudas|jogger|joggers|pollera|polleras|vestido|vestidos|malla|mallas|bikini|bikinis|ropa interior|underwear|media|medias|calcetines|gorra|gorras|gorro|gorros|visera|viseras|mochila|mochilas|bolso|bolsos|bolsa|bolsas|rinonera|rinoneras|morral|morrales|accesorios|accesorio|equipamiento|pelota|pelotas|balon|balones|guante|guantes|antiparra|antiparras|luz|luces|grip|grips|herramienta|herramientas|soporte|soportes|cinta|cintas|munequera|munequeras|ciclismo|bicicleta|natacion|padel|tenis accesorios|hockey|boxeo|fitness|gimnasio|ballerina|ballerinas|ojota|ojotas|sandalia|sandalias|slide|slides|crocs|pantufla|pantuflas|zueco|zuecos)\b/i;
 
-    // Ropa inferior
-    "pantalon", "pantalones", "short", "shorts", "calza", "calzas", "bermuda", "bermudas",
-    "jogger", "calzoncillo", "boxer", "tanga", "slip", "malla", "sunga", "bikini",
-    "gabardina", "cargo", "chino", "pantaloneta", "bombacha",
-    "vestido", "pollera", "conjunto", "traje", "bano",
+// Palabras de indumentaria / equipamiento / accesorios para descartar productos que no son calzado
+const ARTICULOS_NO_CALZADO_RE = /\b(remera|remeras|remeron|remerones|camiseta|camisetas|chomba|chombas|musculosa|musculosas|camisa|camisas|blusa|blusas|campera|camperas|camperon|camperones|chaleco|chalecos|jacket|jackets|parka|parkas|rompeviento|rompevientos|anorak|anoraks|windbreaker|windbreakers|abrigo|abrigos|buzo|buzos|hoodie|hoodies|sweater|sweaters|sueter|sueteres|pullover|pullovers|sudadera|sudaderas|cardigan|cardigans|tank|t-shirt|tshirt|t-shirts|tshirts|tee|tees|pantalon|pantalones|pants|pant|short|shorts|calza|calzas|bermuda|bermudas|jogger|joggers|legging|leggings|tights|pollera|polleras|falda|faldas|vestido|vestidos|pantaloneta|pantalonetas|babucha|babuchas|boxer|boxers|slip|slips|calzoncillo|calzoncillos|tanga|tangas|bombacha|bombachas|underwear|bikini|bikinis|malla|mallas|sunga|sungas|traje de bano|trajes de bano|enterito|enteritos|body|bodys|bodysuit|media|medias|calcetin|calcetines|soquete|soquetes|pantorrillera|pantorrilleras|canillera|canilleras|rodillera|rodilleras|tobillera|tobilleras|codera|coderas|muslera|musleras|faja|fajas|venda|vendas|protector bucal|cabezal|pechera|pecheras|gorra|gorras|gorro|gorros|visera|viseras|piluso|pilusos|cap|caps|hat|hats|beanie|beanies|sombrero|sombreros|vincha|vinchas|bandana|bandanas|cuello|cuellos|bufanda|bufandas|mochila|mochilas|bolso|bolsos|bag|bags|backpack|backpacks|rinonera|rinoneras|morral|morrales|cartera|carteras|bandolera|bandoleras|billetera|billeteras|cartuchera|cartucheras|neceser|neceseres|funda|fundas|valija|valijas|monedero|monederos|totebag|tote bag|sacochila|llavero|llaveros|pin|pins|sticker|stickers|toalla|toallas|reloj|perfume|colonia|fragancia|pelota|pelotas|balon|balones|guante|guantes|glove|gloves|miton|mitones|antiparra|antiparras|goggle|goggles|lente|lentes|anteojo|anteojos|gafas|sunglasses|snorkel|botella|botellas|termo|termos|vaso|vasos|caramanhola|caramañola|shaker|shakers|raqueta|raquetas|paleta|paletas|pala|palas|stick|sticks|palo de hockey|bocha|bochas|overgrip|overgrips|pesa|pesas|mancuerna|mancuernas|kettlebell|kettlebells|colchoneta|colchonetas|mat|soga para saltar|soga|sogas|banda elastica|bandas elasticas|cono|conos|silbato|silbatos|cronometro|inflador|infladores|red de tenis|red de voley|arco de futbol|aro de basquet|baston|bastones|bastones de trekking|bicicleta|bicicletas|bike|bici|luz|luces|cadena|cadenas|cable|cables|caja pedalera|pedal|pedales|eje pasante|plato|descarrilador|ducto|maza|cartucho|llanta|llantas|cubierta|cubiertas|camara|casco|cascos|soporte|soportes|herramienta|herramientas|manubrio|asiento|top|tops|crop|bra|bras|corpino|corpinos|sosten|sostenes)\b/i;
 
-    // Calzado NO permitido (chanclas, ojotas, crocs, pantuflas, etc.)
-    "sandalia", "sandalias", "ojota", "ojotas", "crocs", "pantufla",
-    "pantuflas", "borcego", "borcegos", "clava", "clavas", "taco", "zueco", "zuecos",
+/** Determina de forma estricta si un producto es calzado permitido (zapatillas O botines).
+ *  Excluye indumentaria (remeras, camperas, buzos, tops, etc.), accesorios y equipamiento de otros deportes. */
+export function esCalzadoPermitido(nombre: string, categoria?: string | null): boolean {
+  if (!nombre) return false;
+  const nombreNorm = normalizarTexto(nombre);
+  const catNorm = normalizarTexto(categoria || "");
 
-    // Accesorios y equipamiento
-    "mochila", "bolso", "bolsos", "rinonera", "cartera",
-    "bandolera", "morral", "billetera", "gorra", "gorro", "gorras", "visera",
-    "sombrero", "anteojos", "lentes", "reloj", "perfume", "fragancia", "botella", "termo",
-    "llavero", "munequera", "cinturon", "toalla", "vincha",
-    "cuello", "bufanda", "guantes", "mitones", "bandana",
-
-    // Deportes / Hardware
-    "pelota", "balon", "ball", "hoop", "inflador",
-    "tiza", "pala", "paleta", "raqueta", "palo", "stick", "bocha", "disco", "pesa",
-    "mancuerna", "colchoneta", "mat", "soga", "arco", "aro", "casco",
-
-    // Materiales / tecnologías de ropa
-    "fleece", "terry", "climalite", "climacool", "heatgear",
-    "coldgear", "algodon", "poliester", "spandex", "lycra", "elastano", "microfibra",
-  ];
-
-  for (const termino of terminosExcluidos) {
-    if (new RegExp(`\\b${termino}\\b`, "i").test(nombreNormalizado)) {
-      return false;
-    }
+  // 1. Descartar si la categoría proviene de indumentaria o accesorios no calzado
+  if (catNorm && CATEGORIAS_PROHIBIDAS_RE.test(catNorm)) {
+    return false;
   }
 
-  // 2. Excluir si la categoría es claramente de ropa o accesorios
-  if (categoria) {
-    const catNorm = normalizarTexto(categoria);
-    const catExcluidas = [
-      "indumentaria", "accesorios", "ropa", "remeras", "buzos", "pantalones",
-      "shorts", "medias", "gorras", "pelotas", "equipamiento", "lifestyle ropa",
-    ];
-    for (const catExcl of catExcluidas) {
-      if (catNorm.includes(catExcl)) return false;
-    }
+  // 2. Descartar calzado no permitido (chanclas, ojotas, sandalias, ballerinas, crocs, pantuflas, etc.)
+  if (CALZADO_NO_PERMITIDO_RE.test(nombreNorm) || (catNorm && CALZADO_NO_PERMITIDO_RE.test(catNorm))) {
+    return false;
   }
 
-  // 3. Si el nombre contiene botin, botines, zapatilla, calzado, etc. → permitido
-  if (
-    nombreNormalizado.includes("botin") ||
-    nombreNormalizado.includes("botines") ||
-    nombreNormalizado.includes("zapatilla") ||
-    nombreNormalizado.includes("zapatillas") ||
-    nombreNormalizado.includes("sneaker") ||
-    nombreNormalizado.includes("calzado")
-  ) {
+  // 3. Descartar accesorios de calzado (botineros, cordones, plantillas, limpiadores)
+  if (ACCESORIOS_CALZADO_RE.test(nombreNorm)) {
+    return false;
+  }
+
+  // 4. Si el nombre comienza o tiene como tipo de artículo una prenda o accesorio no calzado (ej. "Top Deportivo", "Remera...", "Bicicleta...")
+  const primerPalabra = nombreNorm.split(/\s+/)[0];
+  const dosPrimerasPalabras = nombreNorm.split(/\s+/).slice(0, 2).join(" ");
+  if (ARTICULOS_NO_CALZADO_RE.test(primerPalabra) || ARTICULOS_NO_CALZADO_RE.test(dosPrimerasPalabras)) {
+    return false;
+  }
+
+  // 5. Si el nombre contiene palabra explícita de calzado (zapatilla, zapatillas, botin, botines, sneakers, etc.)
+  const tienePalabraCalzado = /\b(zapatilla|zapatillas|zapa|zapas|zapatilas|zapatilllas|zapatiilas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i.test(nombreNorm);
+
+  if (tienePalabraCalzado) {
+    // Si contiene palabra de calzado pero es ropa/accesorio (ej. "Remera con estampa zapatillas")
+    if (ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+      // Si la palabra de no calzado aparece antes que la de calzado, se descarta
+      const posNoCalzado = nombreNorm.search(ARTICULOS_NO_CALZADO_RE);
+      const posCalzado = nombreNorm.search(/\b(zapatilla|zapatillas|zapa|zapas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i);
+      if (posNoCalzado !== -1 && posCalzado !== -1 && posNoCalzado < posCalzado) {
+        return false;
+      }
+    }
     return true;
   }
 
-  // 4. Si no tiene palabras de calzado pero tampoco términos excluidos (ej. "Nike Air Max 90"),
-  // lo consideramos calzado
-  return true;
+  // 6. Botas de marcas deportivas/urbanas reconocidas (ej. Solo Deportes calzado mid/high-top "Botas Adidas Hoops", "Botas Puma Rebound", "Botas Converse Chuck Taylor", etc.)
+  if (/\b(bota|botas)\b/i.test(nombreNorm)) {
+    const esBotaDeportiva = /\b(adidas|puma|nike|reebok|converse|topper|kappa|atomik|47 street|montagne|vans|fila|asics|salomon|under armour|umbro|lotto|fila|diadora)\b/i.test(nombreNorm);
+    if (esBotaDeportiva && !ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+      return true;
+    }
+  }
+
+  // 7. Si no tiene palabra calzado en el título, pero la categoría es zapatillas/botines/calzado y no tiene palabras prohibidas
+  const esCategoriaCalzado = catNorm === "zapatillas" || catNorm === "botines" || catNorm === "calzado";
+  if (esCategoriaCalzado && !ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+    return true;
+  }
+
+  // Cualquier otro producto queda DESCARTADO
+  return false;
 }
 
 /** Alias de compatibilidad — preferir esCalzadoPermitido en código nuevo */

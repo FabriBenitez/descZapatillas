@@ -141,8 +141,6 @@ export function construirUrlDexterSale({
 
   if (categoryId) {
     parametros.set("cgid", categoryId);
-  } else if (query === "zapatillas") {
-    parametros.set("cgid", "sale");
   }
 
   return `${DEXTER_BASE_URL}${DEXTER_SEARCH_PATH}?${parametros}`;
@@ -257,7 +255,7 @@ export async function obtenerTodasLasOfertasDexter({
   size = DEXTER_PAGE_SIZE,
   query = "zapatillas",
   sortRule = "product-discount",
-  categoryId = "hot-sale",
+  categoryId,
   evitarTalles = false,
 }: ObtenerOfertasDexterOpciones & { paginas?: number } = {}) {
   const promesas = Array.from({ length: paginas }, (_, indice) => () =>
