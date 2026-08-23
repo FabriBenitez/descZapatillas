@@ -269,12 +269,20 @@ export async function obtenerTodasLasOfertasDexter({
     }),
   );
 
-  const chunkSize = 10;
+  const chunkSize = 5;
   const respuestas = [];
   for (let i = 0; i < promesas.length; i += chunkSize) {
     const chunk = promesas.slice(i, i + chunkSize);
     const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
     respuestas.push(...chunkRespuestas);
+
+    const totalEnChunk = chunkRespuestas.reduce(
+      (acc, r) => acc + (r.status === "fulfilled" ? r.value.length : 0),
+      0,
+    );
+    if (totalEnChunk === 0) {
+      break;
+    }
   }
 
   const productos = new Map<string, Producto>();

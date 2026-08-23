@@ -195,7 +195,7 @@ export function construirUrlGridSale({
   from = 0,
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
-  order = "OrderByBestDiscountDESC",
+  order = "OrderByPriceASC",
 }: ObtenerOfertasGridOpciones = {}) {
   if (from >= 2500) {
     return "";
@@ -305,7 +305,7 @@ export async function obtenerTodasLasOfertasGrid({
   paginas = 2,
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
-  order = "OrderByBestDiscountDESC",
+  order = "OrderByPriceASC",
 }: ObtenerOfertasGridOpciones & { paginas?: number } = {}) {
   const promesas = Array.from({ length: paginas }, (_, indice) => () =>
     obtenerOfertasGrid({
@@ -316,12 +316,20 @@ export async function obtenerTodasLasOfertasGrid({
     }),
   );
 
-  const chunkSize = 10;
+  const chunkSize = 5;
   const respuestas = [];
   for (let i = 0; i < promesas.length; i += chunkSize) {
     const chunk = promesas.slice(i, i + chunkSize);
     const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
     respuestas.push(...chunkRespuestas);
+
+    const totalEnChunk = chunkRespuestas.reduce(
+      (acc, r) => acc + (r.status === "fulfilled" ? r.value.length : 0),
+      0,
+    );
+    if (totalEnChunk === 0) {
+      break;
+    }
   }
 
   const productos = new Map<string, Producto>();

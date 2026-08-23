@@ -17,21 +17,21 @@ import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normaliza
 // En vez de buscar solo "zapatillas" y chocar con el límite de 2500 de la API,
 // hacemos fragmentación por marcas para traer el 100% del catálogo sin censura.
 const TODAS_LAS_BUSQUEDAS = [
-  { query: "nike", paginas: 50 },
-  { query: "adidas", paginas: 50 },
-  { query: "puma", paginas: 50 },
-  { query: "reebok", paginas: 30 },
-  { query: "under armour", paginas: 30 },
-  { query: "asics", paginas: 30 },
-  { query: "fila", paginas: 30 },
-  { query: "topper", paginas: 30 },
-  { query: "converse", paginas: 30 },
-  { query: "vans", paginas: 30 },
-  { query: "new balance", paginas: 30 },
-  { query: "salomon", paginas: 30 },
-  // Fallbacks genéricos para marcas menores que hayan quedado fuera
-  { query: "zapatillas", paginas: 50 },
-  { query: "botines", paginas: 30 },
+  { query: "nike", paginas: 25 },
+  { query: "adidas", paginas: 25 },
+  { query: "puma", paginas: 25 },
+  { query: "reebok", paginas: 15 },
+  { query: "under armour", paginas: 15 },
+  { query: "asics", paginas: 15 },
+  { query: "fila", paginas: 15 },
+  { query: "topper", paginas: 15 },
+  { query: "converse", paginas: 15 },
+  { query: "vans", paginas: 15 },
+  { query: "new balance", paginas: 15 },
+  { query: "salomon", paginas: 15 },
+  // Fallbacks genéricos para marcas menores y catálogos globales
+  { query: "zapatillas", paginas: 35 },
+  { query: "botines", paginas: 20 },
 ];
 
 const PALABRAS_PROHIBIDAS_INDUMENTARIA = [

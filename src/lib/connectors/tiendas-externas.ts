@@ -147,7 +147,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     plataforma: "magento",
     urlProductos:
       "https://www.solodeportes.com.ar/ofertas/calzado.html",
-    paginasTotales: 220,
+    paginasTotales: 35,
   },
   {
     slug: "opensports",
@@ -177,7 +177,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Dionysos",
     baseUrl: "https://www.digitalsport.com.ar",
     plataforma: "digitalsport",
-    urlProductos: "https://www.digitalsport.com.ar/dionysos/search/?q=zapatillas",
+    urlProductos: "https://www.digitalsport.com.ar/dionysos/productos/?seccion=calzado&order=discount",
     paginasTotales: 10,
   },
   {
@@ -185,7 +185,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Reebok",
     baseUrl: "https://reebok.com.ar",
     plataforma: "shopify",
-    urlProductos: "https://reebok.com.ar/collections/calzado/products.json",
+    urlProductos: "https://reebok.com.ar/collections/sale-calzado/products.json",
     paginasTotales: 5,
   },
   {
@@ -244,7 +244,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Puma",
     baseUrl: "https://ar.puma.com",
     plataforma: "puma",
-    urlProductos: "https://ar.puma.com/calzado/zapatillas.html",
+    urlProductos: "https://ar.puma.com/outlet.html",
     paginasTotales: 15,
   },
   {
@@ -688,11 +688,18 @@ function normalizarDigitalSport(tienda: ConfiguracionTienda, html: string) {
       limpiarTexto(producto.attr("data-brand")) ||
       limpiarTexto(producto.find(".brand").first().text());
     const textoCard = producto.text();
-    const precioLista =
+    const tagsText = producto.find(".tag, .tag_container").text();
+    let precioLista =
       leerNumero(textoCard.match(/antes\s*\$?\s*([\d.,]+)/i)?.[1]) || precio;
-    const descuento =
+    let descuento =
       leerDescuento(textoCard.match(/-\s*(\d+)%/)?.[1]) ||
+      leerDescuento(tagsText.match(/(\d+)%\s*off/i)?.[1]) ||
+      leerDescuento(textoCard.match(/(\d+)%\s*off/i)?.[1]) ||
       calcularDescuento(precio, precioLista);
+
+    if (descuento > 0 && precioLista <= precio) {
+      precioLista = Math.round(precio / (1 - descuento / 100));
+    }
 
     const categoryReal =
       limpiarTexto(producto.attr("data-category")) || "Zapatillas";
@@ -740,8 +747,24 @@ function normalizarShopify(tienda: ConfiguracionTienda, productos: ShopifyProduc
     const availableVariants = producto.variants?.filter((v) => v.available) || [];
     const mainVariant = availableVariants[0] || producto.variants?.[0];
     const precio = leerNumero(mainVariant?.price);
-    const precioLista = leerNumero(mainVariant?.compare_at_price) || precio;
-    const descuento = calcularDescuento(precio, precioLista);
+    let precioLista = leerNumero(mainVariant?.compare_at_price) || precio;
+    let descuento = calcularDescuento(precio, precioLista);
+
+    // Si compare_at_price es igual al precio, buscar porcentaje de descuento en los tags
+    if (descuento === 0 && producto.tags) {
+      for (const tag of producto.tags) {
+        const match = tag.match(/(\d+)\s*(?:off|%)/i);
+        if (match) {
+          const pct = parseInt(match[1], 10);
+          if (pct >= 5 && pct <= 90) {
+            descuento = pct;
+            precioLista = Math.round(precio / (1 - pct / 100));
+            break;
+          }
+        }
+      }
+    }
+
     const imagen = producto.images?.[0]?.src;
     const enlace = `/products/${producto.handle}`;
 
@@ -915,6 +938,11 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
 
     nombre = nombre.split("$")[0].replace(/\.[a-zA-Z0-9_-]+\{[^}]*\}/g, "").trim();
 
+    // Validar que sea calzado ANTES de transformar el nombre
+    if (!nombre || !esZapatilla(nombre)) {
+      return;
+    }
+
     if (!nombre.toLowerCase().startsWith("zapatilla") && !nombre.toLowerCase().startsWith("puma")) {
       nombre = `Zapatillas Puma ${nombre}`;
     }
@@ -929,7 +957,7 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
     const precioLista = preciosNumericos[0] || precio;
     const descuento = calcularDescuento(precio, precioLista);
 
-    if (!precio || !imagen || !esZapatilla(nombre)) {
+    if (!precio || !imagen) {
       return;
     }
 
@@ -976,7 +1004,7 @@ function construirUrlTienda(
     const parametros = new URLSearchParams({
       _from: String(from),
       _to: String(Math.min(from + pageSize - 1, 2499)),
-      O: "OrderByBestDiscountDESC",
+      O: "OrderByPriceASC",
     });
 
     return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
@@ -988,12 +1016,12 @@ function construirUrlTienda(
   }
 
   if (tienda.plataforma === "puma") {
-    const offset = pagina * 16;
+    const page = pagina + 1;
     if (!esBusquedaEspecifica && tienda.urlProductos) {
       const sep = tienda.urlProductos.includes("?") ? "&" : "?";
-      return `${tienda.urlProductos}${sep}offset=${offset}`;
+      return `${tienda.urlProductos}${sep}p=${page}`;
     }
-    return `${tienda.baseUrl}/calzado/zapatillas.html?offset=${offset}`;
+    return `${tienda.baseUrl}/calzado/zapatillas.html?p=${page}`;
   }
 
   if (tienda.plataforma === "shopify") {
@@ -1027,15 +1055,15 @@ function construirUrlTienda(
   }
 
   if (tienda.plataforma === "digitalsport") {
+    const page = pagina + 1;
     if (!esBusquedaEspecifica && tienda.urlProductos) {
-      return tienda.urlProductos;
+      const sep = tienda.urlProductos.includes("?") ? "&" : "?";
+      return `${tienda.urlProductos}${sep}page=${page}`;
     }
     const params = new URLSearchParams({
       q: query,
+      page: String(page),
     });
-    if (pagina > 0) {
-      params.set("p", String(pagina + 1));
-    }
     let path = "/search/";
     if (tienda.slug === "dionysos") {
       path = "/dionysos/search/";
@@ -1115,9 +1143,10 @@ export async function obtenerOfertasTiendaExterna(
         tienda.plataforma === "shopify" ||
         tienda.plataforma === "adidas"
           ? "application/json"
-          : "text/html,application/xhtml+xml",
+          : "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
       "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     },
     next: {
       revalidate: 60 * 60,
@@ -1187,47 +1216,55 @@ export async function obtenerTodasLasOfertasTiendasExternas({
   query?: string;
   evitarTalles?: boolean;
 } = {}) {
-  const todasLasPromesas = tiendasExternas.flatMap((tienda) => {
-    // Si la tienda tiene un catálogo de ofertas fijo (urlProductos), ignoramos las
-    // búsquedas por marcas específicas para no spamear su buscador (catalogsearch)
-    // repetidamente y de forma ineficiente. Solo la scrapearemos en la pasada "zapatillas".
-    if (tienda.urlProductos && query !== "zapatillas") {
-      return [];
-    }
-
-    // Usar paginasTotales de la tienda si existe, sino el default
-    const paginasTienda = tienda.paginasTotales ?? paginas;
-    return Array.from({ length: paginasTienda }, (_, pagina) => () =>
-      obtenerOfertasTiendaExterna(tienda, {
-        pagina,
-        query,
-        evitarTalles,
-      }),
-    );
-  });
-
-  // Ejecutar en grupos (chunks) para no saturar al servidor.
-  // Si evitamos talles, solo bajamos la página de categoría, podemos ir rápido (20).
-  // Si extraemos talles, procesamos de a 1 sola página a la vez para máxima seguridad (1).
-  const chunkSize = evitarTalles ? 20 : 1;
-  const respuestas = [];
-  for (let i = 0; i < todasLasPromesas.length; i += chunkSize) {
-    const chunk = todasLasPromesas.slice(i, i + chunkSize);
-    const chunkRespuestas = await Promise.allSettled(chunk.map(fn => fn()));
-    respuestas.push(...chunkRespuestas);
-  }
-
   const productos = new Map<string, Producto>();
 
-  respuestas.forEach((respuesta) => {
-    if (respuesta.status !== "fulfilled") {
-      return;
+  const tiendasAProcesar = tiendasExternas.filter((tienda) => {
+    // Si la tienda tiene urlProductos fijo (ej. ofertas/calzado), solo se scrapea en "zapatillas"
+    if (tienda.urlProductos && query !== "zapatillas") {
+      return false;
     }
-
-    respuesta.value.forEach((producto) => {
-      productos.set(producto.id, producto);
-    });
+    return true;
   });
+
+  // Procesar tiendas en paralelo de a grupos de 6
+  const BATCH_TIENDAS = 6;
+  for (let i = 0; i < tiendasAProcesar.length; i += BATCH_TIENDAS) {
+    const batch = tiendasAProcesar.slice(i, i + BATCH_TIENDAS);
+
+    await Promise.all(
+      batch.map(async (tienda) => {
+        const paginasTienda = tienda.paginasTotales ?? paginas;
+        const chunkSize = 5;
+
+        for (let p = 0; p < paginasTienda; p += chunkSize) {
+          const chunkPromesas = Array.from(
+            { length: Math.min(chunkSize, paginasTienda - p) },
+            (_, offset) =>
+              obtenerOfertasTiendaExterna(tienda, {
+                pagina: p + offset,
+                query,
+                evitarTalles,
+              }),
+          );
+
+          const chunkResultados = await Promise.allSettled(chunkPromesas);
+          let itemsEnChunk = 0;
+
+          chunkResultados.forEach((res) => {
+            if (res.status === "fulfilled") {
+              itemsEnChunk += res.value.length;
+              res.value.forEach((prod) => productos.set(prod.id, prod));
+            }
+          });
+
+          // Early stopping: si no vinieron productos en este lote de páginas, no seguir consultando
+          if (itemsEnChunk === 0) {
+            break;
+          }
+        }
+      }),
+    );
+  }
 
   return Array.from(productos.values());
 }
