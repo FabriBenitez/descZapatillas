@@ -57,10 +57,33 @@ export function capitalizarTexto(texto: string) {
   return texto.replace(/\b\w/g, (letra) => letra.toUpperCase());
 }
 
-export function normalizarMarca(marca: string) {
-  if (!marca) return "Sin Marca";
+export function normalizarMarca(marca: string, nombreProducto?: string) {
+  if (!marca || marca.toLowerCase() === "sin marca") {
+    if (nombreProducto) {
+      const n = nombreProducto.toLowerCase();
+      if (n.includes("new balance")) return "New Balance";
+      if (n.includes("under armour")) return "Under Armour";
+      if (n.includes("le coq")) return "Le Coq Sportif";
+      if (n.includes("dc ")) return "DC Shoes";
+      if (n.includes("nike")) return "Nike";
+      if (n.includes("adidas")) return "Adidas";
+      if (n.includes("puma")) return "Puma";
+      if (n.includes("topper")) return "Topper";
+      if (n.includes("asics")) return "Asics";
+      if (n.includes("vans")) return "Vans";
+      if (n.includes("reebok")) return "Reebok";
+      if (n.includes("fila")) return "Fila";
+    }
+    return "Sin Marca";
+  }
   
   const m = marca.trim().toLowerCase();
+
+  // Si vino truncada (ej. "New" o "Under" o "Le") y el nombre tiene la marca completa:
+  if (m === "new" && (!nombreProducto || nombreProducto.toLowerCase().includes("balance"))) return "New Balance";
+  if (m === "under" && (!nombreProducto || nombreProducto.toLowerCase().includes("armour"))) return "Under Armour";
+  if (m === "le" && (!nombreProducto || nombreProducto.toLowerCase().includes("coq"))) return "Le Coq Sportif";
+  if (m === "dc") return "DC Shoes";
 
   // Agrupar sub-marcas de Adidas
   if (m.startsWith("adidas")) return "Adidas";
@@ -75,13 +98,15 @@ export function normalizarMarca(marca: string) {
   if (m === "47 street") return "47 Street";
   if (m === "fila") return "Fila";
   if (m === "nike") return "Nike";
-  if (m === "under armour") return "Under Armour";
-  if (m === "new balance") return "New Balance";
+  if (m === "under armour" || m === "underarmour") return "Under Armour";
+  if (m === "new balance" || m === "newbalance") return "New Balance";
   if (m === "converse") return "Converse";
   if (m === "vans") return "Vans";
   if (m === "reebok") return "Reebok";
   if (m === "topper") return "Topper";
   if (m === "salomon") return "Salomon";
+  if (m === "le coq sportif" || m === "le coq") return "Le Coq Sportif";
+  if (m === "dc shoes") return "DC Shoes";
 
   return capitalizarTexto(m);
 }

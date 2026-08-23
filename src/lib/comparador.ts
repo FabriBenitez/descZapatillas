@@ -148,7 +148,9 @@ export function filtrarProductos(
   const descuentoMinimo = Number(filtros.descuentoMinimo || 0);
 
   return productos.filter((producto) => {
+    // 1. Búsqueda por texto (nombre, marca, tienda, género, categoría, color y talles)
     if (palabrasBusqueda.length > 0) {
+      const tallesTexto = (producto.sizes || []).join(" ");
       const textoProductoNormalizado = normalizarTexto([
         producto.name,
         producto.brand,
@@ -156,8 +158,9 @@ export function filtrarProductos(
         producto.storeSlug,
         producto.gender,
         producto.category,
-        producto.color
-      ].join(" ")).replace(/[^a-z0-9]/g, "");
+        producto.color,
+        tallesTexto
+      ].join(" "));
 
       const coincideTodo = palabrasBusqueda.every((palabra) =>
         textoProductoNormalizado.includes(palabra)
@@ -168,14 +171,26 @@ export function filtrarProductos(
       }
     }
 
-    if (filtros.marca && producto.brand !== filtros.marca) {
-      return false;
+    // 2. Filtro de Marca
+    if (filtros.marca) {
+      const marcaFiltroNorm = normalizarTexto(filtros.marca);
+      const marcaProdNorm = normalizarTexto(producto.brand || "");
+      if (marcaProdNorm !== marcaFiltroNorm) {
+        return false;
+      }
     }
 
-    if (filtros.tienda && producto.storeName !== filtros.tienda) {
-      return false;
+    // 3. Filtro de Tienda
+    if (filtros.tienda) {
+      const tiendaFiltroNorm = normalizarTexto(filtros.tienda);
+      const tiendaNombreNorm = normalizarTexto(producto.storeName || "");
+      const tiendaSlugNorm = normalizarTexto(producto.storeSlug || "");
+      if (tiendaNombreNorm !== tiendaFiltroNorm && tiendaSlugNorm !== tiendaFiltroNorm) {
+        return false;
+      }
     }
 
+    // 4. Filtro de Rango de Precio
     if (precioMinimo && producto.price < precioMinimo) {
       return false;
     }
@@ -184,21 +199,33 @@ export function filtrarProductos(
       return false;
     }
 
-    // Filtro por talle
+    // 5. Filtro por Talle
     if (filtros.talle) {
-      const tallesDisponibles = producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []);
-      if (!tallesDisponibles.includes(filtros.talle)) return false;
+      const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
+        .map((t) => String(t).trim().replace(",", "."));
+      const talleBuscado = String(filtros.talle).trim().replace(",", ".");
+      if (!tallesDisponibles.includes(talleBuscado)) {
+        return false;
+      }
     }
 
-    // Filtro por género (normalizamos a "Niños" con tilde para matchear productos viejos que lo tengan sin tilde)
+    // 6. Filtro por Género (Hombre y Mujer incluyen calzados Unisex)
     if (filtros.genero) {
-      const prodGender = producto.gender?.replace("Ninos", "Niños");
-      if (prodGender !== filtros.genero) return false;
+      const prodGender = (producto.gender || "").replace("Ninos", "Niños");
+      if (filtros.genero === "Hombre") {
+        if (prodGender !== "Hombre" && prodGender !== "Unisex") return false;
+      } else if (filtros.genero === "Mujer") {
+        if (prodGender !== "Mujer" && prodGender !== "Unisex") return false;
+      } else if (filtros.genero === "Niños") {
+        if (prodGender !== "Niños" && prodGender !== "Ninos" && prodGender !== "Niñas") return false;
+      } else {
+        if (prodGender !== filtros.genero) return false;
+      }
     }
 
+    // 7. Filtro de Categoría
     if (filtros.categoria) {
       const catFiltro = normalizarTexto(filtros.categoria);
-      // Usar la categoría guardada. Si es null, intentar inferirla del nombre del producto.
       const catGuardada = producto.category;
       const catEfectiva = catGuardada ?? normalizarCategoria(producto.name) ?? "";
       const catProd = normalizarTexto(catEfectiva);
@@ -207,13 +234,12 @@ export function filtrarProductos(
 
     if ((filtros as { subcategoria?: string }).subcategoria) {
       const subFiltro = normalizarTexto((filtros as { subcategoria?: string }).subcategoria ?? "");
-      // Usar el campo guardado O inferirlo del nombre en tiempo real
-      // (necesario para productos scraped antes de que existiera el campo)
       const subGuardada = (producto as { subcategory?: string | null }).subcategory;
       const subProd = normalizarTexto(subGuardada ?? inferirSubcategoria(producto.name, producto.category) ?? "");
       if (!subProd.includes(subFiltro)) return false;
     }
 
+    // 8. Descuento Mínimo
     if (descuentoMinimo && producto.discount < descuentoMinimo) {
       return false;
     }
