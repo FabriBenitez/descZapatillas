@@ -23,7 +23,11 @@ function normalizarBusquedaConAlias(valor: string) {
     .replace(/\bdesxter\b/g, "dexter")
     .replace(/\bdexterr\b/g, "dexter")
     .replace(/\bninos\b/g, "nino")
-    .replace(/\bninas\b/g, "nina");
+    .replace(/\bninas\b/g, "nina")
+    // Normalizar comas decimales (ej: 43,5 -> 43.5)
+    .replace(/(\d+),(\d+)/g, "$1.$2")
+    // Eliminar palabras de relleno en búsquedas comunes
+    .replace(/\b(talle|talles|numero|numeros|size|sizes|oferta|ofertas|en|de|para|con)\b/g, " ");
 }
 
 function ordenarTalles(valores: string[]) {
@@ -131,7 +135,7 @@ export function filtrarProductos(
   const palabrasBusqueda = terminoConAlias
     .split(/\s+/)
     .filter(Boolean)
-    .map((p) => p.replace(/[^a-z0-9]/g, ""))
+    .map((p) => p.replace(/[^a-z0-9.]/g, "").trim())
     .filter(Boolean);
 
   const parsearMonto = (valor: string | number | undefined) => {
@@ -150,7 +154,12 @@ export function filtrarProductos(
   return productos.filter((producto) => {
     // 1. Búsqueda por texto (nombre, marca, tienda, género, categoría, color y talles)
     if (palabrasBusqueda.length > 0) {
-      const tallesTexto = (producto.sizes || []).join(" ");
+      const tallesTexto = (producto.sizes || []).flatMap((s) => [
+        String(s),
+        String(s).replace(".", ","),
+        `talle ${s}`,
+      ]).join(" ");
+
       const textoProductoNormalizado = normalizarTexto([
         producto.name,
         producto.brand,
