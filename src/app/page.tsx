@@ -10,7 +10,7 @@ import { obtenerProductos } from "@/lib/productos";
 export default async function Home() {
   const productos = await obtenerProductos();
   const opciones = obtenerOpcionesFiltros(productos);
-  const productosDestacados = obtenerProductosDestacados(productos);
+  const productosDestacados = obtenerProductosDestacados(productos, 16);
 
   return (
     <ComparadorHome
