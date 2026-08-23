@@ -56,16 +56,20 @@ export function extraerTallesDigitalSport(html: string) {
   const $ = cheerio.load(html);
   const talles: string[] = [];
 
-  $("#sizes label.sizeLbl").each((_, elemento) => {
+  $("#sizes label.sizeLbl, .sizes label.sizeLbl").each((_, elemento) => {
     const item = $(elemento);
 
-    if (item.hasClass("nostock")) {
+    if (item.hasClass("nostock") || item.hasClass("disabled")) {
       return;
     }
 
     const copia = item.clone();
     copia.children().remove();
-    talles.push(limpiarTexto(copia.text()));
+    let texto = copia.text().replace(/sin stock/gi, "").trim().replace(",", ".");
+    if (texto.endsWith(".0")) texto = texto.substring(0, texto.length - 2);
+    if (texto && /^\d+(\.\d+)?$/.test(texto)) {
+      talles.push(texto);
+    }
   });
 
   return normalizarTalles(talles);
@@ -73,24 +77,65 @@ export function extraerTallesDigitalSport(html: string) {
 
 export function extraerTallesMagento(html: string) {
   const talles = new Set<string>();
-  const regexOpciones =
-    /"code":"(?:talle_calzado|talle|size)"[\s\S]*?"options":(\[[\s\S]*?\])[,}]/g;
-  let coincidencia: RegExpExecArray | null;
 
-  while ((coincidencia = regexOpciones.exec(html))) {
+  // 1. Parser de JSON-LD Schema.org FAQ (Solo Deportes)
+  const faqMatch = html.match(/Los talles disponibles de [^:]+ son:\s*([^.<"'\n]+)/i);
+  if (faqMatch && faqMatch[1]) {
+    faqMatch[1].split(/[,/]/).forEach((t) => {
+      let limpio = t.trim().replace(",", ".");
+      if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length - 2);
+      if (limpio && /^\d+(\.\d+)?$/.test(limpio)) {
+        talles.add(limpio);
+      }
+    });
+  }
+
+  // 2. Parser de jsonConfig de Magento (Trip Store, OpenSports, etc.)
+  const jsonConfigMatches =
+    html.match(/jsonConfig["']?\s*:\s*(\{[\s\S]*?\})\s*,\s*["']template/i) ||
+    html.match(/"Magento_Swatches\/js\/swatch-renderer"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i);
+
+  if (jsonConfigMatches && jsonConfigMatches[1]) {
     try {
-      const opciones = JSON.parse(coincidencia[1]) as Array<{
-        label?: string;
-        products?: string[];
-      }>;
-
-      opciones.forEach((opcion) => {
-        if (opcion.label && opcion.products?.length) {
-          talles.add(opcion.label);
+      const config = JSON.parse(jsonConfigMatches[1]);
+      const attributes = config.attributes || {};
+      for (const attrId in attributes) {
+        const attr = attributes[attrId];
+        const code = (attr.code || "").toLowerCase();
+        const label = (attr.label || "").toLowerCase();
+        if (code.includes("talle") || code.includes("size") || label.includes("talle") || label.includes("size")) {
+          const options = attr.options || [];
+          for (const opt of options) {
+            if (opt.label && Array.isArray(opt.products) && opt.products.length > 0) {
+              let val = String(opt.label).trim().replace(",", ".");
+              if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
+              talles.add(val);
+            }
+          }
         }
-      });
-    } catch {
-      continue;
+      }
+    } catch {}
+  }
+
+  // 3. Fallback regex sobre "options":[{...}] dentro de attributes
+  if (talles.size === 0) {
+    const regexOptions = /"options"\s*:\s*(\[\s*\{[\s\S]*?\}\s*\])/g;
+    let match;
+    while ((match = regexOptions.exec(html)) !== null) {
+      try {
+        const opts = JSON.parse(match[1]);
+        if (Array.isArray(opts)) {
+          opts.forEach((o: any) => {
+            if (o.label && o.products && o.products.length > 0) {
+              let val = String(o.label).trim().replace(",", ".");
+              if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
+              if (/^\d+(\.\d+)?$/.test(val)) {
+                talles.add(val);
+              }
+            }
+          });
+        }
+      } catch {}
     }
   }
 
@@ -138,19 +183,14 @@ export async function obtenerTallesDesdeDetalle(
 export async function enriquecerProductosConTalles(
   productos: Producto[],
   plataforma: PlataformaDetalleTalles,
-  limite = 6,
+  limite = 50,
 ) {
   const productosPriorizados = productos.slice(0, limite);
   const productosSinDetalle = productos.slice(limite);
   const enriquecidos: Producto[] = [];
-  const tamanoLote = 2; // Extraer talles de a 2 zapatillas por vez para no saturar
+  const tamanoLote = 6; // Procesamiento paralelo de a 6 productos
 
   for (let indice = 0; indice < productosPriorizados.length; indice += tamanoLote) {
-    // Pequeña pausa entre lotes para evitar error 429 (Too Many Requests)
-    if (indice > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-    }
-
     const lote = productosPriorizados.slice(indice, indice + tamanoLote);
     const resultados = await Promise.all(
       lote.map(async (producto) => {
