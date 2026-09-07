@@ -11,18 +11,6 @@ interface ProductImageProps {
   className?: string;
 }
 
-function usaOptimizacionExternaProblematica(src: string) {
-  const dominiosProblematicos = [
-    "digitalsport.com.ar",
-    "dexter.com.ar",
-    "stockcenter.com.ar",
-    "moov.com.ar",
-    "grid.com.ar",
-    "tiendafuencarral.com.ar"
-  ];
-  return dominiosProblematicos.some((dominio) => src.includes(dominio));
-}
-
 export function ProductImage({
   src,
   alt,
@@ -32,7 +20,10 @@ export function ProductImage({
 }: ProductImageProps) {
   const [falloImagen, setFalloImagen] = useState(false);
 
-  if (!src || falloImagen) {
+  // Normalizar URLs con extensiones duplicadas de VTEX (ej: .jpg.jpg -> .jpg)
+  const srcNormalizada = src ? src.replace(/\.jpg\.jpg/gi, ".jpg") : "";
+
+  if (!srcNormalizada || falloImagen) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#edf0e9] px-4 text-center">
         <span className="text-[0.68rem] font-black uppercase tracking-[0.16em] text-[var(--color-muted)]">
@@ -47,12 +38,13 @@ export function ProductImage({
 
   return (
     <Image
-      src={src}
+      src={srcNormalizada}
       alt={alt}
       fill
       priority={priority}
       sizes={sizes}
-      unoptimized={usaOptimizacionExternaProblematica(src)}
+      unoptimized={true}
+      referrerPolicy="no-referrer"
       className={className}
       onError={() => setFalloImagen(true)}
     />

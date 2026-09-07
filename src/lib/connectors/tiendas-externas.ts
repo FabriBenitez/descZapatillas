@@ -147,7 +147,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     plataforma: "magento",
     urlProductos:
       "https://www.solodeportes.com.ar/ofertas/calzado.html",
-    paginasTotales: 35,
+    paginasTotales: 70,
   },
   {
     slug: "opensports",
@@ -177,7 +177,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Dionysos",
     baseUrl: "https://www.digitalsport.com.ar",
     plataforma: "digitalsport",
-    urlProductos: "https://www.digitalsport.com.ar/dionysos/productos/?seccion=calzado&order=discount",
+    urlProductos: "https://www.digitalsport.com.ar/dionysos/prods/?category[1]=1",
     paginasTotales: 10,
   },
   {
@@ -201,14 +201,14 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     baseUrl: "https://www.underarmour.com.ar",
     plataforma: "demandware",
     siteId: "Sites-UnderArmour-Site",
-    paginasTotales: 15,
+    paginasTotales: 20,
   },
   {
     slug: "vans",
     nombre: "Vans",
     baseUrl: "https://www.vans.com.ar",
     plataforma: "grimoldi",
-    paginasTotales: 15,
+    paginasTotales: 20,
   },
   {
     slug: "fila",
@@ -237,15 +237,15 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Adidas",
     baseUrl: "https://www.adidas.com.ar",
     plataforma: "adidas",
-    paginasTotales: 20,
+    paginasTotales: 25,
   },
   {
     slug: "puma",
     nombre: "Puma",
     baseUrl: "https://ar.puma.com",
     plataforma: "puma",
-    urlProductos: "https://ar.puma.com/outlet.html",
-    paginasTotales: 15,
+    urlProductos: "https://ar.puma.com/calzado/zapatillas.html",
+    paginasTotales: 20,
   },
   {
     slug: "newsport",
@@ -547,9 +547,13 @@ function normalizarDemandware(tienda: ConfiguracionTienda, html: string) {
     const enlace = producto.find(".pdp-link .link").first().attr("href");
     const imagen =
       producto.find("img.tile-image").first().attr("src") ||
+      producto.find("img.tile-image").first().attr("data-src") ||
       producto.find("img.primary-image").first().attr("src") ||
+      producto.find("img.primary-image").first().attr("data-src") ||
       producto.find("img.product-image").first().attr("src") ||
-      producto.find("img").first().attr("src");
+      producto.find("picture source").first().attr("srcset")?.split(" ")[0] ||
+      producto.find("img").first().attr("src") ||
+      producto.find("img").first().attr("data-src");
     const precio =
       leerNumero(producto.find(".sales .value").first().attr("content")) ||
       leerNumero(producto.find(".sales").first().text()) ||
@@ -633,15 +637,16 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
       nombre.split(" ")[1] ||
       "";
 
-    if (!idBase || !nombre || !precio || !imagen || !enlace || !esZapatilla(nombre)) {
-      return;
-    }
-
-    const descuento = calcularDescuento(precio, precioLista);
     const nombreLower = nombre.toLowerCase();
     const categoriaDetectada = nombreLower.includes("botin") || nombreLower.includes("botín")
       ? "Botines"
       : "Zapatillas";
+
+    if (!idBase || !nombre || !precio || !imagen || !enlace || !esZapatilla(nombre, categoriaDetectada)) {
+      return;
+    }
+
+    const descuento = calcularDescuento(precio, precioLista);
 
     productos.set(
       idBase,
@@ -691,7 +696,7 @@ function normalizarDigitalSport(tienda: ConfiguracionTienda, html: string) {
     const tagsText = producto.find(".tag, .tag_container").text();
     let precioLista =
       leerNumero(textoCard.match(/antes\s*\$?\s*([\d.,]+)/i)?.[1]) || precio;
-    let descuento =
+    const descuento =
       leerDescuento(textoCard.match(/-\s*(\d+)%/)?.[1]) ||
       leerDescuento(tagsText.match(/(\d+)%\s*off/i)?.[1]) ||
       leerDescuento(textoCard.match(/(\d+)%\s*off/i)?.[1]) ||
@@ -863,7 +868,7 @@ function normalizarAdidas(tienda: ConfiguracionTienda, items: AdidasProductItem[
     const nombre = limpiarTexto(item.displayName);
     const category = "Zapatillas";
 
-    if (!idBase || !nombre || !esZapatilla(nombre)) {
+    if (!idBase || !nombre || !esZapatilla(nombre, category)) {
       return [];
     }
 
@@ -924,7 +929,9 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
 
     const imagen =
       tile.find("img").first().attr("src") ||
-      tile.find("img").first().attr("data-src");
+      tile.find("img").first().attr("data-src") ||
+      tile.find("picture source").first().attr("srcset")?.split(" ")[0] ||
+      tile.find("source").first().attr("srcset")?.split(" ")[0];
 
     let nombre =
       limpiarTexto(tile.find("h3").first().text()) ||
@@ -939,7 +946,7 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
     nombre = nombre.split("$")[0].replace(/\.[a-zA-Z0-9_-]+\{[^}]*\}/g, "").trim();
 
     // Validar que sea calzado ANTES de transformar el nombre
-    if (!nombre || !esZapatilla(nombre)) {
+    if (!nombre || !esZapatilla(nombre, "Zapatillas")) {
       return;
     }
 
@@ -948,14 +955,25 @@ function normalizarPuma(tienda: ConfiguracionTienda, html: string) {
     }
 
     const textoCard = tile.text();
+    const pctMatch = textoCard.match(/-\s*(\d+)%/);
     const matchesPrecios = textoCard.match(/\$\s*[\d.,]+/g) || [];
     const preciosNumericos = matchesPrecios
       .map((p) => leerNumero(p))
       .filter((n) => n > 1000);
 
     const precio = preciosNumericos[preciosNumericos.length - 1] || 0;
-    const precioLista = preciosNumericos[0] || precio;
-    const descuento = calcularDescuento(precio, precioLista);
+    let precioLista = preciosNumericos[0] || precio;
+    let descuento = calcularDescuento(precio, precioLista);
+
+    if (pctMatch) {
+      const pct = parseInt(pctMatch[1], 10);
+      if (pct > 0) {
+        descuento = pct;
+        if (precioLista <= precio) {
+          precioLista = Math.round(precio / (1 - pct / 100));
+        }
+      }
+    }
 
     if (!precio || !imagen) {
       return;
@@ -1004,7 +1022,7 @@ function construirUrlTienda(
     const parametros = new URLSearchParams({
       _from: String(from),
       _to: String(Math.min(from + pageSize - 1, 2499)),
-      O: "OrderByPriceASC",
+      O: "OrderByBestDiscountDESC",
     });
 
     return `${tienda.baseUrl}/api/catalog_system/pub/products/search?ft=${encodeURIComponent(query)}&${parametros}`;
@@ -1019,9 +1037,9 @@ function construirUrlTienda(
     const page = pagina + 1;
     if (!esBusquedaEspecifica && tienda.urlProductos) {
       const sep = tienda.urlProductos.includes("?") ? "&" : "?";
-      return `${tienda.urlProductos}${sep}p=${page}`;
+      return `${tienda.urlProductos}${sep}page=${page}`;
     }
-    return `${tienda.baseUrl}/calzado/zapatillas.html?p=${page}`;
+    return `${tienda.baseUrl}/calzado/zapatillas.html?page=${page}`;
   }
 
   if (tienda.plataforma === "shopify") {
@@ -1075,8 +1093,9 @@ function construirUrlTienda(
 
   // Demandware
   const pageSize = size ?? DEMANDWARE_PAGE_SIZE;
+  const qFinal = tienda.slug === "underarmour" && query === "zapatillas" ? "outlet" : query;
   const parametros = new URLSearchParams({
-    q: query,
+    q: qFinal,
     srule: "product-discount",
     start: String(pagina * pageSize),
     sz: String(pageSize),
@@ -1188,7 +1207,7 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarMagento(tienda, html),
       "magento",
-      opciones.evitarTalles ? 0 : 999
+      opciones.evitarTalles ? 0 : 10
     );
   }
 
@@ -1196,14 +1215,14 @@ export async function obtenerOfertasTiendaExterna(
     return enriquecerProductosConTalles(
       normalizarDigitalSport(tienda, html),
       "digitalsport",
-      opciones.evitarTalles ? 0 : 999
+      opciones.evitarTalles ? 0 : 10
     );
   }
 
   return enriquecerProductosConTalles(
     normalizarDemandware(tienda, html),
     "demandware",
-    opciones.evitarTalles ? 0 : 999
+    opciones.evitarTalles ? 0 : 10
   );
 }
 
@@ -1211,14 +1230,19 @@ export async function obtenerTodasLasOfertasTiendasExternas({
   paginas = 1,
   query = "zapatillas",
   evitarTalles = false,
+  slugTienda,
 }: {
   paginas?: number;
   query?: string;
   evitarTalles?: boolean;
+  slugTienda?: string;
 } = {}) {
   const productos = new Map<string, Producto>();
 
   const tiendasAProcesar = tiendasExternas.filter((tienda) => {
+    if (slugTienda && tienda.slug !== slugTienda) {
+      return false;
+    }
     // Si la tienda tiene urlProductos fijo (ej. ofertas/calzado), solo se scrapea en "zapatillas"
     if (tienda.urlProductos && query !== "zapatillas") {
       return false;

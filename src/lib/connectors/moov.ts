@@ -160,7 +160,14 @@ export function parsearProductosMoov(html: string): Producto[] {
     }
 
     const enlace = producto.find(".pdp-link .link").first().attr("href");
-    const imagen = producto.find("img.primary-image").first().attr("src");
+    const imagen =
+      producto.find("img.primary-image").first().attr("src") ||
+      producto.find("img.primary-image").first().attr("data-src") ||
+      producto.find("img.tile-image").first().attr("src") ||
+      producto.find("img.tile-image").first().attr("data-src") ||
+      producto.find("picture source").first().attr("srcset")?.split(" ")[0] ||
+      producto.find("img").first().attr("src") ||
+      producto.find("img").first().attr("data-src");
     const precio =
       leerNumero(producto.find(".sales .value").first().attr("content")) ||
       leerNumero(producto.find(".sales").first().text()) ||

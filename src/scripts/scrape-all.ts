@@ -29,8 +29,10 @@ const TODAS_LAS_BUSQUEDAS = [
   { query: "vans", paginas: 15 },
   { query: "new balance", paginas: 15 },
   { query: "salomon", paginas: 15 },
+  { query: "jordan", paginas: 15 },
   // Fallbacks genéricos para marcas menores y catálogos globales
   { query: "zapatillas", paginas: 35 },
+  { query: "outlet", paginas: 20 },
   { query: "botines", paginas: 20 },
 ];
 
@@ -41,7 +43,8 @@ const PALABRAS_PROHIBIDAS_INDUMENTARIA = [
   "canillera", "muñequera", "ojota", "sandalia", "gorro", "visera", "sombrero",
   "lentes", "botella", "conjunto", "camis", "chomba", "sudadera",
   "chaleco", "vestido", "falda", "pollera", "body", "traje", "bikini",
-  "malla", "sunga", "toalla", "vincha", "bolsa", "cuello"
+  "malla", "sunga", "toalla", "vincha", "bolsa", "cuello",
+  "parlante", "auricular", "auriculares", "altavoz", "altavoces"
 ];
 
 import { esCalzadoPermitido } from "../lib/formato";
@@ -61,7 +64,6 @@ async function scrapeTiendaMultiQuery(
   opcionesExtra: Record<string, unknown> = {},
 ): Promise<Producto[]> {
   const productos = new Map<string, Producto>();
-  let esPrimeraBusqueda = true;
 
   for (const { query, paginas } of busquedas) {
     console.log(`  → ${nombre}: buscando "${query}" (${paginas} pág)...`);
@@ -70,10 +72,10 @@ async function scrapeTiendaMultiQuery(
         ...opcionesExtra,
         paginas,
         query,
-        // Extraemos talles SOLO en la primera búsqueda principal ("zapatillas")
-        // para mantener el scraper en un tiempo razonable (~2 horas) y 
-        // no exceder el límite de 6 horas de GitHub Actions.
-        evitarTalles: !esPrimeraBusqueda,
+        // Evitamos el scraping síncrono PDP de talles en la ingesta masiva
+        // para que el scraper no tarde 6 horas ni sea bloqueado por anti-bot.
+        // VTEX y Shopify ya incluyen talles automáticamente en su listado.
+        evitarTalles: true,
       });
 
       let nuevos = 0;
@@ -90,13 +92,29 @@ async function scrapeTiendaMultiQuery(
     } catch (err) {
       console.error(`    ✗ Error en ${nombre} con query "${query}":`, err instanceof Error ? err.message : err);
     }
-    // Después de Nike/Adidas/etc ya empezamos a desactivar el scrap de talles profundo
-    if (productos.size > 2000) {
-      esPrimeraBusqueda = false;
-    }
   }
 
   return Array.from(productos.values());
+}
+
+function parseCliArgs() {
+  const args = process.argv.slice(2);
+  const params: Record<string, string | boolean> = {};
+
+  for (const arg of args) {
+    if (arg.startsWith("--")) {
+      const [rawKey, val] = arg.slice(2).split("=");
+      const key = rawKey.toLowerCase();
+      params[key] = val !== undefined ? val : true;
+    }
+  }
+
+  return {
+    tienda: typeof params.tienda === "string" ? params.tienda.toLowerCase() : undefined,
+    quick: Boolean(params.quick || params.rapido || params.fast),
+    paginas: typeof params.paginas === "string" ? parseInt(params.paginas, 10) : undefined,
+    query: typeof params.query === "string" ? params.query : undefined,
+  };
 }
 
 // =============================================
@@ -105,36 +123,86 @@ async function scrapeTiendaMultiQuery(
 
 async function runScrape() {
   const inicio = Date.now();
+  const args = parseCliArgs();
+
+  let busquedasAUsar = TODAS_LAS_BUSQUEDAS;
+  if (args.query) {
+    busquedasAUsar = [{ query: args.query, paginas: args.paginas ?? 3 }];
+  } else if (args.quick) {
+    busquedasAUsar = [
+      { query: "zapatillas", paginas: 2 },
+      { query: "nike", paginas: 2 },
+      { query: "adidas", paginas: 2 },
+    ];
+  } else if (args.paginas) {
+    busquedasAUsar = TODAS_LAS_BUSQUEDAS.map((b) => ({ ...b, paginas: args.paginas! }));
+  }
+
   console.log("====================================");
-  console.log("🚀 Iniciando scraping MASIVO multi-query");
-  console.log(`📋 ${TODAS_LAS_BUSQUEDAS.length} términos de búsqueda por tienda`);
-  console.log(`🏪 24 tiendas activas (Moov, Grid, Dexter, StockCenter, SoloDeportes, OpenSports, Tienda Fuencarral, Trip Store, Dionysos, Reebok, Asics, Under Armour, Vans, Fila, New Balance, Topper, Adidas, Puma, New Sport, Chelsea, Seven Sport, SportLine, Sporting, Dash Deportes)`);
+  console.log("🚀 Iniciando Pisando Ofertas Scraper");
+  if (args.tienda) console.log(`🎯 Tienda objetivo: ${args.tienda.toUpperCase()}`);
+  if (args.quick) console.log("⚡ Modo RÁPIDO activado (2 páginas por query clave)");
+  if (args.query) console.log(`🔍 Query personalizada: "${args.query}"`);
+  console.log(`📋 ${busquedasAUsar.length} término(s) de búsqueda configurados`);
   console.log("====================================\n");
 
+  const tiendaFiltro = args.tienda;
+  const tiendasActivas: Promise<Producto[]>[] = [];
+
+  const ejecutarMoov = !tiendaFiltro || tiendaFiltro === "moov";
+  const ejecutarGrid = !tiendaFiltro || tiendaFiltro === "grid";
+  const ejecutarDexter = !tiendaFiltro || tiendaFiltro === "dexter";
+  const ejecutarExternas = !tiendaFiltro || !["moov", "grid", "dexter"].includes(tiendaFiltro);
+
+  if (ejecutarMoov) {
+    tiendasActivas.push(
+      scrapeTiendaMultiQuery(
+        "Moov",
+        (opts) => obtenerTodasLasOfertasMoov(opts as Parameters<typeof obtenerTodasLasOfertasMoov>[0]),
+        busquedasAUsar,
+      ),
+    );
+  }
+
+  if (ejecutarGrid) {
+    tiendasActivas.push(
+      scrapeTiendaMultiQuery(
+        "Grid",
+        (opts) => obtenerTodasLasOfertasGrid(opts as Parameters<typeof obtenerTodasLasOfertasGrid>[0]),
+        busquedasAUsar,
+      ),
+    );
+  }
+
+  if (ejecutarDexter) {
+    tiendasActivas.push(
+      scrapeTiendaMultiQuery(
+        "Dexter",
+        (opts) => obtenerTodasLasOfertasDexter(opts as Parameters<typeof obtenerTodasLasOfertasDexter>[0]),
+        busquedasAUsar,
+      ),
+    );
+  }
+
+  if (ejecutarExternas) {
+    tiendasActivas.push(
+      scrapeTiendaMultiQuery(
+        tiendaFiltro ? `Tienda (${tiendaFiltro})` : "Tiendas Externas",
+        (opts) =>
+          obtenerTodasLasOfertasTiendasExternas({
+            ...(opts as Parameters<typeof obtenerTodasLasOfertasTiendasExternas>[0]),
+            slugTienda:
+              tiendaFiltro && !["moov", "grid", "dexter"].includes(tiendaFiltro)
+                ? tiendaFiltro
+                : undefined,
+          }),
+        busquedasAUsar,
+      ),
+    );
+  }
+
   // 1. Obtener productos frescos con múltiples queries por tienda
-  // Ejecutamos cada tienda en paralelo, pero las queries dentro de cada tienda van en secuencia
-  const promesas = await Promise.allSettled([
-    scrapeTiendaMultiQuery(
-      "Moov",
-      (opts) => obtenerTodasLasOfertasMoov(opts as Parameters<typeof obtenerTodasLasOfertasMoov>[0]),
-      TODAS_LAS_BUSQUEDAS,
-    ),
-    scrapeTiendaMultiQuery(
-      "Grid",
-      (opts) => obtenerTodasLasOfertasGrid(opts as Parameters<typeof obtenerTodasLasOfertasGrid>[0]),
-      TODAS_LAS_BUSQUEDAS,
-    ),
-    scrapeTiendaMultiQuery(
-      "Dexter",
-      (opts) => obtenerTodasLasOfertasDexter(opts as Parameters<typeof obtenerTodasLasOfertasDexter>[0]),
-      TODAS_LAS_BUSQUEDAS,
-    ),
-    scrapeTiendaMultiQuery(
-      "Tiendas Externas",
-      (opts) => obtenerTodasLasOfertasTiendasExternas(opts as Parameters<typeof obtenerTodasLasOfertasTiendasExternas>[0]),
-      TODAS_LAS_BUSQUEDAS,
-    ),
-  ]);
+  const promesas = await Promise.allSettled(tiendasActivas);
 
   const todosLosFrescos = promesas.flatMap((respuesta) =>
     respuesta.status === "fulfilled" ? respuesta.value : [],
@@ -248,6 +316,7 @@ async function runScrape() {
         existing.listPrice = fresh.listPrice;
         existing.discount = fresh.discount;
         existing.offerType = fresh.offerType;
+        existing.imageUrl = fresh.imageUrl;
         existing.historicalBestPrice = Math.min(
           existing.historicalBestPrice ?? existing.price,
           fresh.price,
@@ -272,6 +341,7 @@ async function runScrape() {
       ) {
         existing.available = fresh.available;
         existing.updatedAt = fechaActualizacion;
+        existing.imageUrl = fresh.imageUrl;
         if (fresh.sizes && fresh.sizes.length > 0) {
           existing.sizes = fresh.sizes;
           existing.size = fresh.size;
@@ -284,6 +354,7 @@ async function runScrape() {
         }
       } else {
         existing.updatedAt = fechaActualizacion;
+        existing.imageUrl = fresh.imageUrl;
         todosLosProductos.set(fresh.id, existing);
         actualizadosMeta++;
         if (firestore) {
@@ -294,35 +365,30 @@ async function runScrape() {
   }
 
   // 4. Limpieza inteligente:
-  // - Solo eliminar productos de tiendas que respondieron con datos esta corrida
-  // - Umbral de obsoleto: 72h (antes era 24h) para tolerar fallos puntuales
-  const tiendasConDatos = new Set(
-    productosFrescos
-      .filter((p) => p.storeSlug)
-      .map((p) => p.storeSlug)
-  );
-  const idsFrescos = new Set(productosFrescos.map((p) => p.id));
-  let eliminadosNoVistos = 0;
+  // - NO eliminamos productos de tiendas que no fueron parte de esta corrida.
+  // - Solo eliminamos productos si:
+  //   a) No son calzado permitido
+  //   b) Pertenecen a una tienda procesada en esta corrida Y llevan más de 120h sin confirmarse
+  let eliminadosNoCalzado = 0;
   let eliminadosObsoletos = 0;
 
   const HORA_EN_MS = 60 * 60 * 1000;
-  // 72h: tolera hasta 3 corridas fallidas antes de borrar
-  const umbralObsoleto = Date.now() - (72 * HORA_EN_MS);
+  // 120h (5 días): margen amplio para proteger datos ante fallos transitorios
+  const umbralObsoleto = Date.now() - (120 * HORA_EN_MS);
+
+  const tiendasProcesadas = new Set(
+    productosFrescos.filter((p) => p.storeSlug).map((p) => p.storeSlug),
+  );
 
   for (const [id, prod] of todosLosProductos.entries()) {
     let eliminarDefinitivamente = false;
 
-    // Solo limpiar productos de tiendas que respondieron con éxito esta corrida
-    // Si la tienda no respondio (0 productos o error), conservamos sus datos
-    if (!idsFrescos.has(id) && tiendasConDatos.has(prod.storeSlug)) {
+    if (!esCalzadoPermitido(prod.name, prod.category)) {
       eliminarDefinitivamente = true;
-      eliminadosNoVistos++;
-    }
-
-    // Independientemente, si el producto es muy antiguo (72h sin actualizarse) o no es calzado permitido, borrarlo
-    if (!eliminarDefinitivamente) {
+      eliminadosNoCalzado++;
+    } else if (tiendasProcesadas.has(prod.storeSlug)) {
       const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-      if (fechaActualizacionMs < umbralObsoleto || !esCalzadoPermitido(prod.name, prod.category)) {
+      if (fechaActualizacionMs < umbralObsoleto) {
         eliminarDefinitivamente = true;
         eliminadosObsoletos++;
       }
@@ -361,8 +427,8 @@ async function runScrape() {
   console.log(`✅ Creados: ${creados}`);
   console.log(`💵 Actualizados (Precio): ${actualizadosPrecio}`);
   console.log(`🔄 Actualizados (Stock/Talles): ${actualizadosMeta}`);
-  console.log(`🗑️  Eliminados (Ya no en oferta): ${eliminadosNoVistos}`);
-  console.log(`🗑️  Eliminados (Obsoletos >24h): ${eliminadosObsoletos}`);
+  console.log(`🗑️  Eliminados (No es calzado): ${eliminadosNoCalzado}`);
+  console.log(`🗑️  Eliminados (Obsoletos >96h): ${eliminadosObsoletos}`);
   console.log(`👟 Total en Base de Datos: ${todosLosProductos.size}`);
   console.log("====================================");
 }

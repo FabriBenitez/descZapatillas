@@ -158,6 +158,26 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "**.vteximg.com.br",
+      },
+      {
+        protocol: "https",
+        hostname: "**.vtexassets.com",
+      },
+      {
+        protocol: "https",
+        hostname: "asicsar.vteximg.com.br",
+      },
+      {
+        protocol: "https",
+        hostname: "filaar.vteximg.com.br",
+      },
+      {
+        protocol: "https",
+        hostname: "topperarg.vteximg.com.br",
+      },
+      {
+        protocol: "https",
         hostname: "tiendain.vtexassets.com",
       },
       {

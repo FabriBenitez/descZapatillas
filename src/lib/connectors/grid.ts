@@ -195,7 +195,7 @@ export function construirUrlGridSale({
   from = 0,
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
-  order = "OrderByPriceASC",
+  order = "OrderByBestDiscountDESC",
 }: ObtenerOfertasGridOpciones = {}) {
   if (from >= 2500) {
     return "";
@@ -227,7 +227,9 @@ export function normalizarProductosGrid(productosVtex: VtexProduct[]) {
     const precio = leerNumero(offer.Price);
     const precioLista = leerNumero(offer.ListPrice) || precio;
     const descuento = calcularDescuento(precio, precioLista);
-    const imagen = sku.images?.find((image) => image.imageUrl)?.imageUrl;
+    const imagen =
+      sku.images?.find((image) => image.imageUrl)?.imageUrl ||
+      producto.items?.flatMap((i) => i.images || []).find((img) => img.imageUrl)?.imageUrl;
     const talles = obtenerTallesDisponibles(producto.items);
     const disponible = talles.length > 0 || tieneStock(offer);
     const categoria = obtenerCategoria(producto);
@@ -305,7 +307,7 @@ export async function obtenerTodasLasOfertasGrid({
   paginas = 2,
   size = GRID_PAGE_SIZE,
   query = "zapatillas",
-  order = "OrderByPriceASC",
+  order = "OrderByBestDiscountDESC",
 }: ObtenerOfertasGridOpciones & { paginas?: number } = {}) {
   const promesas = Array.from({ length: paginas }, (_, indice) => () =>
     obtenerOfertasGrid({
