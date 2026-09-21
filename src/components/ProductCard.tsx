@@ -13,6 +13,7 @@ interface ProductCardProps {
   producto: Producto;
   prioridadImagen?: boolean;
   vista?: "grid" | "lista";
+  esMejorOferta?: boolean;
 }
 
 function obtenerColorMarca(marca: string): string {
@@ -32,6 +33,7 @@ export function ProductCard({
   producto,
   prioridadImagen = false,
   vista = "grid",
+  esMejorOferta = false,
 }: ProductCardProps) {
   const esLista = vista === "lista";
   const esSuperAhorro = producto.discount >= 50;
@@ -55,10 +57,17 @@ export function ProductCard({
         esLista
           ? "grid rounded-[8px] sm:grid-cols-[240px_minmax(0,1fr)]"
           : "flex h-full flex-col rounded-[8px]"
-      }`}
+      } ${esMejorOferta ? "ring-4 ring-[#FF4500] ring-offset-2" : ""}`}
     >
+      {esMejorOferta && (
+        <div className="absolute top-0 left-0 right-0 bg-[#FF4500] text-white text-[10px] sm:text-xs font-black uppercase tracking-widest text-center py-1 z-20 border-b-2 border-[#111]">
+          ¡Mejor Descuento!
+        </div>
+      )}
       <div
         className={`relative block overflow-hidden ${colorFondoMarca} border-b-2 border-[#111] ${
+          esMejorOferta && !esLista ? "mt-6 sm:mt-7" : ""
+        } ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto sm:border-b-0 sm:border-r-2"
             : "aspect-[4/3] sm:aspect-square"
@@ -126,10 +135,10 @@ export function ProductCard({
 
         <div className="mt-auto pt-2 sm:pt-3 border-t-2 border-[#111]/10">
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-baseline sm:gap-2">
-            <p className="text-lg sm:text-2xl font-black font-mono leading-none tracking-tighter text-[#111]">
+            <p className="text-xl sm:text-3xl font-black font-mono leading-none tracking-tighter text-[#111]">
               {formatearPrecio(producto.price)}
             </p>
-            <p className="text-[9px] sm:text-[11px] font-bold font-mono text-black/50 line-through shrink-0 mt-0.5 sm:mt-0">
+            <p className="text-[10px] sm:text-xs font-bold font-mono text-black/50 line-through shrink-0 mt-0.5 sm:mt-0">
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
@@ -146,11 +155,22 @@ export function ProductCard({
           <div className="flex items-center justify-center rounded-[4px] bg-white border sm:border-2 border-[#111] p-1 sm:p-2 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden min-w-0">
             <StoreLogo storeName={producto.storeName} />
           </div>
-          <div className="flex flex-col justify-center rounded-[4px] bg-[#EBF6FF] border sm:border-2 border-[#111] px-1.5 sm:px-3 py-0.5 sm:py-1 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden">
-            <p className="text-[7px] sm:text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talle</p>
-            <p className="font-black text-[#111] text-[9px] sm:text-xs line-clamp-1 sm:line-clamp-2">
-              {producto.size ?? "Consultar"}
-            </p>
+          <div className="flex flex-col justify-center rounded-[4px] bg-[#EBF6FF] border sm:border-2 border-[#111] px-1.5 sm:px-2 py-0.5 sm:py-1 shadow-[1px_1px_0px_#111] sm:shadow-[2px_2px_0px_#111] overflow-hidden">
+            <p className="text-[7px] sm:text-[8px] font-black text-black/50 uppercase tracking-widest mb-0.5 shrink-0">Talles</p>
+            {producto.sizes && producto.sizes.length > 0 ? (
+              <div className="flex flex-wrap gap-0.5 sm:gap-1 mt-0.5">
+                {producto.sizes.slice(0, 3).map((t: string) => (
+                  <span key={t} className="bg-white border border-[#111] rounded-[2px] px-1 py-0.5 text-[8px] sm:text-[9px] font-black leading-none">{t}</span>
+                ))}
+                {producto.sizes.length > 3 && (
+                  <span className="bg-[#111] text-white border border-[#111] rounded-[2px] px-1 py-0.5 text-[8px] sm:text-[9px] font-black leading-none">+{producto.sizes.length - 3}</span>
+                )}
+              </div>
+            ) : (
+              <p className="font-black text-[#111] text-[9px] sm:text-xs line-clamp-1 sm:line-clamp-2">
+                {producto.size ?? "Consultar"}
+              </p>
+            )}
           </div>
         </div>
       </div>

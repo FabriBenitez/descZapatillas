@@ -133,20 +133,30 @@ export function ProductList({
                 : "grid grid-cols-2 gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-6 lg:grid-cols-3 xl:grid-cols-4"
             }
           >
-            {productosVisibles.map((producto, indice) => (
-              <motion.div
-                key={producto.id}
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                <ProductCard
-                  producto={producto}
-                  prioridadImagen={indice < cantidadPrioritaria}
-                  vista={vista}
-                />
-              </motion.div>
-            ))}
+            {(() => {
+              const maxDescuento = Math.max(...productosVisibles.map((p) => p.discount));
+              // Si no hay grandes descuentos, no resaltamos ninguno (ej > 40%)
+              const idMejorOferta = maxDescuento > 40 
+                ? productosVisibles.find(p => p.discount === maxDescuento)?.id 
+                : null;
+
+              return productosVisibles.map((producto, indice) => (
+                <motion.div
+                  key={producto.id}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className={producto.id === idMejorOferta ? "relative z-10" : ""}
+                >
+                  <ProductCard
+                    producto={producto}
+                    prioridadImagen={indice < cantidadPrioritaria}
+                    vista={vista}
+                    esMejorOferta={producto.id === idMejorOferta}
+                  />
+                </motion.div>
+              ));
+            })()}
           </div>
           
           {tieneMas && (
