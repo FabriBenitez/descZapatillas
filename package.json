@@ -11,7 +11,8 @@
     "scrape:quick": "tsx src/scripts/scrape-all.ts --quick",
     "scrape:grid": "tsx src/scripts/scrape-all.ts --tienda=grid",
     "scrape:dexter": "tsx src/scripts/scrape-all.ts --tienda=dexter",
-    "scrape:moov": "tsx src/scripts/scrape-all.ts --tienda=moov"
+    "scrape:moov": "tsx src/scripts/scrape-all.ts --tienda=moov",
+    "enrich:sizes": "tsx src/scripts/enriquecer-talles-db.ts"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.9",

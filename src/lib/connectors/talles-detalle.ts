@@ -2,12 +2,13 @@ import * as cheerio from "cheerio";
 
 import type { Producto } from "@/types/producto";
 
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 15000;
 
 export type PlataformaDetalleTalles =
   | "demandware"
   | "magento"
-  | "digitalsport";
+  | "digitalsport"
+  | "grimoldi";
 
 function limpiarTexto(valor: string | undefined) {
   return (valor ?? "").replace(/\s+/g, " ").trim();
@@ -21,16 +22,39 @@ function normalizarTalles(talles: string[]) {
   return Array.from(
     new Set(
       talles
-        .map((talle) => limpiarTexto(talle.replace(",", ".")))
+        .map((talle) => {
+          let t = limpiarTexto(talle.replace(",", "."));
+          if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
+          return t;
+        })
         .filter(Boolean),
     ),
   );
+}
+
+export function extraerTallesGrimoldi(html: string) {
+  const $ = cheerio.load(html);
+  const talles: string[] = [];
+
+  $(".talles li:not(.sin-stock):not(.disabled), .product-size, select[name='talle'] option, .sizes li:not(.disabled)").each((_, elemento) => {
+    const texto = $(elemento).text().trim();
+    if (texto.toLowerCase().includes("seleccionar") || texto.toLowerCase().includes("elegir")) {
+      return;
+    }
+    const match = texto.match(/^(\d+(?:\.\d+)?)/);
+    if (match) {
+      talles.push(match[1]);
+    }
+  });
+
+  return normalizarTalles(talles);
 }
 
 export function extraerTallesDemandware(html: string) {
   const $ = cheerio.load(html);
   const talles: string[] = [];
 
+  // 1. Dexter, StockCenter, Moov (.variation-attribute-size)
   $(".variation-attribute-size").each((_, elemento) => {
     const item = $(elemento);
     const valor = limpiarTexto(item.attr("value"));
@@ -48,6 +72,36 @@ export function extraerTallesDemandware(html: string) {
         limpiarTexto(item.find(".variationID").first().text()),
     );
   });
+
+  // 2. Under Armour, New Balance (.size-attribute, etc.)
+  if (talles.length === 0) {
+    $(".size-attribute, [data-attr='size'] button, .select-size option").each((_, elemento) => {
+      const item = $(elemento);
+      if (item.hasClass("disabled") || item.attr("disabled")) {
+        return;
+      }
+
+      const rawText = limpiarTexto(item.text());
+      if (!rawText || rawText.toLowerCase().includes("seleccionar") || rawText.toLowerCase().includes("guía")) {
+        return;
+      }
+
+      // Si es formato New Balance unisex tipo "M4 / W5.5" o "M10 / W11.5"
+      const matchM = rawText.match(/M\s*(\d+(?:\.\d+)?)/i);
+      if (matchM) {
+        talles.push(matchM[1]);
+        const matchW = rawText.match(/W\s*(\d+(?:\.\d+)?)/i);
+        if (matchW) talles.push(matchW[1]);
+      } else {
+        const matchNum = rawText.match(/^(\d+(?:\.\d+)?)/);
+        if (matchNum) {
+          talles.push(matchNum[1]);
+        } else {
+          talles.push(rawText);
+        }
+      }
+    });
+  }
 
   return normalizarTalles(talles);
 }
@@ -79,10 +133,11 @@ export function extraerTallesMagento(html: string) {
   const talles = new Set<string>();
 
   // 1. Parser de JSON-LD Schema.org FAQ (Solo Deportes)
-  const faqMatch = html.match(/Los talles disponibles de [^:]+ son:\s*([^.<"'\n]+)/i);
+  const faqMatch = html.match(/Los talles disponibles de [^:]+ son:\s*([\d.,\s/]+)(?:\.|\"|<)/i);
   if (faqMatch && faqMatch[1]) {
     faqMatch[1].split(/[,/]/).forEach((t) => {
       let limpio = t.trim().replace(",", ".");
+      if (limpio.endsWith(".")) limpio = limpio.slice(0, -1);
       if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length - 2);
       if (limpio && /^\d+(\.\d+)?$/.test(limpio)) {
         talles.add(limpio);
@@ -90,10 +145,11 @@ export function extraerTallesMagento(html: string) {
     });
   }
 
-  // 2. Parser de jsonConfig de Magento (Trip Store, OpenSports, etc.)
+  // 2. Parser de jsonConfig / spConfig de Magento (Trip Store, OpenSports, etc.)
   const jsonConfigMatches =
     html.match(/jsonConfig["']?\s*:\s*(\{[\s\S]*?\})\s*,\s*["']template/i) ||
-    html.match(/"Magento_Swatches\/js\/swatch-renderer"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i);
+    html.match(/"Magento_Swatches\/js\/swatch-renderer"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i) ||
+    html.match(/"\[data-role=swatch-options\]"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i);
 
   if (jsonConfigMatches && jsonConfigMatches[1]) {
     try {
@@ -117,26 +173,24 @@ export function extraerTallesMagento(html: string) {
     } catch {}
   }
 
-  // 3. Fallback regex sobre "options":[{...}] dentro de attributes
-  if (talles.size === 0) {
-    const regexOptions = /"options"\s*:\s*(\[\s*\{[\s\S]*?\}\s*\])/g;
-    let match;
-    while ((match = regexOptions.exec(html)) !== null) {
-      try {
-        const opts = JSON.parse(match[1]);
-        if (Array.isArray(opts)) {
-          opts.forEach((o: any) => {
-            if (o.label && o.products && o.products.length > 0) {
-              let val = String(o.label).trim().replace(",", ".");
-              if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
-              if (/^\d+(\.\d+)?$/.test(val)) {
-                talles.add(val);
-              }
+  // 3. Parser de opciones de atributos con stock (products: [...])
+  const regexOptions = /"options"\s*:\s*(\[\s*\{[\s\S]*?\}\s*\])/g;
+  let match;
+  while ((match = regexOptions.exec(html)) !== null) {
+    try {
+      const opts = JSON.parse(match[1]);
+      if (Array.isArray(opts)) {
+        opts.forEach((o: any) => {
+          if (o.label && Array.isArray(o.products) && o.products.length > 0) {
+            let val = String(o.label).trim().replace(",", ".");
+            if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
+            if (/^\d+(\.\d+)?$/.test(val)) {
+              talles.add(val);
             }
-          });
-        }
-      } catch {}
-    }
+          }
+        });
+      }
+    } catch {}
   }
 
   return normalizarTalles(Array.from(talles));
@@ -152,6 +206,10 @@ export function extraerTallesDesdeDetalle(
 
   if (plataforma === "magento") {
     return extraerTallesMagento(html);
+  }
+
+  if (plataforma === "grimoldi") {
+    return extraerTallesGrimoldi(html);
   }
 
   return extraerTallesDigitalSport(html);

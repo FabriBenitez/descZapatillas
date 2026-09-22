@@ -183,31 +183,27 @@ export async function GET(request: Request) {
       }
     }
 
-    // 3.5 Limpiar productos obsoletos o que ya no están en oferta en tiendas exitosas
-    const tiendasExitosas = new Set(productosFrescos.map((p) => p.storeSlug));
-    const idsFrescos = new Set(productosFrescos.map((p) => p.id));
-    let eliminadosNoVistos = 0;
+    // 3.5 Limpieza inteligente (solo no calzado o productos sin actualizar hace más de 120h)
+    let eliminadosNoCalzado = 0;
     let eliminadosObsoletos = 0;
 
     const HORA_EN_MS = 60 * 60 * 1000;
-    const umbralObsoleto = Date.now() - (24 * HORA_EN_MS);
+    // 120h (5 días): margen para no borrar productos por caídas momentáneas o paginación parcial
+    const umbralObsoleto = Date.now() - (120 * HORA_EN_MS);
+
+    const tiendasProcesadas = new Set(
+      productosFrescos.filter((p) => p.storeSlug).map((p) => p.storeSlug),
+    );
 
     for (const [id, prod] of todosLosProductos.entries()) {
       let eliminar = false;
 
-      // Si el producto no está en las ofertas frescas de esta corrida
-      if (!idsFrescos.has(id)) {
-        // Y su tienda fue sincronizada exitosamente en esta corrida (obtuvo al menos un producto fresco)
-        if (tiendasExitosas.has(prod.storeSlug)) {
-          eliminar = true;
-          eliminadosNoVistos++;
-        }
-      }
-
-      // Respaldo por tiempo o calzado no permitido: se elimina
-      if (!eliminar) {
+      if (!esCalzadoPermitido(prod.name, prod.category)) {
+        eliminar = true;
+        eliminadosNoCalzado++;
+      } else if (tiendasProcesadas.has(prod.storeSlug)) {
         const fechaActualizacionMs = new Date(prod.updatedAt).getTime();
-        if (fechaActualizacionMs < umbralObsoleto || !esCalzadoPermitido(prod.name, prod.category)) {
+        if (fechaActualizacionMs < umbralObsoleto) {
           eliminar = true;
           eliminadosObsoletos++;
         }
@@ -244,7 +240,7 @@ export async function GET(request: Request) {
       creados,
       actualizadosPrecio,
       actualizadosMeta,
-      eliminadosNoVistos,
+      eliminadosNoCalzado,
       eliminadosObsoletos,
       totalProcesados: productosFrescos.length,
       elapsedMs: Date.now() - inicio,

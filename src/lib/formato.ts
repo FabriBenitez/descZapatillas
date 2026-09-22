@@ -91,6 +91,15 @@ export function normalizarMarca(marca: string, nombreProducto?: string) {
   // Agrupar sub-marcas de Puma
   if (m.startsWith("puma")) return "Puma";
 
+  // Agrupar sub-marcas de Nike (ej: Nike Sportswear, Nike Performance)
+  if (m.startsWith("nike")) return "Nike";
+
+  // Agrupar sub-marcas y errores de Reebok (ej: Reebook-Ar)
+  if (m.startsWith("reebok") || m.startsWith("reebook")) return "Reebok";
+
+  // Agrupar sub-marcas de Fila (ej: Fila Heritage)
+  if (m.startsWith("fila")) return "Fila";
+
   // Excepciones específicas de capitalización
   if (m === "and1") return "AND1";
   if (m === "asics") return "Asics";
