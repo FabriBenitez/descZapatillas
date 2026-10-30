@@ -42,8 +42,13 @@ interface VtexSku {
   itemId?: string;
   name?: string;
   Talle?: string[];
+  Talles?: string[];
+  Size?: string[];
+  Calzado?: string[];
+  variations?: string[];
   images?: { imageUrl?: string }[];
   sellers?: VtexSeller[];
+  [key: string]: unknown;
 }
 
 interface VtexProduct {
@@ -400,23 +405,46 @@ function tieneStockVtex(oferta: VtexOffer | undefined) {
   return Boolean(oferta?.IsAvailable) || leerNumero(oferta?.AvailableQuantity) > 0;
 }
 
+function obtenerOfertaSkuVtex(item: VtexSku): VtexOffer | undefined {
+  if (!item.sellers || item.sellers.length === 0) {
+    return undefined;
+  }
+  // Priorizar el seller que tenga stock y mejor descuento
+  const conStock = item.sellers.find((s) => tieneStockVtex(s.commertialOffer));
+  return (conStock ?? item.sellers[0])?.commertialOffer;
+}
+
 function obtenerTallesDisponiblesVtex(items: VtexSku[] = []) {
   const talles = new Set<string>();
 
   items.forEach((item) => {
-    const oferta = item.sellers?.[0]?.commertialOffer;
+    const oferta = obtenerOfertaSkuVtex(item);
 
     if (!tieneStockVtex(oferta)) {
       return;
     }
 
-    item.Talle?.forEach((talle) => {
-      const talleLimpio = limpiarTexto(talle);
+    const candidatos = [
+      ...(item.Talle ?? []),
+      ...(item.Talles ?? []),
+      ...(item.Size ?? []),
+      ...(item.Calzado ?? []),
+    ];
 
-      if (talleLimpio) {
-        talles.add(talleLimpio);
+    if (candidatos.length > 0) {
+      candidatos.forEach((talle) => {
+        const talleLimpio = limpiarTexto(String(talle));
+        if (talleLimpio) {
+          talles.add(talleLimpio);
+        }
+      });
+    } else if (item.name) {
+      // Fallback: extraer talle numérico del nombre del SKU (ej: "39", "40.5", "Talle 41")
+      const match = item.name.match(/\b(2\d|3\d|4\d(?:[.,]5)?)\b/);
+      if (match) {
+        talles.add(match[1].replace(",", "."));
       }
-    });
+    }
   });
 
   return Array.from(talles);
@@ -425,7 +453,7 @@ function obtenerTallesDisponiblesVtex(items: VtexSku[] = []) {
 function elegirSkuVtex(items: VtexSku[] = []) {
   return items
     .map((sku) => {
-      const oferta = sku.sellers?.[0]?.commertialOffer;
+      const oferta = obtenerOfertaSkuVtex(sku);
       const precio = leerNumero(oferta?.Price);
 
       return oferta && precio ? { sku, oferta } : null;

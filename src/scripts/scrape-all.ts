@@ -431,6 +431,20 @@ async function runScrape() {
   console.log(`🗑️  Eliminados (Obsoletos >96h): ${eliminadosObsoletos}`);
   console.log(`👟 Total en Base de Datos: ${todosLosProductos.size}`);
   console.log("====================================");
+
+  // Resumen detallado por tienda
+  const conteoPorTienda: Record<string, { total: number; conTalles: number }> = {};
+  for (const prod of todosLosProductos.values()) {
+    if (!conteoPorTienda[prod.storeName]) {
+      conteoPorTienda[prod.storeName] = { total: 0, conTalles: 0 };
+    }
+    conteoPorTienda[prod.storeName].total++;
+    if (prod.sizes && prod.sizes.length > 0) {
+      conteoPorTienda[prod.storeName].conTalles++;
+    }
+  }
+  console.log("\n📊 Resumen final por tienda en Base de Datos:");
+  console.table(conteoPorTienda);
 }
 
 runScrape().catch((err) => {
