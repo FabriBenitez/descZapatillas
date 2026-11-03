@@ -19,6 +19,12 @@ function absolutizarUrl(url: string) {
   return url;
 }
 
+export function esTalleValido(valor: string): boolean {
+  const v = valor.trim().replace(",", ".");
+  const num = parseFloat(v);
+  return !isNaN(num) && num >= 18 && num <= 52;
+}
+
 function normalizarTalles(talles: string[]) {
   return Array.from(
     new Set(
@@ -28,7 +34,7 @@ function normalizarTalles(talles: string[]) {
           if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
           return t;
         })
-        .filter(Boolean),
+        .filter((t) => esTalleValido(t)),
     ),
   );
 }
@@ -95,10 +101,8 @@ export function extraerTallesDemandware(html: string) {
         if (matchW) talles.push(matchW[1]);
       } else {
         const matchNum = rawText.match(/^(\d+(?:\.\d+)?)/);
-        if (matchNum) {
+        if (matchNum && esTalleValido(matchNum[1])) {
           talles.push(matchNum[1]);
-        } else {
-          talles.push(rawText);
         }
       }
     });
