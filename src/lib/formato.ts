@@ -317,3 +317,46 @@ export function esCalzadoPermitido(nombre: string, categoria?: string | null): b
 
 /** Alias de compatibilidad — preferir esCalzadoPermitido en código nuevo */
 export const esZapatilla = esCalzadoPermitido;
+
+/**
+ * Tabla de equivalencias de calzado para Argentina (AR) vs Europa (EUR) vs Estados Unidos (US).
+ * La mayoría de las tiendas argentinas etiquetan en AR, pero tiendas directas como Nike, Adidas,
+ * Puma o tiendas multimarca usan a veces EUR o US en sus SKUs.
+ * AR = EUR - 1 aproximadamente (ej: 40 AR = 41 EUR).
+ */
+const EQUIVALENCIAS_TALLES_AR: Record<string, string[]> = {
+  "34": ["34", "35", "3.5", "4"],
+  "34.5": ["34.5", "35.5", "4", "4.5"],
+  "35": ["35", "36", "4.5", "5"],
+  "35.5": ["35.5", "36.5", "5", "5.5"],
+  "36": ["36", "37", "5.5", "6"],
+  "36.5": ["36.5", "37.5", "6", "6.5"],
+  "37": ["37", "38", "6.5", "7"],
+  "37.5": ["37.5", "38.5", "7", "7.5"],
+  "38": ["38", "39", "7.5", "8"],
+  "38.5": ["38.5", "39.5", "8", "8.5"],
+  "39": ["39", "40", "8", "8.5"],
+  "39.5": ["39.5", "40.5", "8.5", "9"],
+  "40": ["40", "41", "8.5", "9"],
+  "40.5": ["40.5", "41.5", "9", "9.5"],
+  "41": ["41", "42", "9.5", "10"],
+  "41.5": ["41.5", "42.5", "10", "10.5"],
+  "42": ["42", "43", "10", "10.5"],
+  "42.5": ["42.5", "43.5", "10.5", "11"],
+  "43": ["43", "44", "11", "11.5"],
+  "43.5": ["43.5", "44.5", "11.5", "12"],
+  "44": ["44", "45", "12", "12.5"],
+  "44.5": ["44.5", "45.5", "12.5", "13"],
+  "45": ["45", "46", "13"],
+  "45.5": ["45.5", "46.5", "13.5"],
+  "46": ["46", "47", "14"],
+};
+
+export function obtenerEquivalenciasTalle(talle: string): string[] {
+  const tLimpio = talle.trim().replace(",", ".");
+  const equivalentes = EQUIVALENCIAS_TALLES_AR[tLimpio];
+  if (equivalentes) {
+    return equivalentes;
+  }
+  return [tLimpio];
+}

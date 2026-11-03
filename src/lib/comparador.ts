@@ -1,5 +1,5 @@
 import { filtrosIniciales, type FiltrosProductos, type OrdenProductos, type Producto } from "@/types/producto";
-import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarCategoria, normalizarTexto } from "@/lib/formato";
+import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarCategoria, normalizarTexto, obtenerEquivalenciasTalle } from "@/lib/formato";
 
 export interface OpcionesFiltros {
   marcas: string[];
@@ -225,7 +225,10 @@ export function filtrarProductos(
         const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
           .map((t) => String(t).trim().replace(",", "."));
         const talleBuscado = String(filtros.talle).trim().replace(",", ".");
-        if (!tallesDisponibles.includes(talleBuscado)) {
+        const talleEquivalentes = obtenerEquivalenciasTalle(talleBuscado);
+
+        const coincideTalle = tallesDisponibles.some((talle) => talleEquivalentes.includes(talle));
+        if (!coincideTalle) {
           return false;
         }
       }

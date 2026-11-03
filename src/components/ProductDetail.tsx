@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { sendGAEvent } from "@next/third-parties/google";
 import { ProductImage } from "@/components/ProductImage";
 import { generarEnlaceAfiliado } from "@/lib/afiliados";
@@ -15,6 +16,7 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ producto }: ProductDetailProps) {
+  const [talleSeleccionado, setTalleSeleccionado] = useState<string | null>(null);
   const esSuperAhorro = producto.discount >= 50;
 
   // Badge brutalista
@@ -90,25 +92,50 @@ export function ProductDetail({ producto }: ProductDetailProps) {
         </div>
 
         <div className="mt-8 border-t-2 border-black/10 pt-6">
-          <p className="text-[10px] font-black uppercase tracking-widest text-black/50">
-            Talles disponibles
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2.5">
-            {(producto.sizes?.length
-              ? producto.sizes
-              : [producto.size ?? "Consultar"]
-            ).map((talle) => (
-              <span key={talle} className="min-h-10 min-w-10 flex items-center justify-center rounded-[4px] bg-white border-2 border-[#111] text-xs font-black px-4 py-2 cursor-default shadow-[2px_2px_0px_#111]">
-                {talle}
-              </span>
-            ))}
-          </div>
-          {!producto.sizes?.length ? (
-            <p className="mt-4 text-xs font-bold leading-relaxed text-black/50">
-              Esta tienda no informa talles disponibles en la grilla. Puedes confirmarlo
-              al ingresar en el enlace original del producto.
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] font-black uppercase tracking-widest text-black/50">
+              Talles disponibles
             </p>
-          ) : null}
+            {talleSeleccionado && (
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#FF4500] bg-[#FFF0EB] border border-[#FF4500] px-2 py-0.5 rounded-[4px]">
+                Seleccionado: Talle {talleSeleccionado}
+              </span>
+            )}
+          </div>
+
+          {producto.sizes && producto.sizes.length > 0 ? (
+            <div className="mt-3 flex flex-wrap gap-2.5">
+              {producto.sizes.map((talle) => {
+                const esActivo = talleSeleccionado === talle;
+                return (
+                  <button
+                    key={talle}
+                    type="button"
+                    onClick={() => setTalleSeleccionado(esActivo ? null : talle)}
+                    className={`min-h-11 min-w-11 flex items-center justify-center rounded-[4px] text-xs font-black px-4 py-2 cursor-pointer transition-all active:translate-y-0.5 ${
+                      esActivo
+                        ? "bg-[#FF4500] text-white border-2 border-[#111] shadow-[2px_2px_0px_#111] -translate-y-0.5"
+                        : "bg-white text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] hover:bg-[#111] hover:text-white hover:-translate-y-0.5"
+                    }`}
+                  >
+                    {talle}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-3 p-4 rounded-[6px] border-2 border-[#111] bg-[#FEF08A] shadow-[3px_3px_0px_#111]">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-sm">⚡</span>
+                <p className="text-xs font-black uppercase tracking-wider text-[#111]">
+                  Talles en tiempo real
+                </p>
+              </div>
+              <p className="text-xs font-bold leading-relaxed text-black/80">
+                {producto.storeName} actualiza su inventario en tiempo real en su sitio web. Podés consultar y seleccionar tu talle con stock inmediato desde el enlace oficial.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-8">
@@ -117,11 +144,16 @@ export function ProductDetail({ producto }: ProductDetailProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-              sendGAEvent('event', 'click_oferta', { value: producto.storeName });
+              sendGAEvent('event', 'click_oferta', {
+                value: producto.storeName,
+                talle: talleSeleccionado ?? 'sin_seleccion'
+              });
             }}
-            className="flex items-center justify-center bg-[#FF4500] hover:bg-[#e03d00] text-white border-2 border-[#111] shadow-[4px_4px_0px_#111] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_#111] transition-all rounded-[6px] min-h-14 w-full text-sm uppercase tracking-widest font-black"
+            className="flex items-center justify-center bg-[#FF4500] hover:bg-[#e03d00] text-white border-2 border-[#111] shadow-[4px_4px_0px_#111] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_#111] transition-all rounded-[6px] min-h-14 w-full text-sm uppercase tracking-widest font-black gap-2"
           >
-            Ver producto en la tienda
+            {talleSeleccionado
+              ? `Comprar en Talle ${talleSeleccionado} en ${producto.storeName} →`
+              : `Ver producto en ${producto.storeName} →`}
           </a>
         </div>
       </section>

@@ -90,6 +90,9 @@ async function main() {
     }
   });
 
+  // Priorizar modelos con mayor descuento (las ofertas más calientes primero)
+  candidatos.sort((a, b) => (b.producto.discount || 0) - (a.producto.discount || 0));
+
   console.log(`🎯 Candidatos a enriquecer encontrados: ${candidatos.length}`);
   if (candidatos.length === 0) {
     console.log("✅ No hay productos pendientes de talles para la configuración seleccionada.");
