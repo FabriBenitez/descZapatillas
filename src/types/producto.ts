@@ -67,7 +67,6 @@ export interface FiltrosProductos {
   precioMinimo: string;
   precioMaximo: string;
   talle: string;
-  incluirTallesAConfirmar: boolean;
   genero: string;
   categoria: string;
   subcategoria: string;
@@ -85,7 +84,6 @@ export const filtrosIniciales: FiltrosProductos = {
   precioMinimo: "",
   precioMaximo: "",
   talle: "",
-  incluirTallesAConfirmar: true,
   genero: "",
   categoria: "",
   subcategoria: "",

@@ -84,7 +84,7 @@ async function main() {
 
     if (opciones.tienda && slug !== opciones.tienda) return;
 
-    const tieneTallesCompletos = Array.isArray(p.sizes) && p.sizes.length > 1;
+    const tieneTallesCompletos = Array.isArray(p.sizes) && p.sizes.length > 0;
     if (!tieneTallesCompletos || opciones.forzarTodos) {
       candidatos.push({ index, producto: p, plataforma });
     }
@@ -104,6 +104,7 @@ async function main() {
 
   let exitosos = 0;
   let conTallesEncontrados = 0;
+  let sinStockDetectados = 0;
   let totalTallesSumados = 0;
   const t0 = Date.now();
 
@@ -134,6 +135,10 @@ async function main() {
         item.producto.available = true;
         conTallesEncontrados++;
         totalTallesSumados += tallesNorm.length;
+      } else {
+        item.producto.sizes = [];
+        item.producto.available = false;
+        sinStockDetectados++;
       }
       exitosos++;
     } catch (err: any) {
@@ -142,7 +147,7 @@ async function main() {
       itemsGuardados++;
       const pct = ((itemsGuardados / aProcesar.length) * 100).toFixed(1);
       process.stdout.write(
-        `\rProgreso: ${itemsGuardados}/${aProcesar.length} (${pct}%) | Con talles: ${conTallesEncontrados}`,
+        `\rProgreso: ${itemsGuardados}/${aProcesar.length} (${pct}%) | Con talles: ${conTallesEncontrados} | Sin stock: ${sinStockDetectados}`,
       );
 
       if (itemsGuardados % 25 === 0) {

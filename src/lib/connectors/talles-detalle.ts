@@ -198,21 +198,51 @@ export function extraerTallesMagento(html: string) {
 }
 
 export function extraerTallesPuma(html: string) {
-  const $ = cheerio.load(html);
   const talles: string[] = [];
 
-  $("[data-ui-id='size-button'], .size-button, button[data-attr-value], [data-size-value], .product-size, select[name='size'] option").each((_, el) => {
-    const item = $(el);
-    if (item.hasClass("disabled") || item.attr("disabled") || item.attr("data-available") === "false") {
-      return;
-    }
-    const val = item.attr("data-attr-value") || item.attr("data-size-value") || item.text().trim();
-    if (!val || val.toLowerCase().includes("seleccionar") || val.toLowerCase().includes("guía")) return;
-    const match = val.match(/^(\d+(?:\.\d+)?)/);
-    if (match) {
-      talles.push(match[1]);
-    }
-  });
+  // 1. Parser SSR de mobify-data (Puma Commerce Cloud PWA)
+  const mobifyMatch = html.match(/<script id="mobify-data"[^>]*>([\s\S]*?)<\/script>/i);
+  if (mobifyMatch && mobifyMatch[1]) {
+    try {
+      const mobifyJson = JSON.parse(mobifyMatch[1]);
+      const queries = mobifyJson.__PRELOADED_STATE__?.__reactQuery?.queries || [];
+      for (const q of queries) {
+        const data = q.state?.data;
+        if (data?.variationAttributes) {
+          const sizeAttr = data.variationAttributes.find((attr: any) => attr.id === "size");
+          if (sizeAttr && Array.isArray(sizeAttr.values)) {
+            for (const val of sizeAttr.values) {
+              if (val.orderable !== false && val.name) {
+                const match = String(val.name).trim().match(/^(\d+(?:\.\d+)?)/);
+                if (match) {
+                  talles.push(match[1]);
+                } else {
+                  talles.push(String(val.name).trim());
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch {}
+  }
+
+  // 2. Fallback selector DOM
+  if (talles.length === 0) {
+    const $ = cheerio.load(html);
+    $("[data-ui-id='size-button'], .size-button, button[data-attr-value], [data-size-value], .product-size, select[name='size'] option").each((_, el) => {
+      const item = $(el);
+      if (item.hasClass("disabled") || item.attr("disabled") || item.attr("data-available") === "false" || item.is(":disabled")) {
+        return;
+      }
+      const val = item.attr("data-attr-value") || item.attr("data-size-value") || item.text().trim();
+      if (!val || val.toLowerCase().includes("seleccionar") || val.toLowerCase().includes("guía")) return;
+      const match = val.match(/^(\d+(?:\.\d+)?)/);
+      if (match) {
+        talles.push(match[1]);
+      }
+    });
+  }
 
   return normalizarTalles(talles);
 }

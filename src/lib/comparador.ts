@@ -213,24 +213,19 @@ export function filtrarProductos(
       return false;
     }
 
-    // 5. Filtro por Talle
+    // 5. Filtro por Talle (100% estricto sobre talles reales disponibles)
     if (filtros.talle) {
-      const tieneTallesCargados = Boolean(producto.sizes?.length || producto.size);
-      if (!tieneTallesCargados) {
-        // Si no tiene talles extraídos en DB, pero el usuario incluye a confirmar, no lo descartamos
-        if (filtros.incluirTallesAConfirmar === false) {
-          return false;
-        }
-      } else {
-        const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
-          .map((t) => String(t).trim().replace(",", "."));
-        const talleBuscado = String(filtros.talle).trim().replace(",", ".");
-        const talleEquivalentes = obtenerEquivalenciasTalle(talleBuscado);
+      const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
+        .map((t) => String(t).trim().replace(",", "."));
+      if (tallesDisponibles.length === 0) {
+        return false;
+      }
+      const talleBuscado = String(filtros.talle).trim().replace(",", ".");
+      const talleEquivalentes = obtenerEquivalenciasTalle(talleBuscado);
 
-        const coincideTalle = tallesDisponibles.some((talle) => talleEquivalentes.includes(talle));
-        if (!coincideTalle) {
-          return false;
-        }
+      const coincideTalle = tallesDisponibles.some((talle) => talleEquivalentes.includes(talle));
+      if (!coincideTalle) {
+        return false;
       }
     }
 

@@ -281,24 +281,6 @@ export function FiltersSidebar({
             placeholder="Todos los talles"
             alCambiarFiltro={alCambiarFiltro}
           />
-          {filtros.talle && (
-            <label className="flex items-start gap-2 bg-[#fef08a] border-2 border-[#111] p-2.5 rounded-[4px] shadow-[2px_2px_0px_#111] cursor-pointer text-left">
-              <input
-                type="checkbox"
-                checked={filtros.incluirTallesAConfirmar !== false}
-                onChange={(e) =>
-                  alCambiarFiltro("incluirTallesAConfirmar", e.target.checked)
-                }
-                className="mt-0.5 h-4 w-4 rounded border-2 border-[#111] text-[#FF4500] focus:ring-0 cursor-pointer"
-              />
-              <span className="text-[10px] font-black text-[#111] leading-tight">
-                Incluir ofertas con talle a verificar en tienda
-                <span className="block font-semibold text-black/70 text-[9px] mt-0.5">
-                  (+7.000 ofertas de Solo Deportes y Dexter)
-                </span>
-              </span>
-            </label>
-          )}
           <GrupoSelect
             id="genero"
             etiqueta="Género"
@@ -313,7 +295,7 @@ export function FiltersSidebar({
   );
 
   const hayFiltrosActivos = Object.entries(filtros).some(
-    ([key, value]) => key !== "soloStock" && key !== "incluirTallesAConfirmar" && value !== "" && value !== false
+    ([key, value]) => key !== "soloStock" && value !== "" && value !== false
   );
 
   return (
