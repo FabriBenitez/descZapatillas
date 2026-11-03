@@ -17,6 +17,7 @@ const PLATAFORMAS_POR_TIENDA: Record<string, PlataformaDetalleTalles> = {
   newbalance: "demandware",
   dionysos: "digitalsport",
   vans: "grimoldi",
+  puma: "puma",
 };
 
 interface OpcionesWorker {

@@ -60,7 +60,12 @@ export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
         new Set(
           productos.flatMap((producto) => producto.sizes ?? [producto.size ?? ""]),
         ),
-      ).filter(Boolean),
+      )
+        .filter(Boolean)
+        .filter((t) => {
+          const num = parseFloat(t);
+          return !isNaN(num) && num >= 15 && num <= 52;
+        }),
     ),
     generos: ordenarTexto(
       Array.from(new Set(productos.map((producto) => producto.gender).filter((val): val is string => !!val))),
@@ -210,11 +215,19 @@ export function filtrarProductos(
 
     // 5. Filtro por Talle
     if (filtros.talle) {
-      const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
-        .map((t) => String(t).trim().replace(",", "."));
-      const talleBuscado = String(filtros.talle).trim().replace(",", ".");
-      if (!tallesDisponibles.includes(talleBuscado)) {
-        return false;
+      const tieneTallesCargados = Boolean(producto.sizes?.length || producto.size);
+      if (!tieneTallesCargados) {
+        // Si no tiene talles extraídos en DB, pero el usuario incluye a confirmar, no lo descartamos
+        if (filtros.incluirTallesAConfirmar === false) {
+          return false;
+        }
+      } else {
+        const tallesDisponibles = (producto.sizes?.length ? producto.sizes : (producto.size ? [producto.size] : []))
+          .map((t) => String(t).trim().replace(",", "."));
+        const talleBuscado = String(filtros.talle).trim().replace(",", ".");
+        if (!tallesDisponibles.includes(talleBuscado)) {
+          return false;
+        }
       }
     }
 

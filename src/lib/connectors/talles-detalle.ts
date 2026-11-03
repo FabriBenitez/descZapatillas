@@ -8,7 +8,8 @@ export type PlataformaDetalleTalles =
   | "demandware"
   | "magento"
   | "digitalsport"
-  | "grimoldi";
+  | "grimoldi"
+  | "puma";
 
 function limpiarTexto(valor: string | undefined) {
   return (valor ?? "").replace(/\s+/g, " ").trim();
@@ -196,6 +197,26 @@ export function extraerTallesMagento(html: string) {
   return normalizarTalles(Array.from(talles));
 }
 
+export function extraerTallesPuma(html: string) {
+  const $ = cheerio.load(html);
+  const talles: string[] = [];
+
+  $("[data-ui-id='size-button'], .size-button, button[data-attr-value], [data-size-value], .product-size, select[name='size'] option").each((_, el) => {
+    const item = $(el);
+    if (item.hasClass("disabled") || item.attr("disabled") || item.attr("data-available") === "false") {
+      return;
+    }
+    const val = item.attr("data-attr-value") || item.attr("data-size-value") || item.text().trim();
+    if (!val || val.toLowerCase().includes("seleccionar") || val.toLowerCase().includes("guía")) return;
+    const match = val.match(/^(\d+(?:\.\d+)?)/);
+    if (match) {
+      talles.push(match[1]);
+    }
+  });
+
+  return normalizarTalles(talles);
+}
+
 export function extraerTallesDesdeDetalle(
   html: string,
   plataforma: PlataformaDetalleTalles,
@@ -210,6 +231,10 @@ export function extraerTallesDesdeDetalle(
 
   if (plataforma === "grimoldi") {
     return extraerTallesGrimoldi(html);
+  }
+
+  if (plataforma === "puma") {
+    return extraerTallesPuma(html);
   }
 
   return extraerTallesDigitalSport(html);

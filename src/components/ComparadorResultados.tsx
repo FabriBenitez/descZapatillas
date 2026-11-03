@@ -64,7 +64,7 @@ export function ComparadorResultados({
 
         // Si el estado guardado no tiene la versión actual, lo descartamos
         // (evita bugs por estructuras de filtros incompatibles entre versiones)
-        const VERSION_ACTUAL = "v3";
+        const VERSION_ACTUAL = "v4";
         if (parsed._version !== VERSION_ACTUAL) {
           sessionStorage.removeItem("comparadorState");
         } else {
@@ -91,7 +91,7 @@ export function ComparadorResultados({
   // Guardar estado cuando cambia algo
   useEffect(() => {
     const stateToSave = {
-      _version: "v3",
+      _version: "v4",
       terminoBusqueda,
       ordenSeleccionado,
       filtros,

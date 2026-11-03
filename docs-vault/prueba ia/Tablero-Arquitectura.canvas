@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"nodo-titulo","type":"text","x":-350,"y":-520,"width":760,"height":130,"color":"1","text":"# 👟 TABLERO DE ARQUITECTURA: PISANDO OFERTAS\n**Lienzo infinito (Canvas)** con Documentación, Mapa Mental, Diagrama de Clases, DER y Casos de Uso al mismo tiempo."},
+		{"id":"nodo-mindmap","type":"text","x":-950,"y":-320,"width":560,"height":460,"color":"4","text":"### 🧠 1. Mapa Mental del Proyecto\n```mermaid\nmindmap\n  root((Pisando Ofertas))\n    Frontend\n      Home Brutalista\n      Comparador\n      Mascota 2D\n    Scrapers\n      VTEX\n      Magento\n      Demandware\n      DigitalSport\n    Datos\n      productos-db.json\n      Firestore\n      Filtro esZapatilla\n```"},
+		{"id":"nodo-casos-uso","type":"text","x":-350,"y":-320,"width":760,"height":460,"color":"5","text":"### 👤 2. Diagrama de Casos de Uso (UML)\n```mermaid\nflowchart LR\n    Usuario([\"🧑 Usuario\"])\n    Cron([\"⏱️ Cron Sync\"])\n    subgraph Sistema [\"Pisando Ofertas\"]\n        UC1([\"Buscar zapatillas\"])\n        UC2([\"Filtrar por talle / marca / % OFF\"])\n        UC3([\"Ver Historial de Precios\"])\n        UC4([\"Ir a comprar a la tienda\"])\n        UC5([\"Scrapear y filtrar solo zapatillas\"])\n    end\n    Usuario --> UC1\n    Usuario --> UC2\n    Usuario --> UC3\n    Usuario --> UC4\n    Cron --> UC5\n```"},
+		{"id":"nodo-der","type":"text","x":-950,"y":200,"width":620,"height":580,"color":"6","text":"### 🗄️ 3. Diagrama Entidad-Relación (DER)\n```mermaid\nerDiagram\n    TIENDA ||--o{ PRODUCTO : publica\n    MARCA ||--o{ PRODUCTO : fabrica\n    PRODUCTO ||--o{ HISTORIAL_PRECIO : registra\n    PRODUCTO ||--o{ TALLE : tiene\n\n    PRODUCTO {\n        string id PK\n        string name\n        number price\n        number listPrice\n        number discount\n        boolean available\n    }\n    TIENDA {\n        string id PK\n        string storeName\n        string platform\n    }\n    HISTORIAL_PRECIO {\n        string date\n        number price\n    }\n```"},
+		{"id":"nodo-clases","type":"text","x":-270,"y":200,"width":680,"height":580,"color":"3","text":"### 🏛️ 4. Diagrama de Clases\n```mermaid\nclassDiagram\n    class Producto {\n        +String id\n        +String name\n        +Number price\n        +Number listPrice\n        +Number discount\n        +String[] sizes\n        +calcularAhorro() Number\n    }\n    class ConectorTienda {\n        <<interface>>\n        +obtenerProductos() Promise~Producto[]~\n    }\n    class ServicioComparador {\n        +filtrarProductos()\n        +ordenarProductos()\n        +esZapatilla() Boolean\n    }\n    ConectorTienda --> Producto : crea\n    ServicioComparador ..> Producto : filtra\n```"},
+		{"id":"nodo-nota-completa","type":"file","file":"Arquitectura-Pisando-Ofertas.md","x":470,"y":-320,"width":600,"height":1100,"color":"2"}
+	],
+	"edges":[
+		{"id":"edge-1","fromNode":"nodo-titulo","fromSide":"bottom","toNode":"nodo-mindmap","toSide":"top","label":"Visión General"},
+		{"id":"edge-2","fromNode":"nodo-titulo","fromSide":"bottom","toNode":"nodo-casos-uso","toSide":"top","label":"Funcionalidad"},
+		{"id":"edge-3","fromNode":"nodo-mindmap","fromSide":"bottom","toNode":"nodo-der","toSide":"top","label":"Modelo de Datos"},
+		{"id":"edge-4","fromNode":"nodo-casos-uso","fromSide":"bottom","toNode":"nodo-clases","toSide":"top","label":"Implementación"},
+		{"id":"edge-5","fromNode":"nodo-casos-uso","fromSide":"right","toNode":"nodo-nota-completa","toSide":"left","label":"Documentación Detallada"}
+	]
+}

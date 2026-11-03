@@ -167,9 +167,9 @@ export function ProductCard({
                 )}
               </div>
             ) : (
-              <p className="font-black text-[#111] text-[9px] sm:text-xs line-clamp-1 sm:line-clamp-2">
-                {producto.size ?? "Consultar"}
-              </p>
+              <span className="bg-[#FEF08A] text-[#111] border border-[#111] rounded-[2px] px-1 sm:px-1.5 py-0.5 text-[7px] sm:text-[8px] font-black leading-none inline-block truncate max-w-full">
+                {producto.size ?? "Ver en tienda"}
+              </span>
             )}
           </div>
         </div>

@@ -1271,10 +1271,6 @@ export async function obtenerTodasLasOfertasTiendasExternas({
     if (slugTienda && tienda.slug !== slugTienda) {
       return false;
     }
-    // Si la tienda tiene urlProductos fijo (ej. ofertas/calzado), solo se scrapea en "zapatillas"
-    if (tienda.urlProductos && query !== "zapatillas") {
-      return false;
-    }
     return true;
   });
 

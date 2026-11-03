@@ -133,13 +133,26 @@ function obtenerTallesDisponibles(items: VtexSku[] = []) {
       return;
     }
 
-    item.Talle?.forEach((talle) => {
-      const talleLimpio = limpiarTexto(talle);
+    const candidatos = [
+      ...(item.Talle ?? []),
+      ...((item as any).Talles ?? []),
+      ...((item as any).Size ?? []),
+      ...((item as any).Calzado ?? []),
+    ];
 
-      if (talleLimpio) {
-        talles.add(talleLimpio);
+    if (candidatos.length > 0) {
+      candidatos.forEach((talle) => {
+        const talleLimpio = limpiarTexto(String(talle));
+        if (talleLimpio) {
+          talles.add(talleLimpio);
+        }
+      });
+    } else if (item.name) {
+      const match = item.name.match(/\b(2\d|3\d|4\d(?:[.,]5)?)\b/);
+      if (match) {
+        talles.add(match[1].replace(",", "."));
       }
-    });
+    }
   });
 
   return Array.from(talles);

@@ -17,6 +17,11 @@ import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normaliza
 // En vez de buscar solo "zapatillas" y chocar con el límite de 2500 de la API,
 // hacemos fragmentación por marcas para traer el 100% del catálogo sin censura.
 const TODAS_LAS_BUSQUEDAS = [
+  // Generales primero para que los catálogos de ofertas (Solo Deportes, OpenSports, etc.) ingresen completos
+  { query: "zapatillas", paginas: 40 },
+  { query: "outlet", paginas: 25 },
+  { query: "botines", paginas: 20 },
+  // Fragmentación por marcas para traer el 100% del catálogo sin censura
   { query: "nike", paginas: 25 },
   { query: "adidas", paginas: 25 },
   { query: "puma", paginas: 25 },
@@ -30,10 +35,6 @@ const TODAS_LAS_BUSQUEDAS = [
   { query: "new balance", paginas: 15 },
   { query: "salomon", paginas: 15 },
   { query: "jordan", paginas: 15 },
-  // Fallbacks genéricos para marcas menores y catálogos globales
-  { query: "zapatillas", paginas: 35 },
-  { query: "outlet", paginas: 20 },
-  { query: "botines", paginas: 20 },
 ];
 
 const PALABRAS_PROHIBIDAS_INDUMENTARIA = [

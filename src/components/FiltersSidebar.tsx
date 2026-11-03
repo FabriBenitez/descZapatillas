@@ -221,15 +221,50 @@ export function FiltersSidebar({
               />
             </label>
           </div>
-          <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest mt-4">
-            <span>Descuento mínimo (%)</span>
+          <div className="grid gap-2 mt-4">
+            <span className="text-[10px] font-black text-black/50 uppercase tracking-widest">
+              Rebaja destacada
+            </span>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "🔥 +50% OFF", valor: "50" },
+                { label: "⚡ +40% OFF", valor: "40" },
+                { label: "✨ +30% OFF", valor: "30" },
+                { label: "💥 +20% OFF", valor: "20" },
+              ].map((pill) => {
+                const activo = filtros.descuentoMinimo === pill.valor;
+                return (
+                  <button
+                    key={pill.valor}
+                    type="button"
+                    onClick={() =>
+                      alCambiarFiltro(
+                        "descuentoMinimo",
+                        activo ? "" : pill.valor,
+                      )
+                    }
+                    className={`py-2 px-2.5 text-center text-[11px] font-black uppercase tracking-wider rounded-[4px] border-2 transition-all duration-200 shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:shadow-[0px_0px_0px_#111] ${
+                      activo
+                        ? "bg-[#FF4500] text-white border-[#111] shadow-[2px_2px_0px_#111]"
+                        : "bg-white text-[#111] border-[#111] hover:bg-[#111] hover:text-white"
+                    }`}
+                  >
+                    {pill.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <label className="grid gap-2 text-[10px] font-black text-black/50 uppercase tracking-widest mt-3">
+            <span>Descuento personalizado (%)</span>
             <input
               type="number"
               value={filtros.descuentoMinimo}
               onChange={(evento) =>
                 alCambiarFiltro("descuentoMinimo", evento.target.value)
               }
-              placeholder="Ej. 20%"
+              placeholder="Ej. 25%"
               className={`w-full text-xs font-black text-[#111] border-2 border-[#111] px-3 py-2 rounded-[4px] shadow-[2px_2px_0px_#111] focus:outline-none focus:ring-0 focus:border-[#FF4500] focus:shadow-[2px_2px_0px_#FF4500] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#111] focus:-translate-y-0.5 focus:-translate-x-0.5 transition-all ${
                 filtros.descuentoMinimo ? "bg-[#bbf7d0] border-[#10b981] shadow-[2px_2px_0px_#10b981]" : "bg-white"
               }`}
@@ -246,6 +281,24 @@ export function FiltersSidebar({
             placeholder="Todos los talles"
             alCambiarFiltro={alCambiarFiltro}
           />
+          {filtros.talle && (
+            <label className="flex items-start gap-2 bg-[#fef08a] border-2 border-[#111] p-2.5 rounded-[4px] shadow-[2px_2px_0px_#111] cursor-pointer text-left">
+              <input
+                type="checkbox"
+                checked={filtros.incluirTallesAConfirmar !== false}
+                onChange={(e) =>
+                  alCambiarFiltro("incluirTallesAConfirmar", e.target.checked)
+                }
+                className="mt-0.5 h-4 w-4 rounded border-2 border-[#111] text-[#FF4500] focus:ring-0 cursor-pointer"
+              />
+              <span className="text-[10px] font-black text-[#111] leading-tight">
+                Incluir ofertas con talle a verificar en tienda
+                <span className="block font-semibold text-black/70 text-[9px] mt-0.5">
+                  (+7.000 ofertas de Solo Deportes y Dexter)
+                </span>
+              </span>
+            </label>
+          )}
           <GrupoSelect
             id="genero"
             etiqueta="Género"
@@ -260,7 +313,7 @@ export function FiltersSidebar({
   );
 
   const hayFiltrosActivos = Object.entries(filtros).some(
-    ([key, value]) => key !== "soloStock" && value !== "" && value !== false
+    ([key, value]) => key !== "soloStock" && key !== "incluirTallesAConfirmar" && value !== "" && value !== false
   );
 
   return (
