@@ -190,7 +190,7 @@ export const tiendasExternas: ConfiguracionTienda[] = [
     nombre: "Reebok",
     baseUrl: "https://reebok.com.ar",
     plataforma: "shopify",
-    urlProductos: "https://reebok.com.ar/collections/sale-calzado/products.json",
+    urlProductos: "https://reebok.com.ar/collections/calzado/products.json",
     paginasTotales: 5,
   },
   {

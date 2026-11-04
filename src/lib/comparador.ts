@@ -1,5 +1,5 @@
 import { filtrosIniciales, type FiltrosProductos, type OrdenProductos, type Producto } from "@/types/producto";
-import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarCategoria, normalizarTexto, obtenerEquivalenciasTalle } from "@/lib/formato";
+import { calcularMejorPrecioHistorico, inferirSubcategoria, normalizarCategoria, normalizarMarca, normalizarTexto, obtenerEquivalenciasTalle } from "@/lib/formato";
 
 export interface OpcionesFiltros {
   marcas: string[];
@@ -44,7 +44,13 @@ function ordenarTalles(valores: string[]) {
 export function obtenerOpcionesFiltros(productos: Producto[]): OpcionesFiltros {
   return {
     marcas: ordenarTexto(
-      Array.from(new Set(productos.map((producto) => producto.brand).filter((val): val is string => !!val))),
+      Array.from(
+        new Set(
+          productos
+            .map((producto) => normalizarMarca(producto.brand || "", producto.name))
+            .filter((val): val is string => !!val && val !== "Sin Marca"),
+        ),
+      ),
     ),
     tiendas: ordenarTexto(
       Array.from(
@@ -188,8 +194,14 @@ export function filtrarProductos(
     // 2. Filtro de Marca
     if (filtros.marca) {
       const marcaFiltroNorm = normalizarTexto(filtros.marca);
-      const marcaProdNorm = normalizarTexto(producto.brand || "");
-      if (marcaProdNorm !== marcaFiltroNorm) {
+      const marcaCanonProd = normalizarTexto(normalizarMarca(producto.brand || "", producto.name));
+      const marcaRawProd = normalizarTexto(producto.brand || "");
+      const coincideMarca = marcaCanonProd === marcaFiltroNorm || marcaRawProd === marcaFiltroNorm || marcaCanonProd.startsWith(marcaFiltroNorm) || marcaRawProd.startsWith(marcaFiltroNorm);
+      if (!coincideMarca) {
+        return false;
+      }
+      // brand check done
+      if (false) {
         return false;
       }
     }
@@ -247,7 +259,7 @@ export function filtrarProductos(
     if (filtros.categoria) {
       const catFiltro = normalizarTexto(filtros.categoria);
       const catGuardada = producto.category;
-      const catEfectiva = catGuardada ?? normalizarCategoria(producto.name) ?? "";
+      const catEfectiva = catGuardada ?? normalizarCategoria(producto.category, producto.name) ?? "";
       const catProd = normalizarTexto(catEfectiva);
       if (!catProd.includes(catFiltro)) return false;
     }

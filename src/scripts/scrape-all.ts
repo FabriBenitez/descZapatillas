@@ -19,6 +19,8 @@ import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normaliza
 const TODAS_LAS_BUSQUEDAS = [
   // Generales primero para que los catálogos de ofertas (Solo Deportes, OpenSports, etc.) ingresen completos
   { query: "zapatillas", paginas: 40 },
+  { query: "calzado", paginas: 35 },
+  { query: "sale", paginas: 30 },
   { query: "outlet", paginas: 25 },
   { query: "botines", paginas: 20 },
   // Fragmentación por marcas para traer el 100% del catálogo sin censura
@@ -35,6 +37,11 @@ const TODAS_LAS_BUSQUEDAS = [
   { query: "new balance", paginas: 15 },
   { query: "salomon", paginas: 15 },
   { query: "jordan", paginas: 15 },
+  { query: "olympikus", paginas: 15 },
+  { query: "umbro", paginas: 15 },
+  { query: "hoka", paginas: 10 },
+  { query: "lotto", paginas: 10 },
+  { query: "kappa", paginas: 10 },
 ];
 
 const PALABRAS_PROHIBIDAS_INDUMENTARIA = [

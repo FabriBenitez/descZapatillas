@@ -19,6 +19,25 @@ function absolutizarUrl(url: string) {
   return url;
 }
 
+const US_A_AR_MAP: Record<string, string> = {
+  "4": "35", "4.5": "35.5", "5": "36", "5.5": "36.5",
+  "6": "37", "6.5": "37.5", "7": "39", "7.5": "39.5",
+  "8": "40", "8.5": "40.5", "9": "41", "9.5": "41.5",
+  "10": "42", "10.5": "42.5", "11": "43", "11.5": "43.5",
+  "12": "44", "12.5": "44.5", "13": "45", "13.5": "45.5",
+  "14": "46", "15": "47", "16": "48"
+};
+
+export function convertirUsAAr(usValor: string): string | null {
+  const limpio = usValor.trim().replace(",", ".");
+  if (US_A_AR_MAP[limpio]) return US_A_AR_MAP[limpio];
+  const num = parseFloat(limpio);
+  if (!isNaN(num) && num >= 4 && num <= 16) {
+    return String(Math.round(num + 32));
+  }
+  return null;
+}
+
 export function esTalleValido(valor: string): boolean {
   const v = valor.trim().replace(",", ".");
   const num = parseFloat(v);
@@ -32,6 +51,11 @@ function normalizarTalles(talles: string[]) {
         .map((talle) => {
           let t = limpiarTexto(talle.replace(",", "."));
           if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
+          const num = parseFloat(t);
+          if (!isNaN(num) && num >= 4 && num <= 16) {
+            const ar = convertirUsAAr(t);
+            if (ar) return ar;
+          }
           return t;
         })
         .filter((t) => esTalleValido(t)),
@@ -96,13 +120,18 @@ export function extraerTallesDemandware(html: string) {
       // Si es formato New Balance unisex tipo "M4 / W5.5" o "M10 / W11.5"
       const matchM = rawText.match(/M\s*(\d+(?:\.\d+)?)/i);
       if (matchM) {
-        talles.push(matchM[1]);
-        const matchW = rawText.match(/W\s*(\d+(?:\.\d+)?)/i);
-        if (matchW) talles.push(matchW[1]);
+        const ar = convertirUsAAr(matchM[1]);
+        if (ar) talles.push(ar);
       } else {
         const matchNum = rawText.match(/^(\d+(?:\.\d+)?)/);
-        if (matchNum && esTalleValido(matchNum[1])) {
-          talles.push(matchNum[1]);
+        if (matchNum) {
+          const num = parseFloat(matchNum[1]);
+          if (num >= 4 && num <= 16) {
+            const ar = convertirUsAAr(matchNum[1]);
+            if (ar) talles.push(ar);
+          } else if (esTalleValido(matchNum[1])) {
+            talles.push(matchNum[1]);
+          }
         }
       }
     });

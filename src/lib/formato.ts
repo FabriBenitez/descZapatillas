@@ -100,22 +100,39 @@ export function normalizarMarca(marca: string, nombreProducto?: string) {
   // Agrupar sub-marcas de Fila (ej: Fila Heritage)
   if (m.startsWith("fila")) return "Fila";
 
+  // Agrupar Asics y sub-marcas
+  if (m.startsWith("asics") || m === "asic" || m === "asicstiger") return "Asics";
+
+  // Agrupar Saucony y sub-marcas
+  if (m.startsWith("saucony")) return "Saucony";
+
+  // Agrupar On y On Running
+  if (m === "on running" || m === "on") return "On";
+
+  // Agrupar Penalty
+  if (m.startsWith("penalt")) return "Penalty";
+
+  // Agrupar Atomik
+  if (m.startsWith("atom")) return "Atomik";
+
+  // Agrupar New Balance
+  if (m.startsWith("new balance") || m === "new") return "New Balance";
+
+  // Agrupar Under Armour
+  if (m.startsWith("under armour") || m === "under") return "Under Armour";
+
+  // Agrupar Le Coq Sportif
+  if (m.startsWith("le coq") || m === "le") return "Le Coq Sportif";
+
   // Excepciones específicas de capitalización
   if (m === "and1") return "AND1";
-  if (m === "asics") return "Asics";
   if (m === "addnice" || m === "add nice") return "Addnice";
   if (m === "47 street") return "47 Street";
-  if (m === "fila") return "Fila";
-  if (m === "nike") return "Nike";
-  if (m === "under armour" || m === "underarmour") return "Under Armour";
-  if (m === "new balance" || m === "newbalance") return "New Balance";
   if (m === "converse") return "Converse";
   if (m === "vans") return "Vans";
-  if (m === "reebok") return "Reebok";
   if (m === "topper") return "Topper";
   if (m === "salomon") return "Salomon";
-  if (m === "le coq sportif" || m === "le coq") return "Le Coq Sportif";
-  if (m === "dc shoes") return "DC Shoes";
+  if (m === "dc shoes" || m === "dc") return "DC Shoes";
 
   return capitalizarTexto(m);
 }
@@ -319,44 +336,12 @@ export function esCalzadoPermitido(nombre: string, categoria?: string | null): b
 export const esZapatilla = esCalzadoPermitido;
 
 /**
- * Tabla de equivalencias de calzado para Argentina (AR) vs Europa (EUR) vs Estados Unidos (US).
- * La mayoría de las tiendas argentinas etiquetan en AR, pero tiendas directas como Nike, Adidas,
- * Puma o tiendas multimarca usan a veces EUR o US en sus SKUs.
- * AR = EUR - 1 aproximadamente (ej: 40 AR = 41 EUR).
+ * Obtiene las variantes de formato de un talle (ej. "40", "40.0", "40,0")
+ * Garantiza coincidencia 100% estricta sobre el talle real solicitado,
+ * evitando mezclar talles diferentes (ej. talle 40 nunca debe coincidir con talle 41).
  */
-const EQUIVALENCIAS_TALLES_AR: Record<string, string[]> = {
-  "34": ["34", "35", "3.5", "4"],
-  "34.5": ["34.5", "35.5", "4", "4.5"],
-  "35": ["35", "36", "4.5", "5"],
-  "35.5": ["35.5", "36.5", "5", "5.5"],
-  "36": ["36", "37", "5.5", "6"],
-  "36.5": ["36.5", "37.5", "6", "6.5"],
-  "37": ["37", "38", "6.5", "7"],
-  "37.5": ["37.5", "38.5", "7", "7.5"],
-  "38": ["38", "39", "7.5", "8"],
-  "38.5": ["38.5", "39.5", "8", "8.5"],
-  "39": ["39", "40", "8", "8.5"],
-  "39.5": ["39.5", "40.5", "8.5", "9"],
-  "40": ["40", "41", "8.5", "9"],
-  "40.5": ["40.5", "41.5", "9", "9.5"],
-  "41": ["41", "42", "9.5", "10"],
-  "41.5": ["41.5", "42.5", "10", "10.5"],
-  "42": ["42", "43", "10", "10.5"],
-  "42.5": ["42.5", "43.5", "10.5", "11"],
-  "43": ["43", "44", "11", "11.5"],
-  "43.5": ["43.5", "44.5", "11.5", "12"],
-  "44": ["44", "45", "12", "12.5"],
-  "44.5": ["44.5", "45.5", "12.5", "13"],
-  "45": ["45", "46", "13"],
-  "45.5": ["45.5", "46.5", "13.5"],
-  "46": ["46", "47", "14"],
-};
-
 export function obtenerEquivalenciasTalle(talle: string): string[] {
   const tLimpio = talle.trim().replace(",", ".");
-  const equivalentes = EQUIVALENCIAS_TALLES_AR[tLimpio];
-  if (equivalentes) {
-    return equivalentes;
-  }
-  return [tLimpio];
+  const tSinCero = tLimpio.endsWith(".0") ? tLimpio.slice(0, -2) : tLimpio;
+  return Array.from(new Set([tLimpio, tSinCero, `${tSinCero}.0`, tLimpio.replace(".", ",")]));
 }
