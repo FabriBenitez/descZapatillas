@@ -4,9 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
-
-
-const categoriasRapidas = ["Ofertas", "Botines", "Nike", "Adidas"];
+const categoriasRapidas = ["Ofertas", "Botines", "Nike", "Adidas", "Puma", "New Balance"];
 
 interface HeaderProps {
   terminoBusqueda?: string;
@@ -52,6 +50,17 @@ export function Header({
     setMenuAbierto(false);
   }
 
+  function limpiarBusqueda() {
+    if (alCambiarBusqueda) {
+      alCambiarBusqueda("");
+    } else {
+      setTerminoLocal("");
+      if (typeof window !== "undefined" && window.location.pathname === "/comparador") {
+        window.dispatchEvent(new CustomEvent("nuevaBusqueda", { detail: "" }));
+      }
+    }
+  }
+
   function buscarCategoria(categoria: string) {
     if (alCambiarBusqueda && alEnviarBusqueda) {
       alCambiarBusqueda(categoria);
@@ -65,15 +74,15 @@ export function Header({
   }
 
   return (
-    <header className="encabezado sticky top-0 z-50 border-b-4 border-[#111] bg-[#f0f3f1] text-[#111] transition-all duration-300">
-      <div className="contenedor grid gap-4 py-4 lg:grid-cols-[auto_minmax(300px,1fr)_auto] lg:items-center">
-        <div className="flex items-center justify-between gap-4">
+    <header className="encabezado sticky top-0 z-50 border-b-3 sm:border-b-4 border-[#111] bg-[#f0f3f1] text-[#111] transition-all duration-300">
+      <div className="contenedor grid gap-2.5 py-2.5 sm:gap-4 sm:py-4 lg:grid-cols-[auto_minmax(300px,1fr)_auto] lg:items-center">
+        <div className="flex items-center justify-between gap-3">
           <Link
             href="/"
-            className="encabezado__marca flex items-center gap-3 group"
+            className="encabezado__marca flex items-center gap-2.5 sm:gap-3 group"
             onClick={() => setMenuAbierto(false)}
           >
-            <div className="relative h-14 w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6">
+            <div className="relative h-10 w-10 sm:h-14 sm:w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6 shrink-0">
               <img 
                 src="/img/mascota-default.png" 
                 alt="Logo Pisando Ofertas" 
@@ -81,10 +90,10 @@ export function Header({
               />
             </div>
             <span className="flex flex-col leading-none">
-              <span className="text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase">
+              <span className="text-base sm:text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase">
                 Pisando Ofertas
               </span>
-              <span className="mt-1 text-xs font-bold text-[#111]/60 tracking-widest uppercase font-cuerpo">
+              <span className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs font-bold text-[#111]/60 tracking-widest uppercase font-cuerpo">
                 Deals Tracker
               </span>
             </span>
@@ -92,12 +101,12 @@ export function Header({
 
           <button
             type="button"
-            className="lg:hidden p-2 text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] rounded bg-white hover:bg-[#FF4500] hover:text-white transition-colors"
+            className="lg:hidden p-1.5 sm:p-2 text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] rounded bg-white hover:bg-[#FF4500] hover:text-white transition-colors"
             onClick={() => setMenuAbierto(!menuAbierto)}
+            aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
           >
-            <span className="sr-only">Abrir menú</span>
             <svg
-              className="h-6 w-6"
+              className="h-5 w-5 sm:h-6 sm:w-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -115,10 +124,10 @@ export function Header({
             <label htmlFor="busqueda-header" className="sr-only">
               Buscar zapatillas
             </label>
-            <div className="flex w-full border-2 border-[#111] bg-white shadow-[4px_4px_0px_#111] focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-[2px_2px_0px_#111] transition-all duration-200">
-              <div className="flex items-center pl-4">
+            <div className="flex w-full border-2 border-[#111] bg-white shadow-[3px_3px_0px_#111] sm:shadow-[4px_4px_0px_#111] focus-within:translate-x-[2px] focus-within:translate-y-[2px] focus-within:shadow-[2px_2px_0px_#111] transition-all duration-200 rounded-[4px] overflow-hidden">
+              <div className="flex items-center pl-3 sm:pl-4">
                 <svg
-                  className="h-5 w-5 text-[#111]"
+                  className="h-4 w-4 sm:h-5 sm:w-5 text-[#111]"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -143,12 +152,22 @@ export function Header({
                     setTerminoLocal(evento.target.value);
                   }
                 }}
-                placeholder="BUSCAR MARCAS, MODELOS..."
-                className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-bold uppercase text-[#111] outline-none placeholder:text-[#111]/40"
+                placeholder="BUSCAR MARCA, MODELO..."
+                className="w-full bg-transparent py-2 sm:py-3 pl-2.5 sm:pl-3 pr-2 text-xs sm:text-sm font-bold uppercase text-[#111] outline-none placeholder:text-[#111]/40"
               />
+              {valorBusqueda && (
+                <button
+                  type="button"
+                  onClick={limpiarBusqueda}
+                  aria-label="Limpiar búsqueda"
+                  className="px-2 text-xs font-black text-black/50 hover:text-[#111]"
+                >
+                  ✕
+                </button>
+              )}
               <button
                 type="submit"
-                className="border-l-2 border-[#111] bg-[#111] px-6 text-sm font-black uppercase text-white transition-colors duration-200 hover:bg-[#FF4500] hover:text-[#111]"
+                className="border-l-2 border-[#111] bg-[#111] px-4 sm:px-6 text-xs sm:text-sm font-black uppercase text-white transition-colors duration-200 hover:bg-[#FF4500] hover:text-[#111]"
               >
                 Buscar
               </button>
@@ -168,15 +187,15 @@ export function Header({
 
       {/* Menú Mobile */}
       {menuAbierto && (
-        <div className="lg:hidden border-t-4 border-[#111] bg-white px-4 py-4 space-y-4 shadow-inner">
+        <div className="lg:hidden border-t-3 border-[#111] bg-white px-4 py-4 space-y-4 shadow-inner">
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-black uppercase tracking-widest text-black/50">Búsquedas rápidas</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-black/50">Búsquedas rápidas</span>
             <div className="flex flex-wrap gap-2">
               {categoriasRapidas.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => buscarCategoria(cat)}
-                  className="border-2 border-[#111] bg-[#f0f3f1] px-3 py-1.5 text-xs font-black uppercase text-[#111] shadow-[2px_2px_0px_#111] hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_#111]"
+                  className="border-2 border-[#111] bg-[#f0f3f1] px-3 py-1.5 text-xs font-black uppercase text-[#111] shadow-[2px_2px_0px_#111] active:translate-y-0.5"
                 >
                   {cat}
                 </button>
@@ -186,9 +205,9 @@ export function Header({
           <Link
             href="/comparador"
             onClick={() => setMenuAbierto(false)}
-            className="flex h-12 w-full items-center justify-center border-2 border-[#111] bg-[#10b981] px-6 text-sm font-black uppercase tracking-widest text-[#111] shadow-[4px_4px_0px_#111]"
+            className="flex h-11 w-full items-center justify-center border-2 border-[#111] bg-[#10b981] px-6 text-xs font-black uppercase tracking-widest text-[#111] shadow-[3px_3px_0px_#111]"
           >
-            Ver ofertas
+            Ver todas las ofertas
           </Link>
         </div>
       )}
