@@ -247,7 +247,7 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
     if (Array.isArray(productosDb) && productosDb.length > 0) {
       const productosNormalizados = productosDb.map((p: Producto) => ({
         ...p,
-        // Eliminamos las normalizaciones en runtime para mejorar la performance
+        available: (Array.isArray(p.sizes) && p.sizes.length > 0) || p.available,
         // ya que los datos ahora se guardan limpios en el cron job
       }));
       return ordenarPorActualizacion(productosNormalizados);

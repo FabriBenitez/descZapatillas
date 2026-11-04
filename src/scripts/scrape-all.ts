@@ -331,7 +331,7 @@ async function runScrape() {
         );
         existing.priceHistory = historial;
         existing.updatedAt = fechaActualizacion;
-        existing.available = fresh.available;
+        existing.available = (Array.isArray(existing.sizes) && existing.sizes.length > 0) || fresh.available;
 
         if (fresh.sizes && fresh.sizes.length > 0) {
           existing.sizes = fresh.sizes;
@@ -347,7 +347,7 @@ async function runScrape() {
         disponibleCambio ||
         fresh.sizes?.length !== existing.sizes?.length
       ) {
-        existing.available = fresh.available;
+        existing.available = (Array.isArray(existing.sizes) && existing.sizes.length > 0) || fresh.available;
         existing.updatedAt = fechaActualizacion;
         existing.imageUrl = fresh.imageUrl;
         if (fresh.sizes && fresh.sizes.length > 0) {

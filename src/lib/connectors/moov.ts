@@ -182,7 +182,7 @@ export function parsearProductosMoov(html: string): Producto[] {
       calcularDescuento(precio, precioLista);
     const marca = limpiarTexto(gtm?.item_brand) || nombre.split(" ")[1] || "";
     const categoria = limpiarTexto(gtm?.item_list_name) || "Zapatillas";
-    const disponible = producto.find(".stock-info").length > 0;
+    const disponible = producto.find(".out-of-stock, .is-out-of-stock, .sin-stock").length === 0;
 
     if (!precio || !imagen || !enlace || !esZapatilla(nombre, categoria)) {
       return;

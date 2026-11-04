@@ -276,7 +276,7 @@ export function filtrarProductos(
       return false;
     }
 
-    if (filtros.soloStock && !producto.available) {
+    if (filtros.soloStock && !producto.available && (!Array.isArray(producto.sizes) || producto.sizes.length === 0)) {
       return false;
     }
 
