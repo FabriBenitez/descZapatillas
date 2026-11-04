@@ -74,23 +74,47 @@ export function ComparadorResultados({
   const [filtros, setFiltros] = useState<FiltrosProductos>(filtrosIniciales);
   const [estaActualizando, setEstaActualizando] = useState(false);
 
-  // Restaurar estado al volver a la pagina (usamos sessionStorage para que dure mientras la pestaña esté abierta)
+  // Restaurar estado o aplicar parámetros directos desde la URL (?talle=41, ?marca=Nike, ?categoria=Botines, ?descuento=50)
   useEffect(() => {
-    const savedState = sessionStorage.getItem("comparadorState");
-    if (savedState) {
-      try {
-        const parsed = JSON.parse(savedState);
-        const VERSION_ACTUAL = "v8";
-        if (parsed._version !== VERSION_ACTUAL) {
+    const params = new URLSearchParams(window.location.search);
+    const urlTalle = params.get("talle");
+    const urlMarca = params.get("marca");
+    const urlCategoria = params.get("categoria");
+    const urlDescuento = params.get("descuento");
+    const urlTienda = params.get("tienda");
+    const urlGenero = params.get("genero");
+
+    const tieneFiltrosUrl = Boolean(
+      urlTalle || urlMarca || urlCategoria || urlDescuento || urlTienda || urlGenero,
+    );
+
+    if (tieneFiltrosUrl) {
+      setFiltros({
+        ...filtrosIniciales,
+        talle: urlTalle ?? "",
+        marca: urlMarca ?? "",
+        categoria: urlCategoria ?? "",
+        descuentoMinimo: urlDescuento ?? "",
+        tienda: urlTienda ?? "",
+        genero: urlGenero ?? "",
+      });
+    } else {
+      const savedState = sessionStorage.getItem("comparadorState");
+      if (savedState) {
+        try {
+          const parsed = JSON.parse(savedState);
+          const VERSION_ACTUAL = "v8";
+          if (parsed._version !== VERSION_ACTUAL) {
+            sessionStorage.removeItem("comparadorState");
+          } else {
+            if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
+            if (parsed.filtros) setFiltros({ ...filtrosIniciales, ...parsed.filtros });
+            if (parsed.vistaResultados) setVistaResultados(parsed.vistaResultados);
+          }
+        } catch (e) {
+          console.error("Error restaurando estado", e);
           sessionStorage.removeItem("comparadorState");
-        } else {
-          if (parsed.ordenSeleccionado) setOrdenSeleccionado(parsed.ordenSeleccionado);
-          if (parsed.filtros) setFiltros({ ...filtrosIniciales, ...parsed.filtros });
-          if (parsed.vistaResultados) setVistaResultados(parsed.vistaResultados);
         }
-      } catch (e) {
-        console.error("Error restaurando estado", e);
-        sessionStorage.removeItem("comparadorState");
       }
     }
 
