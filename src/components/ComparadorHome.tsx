@@ -18,8 +18,6 @@ interface ComparadorHomeProps {
   cantidadTiendas: number;
 }
 
-const TALLES_RAPIDOS = ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
-
 const ATAJOS_RAPIDOS = [
   { label: "🔥 +50% OFF", param: "descuento", val: "50", bg: "bg-[#FF4500] text-white" },
   { label: "⚡ +40% OFF", param: "descuento", val: "40", bg: "bg-[#fbbf24] text-[#111]" },
@@ -82,6 +80,7 @@ export function ComparadorHome({
           terminoBusqueda={terminoBusqueda}
           alCambiarBusqueda={setTerminoBusqueda}
           alEnviarBusqueda={irAPaginaComparador}
+          irConFiltroDirecto={irConFiltroDirecto}
           cantidadProductos={cantidadProductos}
           cantidadMarcas={cantidadMarcas}
           cantidadTiendas={cantidadTiendas}
@@ -89,51 +88,25 @@ export function ComparadorHome({
         />
         <Marquee text="ÚLTIMAS OFERTAS DETECTADAS EN TIEMPO REAL" />
 
-        {/* Accesos directos por Talle y Categoría/Marca */}
-        <section className="pt-5 sm:pt-8">
-          <div className="contenedor space-y-3 sm:space-y-4">
-            <div className="border-2 border-[#111] bg-white p-3.5 sm:p-5 rounded-[8px] shadow-[4px_4px_0px_#111]">
-              <div className="flex items-center justify-between gap-2 mb-2.5">
-                <h2 className="text-xs sm:text-sm font-black uppercase tracking-widest text-[#111] flex items-center gap-1.5">
-                  <span>👟 Filtrá directo por tu talle (AR)</span>
-                </h2>
-                <Link
-                  href="/comparador"
-                  className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#FF4500] hover:underline shrink-0"
+        {/* Riel de filtros rápidos por Descuento / Categoría / Marca */}
+        <section className="pt-3.5 sm:pt-6">
+          <div className="contenedor">
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {ATAJOS_RAPIDOS.map((atajo) => (
+                <button
+                  key={`${atajo.param}-${atajo.val}`}
+                  type="button"
+                  onClick={() => irConFiltroDirecto(atajo.param, atajo.val)}
+                  className={`shrink-0 px-3 py-1.5 rounded-full border-2 border-[#111] text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#111] active:translate-y-0.5 transition-all cursor-pointer ${atajo.bg}`}
                 >
-                  Ver todos →
-                </Link>
-              </div>
-              <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5 sm:gap-2">
-                {TALLES_RAPIDOS.map((talle) => (
-                  <button
-                    key={talle}
-                    type="button"
-                    onClick={() => irConFiltroDirecto("talle", talle)}
-                    className="min-h-9 sm:min-h-10 rounded-[4px] border-2 border-[#111] bg-[#f5f7f6] hover:bg-[#FF4500] hover:text-white text-xs sm:text-sm font-black text-[#111] shadow-[2px_2px_0px_#111] active:translate-y-0.5 transition-all cursor-pointer"
-                  >
-                    {talle}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-3 pt-3 border-t-2 border-[#111]/10 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {ATAJOS_RAPIDOS.map((atajo) => (
-                  <button
-                    key={`${atajo.param}-${atajo.val}`}
-                    type="button"
-                    onClick={() => irConFiltroDirecto(atajo.param, atajo.val)}
-                    className={`shrink-0 px-3 py-1.5 rounded-full border-2 border-[#111] text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#111] active:translate-y-0.5 transition-all cursor-pointer ${atajo.bg}`}
-                  >
-                    {atajo.label}
-                  </button>
-                ))}
-              </div>
+                  {atajo.label}
+                </button>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="ofertas" className="pb-10 pt-5 sm:pb-12 sm:pt-8">
+        <section id="ofertas" className="pb-10 pt-4 sm:pb-12 sm:pt-6">
           <div className="contenedor space-y-6 sm:space-y-8">
             <ProductList
               titulo="Ofertas que conviene mirar primero"

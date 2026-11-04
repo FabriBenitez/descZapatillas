@@ -99,21 +99,29 @@ export function Header({
             </span>
           </Link>
 
-          <button
-            type="button"
-            className="lg:hidden p-1.5 sm:p-2 text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] rounded bg-white hover:bg-[#FF4500] hover:text-white transition-colors"
-            onClick={() => setMenuAbierto(!menuAbierto)}
-            aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
-          >
-            <svg
-              className="h-5 w-5 sm:h-6 sm:w-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              href="/comparador"
+              className="border-2 border-[#111] bg-[#10b981] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-[#111] shadow-[2px_2px_0px_#111] rounded active:translate-y-0.5"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d={menuAbierto ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-            </svg>
-          </button>
+              Ofertas →
+            </Link>
+            <button
+              type="button"
+              className="p-1.5 sm:p-2 text-[#111] border-2 border-[#111] shadow-[2px_2px_0px_#111] rounded bg-white hover:bg-[#FF4500] hover:text-white transition-colors"
+              onClick={() => setMenuAbierto(!menuAbierto)}
+              aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
+            >
+              <svg
+                className="h-5 w-5 sm:h-6 sm:w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d={menuAbierto ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {!ocultarBuscador && (
