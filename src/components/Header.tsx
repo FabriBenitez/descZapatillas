@@ -76,30 +76,30 @@ export function Header({
   return (
     <header className="encabezado sticky top-0 z-50 border-b-3 sm:border-b-4 border-[#111] bg-[#f0f3f1] text-[#111] transition-all duration-300">
       <div className="contenedor grid gap-2.5 py-2.5 sm:gap-4 sm:py-4 lg:grid-cols-[auto_minmax(300px,1fr)_auto] lg:items-center">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-2 min-w-0">
           <Link
             href="/"
-            className="encabezado__marca flex items-center gap-2.5 sm:gap-3 group"
+            className="encabezado__marca flex items-center gap-2 sm:gap-3 group min-w-0"
             onClick={() => setMenuAbierto(false)}
           >
-            <div className="relative h-10 w-10 sm:h-14 sm:w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6 shrink-0">
+            <div className="relative h-9 w-9 sm:h-14 sm:w-14 overflow-hidden rounded-md transition-all duration-300 hover:scale-110 hover:rotate-6 shrink-0">
               <img 
                 src="/img/mascota-default.png" 
                 alt="Logo Pisando Ofertas" 
                 className="h-full w-full object-contain"
               />
             </div>
-            <span className="flex flex-col leading-none">
-              <span className="text-base sm:text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase">
+            <span className="flex flex-col leading-none min-w-0">
+              <span className="text-sm sm:text-xl font-black tracking-tight font-titulos text-[#111] group-hover:text-[#FF4500] transition-colors uppercase truncate">
                 Pisando Ofertas
               </span>
-              <span className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs font-bold text-[#111]/60 tracking-widest uppercase font-cuerpo">
+              <span className="mt-0.5 sm:mt-1 text-[9px] sm:text-xs font-bold text-[#111]/60 tracking-widest uppercase font-cuerpo truncate">
                 Deals Tracker
               </span>
             </span>
           </Link>
 
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden shrink-0">
             <Link
               href="/comparador"
               className="border-2 border-[#111] bg-[#10b981] px-2.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-[#111] shadow-[2px_2px_0px_#111] rounded active:translate-y-0.5"

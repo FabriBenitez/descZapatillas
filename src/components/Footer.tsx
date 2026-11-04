@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="pie-pagina mt-8 sm:mt-14 border-t-3 border-[#111] bg-[#F7F5F0] py-8 sm:py-14 text-[#111]">
+    <footer className="pie-pagina mt-8 sm:mt-14 border-t-3 border-[#111] bg-[#F7F5F0] pt-8 pb-24 sm:py-14 text-[#111]">
       <div className="contenedor grid gap-6 sm:gap-10 lg:grid-cols-[minmax(0,1.5fr)_repeat(2,minmax(0,0.8fr))]">
         <div className="space-y-4 sm:space-y-5">
           <div className="flex items-center gap-3">

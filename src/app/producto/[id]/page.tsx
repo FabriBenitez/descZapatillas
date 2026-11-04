@@ -102,10 +102,10 @@ export default async function ProductoPage({ params, searchParams }: ProductoPag
   return (
     <>
       <Header />
-      <main className="flex-1 pb-10">
-        <section className="pt-8">
-          <div className="contenedor flex flex-col gap-8">
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+      <main className="flex-1 pb-6 sm:pb-10">
+        <section className="pt-4 sm:pt-8">
+          <div className="contenedor flex flex-col gap-5 sm:gap-8">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
               <Link href="/" className="chip">
                 Inicio
               </Link>
