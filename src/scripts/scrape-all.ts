@@ -6,16 +6,11 @@ import { obtenerTodasLasOfertasGrid } from "../lib/connectors/grid";
 import { obtenerTodasLasOfertasDexter } from "../lib/connectors/dexter";
 import { obtenerTodasLasOfertasTiendasExternas } from "../lib/connectors/tiendas-externas";
 import type { Producto } from "../types/producto";
-import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero, inferirSubcategoria } from "../lib/formato";
+import { normalizarMarca, normalizarTallesArray, normalizarTalleUnico, normalizarCategoria, normalizarColor, normalizarGenero, inferirSubcategoria, esCalzadoPermitido } from "../lib/formato";
 
 // =============================================
 // Configuración de búsquedas
 // =============================================
-// En vez de 44 queries por tienda (que traen duplicados),
-// usamos 3 queries directas con más páginas para mayor cobertura.
-// Cada tienda ya filtra por su sección de sale internamente.
-// En vez de buscar solo "zapatillas" y chocar con el límite de 2500 de la API,
-// hacemos fragmentación por marcas para traer el 100% del catálogo sin censura.
 const TODAS_LAS_BUSQUEDAS = [
   // Generales primero para que los catálogos de ofertas (Solo Deportes, OpenSports, etc.) ingresen completos
   { query: "zapatillas", paginas: 40 },
@@ -44,19 +39,6 @@ const TODAS_LAS_BUSQUEDAS = [
   { query: "kappa", paginas: 10 },
 ];
 
-const PALABRAS_PROHIBIDAS_INDUMENTARIA = [
-  "remera", "pantalon", "pantalón", "short", "campera", "medias", "calcetines",
-  "buzo", "calza", " top ", " top", "jogger", "musculosa", "gorra",
-  "mochila", "bolso", "riñonera", "cinta", "guantes", "pelota", "balón", "balon",
-  "canillera", "muñequera", "ojota", "sandalia", "gorro", "visera", "sombrero",
-  "lentes", "botella", "conjunto", "camis", "chomba", "sudadera",
-  "chaleco", "vestido", "falda", "pollera", "body", "traje", "bikini",
-  "malla", "sunga", "toalla", "vincha", "bolsa", "cuello",
-  "parlante", "auricular", "auriculares", "altavoz", "altavoces"
-];
-
-import { esCalzadoPermitido } from "../lib/formato";
-
 function esCalzado(producto: Producto): boolean {
   return esCalzadoPermitido(producto.name, producto.category);
 }
@@ -82,7 +64,7 @@ async function scrapeTiendaMultiQuery(
         query,
         // Evitamos el scraping síncrono PDP de talles en la ingesta masiva
         // para que el scraper no tarde 6 horas ni sea bloqueado por anti-bot.
-        // VTEX y Shopify ya incluyen talles automáticamente en su listado.
+        // VTEX, Shopify y Magento (con jsonConfig en card) ya incluyen talles en su listado.
         evitarTalles: true,
       });
 
@@ -222,7 +204,7 @@ async function runScrape() {
       const catNorm = normalizarCategoria(p.category, p.name);
       return {
         ...p,
-        brand: normalizarMarca(p.brand),
+        brand: normalizarMarca(p.brand, p.name),
         sizes: normalizarTallesArray(p.sizes || []),
         size: p.size ? normalizarTalleUnico(p.size) : undefined,
         category: catNorm,
@@ -239,37 +221,54 @@ async function runScrape() {
     return;
   }
 
-  // 2. Obtener base de datos actual
-  const firestore = obtenerFirestoreAdmin();
+  // 2. Obtener base de datos actual combinando JSON local + Firestore
+  // SIEMPRE leemos productos-db.json primero para jamás perder talles enriquecidos localmente
+  const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
   const productosExistentes = new Map<string, Producto>();
 
+  try {
+    const dbContent = await fs.readFile(dbPath, "utf-8");
+    const productosLocales = JSON.parse(dbContent) as Producto[];
+    if (Array.isArray(productosLocales)) {
+      productosLocales.forEach((prod) => {
+        productosExistentes.set(prod.id, prod);
+      });
+      console.log(`📂 Cargados ${productosLocales.length} productos desde productos-db.json local.`);
+    }
+  } catch {
+    console.log("No se encontró productos-db.json local previo.");
+  }
+
+  const firestore = obtenerFirestoreAdmin();
   if (firestore) {
-    console.log("🔌 Conectado a Firebase. Obteniendo productos existentes...");
+    console.log("🔌 Conectado a Firebase. Fusionando con productos existentes en Firestore...");
     try {
       const docs = await firestore.collection("products").get();
       docs.forEach((d) => {
-        productosExistentes.set(d.id, d.data() as Producto);
+        const fsProd = d.data() as Producto;
+        const localProd = productosExistentes.get(d.id);
+        if (!localProd) {
+          productosExistentes.set(d.id, fsProd);
+        } else {
+          // Conservar talles enriquecidos si cualquiera de las dos fuentes los tiene
+          const localTieneTalles = Array.isArray(localProd.sizes) && localProd.sizes.length > 0;
+          const fsTieneTalles = Array.isArray(fsProd.sizes) && fsProd.sizes.length > 0;
+          if (!localTieneTalles && fsTieneTalles) {
+            localProd.sizes = fsProd.sizes;
+            localProd.size = fsProd.size;
+            localProd.available = true;
+          }
+          productosExistentes.set(d.id, localProd);
+        }
       });
     } catch (error) {
       console.error("❌ Error leyendo Firebase:", error);
     }
   } else {
-    console.log("⚠️ No hay configuración de Firebase. Usando JSON local fallback.");
-    const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
-    try {
-      const dbContent = await fs.readFile(dbPath, "utf-8");
-      const productosLocales = JSON.parse(dbContent) as Producto[];
-      if (Array.isArray(productosLocales)) {
-        productosLocales.forEach((prod) => {
-          productosExistentes.set(prod.id, prod);
-        });
-      }
-    } catch (err) {
-      console.log("No se encontró base de datos previa o está corrupta. Empezando de cero.");
-    }
+    console.log("⚠️ No hay configuración de Firebase. Usando JSON local.");
   }
 
-  console.log(`📦 Base de datos actual: ${productosExistentes.size} productos`);
+  console.log(`📦 Base de datos actual combinada: ${productosExistentes.size} productos`);
 
   // 3. Emparejar y procesar actualizaciones
   let creados = 0;
@@ -302,7 +301,11 @@ async function runScrape() {
         operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(fresh));
       }
     } else {
-      // Producto existente
+      // Producto existente: conservar siempre los talles previos si el listado vino con evitarTalles (sizes vacío)
+      const tallesFrescos = Array.isArray(fresh.sizes) && fresh.sizes.length > 0 ? fresh.sizes : null;
+      const tallesPrevios = Array.isArray(existing.sizes) && existing.sizes.length > 0 ? existing.sizes : null;
+      const tallesFinales = tallesFrescos ?? tallesPrevios ?? [];
+
       const precioCambio = existing.price !== fresh.price;
       const disponibleCambio = existing.available !== fresh.available;
 
@@ -331,12 +334,9 @@ async function runScrape() {
         );
         existing.priceHistory = historial;
         existing.updatedAt = fechaActualizacion;
-        existing.available = (Array.isArray(existing.sizes) && existing.sizes.length > 0) || fresh.available;
-
-        if (fresh.sizes && fresh.sizes.length > 0) {
-          existing.sizes = fresh.sizes;
-          existing.size = fresh.size;
-        }
+        existing.sizes = tallesFinales;
+        existing.size = tallesFinales[0] ?? existing.size;
+        existing.available = tallesFinales.length > 0 ? true : fresh.available;
 
         actualizadosPrecio++;
         todosLosProductos.set(fresh.id, existing);
@@ -345,15 +345,13 @@ async function runScrape() {
         }
       } else if (
         disponibleCambio ||
-        fresh.sizes?.length !== existing.sizes?.length
+        (tallesFrescos && tallesFrescos.length !== (tallesPrevios?.length ?? 0))
       ) {
-        existing.available = (Array.isArray(existing.sizes) && existing.sizes.length > 0) || fresh.available;
+        existing.sizes = tallesFinales;
+        existing.size = tallesFinales[0] ?? existing.size;
+        existing.available = tallesFinales.length > 0 ? true : fresh.available;
         existing.updatedAt = fechaActualizacion;
         existing.imageUrl = fresh.imageUrl;
-        if (fresh.sizes && fresh.sizes.length > 0) {
-          existing.sizes = fresh.sizes;
-          existing.size = fresh.size;
-        }
 
         actualizadosMeta++;
         todosLosProductos.set(fresh.id, existing);
@@ -361,6 +359,9 @@ async function runScrape() {
           operacionesEscritura.push(() => firestore.collection("products").doc(fresh.id).set(existing));
         }
       } else {
+        existing.sizes = tallesFinales;
+        existing.size = tallesFinales[0] ?? existing.size;
+        existing.available = tallesFinales.length > 0 ? true : existing.available;
         existing.updatedAt = fechaActualizacion;
         existing.imageUrl = fresh.imageUrl;
         todosLosProductos.set(fresh.id, existing);
@@ -422,7 +423,6 @@ async function runScrape() {
   
   // SIEMPRE guardar en el JSON local para que el frontend pueda consumirlo sin gastar cuota de Firebase
   console.log(`💾 Guardando en productos-db.json localmente...`);
-  const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
   await fs.writeFile(
     dbPath,
     JSON.stringify(Array.from(todosLosProductos.values()), null, 2),
@@ -436,7 +436,7 @@ async function runScrape() {
   console.log(`💵 Actualizados (Precio): ${actualizadosPrecio}`);
   console.log(`🔄 Actualizados (Stock/Talles): ${actualizadosMeta}`);
   console.log(`🗑️  Eliminados (No es calzado): ${eliminadosNoCalzado}`);
-  console.log(`🗑️  Eliminados (Obsoletos >96h): ${eliminadosObsoletos}`);
+  console.log(`🗑️  Eliminados (Obsoletos >120h): ${eliminadosObsoletos}`);
   console.log(`👟 Total en Base de Datos: ${todosLosProductos.size}`);
   console.log("====================================");
 

@@ -6,7 +6,7 @@ import path from "node:path";
 import { obtenerFirestoreCliente } from "@/lib/firebase";
 import { obtenerProductosConectoresSinCache } from "@/lib/productos";
 import { esCalzadoPermitido } from "@/lib/formato";
-import type { Producto, RegistroPrecio } from "@/types/producto";
+import type { Producto } from "@/types/producto";
 
 export const maxDuration = 60; // Permite hasta 60 segundos de ejecución en Vercel (Hobby/Pro)
 
@@ -50,28 +50,40 @@ export async function GET(request: Request) {
       });
     }
 
-    // 2. Obtener productos actuales
+    // 2. Obtener productos actuales (siempre combinando JSON local + Firestore para nunca perder talles)
     const productosExistentes = new Map<string, Producto>();
+    try {
+      const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
+      const dbContent = await fs.readFile(dbPath, "utf-8");
+      const productosLocales = JSON.parse(dbContent) as Producto[];
+      if (Array.isArray(productosLocales)) {
+        productosLocales.forEach((prod) => {
+          productosExistentes.set(prod.id, prod);
+        });
+      }
+    } catch {
+      // Archivo no disponible en entorno serverless puro
+    }
 
     if (firestore) {
       const refColeccion = collection(firestore, "products");
       const querySnapshot = await getDocs(refColeccion);
       querySnapshot.forEach((docSnapshot) => {
-        productosExistentes.set(docSnapshot.id, docSnapshot.data() as Producto);
-      });
-    } else {
-      try {
-        const dbPath = path.join(process.cwd(), "src", "data", "productos-db.json");
-        const dbContent = await fs.readFile(dbPath, "utf-8");
-        const productosLocales = JSON.parse(dbContent) as Producto[];
-        if (Array.isArray(productosLocales)) {
-          productosLocales.forEach((prod) => {
-            productosExistentes.set(prod.id, prod);
-          });
+        const fsProd = docSnapshot.data() as Producto;
+        const localProd = productosExistentes.get(docSnapshot.id);
+        if (!localProd) {
+          productosExistentes.set(docSnapshot.id, fsProd);
+        } else {
+          const localTieneTalles = Array.isArray(localProd.sizes) && localProd.sizes.length > 0;
+          const fsTieneTalles = Array.isArray(fsProd.sizes) && fsProd.sizes.length > 0;
+          if (!localTieneTalles && fsTieneTalles) {
+            localProd.sizes = fsProd.sizes;
+            localProd.size = fsProd.size;
+            localProd.available = true;
+          }
+          productosExistentes.set(docSnapshot.id, localProd);
         }
-      } catch (err) {
-        // Archivo no existe o está corrupto, empezamos desde cero
-      }
+      });
     }
 
     // 3. Emparejar y procesar actualizaciones
@@ -107,14 +119,15 @@ export async function GET(request: Request) {
           );
         }
       } else {
-        // Producto existente, verificar si cambió el precio o disponibilidad
+        const tallesFrescos = Array.isArray(fresh.sizes) && fresh.sizes.length > 0 ? fresh.sizes : null;
+        const tallesPrevios = Array.isArray(existing.sizes) && existing.sizes.length > 0 ? existing.sizes : null;
+        const tallesFinales = tallesFrescos ?? tallesPrevios ?? [];
+
         const precioCambio = existing.price !== fresh.price;
         const disponibleCambio = existing.available !== fresh.available;
-        
         const historial = existing.priceHistory ?? [];
 
         if (precioCambio) {
-          // Agregar registro de cambio de precio al historial
           historial.push({
             fecha: fechaActualizacion,
             precio: fresh.price,
@@ -122,7 +135,6 @@ export async function GET(request: Request) {
             descuento: fresh.discount,
           });
 
-          // Limitar historial a los últimos 15 registros para evitar saturar el documento
           if (historial.length > 15) {
             historial.shift();
           }
@@ -137,13 +149,9 @@ export async function GET(request: Request) {
           );
           existing.priceHistory = historial;
           existing.updatedAt = fechaActualizacion;
-          existing.available = fresh.available;
-          
-          // Mantener o actualizar talles si vinieron talles nuevos
-          if (fresh.sizes && fresh.sizes.length > 0) {
-            existing.sizes = fresh.sizes;
-            existing.size = fresh.size;
-          }
+          existing.sizes = tallesFinales;
+          existing.size = tallesFinales[0] ?? existing.size;
+          existing.available = tallesFinales.length > 0 ? true : fresh.available;
 
           actualizadosPrecio++;
           todosLosProductos.set(fresh.id, existing);
@@ -152,14 +160,11 @@ export async function GET(request: Request) {
               setDoc(doc(firestore, "products", fresh.id), existing)
             );
           }
-        } else if (disponibleCambio || fresh.sizes?.length !== existing.sizes?.length) {
-          // Si solo cambió stock o metadatos menores
-          existing.available = fresh.available;
+        } else if (disponibleCambio || (tallesFrescos && tallesFrescos.length !== (tallesPrevios?.length ?? 0))) {
+          existing.sizes = tallesFinales;
+          existing.size = tallesFinales[0] ?? existing.size;
+          existing.available = tallesFinales.length > 0 ? true : fresh.available;
           existing.updatedAt = fechaActualizacion;
-          if (fresh.sizes && fresh.sizes.length > 0) {
-            existing.sizes = fresh.sizes;
-            existing.size = fresh.size;
-          }
 
           actualizadosMeta++;
           todosLosProductos.set(fresh.id, existing);
@@ -169,8 +174,9 @@ export async function GET(request: Request) {
             );
           }
         } else {
-          // Si no hubo cambios sustanciales, igualmente actualizamos la fecha de vigencia
-          // para evitar que los filtros de tiempo lo oculten.
+          existing.sizes = tallesFinales;
+          existing.size = tallesFinales[0] ?? existing.size;
+          existing.available = tallesFinales.length > 0 ? true : existing.available;
           existing.updatedAt = fechaActualizacion;
           todosLosProductos.set(fresh.id, existing);
           if (firestore) {
@@ -188,7 +194,6 @@ export async function GET(request: Request) {
     let eliminadosObsoletos = 0;
 
     const HORA_EN_MS = 60 * 60 * 1000;
-    // 120h (5 días): margen para no borrar productos por caídas momentáneas o paginación parcial
     const umbralObsoleto = Date.now() - (120 * HORA_EN_MS);
 
     const tiendasProcesadas = new Set(

@@ -85,7 +85,7 @@ export async function obtenerProductosConectoresSinCache() {
     if (!productosUnicos.has(p.id) && esCalzadoPermitido(p.name, p.category)) {
       productosUnicos.set(p.id, {
         ...p,
-        brand: normalizarMarca(p.brand),
+        brand: normalizarMarca(p.brand, p.name),
         sizes: normalizarTallesArray(p.sizes || []),
         size: p.size ? normalizarTalleUnico(p.size) : undefined,
         category: normalizarCategoria(p.category, p.name),
@@ -245,11 +245,12 @@ async function obtenerProductosLocales(): Promise<Producto[]> {
   try {
     const productosDb = productosDbRaw as unknown as Producto[];
     if (Array.isArray(productosDb) && productosDb.length > 0) {
-      const productosNormalizados = productosDb.map((p: Producto) => ({
-        ...p,
-        available: (Array.isArray(p.sizes) && p.sizes.length > 0) || p.available,
-        // ya que los datos ahora se guardan limpios en el cron job
-      }));
+      const productosNormalizados = productosDb
+        .filter((p: Producto) => Array.isArray(p.sizes) && p.sizes.length > 0)
+        .map((p: Producto) => ({
+          ...p,
+          available: true,
+        }));
       return ordenarPorActualizacion(productosNormalizados);
     }
   } catch (error) {
@@ -271,10 +272,22 @@ export async function obtenerProductos(): Promise<Producto[]> {
     }
   });
 
-  // Mezclar con la RAM caché volátil (productos frescos del cron o búsquedas en tiempo real)
-  // Estos tienen prioridad por estar más actualizados.
+  // Mezclar con la RAM caché volátil preservando siempre los talles existentes si la búsqueda rápida vino sin talles
   Array.from(cacheVolatilVercel.values()).forEach(p => {
-    if (esCalzadoPermitido(p.name, p.category)) {
+    if (!esCalzadoPermitido(p.name, p.category)) return;
+    const prev = mapaProductos.get(p.id);
+    if (prev) {
+      const nuevosTalles = Array.isArray(p.sizes) && p.sizes.length > 0 ? p.sizes : prev.sizes;
+      if (nuevosTalles && nuevosTalles.length > 0) {
+        mapaProductos.set(p.id, {
+          ...prev,
+          ...p,
+          sizes: nuevosTalles,
+          size: nuevosTalles[0] ?? prev.size,
+          available: true,
+        });
+      }
+    } else if (Array.isArray(p.sizes) && p.sizes.length > 0) {
       mapaProductos.set(p.id, p);
     }
   });
@@ -285,9 +298,6 @@ export async function obtenerProductos(): Promise<Producto[]> {
 
 export async function obtenerProductoPorId(id: string) {
   const productos = await obtenerProductos();
-  // Devolvemos el producto tal cual está en la DB, sin scraping externo en tiempo de render.
-  // Los talles se cargan en el cron job (/api/cron/sync) de forma asíncrona.
-  // Hacer scraping aquí causaba error 500 en Vercel cuando la tienda tardaba > 10s.
   return productos.find((item) => item.id === id) ?? null;
 }
 
@@ -315,7 +325,7 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
     .filter((p) => p.discount >= 1 && p.discount <= 100 && esCalzadoPermitido(p.name, p.category))
     .map(p => ({
       ...p,
-      brand: normalizarMarca(p.brand),
+      brand: normalizarMarca(p.brand, p.name),
       sizes: normalizarTallesArray(p.sizes || []),
       size: p.size ? normalizarTalleUnico(p.size) : undefined,
       category: normalizarCategoria(p.category, p.name),
@@ -325,8 +335,15 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
 
   console.log(`[Búsqueda Tiempo Real] Encontrados ${nuevosProductos.length} productos en ${Date.now() - inicio}ms`);
 
-  // 0. Guardar en RAM Caché (Plan C)
-  nuevosProductos.forEach(p => cacheVolatilVercel.set(p.id, p));
+  // 0. Guardar en RAM Caché (Plan C) preservando talles previos si existen
+  nuevosProductos.forEach(p => {
+    const prev = cacheVolatilVercel.get(p.id);
+    if (prev && (!p.sizes || p.sizes.length === 0) && prev.sizes && prev.sizes.length > 0) {
+      p.sizes = prev.sizes;
+      p.size = prev.size;
+    }
+    cacheVolatilVercel.set(p.id, p);
+  });
 
   if (nuevosProductos.length === 0) {
     return [];
@@ -339,8 +356,16 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
   if (firestore) {
     try {
       const promesas = nuevosProductos.map((prod) => {
-        prod.updatedAt = fecha;
-        return setDoc(doc(firestore, "products", prod.id), prod, { merge: true });
+        const payload: Record<string, unknown> = {
+          ...prod,
+          updatedAt: fecha,
+        };
+        // No sobreescribir sizes con array vacío en Firestore cuando se usa evitarTalles: true
+        if (!prod.sizes || prod.sizes.length === 0) {
+          delete payload.sizes;
+          delete payload.size;
+        }
+        return setDoc(doc(firestore, "products", prod.id), payload, { merge: true });
       });
       // Guardar en lotes paralelos
       await Promise.all(promesas);
@@ -368,14 +393,14 @@ export async function buscarProductosEnTiendasEnTiempoReal(query: string): Promi
           existing.listPrice = p.listPrice;
           existing.discount = p.discount;
           existing.updatedAt = fecha;
-          existing.available = p.available;
-          // Actualizar talles si vinieron
+          // Actualizar talles solo si vinieron talles no vacíos
           if (p.sizes && p.sizes.length > 0) {
             existing.sizes = p.sizes;
             existing.size = p.size;
+            existing.available = true;
           }
           mapaProductos.set(p.id, existing);
-        } else {
+        } else if (p.sizes && p.sizes.length > 0) {
           p.updatedAt = fecha;
           mapaProductos.set(p.id, p);
         }

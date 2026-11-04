@@ -48,6 +48,7 @@ function normalizarTalles(talles: string[]) {
   return Array.from(
     new Set(
       talles
+        .flatMap((talle) => String(talle).split(/[-–—/]/))
         .map((talle) => {
           let t = limpiarTexto(talle.replace(",", "."));
           if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
@@ -179,52 +180,76 @@ export function extraerTallesMagento(html: string) {
     });
   }
 
-  // 2. Parser de jsonConfig / spConfig de Magento (Trip Store, OpenSports, etc.)
-  const jsonConfigMatches =
-    html.match(/jsonConfig["']?\s*:\s*(\{[\s\S]*?\})\s*,\s*["']template/i) ||
-    html.match(/"Magento_Swatches\/js\/swatch-renderer"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i) ||
-    html.match(/"\[data-role=swatch-options\]"\s*:\s*\{[\s\S]*?"jsonConfig"\s*:\s*(\{[\s\S]*?\})\s*\}\s*\}/i);
-
-  if (jsonConfigMatches && jsonConfigMatches[1]) {
-    try {
-      const config = JSON.parse(jsonConfigMatches[1]);
-      const attributes = config.attributes || {};
-      for (const attrId in attributes) {
-        const attr = attributes[attrId];
-        const code = (attr.code || "").toLowerCase();
-        const label = (attr.label || "").toLowerCase();
-        if (code.includes("talle") || code.includes("size") || label.includes("talle") || label.includes("size")) {
-          const options = attr.options || [];
-          for (const opt of options) {
-            if (opt.label && Array.isArray(opt.products) && opt.products.length > 0) {
-              let val = String(opt.label).trim().replace(",", ".");
-              if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
-              talles.add(val);
-            }
+  // Helper para extraer desde un objeto jsonConfig de Magento (Trip Store, OpenSports, etc.)
+  const extraerDeJsonConfig = (config: Record<string, any>) => {
+    if (!config || typeof config !== "object") return;
+    const attributes = config.attributes || {};
+    for (const attrId in attributes) {
+      const attr = attributes[attrId];
+      const code = String(attr?.code || "").toLowerCase();
+      const label = String(attr?.label || "").toLowerCase();
+      if (code.includes("talle") || code.includes("size") || label.includes("talle") || label.includes("size")) {
+        const options = attr.options || [];
+        for (const opt of options) {
+          if (opt.label && Array.isArray(opt.products) && opt.products.length > 0) {
+            let val = String(opt.label).trim().replace(",", ".");
+            if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
+            talles.add(val);
           }
         }
       }
-    } catch {}
+    }
+  };
+
+  const buscarJsonConfigRecursivo = (obj: any) => {
+    if (!obj || typeof obj !== "object") return;
+    if (obj.jsonConfig && typeof obj.jsonConfig === "object") {
+      extraerDeJsonConfig(obj.jsonConfig);
+    }
+    if (obj.attributes && typeof obj.attributes === "object") {
+      extraerDeJsonConfig(obj);
+    }
+    for (const key of Object.keys(obj)) {
+      if (typeof obj[key] === "object") {
+        buscarJsonConfigRecursivo(obj[key]);
+      }
+    }
+  };
+
+  // 2. Parsear bloques <script> que contengan jsonConfig o talle (tanto en cards de listado como en PDP)
+  const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+  let scriptMatch;
+  while ((scriptMatch = scriptRegex.exec(html)) !== null) {
+    const content = scriptMatch[1].trim();
+    if (!content.includes("jsonConfig") && !content.includes("talle")) continue;
+    try {
+      const parsed = JSON.parse(content);
+      buscarJsonConfigRecursivo(parsed);
+    } catch {
+      // Continuar con fallback si el bloque script no es JSON puro
+    }
   }
 
-  // 3. Parser de opciones de atributos con stock (products: [...])
-  const regexOptions = /"options"\s*:\s*(\[\s*\{[\s\S]*?\}\s*\])/g;
-  let match;
-  while ((match = regexOptions.exec(html)) !== null) {
-    try {
-      const opts = JSON.parse(match[1]);
-      if (Array.isArray(opts)) {
-        opts.forEach((o: any) => {
-          if (o.label && Array.isArray(o.products) && o.products.length > 0) {
-            let val = String(o.label).trim().replace(",", ".");
-            if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
-            if (/^\d+(\.\d+)?$/.test(val)) {
-              talles.add(val);
+  // 3. Fallback parser de opciones de atributos con stock (products: [...])
+  if (talles.size === 0) {
+    const regexOptions = /"options"\s*:\s*(\[\s*\{[\s\S]*?\}\s*\])/g;
+    let match;
+    while ((match = regexOptions.exec(html)) !== null) {
+      try {
+        const opts = JSON.parse(match[1]);
+        if (Array.isArray(opts)) {
+          opts.forEach((o: any) => {
+            if (o.label && Array.isArray(o.products) && o.products.length > 0) {
+              let val = String(o.label).trim().replace(",", ".");
+              if (val.endsWith(".0")) val = val.substring(0, val.length - 2);
+              if (/^\d+(\.\d+)?$/.test(val)) {
+                talles.add(val);
+              }
             }
-          }
-        });
-      }
-    } catch {}
+          });
+        }
+      } catch {}
+    }
   }
 
   return normalizarTalles(Array.from(talles));
@@ -341,6 +366,9 @@ export async function enriquecerProductosConTalles(
     const resultados = await Promise.all(
       lote.map(async (producto) => {
         try {
+          if (producto.sizes && producto.sizes.length > 0) {
+            return producto;
+          }
           const talles = await obtenerTallesDesdeDetalle(
             producto.productUrl,
             plataforma,
@@ -369,6 +397,9 @@ export async function enriquecerProductoConTalles(
   plataforma: PlataformaDetalleTalles,
 ) {
   try {
+    if (producto.sizes && producto.sizes.length > 0) {
+      return producto;
+    }
     const talles = await obtenerTallesDesdeDetalle(
       producto.productUrl,
       plataforma,

@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 
-import { enriquecerProductosConTalles } from "@/lib/connectors/talles-detalle";
+import { enriquecerProductosConTalles, extraerTallesMagento } from "@/lib/connectors/talles-detalle";
 import { esZapatilla, normalizarTexto } from "@/lib/formato";
 import type { Producto, TipoOferta } from "@/types/producto";
 
@@ -675,6 +675,7 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
     }
 
     const descuento = calcularDescuento(precio, precioLista);
+    const tallesCard = extraerTallesMagento($.html(elemento));
 
     productos.set(
       idBase,
@@ -684,6 +685,8 @@ function normalizarMagento(tienda: ConfiguracionTienda, html: string) {
         normalizedName: normalizarTexto(nombre),
         brand: marca,
         category: categoriaDetectada,
+        size: tallesCard[0],
+        sizes: tallesCard.length > 0 ? tallesCard : undefined,
         gender: inferirGenero(nombre),
         color: "",
         price: precio,
@@ -1281,7 +1284,8 @@ export async function obtenerTodasLasOfertasTiendasExternas({
 
     await Promise.all(
       batch.map(async (tienda) => {
-        const paginasTienda = tienda.paginasTotales ?? paginas;
+        const esBusquedaGeneral = query === "zapatillas" || query === "calzado";
+        const paginasTienda = esBusquedaGeneral ? (tienda.paginasTotales ?? paginas) : Math.min(tienda.paginasTotales ?? paginas, Math.max(paginas, 8));
         const chunkSize = 5;
 
         for (let p = 0; p < paginasTienda; p += chunkSize) {

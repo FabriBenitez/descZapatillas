@@ -137,6 +137,15 @@ export function normalizarMarca(marca: string, nombreProducto?: string) {
   return capitalizarTexto(m);
 }
 
+const US_A_AR_FALLBACK: Record<string, string> = {
+  "4": "35", "4.5": "35.5", "5": "36", "5.5": "36.5",
+  "6": "37", "6.5": "37.5", "7": "39", "7.5": "39.5",
+  "8": "40", "8.5": "40.5", "9": "41", "9.5": "41.5",
+  "10": "42", "10.5": "42.5", "11": "43", "11.5": "43.5",
+  "12": "44", "12.5": "44.5", "13": "45", "13.5": "45.5",
+  "14": "46", "15": "47", "16": "48"
+};
+
 export function normalizarTallesArray(talles: (string | number)[]): string[] {
   if (!talles) return [];
   const procesados = talles.flatMap(t => {
@@ -145,16 +154,23 @@ export function normalizarTallesArray(talles: (string | number)[]): string[] {
     return String(t).split(/[-–—/]/).map(parte => {
       let limpio = parte.trim().replace(",", ".").toUpperCase();
       if (limpio.endsWith(".0")) limpio = limpio.substring(0, limpio.length - 2);
+      if (US_A_AR_FALLBACK[limpio]) {
+        limpio = US_A_AR_FALLBACK[limpio];
+      }
       return limpio;
     });
   });
-  return Array.from(new Set(procesados)).filter(Boolean);
+  return Array.from(new Set(procesados)).filter((val) => {
+    const num = parseFloat(val);
+    return !isNaN(num) && num >= 18 && num <= 52;
+  });
 }
 
 export function normalizarTalleUnico(talle: string | number): string {
   if (talle === null || talle === undefined) return "";
   let t = String(talle).split(/[-–—/]/)[0].trim().replace(",", ".").toUpperCase();
   if (t.endsWith(".0")) t = t.substring(0, t.length - 2);
+  if (US_A_AR_FALLBACK[t]) t = US_A_AR_FALLBACK[t];
   return t;
 }
 
@@ -266,6 +282,8 @@ const ARTICULOS_NO_CALZADO_RE = /\b(remera|remeras|remeron|remerones|camiseta|ca
 export function esCalzadoPermitido(nombre: string, categoria?: string | null): boolean {
   if (!nombre) return false;
   const nombreNorm = normalizarTexto(nombre);
+  // Evitar que "media caña" / "media cana" dispare la palabra prohibida "media" (medias/calcetines)
+  const nombreSinMediaCana = nombreNorm.replace(/\bmedia\s+cana\b/gi, "").replace(/\s+/g, " ").trim();
   const catNorm = normalizarTexto(categoria || "");
 
   // 1. Descartar si la categoría proviene de indumentaria o accesorios no calzado (a menos que explícitamente mencione calzado/zapatillas)
@@ -275,31 +293,31 @@ export function esCalzadoPermitido(nombre: string, categoria?: string | null): b
   }
 
   // 2. Descartar calzado no permitido (chanclas, ojotas, sandalias, ballerinas, crocs, pantuflas, etc.)
-  if (CALZADO_NO_PERMITIDO_RE.test(nombreNorm) || (catNorm && CALZADO_NO_PERMITIDO_RE.test(catNorm))) {
+  if (CALZADO_NO_PERMITIDO_RE.test(nombreSinMediaCana) || (catNorm && CALZADO_NO_PERMITIDO_RE.test(catNorm))) {
     return false;
   }
 
   // 3. Descartar accesorios de calzado (botineros, cordones, plantillas, limpiadores)
-  if (ACCESORIOS_CALZADO_RE.test(nombreNorm)) {
+  if (ACCESORIOS_CALZADO_RE.test(nombreSinMediaCana)) {
     return false;
   }
 
   // 4. Si el nombre comienza o tiene como tipo de artículo una prenda o accesorio no calzado (ej. "Top Deportivo", "Remera...", "Bicicleta...")
-  const primerPalabra = nombreNorm.split(/\s+/)[0];
-  const dosPrimerasPalabras = nombreNorm.split(/\s+/).slice(0, 2).join(" ");
+  const primerPalabra = nombreSinMediaCana.split(/\s+/)[0];
+  const dosPrimerasPalabras = nombreSinMediaCana.split(/\s+/).slice(0, 2).join(" ");
   if (ARTICULOS_NO_CALZADO_RE.test(primerPalabra) || ARTICULOS_NO_CALZADO_RE.test(dosPrimerasPalabras)) {
     return false;
   }
 
   // 5. Si el nombre contiene palabra explícita de calzado (zapatilla, zapatillas, botin, botines, sneakers, etc.)
-  const tienePalabraCalzado = /\b(zapatilla|zapatillas|zapa|zapas|zapatilas|zapatilllas|zapatiilas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i.test(nombreNorm);
+  const tienePalabraCalzado = /\b(zapatilla|zapatillas|zapa|zapas|zapatilas|zapatilllas|zapatiilas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i.test(nombreSinMediaCana);
 
   if (tienePalabraCalzado) {
     // Si contiene palabra de calzado pero es ropa/accesorio (ej. "Remera con estampa zapatillas")
-    if (ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+    if (ARTICULOS_NO_CALZADO_RE.test(nombreSinMediaCana)) {
       // Si la palabra de no calzado aparece antes que la de calzado, se descarta
-      const posNoCalzado = nombreNorm.search(ARTICULOS_NO_CALZADO_RE);
-      const posCalzado = nombreNorm.search(/\b(zapatilla|zapatillas|zapa|zapas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i);
+      const posNoCalzado = nombreSinMediaCana.search(ARTICULOS_NO_CALZADO_RE);
+      const posCalzado = nombreSinMediaCana.search(/\b(zapatilla|zapatillas|zapa|zapas|sneaker|sneakers|botin|botines|calzado|footwear)\b/i);
       if (posNoCalzado !== -1 && posCalzado !== -1 && posNoCalzado < posCalzado) {
         return false;
       }
@@ -308,23 +326,23 @@ export function esCalzadoPermitido(nombre: string, categoria?: string | null): b
   }
 
   // 6. Botas de marcas deportivas/urbanas reconocidas (ej. Solo Deportes calzado mid/high-top "Botas Adidas Hoops", "Botas Puma Rebound", "Botas Converse Chuck Taylor", etc.)
-  if (/\b(bota|botas)\b/i.test(nombreNorm)) {
-    const esBotaDeportiva = /\b(adidas|puma|nike|reebok|converse|topper|kappa|atomik|47 street|montagne|vans|fila|asics|salomon|under armour|umbro|lotto|fila|diadora)\b/i.test(nombreNorm);
-    if (esBotaDeportiva && !ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+  if (/\b(bota|botas)\b/i.test(nombreSinMediaCana)) {
+    const esBotaDeportiva = /\b(adidas|puma|nike|reebok|converse|topper|kappa|atomik|47 street|montagne|vans|fila|asics|salomon|under armour|umbro|lotto|fila|diadora)\b/i.test(nombreSinMediaCana);
+    if (esBotaDeportiva && !ARTICULOS_NO_CALZADO_RE.test(nombreSinMediaCana)) {
       return true;
     }
   }
 
   // 7. Si no tiene palabra calzado en el título, pero la categoría incluye zapatillas/botines/calzado y no tiene palabras prohibidas
   const esCategoriaCalzado = /\b(zapatilla|zapatillas|calzado|footwear|sneaker|sneakers|botin|botines)\b/i.test(catNorm);
-  if (esCategoriaCalzado && !ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+  if (esCategoriaCalzado && !ARTICULOS_NO_CALZADO_RE.test(nombreSinMediaCana)) {
     return true;
   }
 
   // 8. Modelos icónicos de marcas deportivas que habitualmente se publican sin la palabra "zapatillas"
   // (ej. "Adidas Samba OG", "Nike Air Force 1", "Puma Palermo", "Vans Old Skool", "New Balance 574")
   const MODELOS_CALZADO_RE = /\b(air force|air max|air zoom|dunk|court vision|pegasus|react|blazer|vomero|superstar|samba|gazelle|campus|forum|spezial|ultraboost|duramo|runfalcon|palermo|suede|slipstream|caven|rebound|carina|old skool|sk8-hi|knu skool|half cab|chuck taylor|chuck 70|all star|one star|club c|nano|classic leather|disruptor|gel-nimbus|gel-kayano|gel-1130|gel-nyc|gel-lyte|speedcross)\b/i;
-  if (MODELOS_CALZADO_RE.test(nombreNorm) && !ARTICULOS_NO_CALZADO_RE.test(nombreNorm)) {
+  if (MODELOS_CALZADO_RE.test(nombreSinMediaCana) && !ARTICULOS_NO_CALZADO_RE.test(nombreSinMediaCana)) {
     return true;
   }
 
