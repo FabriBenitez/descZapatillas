@@ -298,6 +298,18 @@ export function ordenarProductos(
 ) {
   const productosOrdenados = [...productos];
 
+  if (ordenSeleccionado === "recientes") {
+    const timestamps = new Map<string, number>();
+    for (const p of productosOrdenados) {
+      timestamps.set(p.id, Date.parse(p.updatedAt) || 0);
+    }
+    productosOrdenados.sort(
+      (productoA, productoB) =>
+        (timestamps.get(productoB.id) ?? 0) - (timestamps.get(productoA.id) ?? 0),
+    );
+    return productosOrdenados;
+  }
+
   productosOrdenados.sort((productoA, productoB) => {
     switch (ordenSeleccionado) {
       case "precio-asc":
@@ -307,13 +319,8 @@ export function ordenarProductos(
       case "descuento-desc":
         return productoB.discount - productoA.discount;
       case "descuento-asc":
-        return productoA.discount - productoB.discount;
-      case "recientes":
       default:
-        return (
-          new Date(productoB.updatedAt).getTime() -
-          new Date(productoA.updatedAt).getTime()
-        );
+        return productoA.discount - productoB.discount;
     }
   });
 
@@ -324,21 +331,16 @@ export function obtenerProductosDestacados(productos: Producto[], cantidad = 4) 
   return ordenarProductos(productos, "descuento-desc").slice(0, cantidad);
 }
 
-function contarCoincidenciasModelo(productoBase: Producto, candidato: Producto) {
-  const nombreBase = productoBase?.normalizedName || (productoBase?.name ? normalizarTexto(productoBase.name) : "");
-  const nombreCandidato = candidato?.normalizedName || (candidato?.name ? normalizarTexto(candidato.name) : "");
-
-  const palabrasBase = new Set(nombreBase.split(" "));
-  const palabrasCandidatas = nombreCandidato.split(" ");
-
-  return palabrasCandidatas.filter((palabra) => palabrasBase.has(palabra)).length;
-}
-
 export function calcularProductosSimilares(
   productoBase: Producto,
   productos: Producto[],
   cantidad = 4,
 ) {
+  const nombreBase =
+    productoBase?.normalizedName ||
+    (productoBase?.name ? normalizarTexto(productoBase.name) : "");
+  const palabrasBase = new Set(nombreBase.split(" ").filter(Boolean));
+
   return productos
     .filter((producto) => producto.id !== productoBase.id)
     .map((producto) => {
@@ -364,7 +366,19 @@ export function calcularProductosSimilares(
         puntaje += 1;
       }
 
-      puntaje += Math.min(contarCoincidenciasModelo(productoBase, producto), 3);
+      if (palabrasBase.size > 0) {
+        const nombreCandidato =
+          producto.normalizedName ||
+          (producto.name ? normalizarTexto(producto.name) : "");
+        let coincidencias = 0;
+        for (const palabra of nombreCandidato.split(" ")) {
+          if (palabrasBase.has(palabra)) {
+            coincidencias++;
+            if (coincidencias >= 3) break;
+          }
+        }
+        puntaje += coincidencias;
+      }
 
       return { producto, puntaje };
     })

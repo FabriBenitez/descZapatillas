@@ -12,31 +12,15 @@ import { obtenerProductoPorId, obtenerProductos } from "@/lib/productos";
 
 interface ProductoPageProps {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ f?: string }>;
 }
 
-export const revalidate = 60; // Revalidar cada 60 segundos
-export const maxDuration = 60; // Prevenir error 500 por timeout en Vercel
+export const revalidate = 3600; // Cachear en CDN 1 hora (ISR real al no leer searchParams en servidor)
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: ProductoPageProps): Promise<Metadata> {
   const { id } = await params;
-  const { f } = await searchParams;
-  let producto = await obtenerProductoPorId(id);
-
-  if (!producto && f) {
-    try {
-      const parsed = JSON.parse(decodeURIComponent(f));
-      // Basic validation
-      if (parsed && typeof parsed.name === "string" && typeof parsed.price === "number") {
-        producto = parsed;
-      }
-    } catch (err) {
-      // ignore
-    }
-  }
+  const producto = await obtenerProductoPorId(id);
 
   if (!producto) {
     return {
@@ -44,7 +28,7 @@ export async function generateMetadata({
     };
   }
 
-  // Sanitizar nombre para metadata (prevenir XSS si viene inyectado de la URL)
+  // Sanitizar nombre para metadata
   const safeName = producto.name.replace(/<[^>]*>?/gm, '');
 
   return {
@@ -67,37 +51,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductoPage({ params, searchParams }: ProductoPageProps) {
+export default async function ProductoPage({ params }: ProductoPageProps) {
   const { id } = await params;
-  const { f } = await searchParams;
-  
-  let productoBase = await obtenerProductoPorId(id);
-  let esFresco = false;
-  
-  if (!productoBase && f) {
-    try {
-      const parsed = JSON.parse(decodeURIComponent(f));
-      if (parsed && typeof parsed.name === "string" && typeof parsed.price === "number") {
-        productoBase = parsed;
-        esFresco = true;
-      }
-    } catch {
-      // ignore
-    }
-  }
+  const productoBase = await obtenerProductoPorId(id);
 
   if (!productoBase) {
     notFound();
   }
 
-  // Sanitizar si viene de la URL
-  if (esFresco) {
-    productoBase.name = productoBase.name.replace(/<[^>]*>?/gm, '');
-  }
-
-  // Solo buscar similares si el producto existe en DB (evita cargar todo el JSON en memoria para un producto fresco)
-  const productos = esFresco ? [] : await obtenerProductos();
-  const productosSimilares = esFresco ? [] : calcularProductosSimilares(productoBase, productos, 4);
+  const productos = await obtenerProductos();
+  const productosSimilares = calcularProductosSimilares(productoBase, productos, 4);
 
   return (
     <>

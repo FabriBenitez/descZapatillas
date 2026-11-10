@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // Cachear estáticamente en CDN por 1 hora (evita Fluid Active CPU en cada visita)
 
 import { ComparadorHome } from "@/components/ComparadorHome";
 import {

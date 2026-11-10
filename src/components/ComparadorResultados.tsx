@@ -1,6 +1,7 @@
 "use client";
 
-import { startTransition, useDeferredValue, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { startTransition, useDeferredValue, useState, useEffect, useMemo } from "react";
 
 import { FiltersSidebar } from "@/components/FiltersSidebar";
 import { ProductList } from "@/components/ProductList";
@@ -65,7 +66,9 @@ export function ComparadorResultados({
   productos,
   busquedaInicial = "",
 }: ComparadorResultadosProps) {
-  const [terminoBusqueda, setTerminoBusqueda] = useState(busquedaInicial);
+  const searchParams = useSearchParams();
+  const qParam = searchParams.get("q") ?? busquedaInicial;
+  const [terminoBusqueda, setTerminoBusqueda] = useState(qParam);
   const [ordenSeleccionado, setOrdenSeleccionado] =
     useState<OrdenProductos>("descuento-desc");
   const [vistaResultados, setVistaResultados] = useState<"grid" | "lista">(
@@ -73,6 +76,10 @@ export function ComparadorResultados({
   );
   const [filtros, setFiltros] = useState<FiltrosProductos>(filtrosIniciales);
   const [estaActualizando, setEstaActualizando] = useState(false);
+
+  useEffect(() => {
+    setTerminoBusqueda(qParam);
+  }, [qParam]);
 
   // Restaurar estado o aplicar parámetros directos desde la URL (?talle=41, ?marca=Nike, ?categoria=Botines, ?descuento=50)
   useEffect(() => {
@@ -139,12 +146,16 @@ export function ComparadorResultados({
   }, [terminoBusqueda, ordenSeleccionado, filtros, vistaResultados]);
 
   const terminoDiferido = useDeferredValue(terminoBusqueda);
-  const opciones = obtenerOpcionesFiltros(productos);
+  const opciones = useMemo(() => obtenerOpcionesFiltros(productos), [productos]);
   const resumenFiltros = construirResumenFiltros(filtros);
 
-  const productosFiltrados = ordenarProductos(
-    filtrarProductos(productos, terminoDiferido, filtros),
-    ordenSeleccionado,
+  const productosFiltrados = useMemo(
+    () =>
+      ordenarProductos(
+        filtrarProductos(productos, terminoDiferido, filtros),
+        ordenSeleccionado,
+      ),
+    [productos, terminoDiferido, filtros, ordenSeleccionado],
   );
 
   function actualizarFiltro(

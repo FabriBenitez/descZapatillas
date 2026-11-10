@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-export const maxDuration = 60;
+export const revalidate = 3600; // Cachear estáticamente en CDN por 1 hora (evita Fluid Active CPU en cada visita)
 
 import { ComparadorHeader } from "@/components/ComparadorHeader";
 import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
-import { obtenerProductos } from "@/lib/productos";
+import { obtenerProductosSinHistorial } from "@/lib/productos";
 import { ProductListSkeleton } from "@/components/ProductSkeleton";
-import type { Producto } from "@/types/producto";
-
-interface ComparadorPageProps {
-  searchParams: Promise<{
-    q?: string;
-  }>;
-}
 
 export const metadata: Metadata = {
   title: "Comparador de ofertas",
@@ -25,24 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-// Componente async separado: permite que Next.js haga streaming
-async function ComparadorConDatos({ busquedaInicial }: { busquedaInicial: string }) {
-  const productosCrudos = await obtenerProductos();
-  
-  // Limpiamos datos pesados (historial) para evitar el límite de 4.5MB de Vercel Serverless Functions
-  // al momento de serializar las props hacia el Client Component.
-  const productosLimpios = productosCrudos.map((p) => {
-    const { priceHistory, ...resto } = p;
-    return resto as Producto;
-  });
+// Componente async separado: permite que Next.js haga streaming y cachee en CDN
+async function ComparadorConDatos() {
+  const productosLimpios = await obtenerProductosSinHistorial();
 
-  return (
-    <ComparadorResultados
-      key={busquedaInicial}
-      productos={productosLimpios}
-      busquedaInicial={busquedaInicial}
-    />
-  );
+  return <ComparadorResultados productos={productosLimpios} />;
 }
 
 // Skeleton de fallback mientras cargan los datos
@@ -80,27 +60,16 @@ function ComparadorSkeleton() {
   );
 }
 
-export default async function ComparadorPage({
-  searchParams,
-}: ComparadorPageProps) {
-  const { q } = await searchParams;
-  const busquedaInicial = q ?? "";
-
+export default function ComparadorPage() {
   return (
     <>
-      {/* El header carga INSTANTÁNEAMENTE, no espera a los productos */}
-      <ComparadorHeader busquedaInicial={busquedaInicial} />
+      <Suspense fallback={null}>
+        <ComparadorHeader />
+      </Suspense>
 
       <main className="pagina flex-1">
-        {/*
-          Suspense hace que Next.js envíe el HTML del skeleton al navegador
-          en el primer milisegundo. Cuando obtenerProductos() termina en el
-          servidor, Next.js reemplaza el skeleton con el contenido real
-          sin que el navegador haga ningún pedido extra (todo pasa en la
-          misma conexión HTTP - esto se llama "streaming SSR").
-        */}
         <Suspense fallback={<ComparadorSkeleton />}>
-          <ComparadorConDatos busquedaInicial={busquedaInicial} />
+          <ComparadorConDatos />
         </Suspense>
       </main>
 

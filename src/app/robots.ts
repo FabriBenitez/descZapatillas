@@ -5,10 +5,27 @@ const urlSitio =
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: [
+          "GPTBot",
+          "CCBot",
+          "ClaudeBot",
+          "Bytespider",
+          "AhrefsBot",
+          "SemrushBot",
+          "MJ12bot",
+          "DotBot",
+          "PetalBot",
+        ],
+        disallow: "/",
+      },
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/"],
+      },
+    ],
     sitemap: `${urlSitio}/sitemap.xml`,
   };
 }

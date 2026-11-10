@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Header } from "@/components/Header";
 
@@ -13,7 +13,13 @@ export function ComparadorHeader({
   busquedaInicial = "",
 }: ComparadorHeaderProps) {
   const router = useRouter();
-  const [terminoBusqueda, setTerminoBusqueda] = useState(busquedaInicial);
+  const searchParams = useSearchParams();
+  const qParam = searchParams.get("q") ?? busquedaInicial;
+  const [terminoBusqueda, setTerminoBusqueda] = useState(qParam);
+
+  useEffect(() => {
+    setTerminoBusqueda(qParam);
+  }, [qParam]);
 
   function enviarBusqueda() {
     const parametros = new URLSearchParams();
