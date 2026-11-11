@@ -1,49 +1,171 @@
 "use client";
 
-import { useState } from "react";
+interface StoreBrandStyle {
+  label: string;
+  bg: string;
+  text: string;
+  border?: string;
+  accent?: string;
+  italic?: boolean;
+  tracking?: string;
+}
 
-// Mapeo de nombre de tienda → logo oficial
-const STORE_LOGOS: Record<string, string> = {
-  stockcenter:
-    "https://www.stockcenter.com.ar/on/demandware.static/Sites-StockCenter-Site/-/default/dw066a7b75/images/logo.svg",
-  dexter:
-    "https://www.dexter.com.ar/on/demandware.static/Sites-Dexter-Site/-/default/dw1ea751d3/images/logo.svg",
-  moov:
-    "https://www.moov.com.ar/on/demandware.static/Sites-Moov-Site/-/default/dw066a7b75/images/logo.svg",
-  grid:
-    "https://grid0.vteximg.com.br/arquivos/logo-grid.svg",
-};
-
-// Dominio de cada tienda para el favicon de Google (fallback garantizado)
-const STORE_DOMAINS: Record<string, string> = {
-  stockcenter: "stockcenter.com.ar",
-  dexter: "dexter.com.ar",
-  moov: "moov.com.ar",
-  grid: "grid.com.ar",
-  sevensport: "sevensport.com.ar",
-  solodeportes: "solodeportes.com.ar",
-  opensports: "opensports.com.ar",
-  tiendafuencarral: "tiendafuencarral.com.ar",
-  tripstore: "tripstore.com.ar",
-  dionysos: "digitalsport.com.ar",
-  reebok: "reebok.com.ar",
-  asics: "asics.com.ar",
-  underarmour: "underarmour.com.ar",
-  vans: "vans.com.ar",
-  fila: "fila.com.ar",
-  newbalance: "newbalance.com.ar",
-  topper: "topper.com.ar",
-  adidas: "adidas.com.ar",
-  puma: "puma.com",
-  newsport: "newsport.com.ar",
-  chelsea: "chelsea.com.ar",
-  sportline: "sportline.com.ar",
-  sporting: "sporting.com.ar",
-  dashdeportes: "dashdeportes.com.ar",
+const STORE_STYLES: Record<string, StoreBrandStyle> = {
+  dexter: {
+    label: "DEXTER",
+    bg: "bg-[#111111]",
+    text: "text-[#FF5500]",
+    italic: true,
+    tracking: "tracking-tighter",
+  },
+  moov: {
+    label: "MOOV",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-widest",
+  },
+  stockcenter: {
+    label: "STOCK CENTER",
+    bg: "bg-[#0046AD]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  grid: {
+    label: "GRID",
+    bg: "bg-[#111111]",
+    text: "text-[#00E676]",
+    tracking: "tracking-widest",
+  },
+  solodeportes: {
+    label: "SOLO DEPORTES",
+    bg: "bg-[#E30613]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  opensports: {
+    label: "OPEN SPORTS",
+    bg: "bg-[#00843D]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  sevensport: {
+    label: "SEVEN SPORT",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  sportline: {
+    label: "SPORTLINE",
+    bg: "bg-[#111111]",
+    text: "text-[#FACC15]",
+    italic: true,
+    tracking: "tracking-tight",
+  },
+  sporting: {
+    label: "SPORTING",
+    bg: "bg-[#0055A5]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  dashdeportes: {
+    label: "DASH",
+    bg: "bg-[#E5F529]",
+    text: "text-[#111111]",
+    italic: true,
+    tracking: "tracking-tighter",
+  },
+  tiendafuencarral: {
+    label: "FUENCARRAL",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-wider",
+  },
+  tripstore: {
+    label: "TRIP",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-widest",
+  },
+  dionysos: {
+    label: "DIONYSOS",
+    bg: "bg-[#111111]",
+    text: "text-[#F59E0B]",
+    tracking: "tracking-wider",
+  },
+  adidas: {
+    label: "ADIDAS",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-widest",
+  },
+  puma: {
+    label: "PUMA",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    italic: true,
+    tracking: "tracking-wider",
+  },
+  reebok: {
+    label: "REEBOK",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-wider",
+  },
+  asics: {
+    label: "ASICS",
+    bg: "bg-[#001E62]",
+    text: "text-white",
+    italic: true,
+    tracking: "tracking-wider",
+  },
+  underarmour: {
+    label: "UNDER ARMOUR",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  vans: {
+    label: "VANS",
+    bg: "bg-[#C8102E]",
+    text: "text-white",
+    tracking: "tracking-widest",
+  },
+  fila: {
+    label: "FILA",
+    bg: "bg-[#0B1F41]",
+    text: "text-white",
+    italic: true,
+    tracking: "tracking-widest",
+  },
+  newbalance: {
+    label: "NEW BALANCE",
+    bg: "bg-[#CF0A2C]",
+    text: "text-white",
+    italic: true,
+    tracking: "tracking-tight",
+  },
+  topper: {
+    label: "TOPPER",
+    bg: "bg-[#E11D48]",
+    text: "text-white",
+    tracking: "tracking-wider",
+  },
+  newsport: {
+    label: "NEWSPORT",
+    bg: "bg-[#0F172A]",
+    text: "text-white",
+    tracking: "tracking-tight",
+  },
+  chelsea: {
+    label: "CHELSEA",
+    bg: "bg-[#111111]",
+    text: "text-white",
+    tracking: "tracking-widest",
+  },
 };
 
 function getStoreKey(storeName: string): string {
-  const name = storeName.toLowerCase();
+  const name = (storeName || "").toLowerCase();
   if (name.includes("stockcenter") || name.includes("stock center")) return "stockcenter";
   if (name.includes("dexter")) return "dexter";
   if (name.includes("moov")) return "moov";
@@ -53,7 +175,7 @@ function getStoreKey(storeName: string): string {
   if (name.includes("opensports") || name.includes("open sports")) return "opensports";
   if (name.includes("fuencarral") || name.includes("tiendafuencarral")) return "tiendafuencarral";
   if (name.includes("tripstore") || name.includes("trip store") || name.includes("trip")) return "tripstore";
-  if (name.includes("dionysos")) return "dionysos";
+  if (name.includes("dionysos") || name.includes("digitalsport")) return "dionysos";
   if (name.includes("reebok")) return "reebok";
   if (name.includes("asics")) return "asics";
   if (name.includes("underarmour") || name.includes("under armour")) return "underarmour";
@@ -71,76 +193,27 @@ function getStoreKey(storeName: string): string {
   return "";
 }
 
-function getFaviconUrl(domain: string): string {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-}
-
 export function StoreLogo({ storeName }: { storeName: string }) {
-  const [logoFailed, setLogoFailed] = useState(false);
-  const [faviconFailed, setFaviconFailed] = useState(false);
-
   const key = getStoreKey(storeName);
-  const logoUrl = key ? STORE_LOGOS[key] : undefined;
-  const domain = key ? STORE_DOMAINS[key] : undefined;
+  const style = key ? STORE_STYLES[key] : undefined;
 
-  // 1) Logo oficial SVG/PNG (alta calidad, ancho completo)
-  if (logoUrl && !logoFailed) {
-    // Si el logo es originalmente blanco, lo invertimos/oscurecemos para que se vea en el fondo gris claro
-    const needsInvert = key === "stockcenter" || key === "dexter" || key === "moov";
-    
+  if (style) {
     return (
-      <div className="flex h-full items-center justify-center overflow-hidden w-full" title={storeName}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={logoUrl}
-          alt={`Logo de ${storeName}`}
-          onError={() => setLogoFailed(true)}
-          className={`h-5 max-w-[80px] object-contain ${needsInvert ? "brightness-0" : ""}`}
-        />
-      </div>
-    );
-  }
-
-  // 2) Favicon de Google (128px, garantizado para cualquier dominio válido)
-  if (domain && !faviconFailed) {
-    return (
-      <div className="flex h-full items-center justify-center gap-1.5 overflow-hidden" title={storeName}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={getFaviconUrl(domain)}
-          alt={`Logo de ${storeName}`}
-          onError={() => setFaviconFailed(true)}
-          className="h-5 w-5 rounded-[4px] object-contain"
-        />
-        <span className="text-[#111] font-bold text-[10px] truncate">
-          {storeName}
-        </span>
-      </div>
-    );
-  }
-
-  // 3) Fallbacks personalizados o texto plano (último recurso)
-  if (key === "dash") {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-[#E5F529] rounded-[6px] shadow-sm border border-black/10" title={storeName}>
-        <span className="text-black font-black text-[11px] uppercase italic tracking-tighter">DASH</span>
-      </div>
-    );
-  }
-
-  if (key === "fuencarral") {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-black rounded-[6px] shadow-sm" title={storeName}>
-        <span className="text-white font-bold text-[9px] uppercase tracking-widest">Fuencarral</span>
-      </div>
+      <span
+        title={storeName}
+        className={`inline-flex h-full items-center justify-center rounded-[4px] border border-[#111] px-2 py-0.5 text-[9px] sm:text-[10px] font-black uppercase leading-none whitespace-nowrap select-none shadow-[1px_1px_0px_#111] ${style.bg} ${style.text} ${style.italic ? "italic" : ""} ${style.tracking ?? "tracking-tight"}`}
+      >
+        {style.label}
+      </span>
     );
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center bg-white rounded-[6px] border border-[#e2e7e4] shadow-sm" title={storeName}>
-      <span className="text-[#111] font-bold text-[10px] truncate max-w-[80px] px-1">
-        {storeName}
-      </span>
-    </div>
+    <span
+      title={storeName}
+      className="inline-flex h-full items-center justify-center rounded-[4px] border border-[#111] bg-[#f5f7f6] px-2 py-0.5 text-[9px] sm:text-[10px] font-black uppercase leading-none text-[#111] truncate max-w-[110px] select-none shadow-[1px_1px_0px_#111]"
+    >
+      {storeName}
+    </span>
   );
 }
