@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
-export const revalidate = 3600; // Cachear estáticamente en CDN por 1 hora (evita Fluid Active CPU en cada visita)
+export const dynamic = "force-static";
 
 import { ComparadorHeader } from "@/components/ComparadorHeader";
 import { ComparadorResultados } from "@/components/ComparadorResultados";
 import { Footer } from "@/components/Footer";
-import { obtenerProductosSinHistorial } from "@/lib/productos";
 import { ProductListSkeleton } from "@/components/ProductSkeleton";
 
 export const metadata: Metadata = {
@@ -17,13 +16,6 @@ export const metadata: Metadata = {
     canonical: "/comparador",
   },
 };
-
-// Componente async separado: permite que Next.js haga streaming y cachee en CDN
-async function ComparadorConDatos() {
-  const productosLimpios = await obtenerProductosSinHistorial();
-
-  return <ComparadorResultados productos={productosLimpios} />;
-}
 
 // Skeleton de fallback mientras cargan los datos
 function ComparadorSkeleton() {
@@ -69,7 +61,7 @@ export default function ComparadorPage() {
 
       <main className="pagina flex-1">
         <Suspense fallback={<ComparadorSkeleton />}>
-          <ComparadorConDatos />
+          <ComparadorResultados />
         </Suspense>
       </main>
 

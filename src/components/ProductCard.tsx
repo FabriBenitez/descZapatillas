@@ -52,6 +52,7 @@ export function ProductCard({
   return (
     <Link
       href={hrefProducto}
+      prefetch={false}
       className={`tarjeta-producto group relative overflow-hidden border-2 border-[#111] bg-white transition-all duration-300 ease-out hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[5px_5px_0px_#111] min-w-0 ${
         esLista
           ? "grid grid-cols-[120px_minmax(0,1fr)] sm:grid-cols-[220px_minmax(0,1fr)] rounded-[8px]"

@@ -2,8 +2,8 @@ name: Scraper Masivo Diario
 
 on:
   schedule:
-    # Corre cada 6 horas (ej. 00:00, 06:00, 12:00, 18:00 UTC)
-    - cron: '0 */6 * * *'
+    # Corre 1 vez al día a las 06:00 UTC (03:00 AM Argentina) para cuidar la cuota de builds y caché CDN de Vercel
+    - cron: '0 6 * * *'
   workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub
 
 jobs:

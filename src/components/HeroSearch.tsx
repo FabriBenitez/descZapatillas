@@ -180,6 +180,7 @@ export function HeroSearch({
           <div className="relative min-w-0">
             <Link
               href={`/producto/${ofertaDestacada.id}`}
+              prefetch={false}
               className="hero__oferta relative grid grid-cols-[110px_minmax(0,1fr)] sm:grid-cols-[160px_minmax(0,1fr)] lg:block overflow-hidden rounded-[8px] border-2 border-[#111] bg-white text-[#111] shadow-[4px_4px_0px_#111] sm:shadow-[6px_6px_0px_#111] lg:shadow-[8px_8px_0px_#111] transition-all duration-300 hover:-translate-y-1.5"
             >
               <div className="relative aspect-square lg:aspect-[4/3] overflow-hidden bg-[#F5F7F6] border-r-2 lg:border-r-0 lg:border-b-2 border-[#111]">

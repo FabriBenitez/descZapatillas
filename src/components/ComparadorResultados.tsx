@@ -18,8 +18,35 @@ import {
 } from "@/types/producto";
 
 interface ComparadorResultadosProps {
-  productos: Producto[];
+  productos?: Producto[];
   busquedaInicial?: string;
+}
+
+// Caché en memoria del navegador para no volver a descargar el catálogo al navegar entre páginas
+let cacheCatalogoCliente: Producto[] | null = null;
+let promesaCatalogoCliente: Promise<Producto[]> | null = null;
+
+function cargarCatalogoEstatico(): Promise<Producto[]> {
+  if (cacheCatalogoCliente) {
+    return Promise.resolve(cacheCatalogoCliente);
+  }
+  if (!promesaCatalogoCliente) {
+    promesaCatalogoCliente = fetch("/productos-comparador.json")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json() as Promise<Producto[]>;
+      })
+      .then((data) => {
+        cacheCatalogoCliente = Array.isArray(data) ? data : [];
+        return cacheCatalogoCliente;
+      })
+      .catch((err) => {
+        console.error("Error cargando catálogo estático:", err);
+        promesaCatalogoCliente = null;
+        return [];
+      });
+  }
+  return promesaCatalogoCliente;
 }
 
 interface EtiquetaFiltroActivo {
@@ -63,11 +90,17 @@ function construirResumenFiltros(filtros: FiltrosProductos): EtiquetaFiltroActiv
 }
 
 export function ComparadorResultados({
-  productos,
+  productos: productosProp,
   busquedaInicial = "",
 }: ComparadorResultadosProps) {
   const searchParams = useSearchParams();
   const qParam = searchParams.get("q") ?? busquedaInicial;
+  const [productos, setProductos] = useState<Producto[]>(
+    () => productosProp ?? cacheCatalogoCliente ?? [],
+  );
+  const [cargandoCatalogo, setCargandoCatalogo] = useState<boolean>(
+    () => !productosProp && !cacheCatalogoCliente,
+  );
   const [terminoBusqueda, setTerminoBusqueda] = useState(qParam);
   const [ordenSeleccionado, setOrdenSeleccionado] =
     useState<OrdenProductos>("descuento-desc");
@@ -76,6 +109,31 @@ export function ComparadorResultados({
   );
   const [filtros, setFiltros] = useState<FiltrosProductos>(filtrosIniciales);
   const [estaActualizando, setEstaActualizando] = useState(false);
+
+  useEffect(() => {
+    if (productosProp && productosProp.length > 0) {
+      cacheCatalogoCliente = productosProp;
+      setProductos(productosProp);
+      setCargandoCatalogo(false);
+      return;
+    }
+    if (cacheCatalogoCliente) {
+      setProductos(cacheCatalogoCliente);
+      setCargandoCatalogo(false);
+      return;
+    }
+    let cancelado = false;
+    setCargandoCatalogo(true);
+    cargarCatalogoEstatico().then((datos) => {
+      if (!cancelado) {
+        setProductos(datos);
+        setCargandoCatalogo(false);
+      }
+    });
+    return () => {
+      cancelado = true;
+    };
+  }, [productosProp]);
 
   useEffect(() => {
     setTerminoBusqueda(qParam);
@@ -288,7 +346,7 @@ export function ComparadorResultados({
             mensajeVacio="Probá cambiando la búsqueda, ampliando el rango de precio o quitando algún filtro puntual."
             cantidadPrioritaria={4}
             vista={vistaResultados}
-            cargando={estaActualizando}
+            cargando={cargandoCatalogo || estaActualizando}
           />
         </div>
       </div>

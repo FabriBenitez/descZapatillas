@@ -8,13 +8,13 @@ import { PriceHistory } from "@/components/PriceHistory";
 import { ProductDetail } from "@/components/ProductDetail";
 import { SimilarProducts } from "@/components/SimilarProducts";
 import { calcularProductosSimilares } from "@/lib/comparador";
-import { obtenerProductoPorId, obtenerProductos } from "@/lib/productos";
+import { obtenerProductoPorId, obtenerProductosSinHistorial } from "@/lib/productos";
 
 interface ProductoPageProps {
   params: Promise<{ id: string }>;
 }
 
-export const revalidate = 3600; // Cachear en CDN 1 hora (ISR real al no leer searchParams en servidor)
+export const revalidate = 86400; // Cachear en CDN 24 horas (ISR real sin prefetch masivo)
 
 export async function generateMetadata({
   params,
@@ -59,7 +59,7 @@ export default async function ProductoPage({ params }: ProductoPageProps) {
     notFound();
   }
 
-  const productos = await obtenerProductos();
+  const productos = await obtenerProductosSinHistorial();
   const productosSimilares = calcularProductosSimilares(productoBase, productos, 4);
 
   return (

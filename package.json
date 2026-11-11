@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "tsx src/scripts/build-static-catalog.ts && next dev",
+    "build": "tsx src/scripts/build-static-catalog.ts && next build",
+    "build:catalog": "tsx src/scripts/build-static-catalog.ts",
     "start": "next start",
     "lint": "eslint",
     "scrape": "tsx src/scripts/scrape-all.ts",
