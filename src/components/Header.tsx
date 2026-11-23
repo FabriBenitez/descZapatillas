@@ -70,14 +70,14 @@ export function Header({
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/85 backdrop-blur-md text-[#111] transition-all">
-      <div className="contenedor flex items-center justify-between gap-3 py-2.5 sm:py-3.5">
+    <header className="sticky top-0 z-50 border-b-2 border-black bg-white text-black">
+      <div className="contenedor flex items-center justify-between gap-3 py-3">
         <Link
           href="/"
-          className="flex items-center gap-2.5 group min-w-0 touch-manipulation active:scale-[0.98] transition-transform"
+          className="flex items-center gap-2.5 group min-w-0 touch-manipulation"
           onClick={() => setMenuAbierto(false)}
         >
-          <div className="relative h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-xs transition-transform duration-200 group-hover:-rotate-3 shrink-0">
+          <div className="relative h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded-lg border-2 border-black bg-[#FF5500] p-0.5 shadow-[2px_2px_0px_#0A0A0A] shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/img/mascota-default.png"
@@ -86,12 +86,12 @@ export function Header({
             />
           </div>
           <span className="flex flex-col leading-none min-w-0">
-            <span className="text-base sm:text-lg font-black tracking-tight text-[#111] group-hover:text-[#FF4500] transition-colors uppercase truncate">
+            <span className="text-base sm:text-lg font-black tracking-tight text-black uppercase truncate">
               Pisando Ofertas
             </span>
-            <span className="mt-0.5 inline-flex items-center gap-1 text-[10px] font-bold text-black/50 tracking-wider uppercase truncate">
+            <span className="mt-0.5 inline-flex items-center gap-1 text-[10px] font-mono font-bold text-black/60 tracking-wider uppercase truncate">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#10b981]" />
-              Comparador de precios
+              SNEAKER DEALS
             </span>
           </span>
         </Link>
@@ -102,7 +102,7 @@ export function Header({
             className="hidden md:flex flex-1 max-w-md mx-4"
             onSubmit={enviarBusqueda}
           >
-            <div className="relative flex w-full items-center bg-[#f0f3f1] border border-black/10 rounded-xl overflow-hidden focus-within:bg-white focus-within:border-[#FF4500] focus-within:ring-2 focus-within:ring-[#FF4500]/15 transition-all">
+            <div className="relative flex w-full items-center bg-[#FAFAFA] border-2 border-black rounded-lg overflow-hidden focus-within:border-[#FF5500] shadow-[2px_2px_0px_#0A0A0A]">
               <input
                 id="busqueda-header"
                 type="search"
@@ -115,7 +115,7 @@ export function Header({
                   }
                 }}
                 placeholder="Buscá modelo o marca..."
-                className="w-full bg-transparent py-2 pl-3 pr-8 text-xs font-semibold text-[#111] outline-none"
+                className="w-full bg-transparent py-2 pl-3 pr-8 text-xs font-bold text-black outline-none"
               />
               {valorBusqueda && (
                 <button
@@ -129,7 +129,7 @@ export function Header({
               )}
               <button
                 type="submit"
-                className="h-full px-3.5 bg-[#111] text-white hover:bg-[#FF4500] text-xs font-bold uppercase transition-colors"
+                className="h-full px-3.5 bg-black text-white hover:bg-[#FF5500] text-xs font-black uppercase transition-colors"
               >
                 Buscar
               </button>
@@ -140,14 +140,14 @@ export function Header({
         <div className="flex items-center gap-2">
           <Link
             href="/comparador"
-            className="inline-flex h-9 sm:h-10 items-center justify-center gap-1.5 rounded-xl bg-[#111] hover:bg-[#FF4500] text-white px-3.5 sm:px-4 text-xs font-extrabold uppercase tracking-wider transition-all active:scale-95 shadow-xs touch-manipulation"
+            className="inline-flex h-9 sm:h-10 items-center justify-center gap-1.5 rounded-lg border-2 border-black bg-[#FF5500] hover:bg-black hover:text-white text-white px-3.5 sm:px-4 text-xs font-black uppercase tracking-wider transition-all active:translate-y-0.5 shadow-[2px_2px_0px_#0A0A0A] touch-manipulation"
           >
             <span>Catálogo</span>
             <span aria-hidden="true">→</span>
           </Link>
           <button
             type="button"
-            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-xl border border-black/15 bg-white text-[#111] hover:bg-black/5 active:scale-95 transition-all touch-manipulation"
+            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-lg border-2 border-black bg-white text-black active:translate-y-0.5 shadow-[2px_2px_0px_#0A0A0A] touch-manipulation"
             onClick={() => setMenuAbierto(!menuAbierto)}
             aria-expanded={menuAbierto}
             aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
@@ -161,7 +161,7 @@ export function Header({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 d={menuAbierto ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
               />
             </svg>

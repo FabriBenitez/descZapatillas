@@ -48,24 +48,24 @@ export function ProductCard({
     <Link
       href={hrefProducto}
       prefetch={false}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-black/10 bg-white transition-all duration-250 ease-out hover:-translate-y-1 hover:border-black/25 hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] active:scale-[0.985] min-w-0 touch-manipulation ${
+      className={`group relative flex flex-col overflow-hidden rounded-lg border-2 border-black bg-white text-black transition-all duration-200 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#0A0A0A] active:translate-y-0.5 min-w-0 touch-manipulation ${
         esLista
           ? "sm:grid sm:grid-cols-[200px_minmax(0,1fr)]"
           : "h-full"
-      } ${esMejorOferta ? "ring-2 ring-[#FF4500]" : ""}`}
+      } ${esMejorOferta ? "ring-2 ring-[#FF5500]" : ""}`}
     >
       {esMejorOferta && (
-        <div className="bg-[#FF4500] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-center py-0.5 z-20">
-          🔥 Mejor Descuento
+        <div className="bg-[#FF5500] text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-center py-0.5 z-20 border-b border-black">
+          ⚡ MEJOR OFERTA
         </div>
       )}
 
       {/* Contenedor de Imagen */}
       <div
-        className={`relative block overflow-hidden ${colorFondoMarca} ${
+        className={`relative block overflow-hidden bg-[#F6F6F6] ${
           esLista
-            ? "aspect-[4/3] sm:aspect-auto sm:border-r border-b sm:border-b-0 border-black/8"
-            : "aspect-square border-b border-black/8"
+            ? "aspect-[4/3] sm:aspect-auto sm:border-r-2 border-b-2 sm:border-b-0 border-black"
+            : "aspect-square border-b-2 border-black"
         }`}
       >
         <ProductImage
@@ -77,14 +77,14 @@ export function ProductCard({
               ? "(max-width: 640px) 100vw, 220px"
               : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           }
-          className="object-cover mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-2 sm:p-3"
+          className="object-cover mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-3"
         />
 
-        {/* Badge de Descuento Flotante (Limpio y llamativo) */}
+        {/* Badge de Descuento Streetwear */}
         <span
-          className={`absolute left-2 top-2 rounded-lg px-2 py-0.5 text-[11px] sm:text-xs font-black tabular-nums shadow-sm transition-transform group-hover:scale-105 ${
+          className={`absolute left-2 top-2 rounded px-2 py-0.5 text-[11px] sm:text-xs font-black tabular-nums border border-black shadow-[1px_1px_0px_#0A0A0A] ${
             esSuperAhorro
-              ? "bg-[#FF4500] text-white"
+              ? "bg-[#FF5500] text-white"
               : "bg-[#10b981] text-white"
           }`}
         >
@@ -97,31 +97,30 @@ export function ProductCard({
         </div>
 
         {producto.freeShipping && (
-          <span className="absolute bottom-2 left-2 rounded-md bg-white/90 backdrop-blur-xs border border-black/10 px-1.5 py-0.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-[#111]">
+          <span className="absolute bottom-2 left-2 rounded bg-black text-white px-1.5 py-0.5 text-[8px] sm:text-[9px] font-black uppercase tracking-wider">
             Envío gratis
           </span>
         )}
       </div>
 
       {/* Información del Producto */}
-      <div className="flex flex-1 flex-col justify-between p-2.5 sm:p-3.5 gap-2 min-w-0">
-        <div className="space-y-1">
-          <p className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-black/50 truncate">
+      <div className="flex flex-1 flex-col justify-between p-3 gap-2 min-w-0">
+        <div className="space-y-0.5">
+          <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black/50 truncate">
             {producto.brand}
           </p>
 
-          <h3 className="line-clamp-2 text-xs sm:text-[13px] font-bold leading-snug text-[#111] group-hover:text-[#FF4500] transition-colors">
+          <h3 className="line-clamp-2 text-xs sm:text-sm font-black uppercase leading-snug text-black group-hover:text-[#FF5500] transition-colors">
             {producto.name}
           </h3>
         </div>
 
-        <div className="pt-1.5 border-t border-black/6 space-y-1">
-          {/* Precios con tipografía tabular legible */}
-          <div className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
-            <p className="text-base sm:text-lg font-black tracking-tight text-[#111]">
+        <div className="pt-1.5 border-t border-black/10 space-y-0.5">
+          <div className="flex flex-wrap items-baseline gap-x-2 tabular-nums">
+            <p className="text-base sm:text-xl font-black text-black">
               {formatearPrecio(producto.price)}
             </p>
-            <p className="text-[11px] sm:text-xs font-semibold text-black/40 line-through">
+            <p className="text-[11px] sm:text-xs font-bold text-black/40 line-through">
               {formatearPrecio(producto.listPrice)}
             </p>
           </div>
@@ -131,11 +130,11 @@ export function ProductCard({
           </p>
         </div>
 
-        {/* Fila de Talles compacta y moderna */}
-        <div className="pt-1 border-t border-dashed border-black/8 flex items-center justify-between text-[10px] sm:text-[11px] font-medium text-black/60 min-w-0">
-          <span className="shrink-0 font-bold text-black/45 mr-1">Talles AR:</span>
+        {/* Fila de Talles */}
+        <div className="pt-1 border-t border-dashed border-black/10 flex items-center justify-between text-[10px] sm:text-[11px] font-medium text-black/60 min-w-0">
+          <span className="shrink-0 font-black text-black/40 mr-1 uppercase text-[9px]">Talles:</span>
           {producto.sizes && producto.sizes.length > 0 ? (
-            <span className="font-semibold text-black/80 truncate tabular-nums">
+            <span className="font-bold text-black/80 truncate tabular-nums">
               {producto.sizes.slice(0, 4).join(", ")}
               {producto.sizes.length > 4 ? ` (+${producto.sizes.length - 4})` : ""}
             </span>
