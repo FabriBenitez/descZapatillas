@@ -89,15 +89,15 @@ export function ComparadorHome({
         <Marquee text="ÚLTIMAS OFERTAS DETECTADAS EN TIEMPO REAL" />
 
         {/* Riel de filtros rápidos por Descuento / Categoría / Marca */}
-        <section className="pt-3.5 sm:pt-6">
+        <section className="pt-4 sm:pt-6">
           <div className="contenedor">
-            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ATAJOS_RAPIDOS.map((atajo) => (
                 <button
                   key={`${atajo.param}-${atajo.val}`}
                   type="button"
                   onClick={() => irConFiltroDirecto(atajo.param, atajo.val)}
-                  className={`shrink-0 px-3 py-1.5 rounded-full border-2 border-[#111] text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#111] active:translate-y-0.5 transition-all cursor-pointer ${atajo.bg}`}
+                  className="shrink-0 px-3.5 py-2 rounded-xl border border-black/10 bg-white text-xs font-bold text-[#111] hover:border-black/30 hover:shadow-xs active:scale-95 transition-all cursor-pointer touch-manipulation"
                 >
                   {atajo.label}
                 </button>
@@ -106,11 +106,11 @@ export function ComparadorHome({
           </div>
         </section>
 
-        <section id="ofertas" className="pb-10 pt-4 sm:pb-12 sm:pt-6">
+        <section id="ofertas" className="pb-12 pt-4 sm:pb-16 sm:pt-6">
           <div className="contenedor space-y-6 sm:space-y-8">
             <ProductList
-              titulo="Ofertas que conviene mirar primero"
-              descripcion="Mayores descuentos activos con stock y talles verificados."
+              titulo="Ofertas Destacadas Hoy"
+              descripcion="Los mayores descuentos activos con stock y talles verificados en Argentina."
               productos={productosDestacados}
               cantidadPrioritaria={4}
             />
@@ -118,7 +118,7 @@ export function ComparadorHome({
             <div className="flex justify-center pt-2 sm:pt-4">
               <Link
                 href="/comparador"
-                className="w-full sm:w-auto justify-center border-2 border-[#111] bg-[#10b981] text-[#111] rounded-[6px] text-sm sm:text-lg font-black uppercase tracking-wider px-6 py-3.5 sm:px-8 sm:py-4 shadow-[4px_4px_0px_#111] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#111] transition-all inline-flex items-center gap-2.5"
+                className="w-full sm:w-auto justify-center rounded-2xl bg-[#111] hover:bg-[#FF4500] text-white text-sm sm:text-base font-extrabold uppercase tracking-wider px-8 py-4 shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all inline-flex items-center gap-2.5"
               >
                 <span>Explorar las {cantidadProductos.toLocaleString("es-AR")} ofertas</span>
                 <span aria-hidden="true">→</span>

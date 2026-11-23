@@ -256,39 +256,36 @@ export function ComparadorResultados({
 
         <div className="comparador__contenido space-y-3 sm:space-y-5">
           {/* Cabecera compacta con toggle Grilla/Lista integrado */}
-          <div className="border-2 sm:border-4 border-[#111] bg-[#10b981] px-3.5 py-3 sm:p-6 text-white shadow-[4px_4px_0px_#111] sm:shadow-[6px_6px_0px_#111] relative overflow-hidden flex items-center justify-between gap-3 rounded-[6px] sm:rounded-none">
-            <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-42 h-42 bg-[#00f59b] opacity-35 rounded-full blur-3xl pointer-events-none"></div>
-
+          <div className="border border-black/10 bg-white px-4 py-3 sm:p-5 text-[#111] shadow-xs relative overflow-hidden flex items-center justify-between gap-3 rounded-2xl">
             <div className="relative z-10 min-w-0">
-              <h1 className="text-lg sm:text-4xl font-black uppercase tracking-tighter text-[#111] leading-none mb-0.5 sm:mb-1 truncate">
-                {terminoDiferido ? `Resultados: "${terminoDiferido}"` : "Comparador de Ofertas"}
+              <h1 className="text-base sm:text-2xl font-black uppercase tracking-tight text-[#111] leading-tight truncate">
+                {terminoDiferido ? `Resultados: "${terminoDiferido}"` : "Catálogo de Ofertas"}
               </h1>
-              <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#111]/80">
-                {productosFiltrados.length} {filtros.categoria ? filtros.categoria.toLowerCase() : "ofertas"} disponibles
+              <p className="text-[11px] sm:text-xs font-semibold text-black/55 mt-0.5">
+                {productosFiltrados.length} {filtros.categoria ? filtros.categoria.toLowerCase() : "zapatillas y botines"} encontrados
               </p>
             </div>
 
-            <div className="relative z-10 flex bg-white border-2 border-[#111] rounded-[4px] shadow-[2px_2px_0px_#111] overflow-hidden shrink-0">
+            <div className="relative z-10 flex bg-[#f5f7f6] border border-black/10 rounded-xl p-0.5 shrink-0">
               <button
                 type="button"
                 onClick={() => setVistaResultados("grid")}
-                className={`px-2.5 py-1.5 sm:px-3 sm:py-2 text-[#111] transition-colors ${vistaResultados === "grid" ? "bg-[#FF4500] text-white" : "hover:bg-[#f0f3f1]"}`}
+                className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-bold transition-all ${vistaResultados === "grid" ? "bg-white text-[#111] shadow-xs" : "text-black/50 hover:text-black"}`}
                 title="Vista Grilla"
                 aria-label="Vista Grilla"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
               </button>
-              <div className="w-[2px] bg-[#111]"></div>
               <button
                 type="button"
                 onClick={() => setVistaResultados("lista")}
-                className={`px-2.5 py-1.5 sm:px-3 sm:py-2 text-[#111] transition-colors ${vistaResultados === "lista" ? "bg-[#FF4500] text-white" : "hover:bg-[#f0f3f1]"}`}
+                className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-bold transition-all ${vistaResultados === "lista" ? "bg-white text-[#111] shadow-xs" : "text-black/50 hover:text-black"}`}
                 title="Vista Lista"
                 aria-label="Vista Lista"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                 </svg>
               </button>

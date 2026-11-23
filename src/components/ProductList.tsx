@@ -108,10 +108,10 @@ export function ProductList({
   return (
     <section className="lista-productos flex flex-col gap-5 sm:gap-6 relative">
       {titulo || descripcion ? (
-        <div className="seccion-cabecera border-2 border-[#111] bg-[#FF4500] p-4 sm:p-6 text-white shadow-[4px_4px_0px_#111] sm:shadow-[6px_6px_0px_#111]">
-          {titulo ? <h2 className="text-xl sm:text-4xl font-black uppercase tracking-tighter mb-1 sm:mb-2">{titulo}</h2> : null}
+        <div className="seccion-cabecera border border-black/10 bg-white p-4 sm:p-6 text-[#111] rounded-2xl shadow-xs">
+          {titulo ? <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight mb-1">{titulo}</h2> : null}
           {descripcion ? (
-            <p className="max-w-3xl text-xs sm:text-sm font-bold uppercase tracking-widest text-white/90">
+            <p className="max-w-3xl text-xs sm:text-sm font-medium text-black/60">
               {descripcion}
             </p>
           ) : null}

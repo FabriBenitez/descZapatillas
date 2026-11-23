@@ -51,49 +51,41 @@ export function HeroSearch({
   const esSuperAhorro = Boolean(ofertaDestacada && ofertaDestacada.discount >= 50);
 
   return (
-    <section
-      className="hero relative overflow-hidden border-b-2 sm:border-b-3 border-[#111] bg-[#FF4500] pt-4 pb-6 text-white sm:pt-10 sm:pb-14 lg:pt-14 lg:pb-16"
-      style={{
-        backgroundImage:
-          "radial-gradient(rgba(17, 17, 17, 0.14) 1.25px, transparent 1.25px)",
-        backgroundSize: "18px 18px",
-      }}
-    >
-      <div className="contenedor grid gap-4 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-        <div className="hero__contenido space-y-3.5 sm:space-y-6 min-w-0">
-          {/* 1. Pill de estado en vivo con números tabulares */}
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-2 border-2 border-[#111] bg-white px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#111] shadow-[3px_3px_0px_#111] rounded-[6px] tabular-nums">
-              <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981] border border-[#111]"></span>
-              </span>
-              <span>
-                {cantidadProductos.toLocaleString("es-AR")} ofertas · {cantidadTiendas} tiendas
-              </span>
-            </div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#111111] via-[#161616] to-[#111111] text-white pt-6 pb-8 sm:pt-12 sm:pb-16 border-b border-white/10">
+      {/* Glow de acento urbano de fondo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-[#FF4500]/15 blur-[120px] pointer-events-none rounded-full" />
 
-            <span className="hidden sm:inline-flex items-center border-2 border-[#111] bg-[#111] px-2.5 py-1.5 text-[11px] font-black uppercase tracking-wider text-[#fbbf24] rounded-[6px] tabular-nums">
-              {cantidadMarcas} marcas oficiales
+      <div className="contenedor relative z-10 grid gap-6 sm:gap-10 lg:grid-cols-[minmax(0,1.2fr)_380px] xl:grid-cols-[minmax(0,1.2fr)_420px] items-center">
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          
+          {/* Badge en vivo con números tabulares */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white/90 tabular-nums shadow-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10b981]"></span>
+            </span>
+            <span>
+              {cantidadProductos.toLocaleString("es-AR")} ofertas · {cantidadMarcas} marcas · {cantidadTiendas} tiendas
             </span>
           </div>
 
-          {/* 2. Titular de alto impacto + subtítulo en sentence-case legible */}
-          <div className="space-y-2 sm:space-y-3">
-            <h1 className="text-[2.15rem] min-[390px]:text-[2.45rem] sm:text-[4.25rem] lg:text-[5.25rem] font-black leading-[0.94] font-titulos tracking-[-0.035em] text-white uppercase">
-              Cazá las mejores{" "}
-              <span className="text-[#111] bg-[#fbbf24] sm:bg-white px-2.5 py-0.5 inline-block -rotate-1 border-2 border-[#111] shadow-[3px_3px_0px_#111] sm:shadow-[5px_5px_0px_#111] rounded-[4px]">
-                ofertas.
+          {/* Titular Moderno Streetwear */}
+          <div className="space-y-2">
+            <h1 className="text-3xl min-[400px]:text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-white">
+              Cazá zapatillas al{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5500] via-[#FFAA00] to-[#FF4500]">
+                mejor precio.
               </span>
             </h1>
 
-            <p className="max-w-[52ch] text-[13px] sm:text-lg font-bold leading-snug text-white/95 font-cuerpo">
-              Buscá tu modelo, filtrá por tu talle argentino y compará precios reales al instante en las mejores tiendas del país.
+            <p className="max-w-xl text-sm sm:text-base font-normal leading-relaxed text-white/70">
+              Comparamos stock, talles argentinos y precios reales de las principales tiendas oficiales para que no pagues de más.
             </p>
           </div>
 
-          {/* 3. Consola Unificada: Buscador + Tendencias + Selector de Talles AR */}
-          <div className="border-2 border-[#111] bg-white p-3 sm:p-4.5 shadow-[5px_5px_0px_#111] sm:shadow-[8px_8px_0px_#111] rounded-[12px] text-[#111] space-y-3 sm:space-y-4">
+          {/* Consola de Acceso Rápido: Buscador + Accesos directos al Catálogo */}
+          <div className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl p-3 sm:p-4 shadow-2xl space-y-3">
+            {/* Buscador de modelo */}
             <form
               onSubmit={(evento) => {
                 evento.preventDefault();
@@ -103,15 +95,15 @@ export function HeroSearch({
               <label htmlFor="busqueda-hero" className="sr-only">
                 Buscar zapatillas por modelo, marca o talle
               </label>
-              <div className="flex items-stretch gap-1.5 sm:gap-2.5">
+              <div className="flex items-center gap-2 bg-black/40 border border-white/10 rounded-xl p-1.5 focus-within:border-[#FF4500] focus-within:ring-2 focus-within:ring-[#FF4500]/20 transition-all">
                 <div className="relative flex flex-1 items-center min-w-0">
                   <svg
-                    className="pointer-events-none absolute left-3 sm:left-3.5 h-4 w-4 sm:h-5 sm:w-5 text-[#111]/45"
+                    className="pointer-events-none absolute left-3 h-5 w-5 text-white/40"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2.75}
+                    strokeWidth={2}
                   >
                     <path
                       strokeLinecap="round"
@@ -124,107 +116,136 @@ export function HeroSearch({
                     type="search"
                     value={terminoBusqueda}
                     onChange={(evento) => alCambiarBusqueda(evento.target.value)}
-                    placeholder="Ej: Air Force, Samba, Campus, 41..."
-                    className="h-11 sm:h-13 w-full border-2 border-[#111] bg-[#f5f7f6] pl-9 sm:pl-11 pr-8 text-base sm:text-base font-bold text-[#111] outline-none placeholder:text-[#111]/45 focus:bg-white focus:ring-2 focus:ring-[#FF4500]/25 transition-all rounded-[8px]"
+                    placeholder="Buscá tu modelo: Samba, Dunk, Air Force, 41..."
+                    className="h-11 sm:h-12 w-full bg-transparent pl-10 pr-8 text-sm sm:text-base font-medium text-white outline-none placeholder:text-white/40"
                   />
                   {terminoBusqueda && (
                     <button
                       type="button"
                       onClick={() => alCambiarBusqueda("")}
                       aria-label="Limpiar búsqueda"
-                      className="absolute right-2.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-black/10 text-xs font-black text-[#111] hover:bg-black/20 touch-manipulation"
+                      className="absolute right-2.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-white hover:bg-white/20 touch-manipulation"
                     >
                       ✕
                     </button>
                   )}
                 </div>
+
                 <button
                   type="submit"
-                  className="h-11 sm:h-13 px-4 sm:px-7 border-2 border-[#111] text-xs sm:text-sm font-black uppercase tracking-wider bg-[#111] text-white hover:bg-[#fbbf24] hover:text-[#111] shadow-[2px_2px_0px_#FF4500] sm:shadow-[3px_3px_0px_#FF4500] active:scale-[0.97] active:translate-y-0.5 transition-all shrink-0 rounded-[8px] touch-manipulation cursor-pointer"
+                  className="h-11 sm:h-12 px-5 sm:px-7 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider bg-[#FF4500] hover:bg-[#e03d00] text-white active:scale-95 transition-all shrink-0 cursor-pointer touch-manipulation shadow-md"
                 >
                   Buscar
                 </button>
               </div>
             </form>
 
-            {/* Riel de búsquedas populares integrado dentro de la consola */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#111]/55 shrink-0 mr-0.5">
-                🔥 Top:
+            {/* Sugerencias populares de un toque */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden text-xs">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white/50 shrink-0 mr-1">
+                🔥 Tendencias:
               </span>
               {busquedasSugeridas.map((sugerencia) => (
                 <button
                   key={sugerencia}
                   type="button"
                   onClick={() => buscarSugerencia(sugerencia)}
-                  className="shrink-0 min-h-[30px] sm:min-h-[32px] border border-[#111]/80 bg-[#f5f7f6] px-2.5 py-1 text-[11px] font-extrabold text-[#111] transition-all hover:bg-[#111] hover:text-white active:scale-[0.96] rounded-[6px] touch-manipulation cursor-pointer"
+                  className="shrink-0 px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 text-xs font-semibold text-white/80 hover:bg-white/15 hover:text-white active:scale-95 transition-all touch-manipulation cursor-pointer"
                 >
                   {sugerencia}
                 </button>
               ))}
             </div>
 
-            {/* Selector rápido de Talles AR con targets táctiles de 40px */}
+            {/* Riel Horizontal de Talles AR (Limpios y en una sola fila táctil con scroll snap) */}
             {irConFiltroDirecto && (
-              <div className="border-t-2 border-dashed border-[#111]/15 pt-2.5 sm:pt-3.5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#111]">
-                    👟 Entrá directo con tu talle (AR)
-                  </span>
-                  <Link
-                    href="/comparador"
-                    className="inline-flex items-center gap-1 text-[11px] font-black uppercase text-[#FF4500] hover:underline touch-manipulation"
-                  >
-                    <span>Ver todos</span>
-                    <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-                <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5 sm:gap-2">
+              <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-white/50 shrink-0">
+                  👟 Talles (AR):
+                </span>
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1">
                   {TALLES_HERO.map((talle) => (
                     <button
                       key={talle}
                       type="button"
                       onClick={() => irConFiltroDirecto("talle", talle)}
-                      className="h-10 sm:h-10 rounded-[6px] border-2 border-[#111] bg-[#f5f7f6] hover:bg-[#FF4500] hover:text-white active:bg-[#FF4500] active:text-white text-xs sm:text-sm font-black text-[#111] shadow-[2px_2px_0px_#111] active:scale-[0.96] active:translate-y-0.5 transition-all tabular-nums touch-manipulation cursor-pointer"
+                      className="h-8 min-w-8 px-2 rounded-md border border-white/15 bg-white/5 hover:bg-[#FF4500] hover:border-[#FF4500] text-xs font-bold text-white transition-all tabular-nums touch-manipulation cursor-pointer shrink-0"
                     >
                       {talle}
                     </button>
                   ))}
                 </div>
+                <Link
+                  href="/comparador"
+                  className="text-[11px] font-bold text-[#FF5500] hover:underline shrink-0 ml-1"
+                >
+                  Ver todo →
+                </Link>
               </div>
             )}
           </div>
+
+          {/* Accesos rápidos de alto valor (Explorar Catálogo) */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <Link
+              href="/comparador"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-[#111] hover:bg-white/90 text-xs sm:text-sm font-extrabold uppercase tracking-wider transition-all active:scale-95 shadow-lg touch-manipulation"
+            >
+              <span>Ver Catálogo Completo</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+
+            <Link
+              href="/comparador?descuento=50"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all active:scale-95 touch-manipulation"
+            >
+              <span>🔥 +50% OFF</span>
+            </Link>
+
+            <Link
+              href="/comparador?categoria=Zapatillas"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white/90 hover:bg-white/10 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all active:scale-95 touch-manipulation"
+            >
+              <span>👟 Solo Zapatillas</span>
+            </Link>
+
+            <Link
+              href="/comparador?categoria=Botines"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white/90 hover:bg-white/10 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all active:scale-95 touch-manipulation"
+            >
+              <span>⚽ Botines</span>
+            </Link>
+          </div>
         </div>
 
-        {/* 4. Tarjeta "Oferta Bomba": rediseñada para mobile y desktop sin logos rotos */}
-        {ofertaDestacada ? (
-          <div className="relative min-w-0 lg:mt-1">
+        {/* Tarjeta Oferta Bomba (Rediseño limpio y editorial) */}
+        {ofertaDestacada && (
+          <div className="relative min-w-0">
             <Link
               href={`/producto/${ofertaDestacada.id}`}
               prefetch={false}
-              className="hero__oferta group block overflow-hidden rounded-[12px] border-2 border-[#111] bg-white text-[#111] shadow-[5px_5px_0px_#111] sm:shadow-[8px_8px_0px_#111] transition-all duration-200 hover:-translate-y-1 active:scale-[0.99] touch-manipulation"
+              className="group block overflow-hidden rounded-2xl border border-white/15 bg-white text-[#111] shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-orange-500/10 active:scale-[0.99] touch-manipulation"
             >
-              {/* Barra superior dedicada: evita que el badge y la tienda choquen en mobile */}
-              <div className="flex items-center justify-between gap-2 bg-[#111] px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-[#111]">
-                <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#fbbf24]">
-                  <span>⚡ Oferta Bomba</span>
+              <div className="flex items-center justify-between gap-2 bg-[#111] px-4 py-2.5 border-b border-black">
+                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#fbbf24]">
+                  <span>⚡ OFERTA DESTACADA</span>
                 </span>
-                <div className="h-5 shrink-0">
+                <div className="h-5 shrink-0 scale-90">
                   <StoreLogo storeName={ofertaDestacada.storeName} />
                 </div>
               </div>
 
-              <div className="grid grid-cols-[120px_minmax(0,1fr)] sm:grid-cols-[165px_minmax(0,1fr)] lg:block">
-                <div className="relative aspect-square lg:aspect-[4/3] overflow-hidden bg-[#F5F7F6] border-r-2 lg:border-r-0 lg:border-b-2 border-[#111]">
+              <div className="grid grid-cols-[130px_minmax(0,1fr)] sm:grid-cols-[160px_minmax(0,1fr)] lg:block">
+                <div className="relative aspect-square lg:aspect-[4/3] overflow-hidden bg-[#F5F7F6] border-r lg:border-r-0 lg:border-b border-black/10">
                   <ProductImage
                     src={ofertaDestacada.imageUrl}
                     alt={ofertaDestacada.name}
                     priority
-                    sizes="(max-width: 640px) 130px, 420px"
-                    className="object-cover mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-2"
+                    sizes="(max-width: 640px) 140px, 420px"
+                    className="object-cover mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-3"
                   />
                   <span
-                    className={`absolute left-2 top-2 sm:left-3 sm:top-3 rounded-[6px] border-2 border-[#111] px-2 py-0.5 sm:px-2.5 sm:py-1 text-xs sm:text-base font-black shadow-[2px_2px_0px_#111] tabular-nums ${
+                    className={`absolute left-2.5 top-2.5 rounded-lg px-2.5 py-1 text-xs sm:text-sm font-black tabular-nums shadow-sm ${
                       esSuperAhorro
                         ? "bg-[#FF4500] text-white"
                         : "bg-[#10b981] text-white"
@@ -234,60 +255,44 @@ export function HeroSearch({
                   </span>
                 </div>
 
-                <div className="p-3 sm:p-4.5 flex flex-col justify-between gap-2 sm:gap-3 min-w-0">
-                  <h2 className="line-clamp-2 text-[13px] sm:text-base font-black font-titulos uppercase leading-snug text-[#111] group-hover:text-[#FF4500] transition-colors">
-                    {ofertaDestacada.name}
-                  </h2>
+                <div className="p-3 sm:p-4.5 flex flex-col justify-between gap-2.5 min-w-0">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-black/50">
+                      {ofertaDestacada.brand}
+                    </span>
+                    <h2 className="line-clamp-2 text-sm sm:text-base font-extrabold leading-snug text-[#111] group-hover:text-[#FF4500] transition-colors mt-0.5">
+                      {ofertaDestacada.name}
+                    </h2>
+                  </div>
 
-                  <div className="space-y-1.5 pt-1 border-t border-[#111]/10">
-                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 tabular-nums">
-                      <p className="text-lg sm:text-2xl font-black font-mono leading-none text-[#111]">
+                  <div className="space-y-1 pt-1.5 border-t border-black/8">
+                    <div className="flex flex-wrap items-baseline gap-x-2 tabular-nums">
+                      <p className="text-xl sm:text-2xl font-black text-[#111]">
                         {formatearPrecio(ofertaDestacada.price)}
                       </p>
-                      <p className="text-[11px] sm:text-xs font-bold font-mono text-black/45 line-through">
+                      <p className="text-xs font-semibold text-black/45 line-through">
                         {formatearPrecio(ofertaDestacada.listPrice)}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="inline-flex items-center rounded-[4px] border border-[#111] bg-[#ECFDF5] text-[#047857] px-1.5 py-0.5 text-[10px] sm:text-[11px] font-black tabular-nums">
-                        Ahorrás {formatearPrecio(calcularAhorro(ofertaDestacada))}
-                      </span>
-                    </div>
+                    <p className="text-xs font-bold text-[#059669] tabular-nums">
+                      Ahorrás {formatearPrecio(calcularAhorro(ofertaDestacada))}
+                    </p>
                   </div>
 
-                  <div className="flex items-center justify-between gap-2 pt-0.5">
-                    {ofertaDestacada.sizes && ofertaDestacada.sizes.length > 0 ? (
-                      <div className="flex items-center gap-1 flex-wrap min-w-0">
-                        <span className="text-[9px] font-black uppercase text-black/55">
-                          Talles:
-                        </span>
-                        {ofertaDestacada.sizes.slice(0, 4).map((t) => (
-                          <span
-                            key={t}
-                            className="bg-[#f5f7f6] border border-[#111] rounded-[4px] px-1.5 py-0.5 text-[10px] font-black leading-none text-[#111] tabular-nums"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                        {ofertaDestacada.sizes.length > 4 && (
-                          <span className="bg-[#111] text-white rounded-[4px] px-1.5 py-0.5 text-[9px] font-black leading-none tabular-nums">
-                            +{ofertaDestacada.sizes.length - 4}
-                          </span>
-                        )}
-                      </div>
-                    ) : <span />}
-
-                    <span className="inline-flex items-center gap-1 rounded-[6px] border border-[#111] bg-[#fbbf24] px-2 py-1 text-[10px] font-black uppercase tracking-wider text-[#111] shadow-[1px_1px_0px_#111] shrink-0 group-hover:bg-[#FF4500] group-hover:text-white transition-colors">
-                      <span>Ver</span>
-                      <span aria-hidden="true">→</span>
+                  <div className="flex items-center justify-between gap-2 pt-1 border-t border-dashed border-black/8">
+                    <span className="text-[11px] font-semibold text-black/60 truncate">
+                      {ofertaDestacada.sizes?.length ? `Talles: ${ofertaDestacada.sizes.slice(0, 3).join(", ")}...` : "Stock disponible"}
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-lg bg-[#111] text-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider group-hover:bg-[#FF4500] transition-colors shrink-0">
+                      Ver Oferta →
                     </span>
                   </div>
                 </div>
               </div>
             </Link>
           </div>
-        ) : null}
+        )}
       </div>
     </section>
   );

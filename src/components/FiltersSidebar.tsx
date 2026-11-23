@@ -359,23 +359,23 @@ export function FiltersSidebar({
   return (
     <aside className="filtros lg:sticky lg:top-[116px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {/* ── BARRA COMPACTA MOBILE / TABLET (< lg) ── */}
-      <div className="lg:hidden space-y-2.5">
-        <div className="flex items-center gap-2 bg-white border-2 border-[#111] p-2.5 rounded-[8px] shadow-[4px_4px_0px_#111]">
+      <div className="lg:hidden space-y-2">
+        <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md border border-black/10 p-2 rounded-xl shadow-xs">
           <button
             type="button"
-            className={`flex items-center gap-2 border-2 border-[#111] min-h-10 px-3.5 py-2 text-xs font-black rounded-[4px] uppercase tracking-widest whitespace-nowrap shadow-[2px_2px_0px_#111] active:translate-y-0.5 active:shadow-none transition-all ${
+            className={`flex items-center gap-1.5 min-h-10 px-3.5 py-1.5 text-xs font-bold rounded-lg border transition-all active:scale-95 touch-manipulation ${
               cantidadFiltrosActivos > 0
-                ? "bg-[#fbbf24] text-[#111]"
-                : "bg-white text-[#111]"
+                ? "bg-[#111] text-white border-black"
+                : "bg-[#f5f7f6] text-[#111] border-black/10 hover:bg-black/5"
             }`}
             onClick={() => setFiltrosAbiertos(true)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
-            <span>Filtrar</span>
+            <span>Filtros</span>
             {cantidadFiltrosActivos > 0 && (
-              <span className="inline-flex items-center justify-center h-5 min-w-5 px-1 rounded-full bg-[#FF4500] text-white border border-[#111] text-[10px] font-black leading-none">
+              <span className="inline-flex items-center justify-center h-4.5 min-w-4.5 px-1 rounded-full bg-[#FF4500] text-white text-[10px] font-black leading-none">
                 {cantidadFiltrosActivos}
               </span>
             )}
@@ -386,7 +386,7 @@ export function FiltersSidebar({
           </div>
         </div>
 
-        {/* Riel horizontal de filtros rápidos táctiles en mobile */}
+        {/* Riel horizontal táctil ultra-fluido en mobile */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {[
             { label: "👟 Zapatillas", key: "categoria" as const, val: "Zapatillas" },
@@ -396,6 +396,7 @@ export function FiltersSidebar({
             { label: "Nike", key: "marca" as const, val: "Nike" },
             { label: "Adidas", key: "marca" as const, val: "Adidas" },
             { label: "Puma", key: "marca" as const, val: "Puma" },
+            { label: "New Balance", key: "marca" as const, val: "New Balance" },
           ].map((chip) => {
             const activo = filtros[chip.key] === chip.val;
             return (
@@ -403,10 +404,10 @@ export function FiltersSidebar({
                 key={`${chip.key}-${chip.val}`}
                 type="button"
                 onClick={() => alCambiarFiltro(chip.key, activo ? "" : chip.val)}
-                className={`shrink-0 px-3 py-1.5 rounded-full border-2 border-[#111] text-[11px] font-black uppercase tracking-wider transition-all ${
+                className={`shrink-0 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all active:scale-95 touch-manipulation cursor-pointer ${
                   activo
-                    ? "bg-[#FF4500] text-white shadow-[2px_2px_0px_#111]"
-                    : "bg-white text-[#111] shadow-[1px_1px_0px_#111]"
+                    ? "bg-[#111] text-white border-black"
+                    : "bg-white text-black/80 border-black/10 hover:border-black/30"
                 }`}
               >
                 {chip.label}
@@ -418,28 +419,28 @@ export function FiltersSidebar({
 
       {/* ── DRAWER / BOTTOM SHEET FULLSCREEN MOBILE (< lg) ── */}
       {filtrosAbiertos && (
-        <div className="fixed inset-0 z-[70] lg:hidden flex flex-col bg-black/60 backdrop-blur-[1px]">
+        <div className="fixed inset-0 z-[70] lg:hidden flex flex-col bg-black/60 backdrop-blur-xs">
           <div
             className="flex-1"
             onClick={() => setFiltrosAbiertos(false)}
           />
-          <div className="bg-white border-t-4 border-[#111] rounded-t-[16px] max-h-[88vh] flex flex-col shadow-[0px_-8px_0px_#111] animate-fade-in">
+          <div className="bg-white border-t border-black/15 rounded-t-3xl max-h-[85vh] flex flex-col shadow-2xl animate-fade-in">
             {/* Cabecera fija del Drawer */}
-            <div className="flex items-center justify-between px-5 py-3.5 border-b-2 border-[#111] bg-[#fbbf24] rounded-t-[12px]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-black/10 bg-[#fbfcfb] rounded-t-3xl">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-black uppercase tracking-wider text-[#111]">
+                <span className="text-sm font-extrabold uppercase tracking-wider text-[#111]">
                   Filtros de búsqueda
                 </span>
                 {cantidadFiltrosActivos > 0 && (
                   <span className="bg-[#111] text-white text-[10px] font-black px-2 py-0.5 rounded-full">
-                    {cantidadFiltrosActivos} activos
+                    {cantidadFiltrosActivos}
                   </span>
                 )}
               </div>
               <button
                 type="button"
                 onClick={() => setFiltrosAbiertos(false)}
-                className="h-8 w-8 flex items-center justify-center rounded-[4px] border-2 border-[#111] bg-white text-sm font-black text-[#111] shadow-[2px_2px_0px_#111] active:translate-y-0.5"
+                className="h-8 w-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 text-sm font-black text-[#111] transition-all"
                 aria-label="Cerrar filtros"
               >
                 ✕
@@ -447,27 +448,27 @@ export function FiltersSidebar({
             </div>
 
             {/* Cuerpo scrollable */}
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
               {contenidoFiltros}
             </div>
 
-            {/* Pie fijo con CTA de resultados en vivo */}
-            <div className="p-4 border-t-2 border-[#111] bg-[#f0f3f1] grid grid-cols-[1fr_2fr] gap-3">
+            {/* Pie fijo con CTA ergonómico */}
+            <div className="p-4 border-t border-black/10 bg-white grid grid-cols-[1fr_2fr] gap-3">
               <button
                 type="button"
                 onClick={alLimpiarFiltros}
-                className="rounded-[6px] border-2 border-[#111] bg-white px-3 py-3 text-xs font-black uppercase tracking-widest text-[#111] shadow-[2px_2px_0px_#111] active:translate-y-0.5"
+                className="rounded-xl border border-black/15 bg-[#f5f7f6] px-3 py-3 text-xs font-bold uppercase tracking-wider text-[#111] active:scale-95 transition-all"
               >
                 Limpiar
               </button>
               <button
                 type="button"
                 onClick={() => setFiltrosAbiertos(false)}
-                className="rounded-[6px] border-2 border-[#111] bg-[#FF4500] px-4 py-3 text-xs font-black uppercase tracking-widest text-white shadow-[3px_3px_0px_#111] active:translate-y-0.5"
+                className="rounded-xl bg-[#111] hover:bg-[#FF4500] px-4 py-3 text-xs font-black uppercase tracking-wider text-white shadow-md active:scale-95 transition-all"
               >
                 {typeof totalResultados === "number"
                   ? `Ver ${totalResultados} ofertas`
-                  : "Aplicar filtros"}
+                  : "Aplicar"}
               </button>
             </div>
           </div>
@@ -475,19 +476,19 @@ export function FiltersSidebar({
       )}
 
       {/* ── SIDEBAR DESKTOP (lg+) ── */}
-      <div className="hidden lg:block bg-white border-2 border-[#111] p-5 sm:p-6 rounded-[8px] shadow-[6px_6px_0px_#111]">
-        <div className="border-2 border-[#111] bg-[#fbbf24] px-4 py-2.5 mb-5 shadow-[2px_2px_0px_#111] flex justify-between items-center">
-          <span className="text-xs font-black uppercase tracking-wider text-[#111]">Filtros de búsqueda</span>
+      <div className="hidden lg:block bg-white border border-black/10 p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+        <div className="flex justify-between items-center pb-2 border-b border-black/8">
+          <span className="text-xs font-black uppercase tracking-wider text-[#111]">Filtros</span>
           <button
             type="button"
-            className="text-[9px] font-black uppercase tracking-widest text-[#111] hover:underline"
+            className="text-[10px] font-extrabold uppercase tracking-widest text-[#FF4500] hover:underline"
             onClick={alLimpiarFiltros}
           >
             Limpiar todo
           </button>
         </div>
 
-        <div className="pb-4">
+        <div className="pb-2">
           <SortSelect valor={ordenSeleccionado} alCambiar={alCambiarOrden} />
         </div>
 
