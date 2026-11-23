@@ -65,7 +65,7 @@ export function ProductCard({
         className={`relative block overflow-hidden bg-[#F6F6F6] ${
           esLista
             ? "aspect-[4/3] sm:aspect-auto sm:border-r-2 border-b-2 sm:border-b-0 border-black"
-            : "aspect-square border-b-2 border-black"
+            : "aspect-[4/3] sm:aspect-square border-b-2 border-black"
         }`}
       >
         <ProductImage
@@ -75,9 +75,9 @@ export function ProductCard({
           sizes={
             esLista
               ? "(max-width: 640px) 100vw, 220px"
-              : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              : "(max-width: 480px) 100vw, (max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           }
-          className="object-cover mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-3"
+          className="object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105 p-3"
         />
 
         {/* Badge de Descuento Streetwear */}

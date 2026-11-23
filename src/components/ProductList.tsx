@@ -138,7 +138,7 @@ export function ProductList({
             className={
               vista === "lista"
                 ? "grid gap-3 sm:gap-4"
-                : "grid grid-cols-2 gap-x-2.5 gap-y-3.5 sm:gap-x-3.5 sm:gap-y-5 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+                : "grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
             }
           >
             {(() => {
@@ -153,7 +153,7 @@ export function ProductList({
                   variants={itemVariants}
                   initial="hidden"
                   animate="visible"
-                  className={producto.id === idMejorOferta ? "relative z-10" : ""}
+                  className={`w-full min-w-0 ${producto.id === idMejorOferta ? "relative z-10" : ""}`}
                 >
                   <ProductCard
                     producto={producto}
